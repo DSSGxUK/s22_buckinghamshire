@@ -1,0 +1,4 @@
+python model/optimization_and_cv.py --space lgbm3 --parallel --num_thresholds 100 --input ../data/processed/feature_selected_multi_upn_categorical.csv --target neet_ever --checkpoint --log_results --num_folds 4
+python model/optimization_and_cv.py --space lgbm4 --parallel --num_thresholds 100 --input ../data/processed/feature_selected_multi_upn_categorical.csv --target neet_ever --checkpoint --log_results --num_folds 4
+python model/optimization_and_cv.py --space lr2 --parallel --num_thresholds 100 --input ../data/processed/feature_selected_multi_upn_categorical.csv --target neet_ever --checkpoint --log_results --num_folds 4
+python model/optimization_and_cv.py --space svc2 --parallel --num_thresholds 100 --input ../data/processed/feature_selected_multi_upn_categorical.csv --target neet_ever --checkpoint --log_results --num_folds 4
