@@ -1,0 +1,3565 @@
+schema: '2.0'
+stages:
+  new_neet_to_csv:
+    cmd: python data/new_neet_to_csv.py
+    deps:
+    - path: ../data/raw/NEET_MI_Feb16_with_YPID_to_Warwick.xlsx
+      md5: 2cd2b69082345d6cb98dc1f21867c955
+      size: 3731967
+    - path: ../data/raw/NEET_MI_Feb17_with_YPID_to_Warwick.xlsx
+      md5: cacd3e9ddbd3f7307d488d24551c069e
+      size: 3721013
+    - path: ../data/raw/NEET_MI_Feb18_with_YPID_to_Warwick.xlsx
+      md5: 8489f09af35f3a4564e5a2dc2c0192fc
+      size: 2139206
+    - path: ../data/raw/NEET_MI_Feb19_with_YPID_to_Warwick.xlsx
+      md5: 8df20683c21bf7fcc319f3444e7ac9b6
+      size: 2240517
+    - path: ../data/raw/NEET_MI_Feb20_with-YPID_to_Warwick.xlsx
+      md5: 2712c18b6cdffe8ae762803bf8968856
+      size: 2356484
+    - path: ../data/raw/NEET_MI_Feb21_with_YPID_to_Warwick.xlsx
+      md5: 25aa641143b9f3cfbc56863b50fe5bcb
+      size: 2438183
+    - path: ../data/raw/NEET_MI_Feb22_with_YPID_to_Warwick.xlsx
+      md5: 147d4deaf28d0fb844335e4fbb8ea63f
+      size: 2464472
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/new_neet_to_csv.py
+      md5: 5181b6bccd67d2da7db1ed19927aeaf6
+      size: 842
+    outs:
+    - path: ../data/raw/NEET_MI_Feb16_with_YPID_to_Warwick.csv
+      md5: c2af1f142ae2bf5df1fef56df32d97c1
+      size: 7104453
+    - path: ../data/raw/NEET_MI_Feb17_with_YPID_to_Warwick.csv
+      md5: 49283dfb5a2bb79d6688c626a2cb3402
+      size: 7116367
+    - path: ../data/raw/NEET_MI_Feb18_with_YPID_to_Warwick.csv
+      md5: 7cb506a0a0c98b80a996ef47c7ee21fd
+      size: 4757784
+    - path: ../data/raw/NEET_MI_Feb19_with_YPID_to_Warwick.csv
+      md5: 72782a08d890d616236b9864bbef440c
+      size: 4846866
+    - path: ../data/raw/NEET_MI_Feb20_with_YPID_to_Warwick.csv
+      md5: 853e2c44f9edff8b154b05d02318d759
+      size: 5098272
+    - path: ../data/raw/NEET_MI_Feb21_with_YPID_to_Warwick.csv
+      md5: e008121424a3c91b90000763556e60af
+      size: 4603400
+    - path: ../data/raw/NEET_MI_Feb22_with_YPID_to_Warwick.csv
+      md5: f6a73407b4f82dde24f78d7794f88bc4
+      size: 4666240
+  canonicalize_neet_data:
+    cmd: python data/canonicalize_neet_data.py
+    deps:
+    - path: ../data/raw/NEET_MI_Feb16_with_YPID_to_Warwick.csv
+      md5: c2af1f142ae2bf5df1fef56df32d97c1
+      size: 7104453
+    - path: ../data/raw/NEET_MI_Feb17_with_YPID_to_Warwick.csv
+      md5: 49283dfb5a2bb79d6688c626a2cb3402
+      size: 7116367
+    - path: ../data/raw/NEET_MI_Feb18_with_YPID_to_Warwick.csv
+      md5: 7cb506a0a0c98b80a996ef47c7ee21fd
+      size: 4757784
+    - path: ../data/raw/NEET_MI_Feb19_with_YPID_to_Warwick.csv
+      md5: 72782a08d890d616236b9864bbef440c
+      size: 4846866
+    - path: ../data/raw/NEET_MI_Feb20_with_YPID_to_Warwick.csv
+      md5: 853e2c44f9edff8b154b05d02318d759
+      size: 5098272
+    - path: ../data/raw/NEET_MI_Feb21_with_YPID_to_Warwick.csv
+      md5: e008121424a3c91b90000763556e60af
+      size: 4603400
+    - path: ../data/raw/NEET_MI_Feb22_with_YPID_to_Warwick.csv
+      md5: f6a73407b4f82dde24f78d7794f88bc4
+      size: 4666240
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/canonicalize_neet_data.py
+      md5: 64d160a94b0fe97312119d0b76a79c8f
+      size: 2489
+    params:
+      params.yaml:
+        CCISDataColumns:
+          activity_code: activity_code
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          age: age
+          birth_month: birth_month
+          birth_year: birth_year
+          ccis_period_end: ccis_period_end
+          characteristic_code: characteristic_code
+          cohort_status: cohort_status
+          compulsory_school: compulsory_school
+          county: county
+          currency_lapsed: currency_lapsed
+          database_id: database_id
+          date_ascertained: date_ascertained
+          date_of_send: date_of_send
+          date_verified: date_verified
+          due_to_lapse_date: due_to_lapse_date
+          educated_lea: educated_lea
+          establishment_name: establishment_name
+          ethnicity: ethnicity
+          family_name: family_name
+          gender: gender
+          given_name: given_name
+          guarantee_status: guarantee_status
+          guarantee_status3: guarantee_status3
+          guarantee_status_indicator: guarantee_status_indicator
+          intended_destination_yr11: intended_destination_yr11
+          la_establishment_number: la_establishment_number
+          lea_code: lea_code
+          lea_code2: lea_code2
+          lea_code4: lea_code4
+          lea_code_at_year11: lea_code_at_year11
+          lead_lea: lead_lea
+          level_of_need_code: level_of_need_code
+          middle_name: middle_name
+          month_year_of_birth: month_year_of_birth
+          neet: neet
+          neet_ever: neet_ever
+          neet_start_date: neet_start_date
+          period_end: period_end
+          postcode: postcode
+          predicted_end_date: predicted_end_date
+          previous_ypid_identifier: previous_ypid_identifier
+          review_date: review_date
+          sen_support_flag: sen_support_flag
+          send_flag: send_flag
+          start_date: start_date
+          supplier_name: supplier_name
+          supplier_xml_version: supplier_xml_version
+          town: town
+          transferred_to_la_code: transferred_to_la_code
+          uk_provider_reference_number: uk_provider_reference_number
+          unique_learner_no: unique_learner_no
+          unknown: unknown
+          unknown_ever: unknown_ever
+          upn: upn
+          xml_schema_version: xml_schema_version
+          year: year
+          young_persons_id: young_persons_id
+          youth_contract_indicator: youth_contract_indicator
+          youth_contract_start_date: youth_contract_start_date
+        CCIS_COLUMN_RENAME:
+          ActivityCode: activity_code
+          AddressLine1: address_line1
+          AddressLine2: address_line2
+          AddressLine3: address_line3
+          AddressLine4: address_line4
+          CharacteristicCode: characteristic_code
+          CohortStatus: cohort_status
+          County: county
+          CurrencyLapsed: currency_lapsed
+          DatabaseId: database_id
+          DateAscertained: date_ascertained
+          DateOfSend: date_of_send
+          DateVerified: date_verified
+          DueToLapseDate: due_to_lapse_date
+          EducatedLEA: educated_lea
+          Estab: la_establishment_number
+          EstablishmentName: establishment_name
+          EstablishmentNumber: la_establishment_number
+          Ethnicity: ethnicity
+          FamilyName: family_name
+          Gender: gender
+          GivenName: given_name
+          GuaranteeStatus: guarantee_status
+          GuaranteeStatus3: guarantee_status3
+          GuaranteeStatusIndicator: guarantee_status_indicator
+          IntendedDestinationYr11: intended_destination_yr11
+          LEACode: lea_code
+          LEACode2: lea_code2
+          LEACode4: lea_code4
+          LEACodeAtYear11: lea_code_at_year11
+          LeadLEA: lead_lea
+          LevelOfNeedCode: level_of_need_code
+          LevelofNeedCode: level_of_need_code
+          MiddleName: middle_name
+          NEETStartDate: neet_start_date
+          PeriodEnd: period_end
+          Postcode: postcode
+          PredictedEndDate: predicted_end_date
+          PreviousYPIDIdentifier: previous_ypid_identifier
+          ReviewDate: review_date
+          SENDFlag: send_flag
+          SENSupportFlag: sen_support_flag
+          StartDate: start_date
+          SupplierName: supplier_name
+          SupplierXMLVersion: supplier_xml_version
+          Town: town
+          TransferredToLACode: transferred_to_la_code
+          UKProviderReferenceNumber: uk_provider_reference_number
+          UPN: upn
+          UniqueLearnerNo: unique_learner_no
+          UniquePupilNumber: upn
+          XMLSchemaVersion: xml_schema_version
+          YoungPersonsID: young_persons_id
+          YouthContractIndicator: youth_contract_indicator
+          YouthContractStartDate: youth_contract_start_date
+          month/year of birth: month_year_of_birth
+          moth/year of birth: month_year_of_birth
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+    outs:
+    - path: ../data/interim/neet_feb16.csv
+      md5: 39058945f0133d1fca1cae84a47da763
+      size: 7104510
+    - path: ../data/interim/neet_feb17.csv
+      md5: 1a1ad1b8c355b32976e9041b49a8db79
+      size: 7116161
+    - path: ../data/interim/neet_feb18.csv
+      md5: 6c2ef6167798b01ebf3c4198f969a605
+      size: 4763306
+    - path: ../data/interim/neet_feb19.csv
+      md5: 8e41b66472fe852f4f2efc42eeeb707c
+      size: 4846913
+    - path: ../data/interim/neet_feb20.csv
+      md5: 2230819bd45b4e14cc81e55f517f0615
+      size: 5098322
+    - path: ../data/interim/neet_feb21.csv
+      md5: c3f8141d4a91fb4d7fef2751d0f91962
+      size: 4603450
+    - path: ../data/interim/neet_feb22.csv
+      md5: 1db4b33fe6c459b6c23e05914e58ce92
+      size: 4666291
+  census_data_to_csv:
+    cmd: python data/census_data_to_csv.py
+    deps:
+    - path: ../data/raw/school_census_context_Jan17_Hard_Coded.xlsx
+      md5: 8b81d5f2e0397f406c5313315e2c0746
+      size: 5887683
+    - path: ../data/raw/school_census_context_Jan18_Hard_Coded.xlsx
+      md5: 548b5819e5bdf6c2467d3d74c12c655b
+      size: 6410813
+    - path: ../data/raw/school_census_context_Jan19_Hard_Coded.xlsx
+      md5: 5130d45fa2bd88d8b8ebc46b2432753d
+      size: 5508778
+    - path: ../data/raw/school_census_context_Jan20_Hard_Coded.xlsx
+      md5: 0fbceb1c4798a388f3f33156924c828d
+      size: 5573069
+    - path: ../data/raw/school_census_context_Jan21_Hard_Coded.xlsx
+      md5: 48a8d54572b38fd3c77b8afc804ccfb5
+      size: 5730803
+    - path: ../data/raw/school_census_context_Jan22_Hard_Coded.xlsx
+      md5: 058404c9ebee8503be835d0c708ff825
+      size: 5891141
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/census_data_to_csv.py
+      md5: fda925f5bae52d1927541fe39b21ddcf
+      size: 856
+    outs:
+    - path: ../data/raw/school_census_context_Jan17_Hard_Coded.csv
+      md5: e8dc1b5b8ab349d738bbf3711f179cf8
+      size: 3637091
+    - path: ../data/raw/school_census_context_Jan18_Hard_Coded.csv
+      md5: d6c1c9865978ec775bbc02d464529db1
+      size: 4273850
+    - path: ../data/raw/school_census_context_Jan19_Hard_Coded.csv
+      md5: 655b73f63030b3511830684d4d805a59
+      size: 3727320
+    - path: ../data/raw/school_census_context_Jan20_Hard_Coded.csv
+      md5: ff113d92715cd2b873b683bcb7eb74c5
+      size: 3815159
+    - path: ../data/raw/school_census_context_Jan21_Hard_Coded.csv
+      md5: eb8ec6a5936849810ef8e1d34d8d2c69
+      size: 3905838
+    - path: ../data/raw/school_census_context_Jan22_Hard_Coded.csv
+      md5: 5b3f50877d48d0901b1c1b0b1313a717
+      size: 4020295
+  canonicalize_census_data:
+    cmd: python data/canonicalize_census_data.py
+    deps:
+    - path: ../data/raw/school_census_context_Jan17_Hard_Coded.csv
+      md5: e8dc1b5b8ab349d738bbf3711f179cf8
+      size: 3637091
+    - path: ../data/raw/school_census_context_Jan18_Hard_Coded.csv
+      md5: d6c1c9865978ec775bbc02d464529db1
+      size: 4273850
+    - path: ../data/raw/school_census_context_Jan19_Hard_Coded.csv
+      md5: 655b73f63030b3511830684d4d805a59
+      size: 3727320
+    - path: ../data/raw/school_census_context_Jan20_Hard_Coded.csv
+      md5: ff113d92715cd2b873b683bcb7eb74c5
+      size: 3815159
+    - path: ../data/raw/school_census_context_Jan21_Hard_Coded.csv
+      md5: eb8ec6a5936849810ef8e1d34d8d2c69
+      size: 3905838
+    - path: ../data/raw/school_census_context_Jan22_Hard_Coded.csv
+      md5: 5b3f50877d48d0901b1c1b0b1313a717
+      size: 4020295
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/canonicalize_census_data.py
+      md5: 5a973778d1280c4e37c2a578c975706b
+      size: 1967
+    params:
+      params.yaml:
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        SCHOOL_CENSUS_COLUMN_RENAME:
+          AddressLine1: address_line1
+          AddressLine2: address_line2
+          AddressLine3: address_line3
+          AddressLine4: address_line4
+          AddressLine5: address_line5
+          AdministrativeArea: administrative_area
+          Age: age
+          DoB: date_of_birth
+          EnrolStatus: enrol_status
+          EntryDate: entry_date
+          Estab: establishment_number
+          Ethnicity: ethnicity
+          FSME on Census Day: fsme_on_census_day
+          Forename: forename
+          FormerSurname: former_surname
+          Gender: gender
+          Language: language
+          Locality: locality
+          Middlenames: middlenames
+          NCyearActual: nc_year_actual
+          NativeID: native_id
+          PAON: paon
+          Postcode: postcode
+          PreferredSurname: preferred_surname
+          ResourcedProvisionIndicator: resourced_provision_indicator
+          SAON: saon
+          SENNeed1: sen_need1
+          SENNeed2: sen_need2
+          SENneed1: sen_need1
+          SENneed2: sen_need2
+          SENprovision: sen_provision
+          SENunitIndicator: sen_unit_indicator
+          Street: street
+          Surname: surname
+          Town: town
+          UPN: upn
+          UniqueLearnerNumber: unique_learner_number
+          postTown: post_town
+    outs:
+    - path: ../data/interim/census_jan17.csv
+      md5: 2e745a071b90a5cfe2f79947ed9ae3bb
+      size: 3637139
+    - path: ../data/interim/census_jan18.csv
+      md5: da9962787c31c5aa02d802bde8f78faa
+      size: 4273898
+    - path: ../data/interim/census_jan19.csv
+      md5: 9d676746015ad37aeb07a8786e86e940
+      size: 3726972
+    - path: ../data/interim/census_jan20.csv
+      md5: c795e387b91ba31d55a958a979b2c61a
+      size: 3815206
+    - path: ../data/interim/census_jan21.csv
+      md5: 9e2e211e63c7c324bce074c8d30c2c7e
+      size: 3905885
+    - path: ../data/interim/census_jan22.csv
+      md5: 56ab2094bbaf960f8f879e464b0f43e2
+      size: 4020342
+  new_attendance_to_csv:
+    cmd: python data/new_attendance_to_csv.py
+    deps:
+    - path: ../data/raw/Attendance_Oct14-May15_to_Warwick.xlsx
+      md5: 468f9a97ccc9394d9d18a1e1ec9c57e0
+      size: 9295608
+    - path: ../data/raw/Attendance_Oct15-May16_to_Warwick.xlsx
+      md5: 6c29ba8bb54c49782590d742031a11cc
+      size: 9527606
+    - path: ../data/raw/Attendance_Oct16-May17_to_Warwick.xlsx
+      md5: 73471775b9ad427a203c9ed5f0bac093
+      size: 9749070
+    - path: ../data/raw/Attendance_Oct17-May18_to_Warwick.xlsx
+      md5: 3e222ef049263b1215243172fe20f783
+      size: 9359185
+    - path: ../data/raw/Attendance_Oct18-Jan20_to_Warwick.xlsx
+      md5: 9aa303e7df3257c01ae421d4257cfca0
+      size: 15571779
+    - path: ../data/raw/Attendance_Oct20-May22_to_Warwick.xlsx
+      md5: 7a4012f1087a975d4d72123063d4460f
+      size: 26165519
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/new_attendance_to_csv.py
+      md5: 16b066bd83fd0c8fc738fc75e96e7d4e
+      size: 1741
+    outs:
+    - path: ../data/raw/attendance_original_jan15.csv
+      md5: f7c1d2fd2e8a50f26862d209f924fc1d
+      size: 2157374
+    - path: ../data/raw/attendance_original_jan16.csv
+      md5: 7ffed6dbccd29b5de510769d0d30e983
+      size: 2190009
+    - path: ../data/raw/attendance_original_jan17.csv
+      md5: f7b31ab339adc57d37fd8cc17c4ac14e
+      size: 2260139
+    - path: ../data/raw/attendance_original_jan18.csv
+      md5: 1cfb6a0ddcf25142f44c07828dcd5409
+      size: 2220556
+    - path: ../data/raw/attendance_original_jan19.csv
+      md5: 75044f0a7b8b90ac6b5d8fa0bb3dbc34
+      size: 2270920
+    - path: ../data/raw/attendance_original_jan20.csv
+      md5: 422e1e48c62a085469e312bef97e4acf
+      size: 2330314
+    - path: ../data/raw/attendance_original_jan21.csv
+      md5: 6dc240dbe9b67d4a8e05cd348a323e57
+      size: 3530418
+    - path: ../data/raw/attendance_original_jan22.csv
+      md5: ffd8813f2d7a88d13c8894236ba9ce86
+      size: 2992412
+    - path: ../data/raw/attendance_original_may15.csv
+      md5: acfbbf53eeccfb1b785258e8dc1a5f96
+      size: 1866331
+    - path: ../data/raw/attendance_original_may16.csv
+      md5: a8802be348b8fd40faeed24d32722e29
+      size: 2174142
+    - path: ../data/raw/attendance_original_may17.csv
+      md5: a7c95965ca35fe5eb673280563fbc1fd
+      size: 2247669
+    - path: ../data/raw/attendance_original_may18.csv
+      md5: ec2021c1cb80a5472874b8e8e7371286
+      size: 2207127
+    - path: ../data/raw/attendance_original_may19.csv
+      md5: caf32bd06e956496ec7857921419b4e0
+      size: 2327632
+    - path: ../data/raw/attendance_original_may21.csv
+      md5: aba0a756121291120cbb01a99c3c3636
+      size: 2968008
+    - path: ../data/raw/attendance_original_may22.csv
+      md5: 7da152a11c3762eca9860164edcf0d1a
+      size: 3448543
+    - path: ../data/raw/attendance_original_oct14.csv
+      md5: 28748e8e0cc83950d2d8f158f1d1486c
+      size: 2584651
+    - path: ../data/raw/attendance_original_oct15.csv
+      md5: 30e3b4bf5678d2dfa85eca1579c7c470
+      size: 2585276
+    - path: ../data/raw/attendance_original_oct16.csv
+      md5: ddbc09a926080711a0aca4181b9165b7
+      size: 2636486
+    - path: ../data/raw/attendance_original_oct17.csv
+      md5: 8e3d2f2328d3aecde6cf08215e62a396
+      size: 2344315
+    - path: ../data/raw/attendance_original_oct18.csv
+      md5: 6c56bd1bac3d13fb25a891fd5b40ae1f
+      size: 2150187
+    - path: ../data/raw/attendance_original_oct19.csv
+      md5: 871cb88a9c19f51202684bf4480aabd9
+      size: 2289417
+    - path: ../data/raw/attendance_original_oct20.csv
+      md5: f15116b112b8b76ed479b2bf03876d15
+      size: 2479695
+    - path: ../data/raw/attendance_original_oct21.csv
+      md5: 573d437441e092dc4cb076fd6c400a94
+      size: 2621623
+  old_attendance_to_csv:
+    cmd: python data/old_attendance_to_csv.py
+    deps:
+    - path: ../data/raw/school_census_attendance_Aut21_Hard_Coded.xlsx
+      md5: 48fc49267d79f53ad1d84f7bbd078d4f
+      size: 6117266
+    - path: ../data/raw/school_census_attendance_Spr21_Hard_Coded.xlsx
+      md5: 1ce264eccca51d88cb7654a76c360657
+      size: 6171903
+    - path: ../data/raw/school_census_attendance_Sum21_Hard_Coded.xlsx
+      md5: 8a6f2d0cc7795839991d90533e59411f
+      size: 5978381
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/old_attendance_to_csv.py
+      md5: 7f553025641a85bfe1e3ff5f3ecafb0a
+      size: 886
+    outs:
+    - path: ../data/raw/school_census_attendance_Aut21_Hard_Coded.csv
+      md5: 6064e8a1267a52965fa83d8e7bb1ebbb
+      size: 3628479
+    - path: ../data/raw/school_census_attendance_Spr21_Hard_Coded.csv
+      md5: 7eb7255f0af6fe204ed30d83a93a5e3d
+      size: 3664253
+    - path: ../data/raw/school_census_attendance_Sum21_Hard_Coded.csv
+      md5: 44a151b4f15a4493a213b92b3a099882
+      size: 3551914
+  canonicalize_ks4_data:
+    cmd: python data/canonicalize_ks4_data.py
+    deps:
+    - path: ../data/raw/KS4_2015_Hard_Coded.csv
+      md5: 25955ca470c14a53e492b6addae6c541
+      size: 2545900
+    - path: ../data/raw/KS4_2016_Hard_Coded.csv
+      md5: 5ca88b8494d55a155e927bee52992a1a
+      size: 1313569
+    - path: ../data/raw/KS4_2017_Hard_Coded.csv
+      md5: 8181099e928e91745fcf811f2ee3d6c1
+      size: 1399490
+    - path: ../data/raw/KS4_2018_Hard_Coded.csv
+      md5: cb5fa7af9422678cb9f445892b53665a
+      size: 1454901
+    - path: ../data/raw/KS4_2019_Hard_Coded.csv
+      md5: 326aad4b9fdad9fc269717956c9bf28f
+      size: 1545245
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/canonicalize_ks4_data.py
+      md5: df5d4a3b9eae46c7d02751272b64ffe1
+      size: 1888
+    params:
+      params.yaml:
+        KS4_COLUMN_RENAME:
+          "'EBacc English' VA score": ebacc_english_va_score
+          "'EBacc Humanities' VA score": ebacc_humanities_va_score
+          "'EBacc Language' VA score": ebacc_language_va_score
+          "'EBacc Maths' VA score": ebacc_maths_va_score
+          "'EBacc Science' VA score": ebacc_science_va_score
+          1/2 Cert English Language: 1/2_cert_english_language
+          1/2 Cert English Literature: 1/2_cert_english_literature
+          5+ A*-C inc EM - GCSEs only: 5_plus_a_star_c_inc_em_gcses_only
+          AFSM Additional Math FSM: afsm_additional_math_fsm
+          AGE: age
+          Achieved English EBacc: achieved_english_ebacc
+          Achieved English EBacc 9-4: achieved_english_ebacc_9_4
+          Achieved English EBacc 9-5: achieved_english_ebacc_9_5
+          Achieved Humanities EBacc: achieved_humanities_ebacc
+          Achieved Humanities EBacc at grade 9-4: achieved_humanities_ebacc_at_grade_9_4
+          Achieved Humanities EBacc at grade 9-5: achieved_humanities_ebacc_at_grade_9_5
+          Achieved Language EBacc: achieved_language_ebacc
+          Achieved Language EBacc at grade 9-4: achieved_language_ebacc_at_grade_9_4
+          Achieved Language EBacc at grade 9-5: achieved_language_ebacc_at_grade_9_5
+          Achieved Maths EBacc: achieved_maths_ebacc
+          Achieved Maths EBacc 9-4: achieved_maths_ebacc_9_4
+          Achieved Maths EBacc 9-5: achieved_maths_ebacc_9_5
+          Achieved Science EBacc: achieved_science_ebacc
+          Achieved Science EBacc at grade 9-4: achieved_science_ebacc_at_grade_9_4
+          Achieved Science EBacc at grade 9-5: achieved_science_ebacc_at_grade_9_5
+          Attainment 8 score: attainment_8_score
+          BCert1 Building: bcert1_building
+          BCert1 Multimedia: bcert1_multimedia
+          BTC1/2C Business Studies: btc1/2c_business_studies
+          BTC1/2C Health Studies: btc1/2c_health_studies
+          BTC1/2C Multimedia: btc1/2c_multimedia
+          BTC1/2C Sports Studies: btc1/2c_sports_studies
+          BTC1/2C Travel & Tourism: btc1/2c_travel_and_tourism
+          BTC1/2EC Computer Systems: btc1/2ec_computer_systems
+          BTC1Awd Applied Sciences: btc1awd_applied_sciences
+          BTC1Awd Art & Design: btc1awd_art_and_design
+          BTC1Awd Building: btc1awd_building
+          BTC1Awd Business Studies: btc1awd_business_studies
+          BTC1Awd Childcare Skills: btc1awd_childcare_skills
+          BTC1Awd Computer Systems: btc1awd_computer_systems
+          BTC1Awd Engineering Studies: btc1awd_engineering_studies
+          BTC1Awd Health Studies: btc1awd_health_studies
+          BTC1Awd Multimedia: btc1awd_multimedia
+          BTC1Awd Music Studies: btc1awd_music_studies
+          BTC1Awd Performing Arts: btc1awd_performing_arts
+          BTC1Awd Sports Studies: btc1awd_sports_studies
+          BTC1Awd Travel & Tourism: btc1awd_travel_and_tourism
+          Best 8 VA score: best_8_va_score
+          CamNatCer Computer Use: camnatcer_computer_use
+          CamNatCer Small Business: camnatcer_small_business
+          Candidate Number: candidate_number
+          Candidate number: candidate_number
+          Capped GCSE point score: capped_gcse_point_score
+          Capped Point Score: capped_point_score
+          Capped point score (VA): capped_point_score_va
+          Capped score + bonuses: capped_score_+_bonuses
+          Date of birth: date_of_birth
+          Deprivation indicator - IDACI score: deprivation_indicator_idaci_score
+          DfE Establishment Number: la_establishment_number
+          Did the pupil join within the last 2 yrs?: did_the_pupil_join_within_the_last_2_yrs
+          EAL Group: eal_group
+          EBacc Humanities' VA score: ebacc_humanities_va_score
+          EBacc Language' VA score: ebacc_language_va_score
+          EBacc Science' VA score: ebacc_science_va_score
+          EBacc slots filled: ebacc_slots_filled
+          Edex D Cert Science Double Awd: edex_d_cert_science_double_awd
+          Edexcel Cert Biology: edexcel_cert_biology
+          Edexcel Cert Chemistry: edexcel_cert_chemistry
+          Edexcel Cert English Language: edexcel_cert_english_language
+          Edexcel Cert English Literature: edexcel_cert_english_literature
+          Edexcel Cert Mathematics: edexcel_cert_mathematics
+          Edexcel Cert Physics: edexcel_cert_physics
+          English & maths GCSEs A*-C?: took_english_and_maths_gcses_a*_c
+          English Bacc 9-4?: took_english_bacc_9_4
+          English Bacc 9-5?: took_english_bacc_9_5
+          English Bacc?: took_english_bacc
+          English Bonus: english_bonus
+          English EBacc PS (VA): english_ebacc_ps_va
+          English and maths GCSEs 9-4?: took_english_and_maths_gcses_9_4
+          English and maths GCSEs 9-5?: took_english_and_maths_gcses_9_5
+          English exclude previous school: english_exclude_previous_school
+          Entered all three core science pathway subjects: entered_all_three_core_science_pathway_subjects
+          Entries: entries
+          Entry ALL EBacc: entry_all_ebacc
+          Entry English EBacc: entry_english_ebacc
+          Entry Humanities EBacc: entry_humanities_ebacc
+          Entry Language EBacc: entry_language_ebacc
+          Entry Maths EBacc: entry_maths_ebacc
+          Entry Science EBacc: entry_science_ebacc
+          Entry multiple languages: entry_multiple_languages
+          Entry triple science: entry_triple_science
+          Expected Progress  Maths KS2-4: expected_progress_maths_ks2_4
+          Expected Progress English KS2-4: expected_progress_english_ks2_4
+          Forename: forename
+          Forvus index number: forvus_index_number
+          GCE AS Chinese: gce_as_chinese
+          GCE AS Critical Thinking: gce_as_critical_thinking
+          GCE AS Drama & Theat.Stds: gce_as_drama_and_theat_stds
+          GCE AS French: gce_as_french
+          GCE AS General Studies: gce_as_general_studies
+          GCE AS German: gce_as_german
+          GCE AS Italian: gce_as_italian
+          GCE AS Mathematics: gce_as_mathematics
+          GCE AS Polish: gce_as_polish
+          GCE AS Punjabi: gce_as_punjabi
+          GCE AS Religious Studies: gce_as_religious_studies
+          GCE AS Russian: gce_as_russian
+          GCE AS World Development: gce_as_world_development
+          GCSE Ancient History: gcse_ancient_history
+          GCSE Application of Math: gcse_application_of_math
+          GCSE Applied Art & Des: gcse_applied_art_and_des
+          GCSE Applied Engineering: gcse_applied_engineering
+          GCSE Arabic: gcse_arabic
+          GCSE Art & Des(Graphcs): gcse_art_and_desgraphcs
+          GCSE Art & Des(Photo.): gcse_art_and_desphoto_
+          GCSE Art & Des(Textles): gcse_art_and_destextles
+          GCSE Art & Design: gcse_art_and_design
+          'GCSE Art&Des : Fine Art': gcse_artanddes_fine_art
+          GCSE Biology: gcse_biology
+          GCSE Bus. Studs:Single: gcse_bus_studs_single
+          GCSE Chemistry: gcse_chemistry
+          GCSE Chinese: gcse_chinese
+          GCSE Class.Civilisation: gcse_class_civilisation
+          GCSE Com.Stds/Computing: gcse_com_stds/computing
+          GCSE D&T Electrnc.Prods: gcse_dandt_electrnc_prods
+          GCSE D&T Engineering: gcse_dandt_engineering
+          GCSE D&T Food Technolgy: gcse_dandt_food_technolgy
+          GCSE D&T Graphic Prods: gcse_dandt_graphic_prods
+          GCSE D&T Product Design: gcse_dandt_product_design
+          GCSE D&T Resist. Matrls: gcse_dandt_resist_matrls
+          GCSE D&T Textiles Tech.: gcse_dandt_textiles_tech_
+          GCSE Dance: gcse_dance
+          GCSE Drama & Theat.Stds: gcse_drama_and_theat_stds
+          GCSE Dutch: gcse_dutch
+          GCSE Economics: gcse_economics
+          GCSE English: gcse_english
+          GCSE English Language: gcse_english_language
+          GCSE English Literature: gcse_english_literature
+          GCSE Entries: gcse_entries
+          GCSE Film Studies: gcse_film_studies
+          GCSE French: gcse_french
+          GCSE General Studies: gcse_general_studies
+          GCSE Geography: gcse_geography
+          GCSE German: gcse_german
+          GCSE Gujarati: gcse_gujarati
+          'GCSE HE: Child Devt': gcse_he_child_devt
+          'GCSE HE: Food': gcse_he_food
+          GCSE Health & Soc Care: gcse_health_and_soc_care
+          GCSE History: gcse_history
+          'GCSE Humanities: Single': gcse_humanities_single
+          GCSE Inform Comm Tech: gcse_inform_comm_tech
+          GCSE Italian: gcse_italian
+          GCSE Japanese: gcse_japanese
+          GCSE Latin: gcse_latin
+          GCSE Law: gcse_law
+          GCSE Mathematics: gcse_mathematics
+          GCSE Media/Film/TV Stds: gcse_media/film/tv_stds
+          GCSE Method in Math: gcse_method_in_math
+          GCSE Modern Greek: gcse_modern_greek
+          GCSE Music: gcse_music
+          GCSE Office Technology: gcse_office_technology
+          GCSE Performing Arts: gcse_performing_arts
+          GCSE Physics: gcse_physics
+          GCSE Polish: gcse_polish
+          GCSE Portuguese: gcse_portuguese
+          GCSE Psychology: gcse_psychology
+          GCSE Religious Studies: gcse_religious_studies
+          GCSE Russian: gcse_russian
+          'GCSE Sci: Electronics': gcse_sci_electronics
+          GCSE Science (Core): gcse_science_core
+          'GCSE Science: Additional': gcse_science_additional
+          'GCSE Science: Astronomy': gcse_science_astronomy
+          'GCSE Science: Geology': gcse_science_geology
+          GCSE Soc Sci:Citizenshp: gcse_soc_sci_citizenshp
+          GCSE Sociology: gcse_sociology
+          GCSE Spanish: gcse_spanish
+          GCSE Sport/P.E. Studies: gcse_sport/p_e_studies
+          GCSE Statistics: gcse_statistics
+          GCSE Urdu: gcse_urdu
+          Gender: gender
+          GradeEx Music Perf (Group): gradeex_music_perf_group
+          Has the pupil been adopted from care?: has_the_pupil_been_adopted_from_care
+          Has the pupil been eligible for FSM in the last 6 years?: has_the_pupil_been_eligible_for_fsm_in_the_last_6_years
+          Highest point score achieved in humanities Ebacc subject area: highest_point_score_achieved_in_humanities_ebacc_subject_area
+          Highest point score achieved in language Ebacc subject area: highest_point_score_achieved_in_language_ebacc_subject_area
+          Humanities EBacc PS (VA): humanities_ebacc_ps_va
+          IGCSE CIC Biology: igcse_cic_biology
+          IGCSE CIC Bus. Studs:Single: igcse_cic_bus_studs_single
+          IGCSE CIC Chemistry: igcse_cic_chemistry
+          IGCSE CIC English Language: igcse_cic_english_language
+          IGCSE CIC English Literature: igcse_cic_english_literature
+          IGCSE CIC German: igcse_cic_german
+          IGCSE CIC History: igcse_cic_history
+          IGCSE CIC Inform Comm Tech: igcse_cic_inform_comm_tech
+          IGCSE CIC Physics: igcse_cic_physics
+          Is the pupil disadvantaged?: is_the_pupil_disadvantaged
+          Is the pupil looked after?: is_the_pupil_looked_after
+          KS2  ENGLISH (KS2): ks2_english
+          KS2  MATHEMATICS (KS2): ks2_mathematics
+          KS2 APS (VA): ks2_aps_va
+          KS2 APS cubed: ks2_aps_cubed
+          KS2 APS squared: ks2_aps_squared
+          KS2 ENGLISH TA: ks2_english_ta
+          KS2 English PS: ks2_english_ps
+          KS2 English PS deviation: ks2_english_ps_deviation
+          KS2 English TA level: ks2_english_ta_level
+          KS2 English level (finely graded): ks2_english_level_finely_graded
+          KS2 MATHEMATICS TA: ks2_mathematics_ta
+          KS2 Mathematics TA level: ks2_mathematics_ta_level
+          KS2 Mathematics level (finely graded): ks2_mathematics_level_finely_graded
+          KS2 Maths PS: ks2_maths_ps
+          KS2 Maths PS deviation: ks2_maths_ps_deviation
+          KS2 Prior Band: ks2_prior_band
+          KS2 Reading PS: ks2_reading_ps
+          KS2 Reading TA level: ks2_reading_ta_level
+          KS2 Reading level (finely graded): ks2_reading_level_finely_graded
+          KS2 mathematics (finely graded): ks2_mathematics_finely_graded
+          KS2-4 predicted PS for 'Best 8' VA: ks2_4_predicted_ps_for_best_8_va
+          KS2-4 predicted PS for 'EBacc English' VA: ks2_4_predicted_ps_for_ebacc_english_va
+          KS2-4 predicted PS for 'EBacc Humanities' VA: ks2_4_predicted_ps_for_ebacc_humanities_va
+          KS2-4 predicted PS for 'EBacc Language' VA: ks2_4_predicted_ps_for_ebacc_language_va
+          KS2-4 predicted PS for 'EBacc Maths' VA: ks2_4_predicted_ps_for_ebacc_maths_va
+          KS2-4 predicted PS for 'EBacc Science' VA: ks2_4_predicted_ps_for_ebacc_science_va
+          Language EBacc PS (VA): language_ebacc_ps_va
+          Maths Bonus: maths_bonus
+          Maths EBacc PS (VA): maths_ebacc_ps_va
+          Maths exclude previous school: maths_exclude_previous_school
+          OTHGen1 Latin: othgen1_latin
+          OTHGen1 Untranslated lit: othgen1_untranslated_lit
+          OTHGen2 Additional Maths: othgen2_additional_maths
+          OTHGen2 Latin: othgen2_latin
+          Open slots filled: open_slots_filled
+          Performance Category: performance_category
+          Point score in English EBacc subject area: point_score_in_english_ebacc_subject_area
+          Point score in maths EBacc subject area: point_score_in_maths_ebacc_subject_area
+          Point score in science Ebacc subject area: point_score_in_science_ebacc_subject_area
+          Post Looked After Arrangements: post_looked_after_arrangements
+          PrLearn2 Engineering: prlearn2_engineering
+          PrLearn2 Hair/Personal Care: prlearn2_hair_personal_care
+          Previous Maths pathway flag: previous_maths_pathway_flag
+          Previous Pupil level English pathway flag: previous_pupil_level_english_pathway_flag
+          Previous Pupil level Science pathway flag: previous_pupil_level_science_pathway_flag
+          Prior attainment score in English and mathematics: prior_attainment_score_in_english_and_mathematics
+          Progress 8 score for Ebacc slots: progress_8_score_for_ebacc_slots
+          Progress 8 score for English: progress_8_score_for_english
+          Progress 8 score for mathematics: progress_8_score_for_mathematics
+          Progress 8 score for open slots: progress_8_score_for_open_slots
+          Pupil Inclusion Status Flag: pupil_inclusion_status_flag
+          Pupil included in progress 8 calculations: pupil_included_in_progress_8_calculations
+          Pupil level EBacc average point score: pupil_level_ebacc_average_point_score
+          Pupil level English pathway flag: pupil_level_english_pathway_flag
+          Pupil level Maths pathway flag: pupil_level_maths_pathway_flag
+          Pupil level Science pathway flag: pupil_level_science_pathway_flag
+          Pupil progress 8 score: pupil_progress_8_score
+          Pupil's Progress 8 score has been adjusted due to extreme negative score: pupils_progress_8_score_has_been_adjusted_due_to_extreme_negative_score
+          Pupil's adjusted progress 8 score: pupils_adjusted_progress_8_score
+          Pupil's unadjusted progress 8 score: pupils_unadjusted_progress_8_score
+          SEN: sen
+          School URN: school_urn
+          Science EBacc PS (VA): science_ebacc_ps_va
+          Science Pathway 1 before cut off: science_pathway_1_before_cut_off
+          Science Pathway 2 before cut off: science_pathway_2_before_cut_off
+          Science Pathway 3 before cut off: science_pathway_3_before_cut_off
+          Science exclude previous school: science_exclude_previous_school
+          Science first entry pathway: science_first_entry_pathway
+          Score achieved in 1st EBacc slot: score_achieved_in_1st_ebacc_slot
+          Score achieved in 1st open slot: score_achieved_in_1st_open_slot
+          Score achieved in 2nd EBacc slot: score_achieved_in_2nd_ebacc_slot
+          Score achieved in 2nd open slot: score_achieved_in_2nd_open_slot
+          Score achieved in 3rd EBacc slot: score_achieved_in_3rd_ebacc_slot
+          Score achieved in 3rd open slot: score_achieved_in_3rd_open_slot
+          Score achieved in Ebacc slots: score_achieved_in_ebacc_slots
+          Score achieved in English: score_achieved_in_english
+          Score achieved in mathematics: score_achieved_in_mathematics
+          Score achieved in open slots: score_achieved_in_open_slots
+          Student's ethnicity: students_ethnicity
+          Surname: surname
+          TA used for English prior attainment due to 2010 KS2 test boycott: ta_used_for_english_prior_attainment_due_to_2010_ks2_test_boycott
+          TA used for maths prior attainment due to 2010 KS2 test boycott: ta_used_for_maths_prior_attainment_due_to_2010_ks2_test_boycott
+          Total GCSE point score excluding equivalents: total_gcse_point_score_excluding_equivalents
+          Total Point Score: total_point_score
+          Total score achieved in open slots - GCSEs only: total_score_achieved_in_open_slots_gcses_only
+          Total score achieved in open slots - non-GCSEs only: total_score_achieved_in_open_slots_non_gcses_only
+          UPN: upn
+          Use of Math Use of Maths: use_of_math_use_of_maths
+          VRQ2 Computer Use: vrq2_computer_use
+          vGCSE Applied Business: vgcse_applied_business
+          vGCSE Catering Studies: vgcse_catering_studies
+          vGCSE DA Applied Engineering: vgcse_da_applied_engineering
+          vGCSE DA Health & Soc Care: vgcse_da_health_and_soc_care
+          vGCSE Health & Soc Care: vgcse_health_and_soc_care
+          vGCSE Leisure & Tourism: vgcse_leisure_and_tourism
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+    outs:
+    - path: ../data/interim/ks4_2015.csv
+      md5: 2d5a745daafb401cb57fb3f69de07316
+      size: 2539982
+    - path: ../data/interim/ks4_2016.csv
+      md5: 2d6ccd5a6e5b267cc38e26bbd38931fa
+      size: 1307826
+    - path: ../data/interim/ks4_2017.csv
+      md5: f33eddb6d730c8e6a7babb4bdc3da7cd
+      size: 1393798
+    - path: ../data/interim/ks4_2018.csv
+      md5: 3d76972e6e317fab54073ab91f8905dd
+      size: 1449198
+    - path: ../data/interim/ks4_2019.csv
+      md5: e7ecad43bdedce545433586be41b37e4
+      size: 1539410
+  canonicalize_attendance_data:
+    cmd: python data/canonicalize_attendance_data.py
+    deps:
+    - path: ../data/raw/attendance_original_jan15.csv
+      md5: f7c1d2fd2e8a50f26862d209f924fc1d
+      size: 2157374
+    - path: ../data/raw/attendance_original_jan16.csv
+      md5: 7ffed6dbccd29b5de510769d0d30e983
+      size: 2190009
+    - path: ../data/raw/attendance_original_jan17.csv
+      md5: f7b31ab339adc57d37fd8cc17c4ac14e
+      size: 2260139
+    - path: ../data/raw/attendance_original_jan18.csv
+      md5: 1cfb6a0ddcf25142f44c07828dcd5409
+      size: 2220556
+    - path: ../data/raw/attendance_original_jan19.csv
+      md5: 75044f0a7b8b90ac6b5d8fa0bb3dbc34
+      size: 2270920
+    - path: ../data/raw/attendance_original_jan20.csv
+      md5: 422e1e48c62a085469e312bef97e4acf
+      size: 2330314
+    - path: ../data/raw/attendance_original_jan21.csv
+      md5: 6dc240dbe9b67d4a8e05cd348a323e57
+      size: 3530418
+    - path: ../data/raw/attendance_original_jan22.csv
+      md5: ffd8813f2d7a88d13c8894236ba9ce86
+      size: 2992412
+    - path: ../data/raw/attendance_original_may15.csv
+      md5: acfbbf53eeccfb1b785258e8dc1a5f96
+      size: 1866331
+    - path: ../data/raw/attendance_original_may16.csv
+      md5: a8802be348b8fd40faeed24d32722e29
+      size: 2174142
+    - path: ../data/raw/attendance_original_may17.csv
+      md5: a7c95965ca35fe5eb673280563fbc1fd
+      size: 2247669
+    - path: ../data/raw/attendance_original_may18.csv
+      md5: ec2021c1cb80a5472874b8e8e7371286
+      size: 2207127
+    - path: ../data/raw/attendance_original_may19.csv
+      md5: caf32bd06e956496ec7857921419b4e0
+      size: 2327632
+    - path: ../data/raw/attendance_original_may21.csv
+      md5: aba0a756121291120cbb01a99c3c3636
+      size: 2968008
+    - path: ../data/raw/attendance_original_may22.csv
+      md5: 7da152a11c3762eca9860164edcf0d1a
+      size: 3448543
+    - path: ../data/raw/attendance_original_oct14.csv
+      md5: 28748e8e0cc83950d2d8f158f1d1486c
+      size: 2584651
+    - path: ../data/raw/attendance_original_oct15.csv
+      md5: 30e3b4bf5678d2dfa85eca1579c7c470
+      size: 2585276
+    - path: ../data/raw/attendance_original_oct16.csv
+      md5: ddbc09a926080711a0aca4181b9165b7
+      size: 2636486
+    - path: ../data/raw/attendance_original_oct17.csv
+      md5: 8e3d2f2328d3aecde6cf08215e62a396
+      size: 2344315
+    - path: ../data/raw/attendance_original_oct18.csv
+      md5: 6c56bd1bac3d13fb25a891fd5b40ae1f
+      size: 2150187
+    - path: ../data/raw/attendance_original_oct19.csv
+      md5: 871cb88a9c19f51202684bf4480aabd9
+      size: 2289417
+    - path: ../data/raw/attendance_original_oct20.csv
+      md5: f15116b112b8b76ed479b2bf03876d15
+      size: 2479695
+    - path: ../data/raw/attendance_original_oct21.csv
+      md5: 573d437441e092dc4cb076fd6c400a94
+      size: 2621623
+    - path: ../data/raw/school_census_attendance_Aut21_Hard_Coded.csv
+      md5: 6064e8a1267a52965fa83d8e7bb1ebbb
+      size: 3628479
+    - path: ../data/raw/school_census_attendance_Spr21_Hard_Coded.csv
+      md5: 7eb7255f0af6fe204ed30d83a93a5e3d
+      size: 3664253
+    - path: ../data/raw/school_census_attendance_Sum21_Hard_Coded.csv
+      md5: 44a151b4f15a4493a213b92b3a099882
+      size: 3551914
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: ../src/merge_utils.py
+      md5: a903b370192df453233531ce10dfa096
+      size: 1710
+    - path: data/canonicalize_attendance_data.py
+      md5: 6fa69e54f0fdcab7a9a8a7f2de2c1234
+      size: 2964
+    params:
+      params.yaml:
+        ATTENDANCE_COLUMN_RENAME:
+          /: present_am
+          B: offsite_education_approved
+          C: other_authorised
+          D: dual_registered
+          DoB: date_of_birth
+          E: excluded_authorised
+          EnrolStatus: enrol_status
+          EntryDate: entry_date
+          Estab: establishment_number
+          Forename: forename
+          FormerSurname: former_surname
+          G: holiday_unauthorised
+          Gender: gender
+          H: holiday_authorised
+          I: illness_authorised
+          J: interview_approved
+          L: late_present
+          M: medical_authorised
+          Middlenames: middlenames
+          N: unknown_unauthorised
+          NCyearActual:
+          - nc_year_actual
+          O: other_unauthorised
+          P: sports_approved
+          PreferredSurname: preferred_surname
+          R: religious_authorised
+          S: study_leave_authorised
+          Surname: surname
+          T: traveller_authorised
+          T_Reason_C: other_authorised
+          T_Reason_E: excluded_authorised
+          T_Reason_F: code_f
+          T_Reason_G: holiday_unauthorised
+          T_Reason_H: holiday_authorised
+          T_Reason_I: illness_authorised
+          T_Reason_M: medical_authorised
+          T_Reason_N: unknown_unauthorised
+          T_Reason_O: other_unauthorised
+          T_Reason_R: religious_authorised
+          T_Reason_S: study_leave_authorised
+          T_Reason_T: traveller_authorised
+          T_Reason_U: late_unauthorised
+          TermlySessionsAuthorised: termly_sessions_authorised
+          TermlySessionsPossible: termly_sessions_possible
+          TermlySessionsUnauthorised: termly_sessions_unauthorised
+          U: late_unauthorised
+          UPN: upn
+          V: educational_visit_approved
+          W: work_experience_approved
+          X: covid
+          Y: exceptional_circumstances
+          \: present_pm
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+    outs:
+    - path: ../data/interim/attendance_jan15.csv
+      md5: c8ae1144aa94e7390dc384ce69f503cf
+      size: 2156695
+    - path: ../data/interim/attendance_jan16.csv
+      md5: 02c0f0e6a560d271d48eb783cce3135c
+      size: 2190159
+    - path: ../data/interim/attendance_jan17.csv
+      md5: 386cf0ce634cbaf1454dc36c6bf1fc0e
+      size: 2260289
+    - path: ../data/interim/attendance_jan18.csv
+      md5: 37b1f3166f450cf062012df5490f8ee8
+      size: 2220702
+    - path: ../data/interim/attendance_jan19.csv
+      md5: b70a1aeaea2be7d9b7354705662653ec
+      size: 2271066
+    - path: ../data/interim/attendance_jan20.csv
+      md5: d6a52a2d3634cfdcf5b95c703452e7b7
+      size: 2330460
+    - path: ../data/interim/attendance_jan21.csv
+      md5: 5b0166ac05b985d0fdc6a7af075fe6d4
+      size: 3530847
+    - path: ../data/interim/attendance_jan22.csv
+      md5: b7fa6fc014c89a872bed84ca2bb46d52
+      size: 3670073
+    - path: ../data/interim/attendance_may15.csv
+      md5: e5e99e1426a48e1f62db8cf391f45f02
+      size: 1866481
+    - path: ../data/interim/attendance_may16.csv
+      md5: f0fe0779f7ac654f38c8caa308beeb12
+      size: 2174292
+    - path: ../data/interim/attendance_may17.csv
+      md5: 5029d91b175a1ec92793ffb232147d00
+      size: 2247819
+    - path: ../data/interim/attendance_may18.csv
+      md5: a0b4a5d42d2dd65874639637b875f285
+      size: 2207273
+    - path: ../data/interim/attendance_may19.csv
+      md5: a4bcd81ced957a0376f9e5d473e087f5
+      size: 2327782
+    - path: ../data/interim/attendance_may21.csv
+      md5: b544af0208e20e8c28257e9b0ca470da
+      size: 3683976
+    - path: ../data/interim/attendance_may22.csv
+      md5: bda1f955782ee587513cc8e9f178edde
+      size: 3448972
+    - path: ../data/interim/attendance_oct14.csv
+      md5: d381c5d204690a8efc4b77e3282614a1
+      size: 2527758
+    - path: ../data/interim/attendance_oct15.csv
+      md5: 987b990a0e8ef92ae046a643b3497efa
+      size: 2585426
+    - path: ../data/interim/attendance_oct16.csv
+      md5: aa8a61ff32b493ae470ec1a088b141c2
+      size: 2636636
+    - path: ../data/interim/attendance_oct17.csv
+      md5: a603d61d71d7fafd2fe1c7b4334f50fe
+      size: 2344465
+    - path: ../data/interim/attendance_oct18.csv
+      md5: 630b96b1ba41345ac37c26885f4fdf61
+      size: 2150333
+    - path: ../data/interim/attendance_oct19.csv
+      md5: 83a8f402902719f2b2ef492e741f419f
+      size: 2289563
+    - path: ../data/interim/attendance_oct20.csv
+      md5: ba4f1a89718181b5732e1949dc6a5728
+      size: 2479733
+    - path: ../data/interim/attendance_oct21.csv
+      md5: 9353c8ad029fef4e3a3428c17b8820f7
+      size: 2622052
+  school_info_to_csv:
+    cmd: python data/school_info_to_csv.py
+    deps:
+    - path: ../data/raw/Bucks_Secondary_School_2022.xlsx
+      md5: 681dbedc316e770ebb1b22596fbeaf31
+      size: 14034
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/school_info_to_csv.py
+      md5: 0173129a772b6f212a532f132220e528
+      size: 866
+    outs:
+    - path: ../data/raw/Bucks_Secondary_School_2022.csv
+      md5: e19ce4773aeb624f812bc4f522519aa9
+      size: 4104
+  canonicalize_school_info:
+    cmd: python data/canonicalize_school_info.py
+    deps:
+    - path: ../data/raw/Bucks_Secondary_School_2022.csv
+      md5: e19ce4773aeb624f812bc4f522519aa9
+      size: 4104
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/canonicalize_school_info.py
+      md5: 9bb5a7108b3bd5b7827c8baf9e4ba9f2
+      size: 2936
+    params:
+      params.yaml:
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        SCHOOL_INFO_RENAME:
+          Area: establishment_area
+          Electoral Ward*: establishment_electoral_wards
+          Estab (Anon): establishment_number
+          LAEstab (anon): la_establishment_number
+          Postcode: establishment_postcode
+          School Name: establishment_name
+          Status: establishment_status
+          Type: establishment_type
+        SchoolInfoColumns:
+          establishment_area: establishment_area
+          establishment_electoral_wards: establishment_electoral_wards
+          establishment_name: establishment_name
+          establishment_number: establishment_number
+          establishment_postcode: establishment_postcode
+          establishment_status: establishment_status
+          establishment_type: establishment_type
+          la_establishment_number: la_establishment_number
+    outs:
+    - path: ../data/interim/secondary_schools.csv
+      md5: a7b5af3811af969c71fbe7615f7bc2f3
+      size: 3783
+  annotate_neet_data:
+    cmd: python data/annotate_neet_data.py
+    deps:
+    - path: ../data/interim/neet_merged.csv
+      md5: 5da018824c85bda7fe396235b9e583f0
+      size: 40488639
+    - path: ../data/interim/secondary_schools.csv
+      md5: a7b5af3811af969c71fbe7615f7bc2f3
+      size: 3783
+    - path: ../src/ccis_utils.py
+      md5: 98f870fbd2c7b1940481da1767ac3a11
+      size: 8392
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: ../src/merge_utils.py
+      md5: a903b370192df453233531ce10dfa096
+      size: 1710
+    - path: data/annotate_neet_data.py
+      md5: fad2fd6b6ca5471bb3b1529b54dcbd7d
+      size: 4852
+    params:
+      params.yaml:
+        CCISDataColumns:
+          activity_code: activity_code
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          age: age
+          birth_month: birth_month
+          birth_year: birth_year
+          ccis_period_end: ccis_period_end
+          characteristic_code: characteristic_code
+          cohort_status: cohort_status
+          compulsory_school: compulsory_school
+          county: county
+          currency_lapsed: currency_lapsed
+          database_id: database_id
+          date_ascertained: date_ascertained
+          date_of_send: date_of_send
+          date_verified: date_verified
+          due_to_lapse_date: due_to_lapse_date
+          educated_lea: educated_lea
+          establishment_name: establishment_name
+          ethnicity: ethnicity
+          family_name: family_name
+          gender: gender
+          given_name: given_name
+          guarantee_status: guarantee_status
+          guarantee_status3: guarantee_status3
+          guarantee_status_indicator: guarantee_status_indicator
+          intended_destination_yr11: intended_destination_yr11
+          la_establishment_number: la_establishment_number
+          lea_code: lea_code
+          lea_code2: lea_code2
+          lea_code4: lea_code4
+          lea_code_at_year11: lea_code_at_year11
+          lead_lea: lead_lea
+          level_of_need_code: level_of_need_code
+          middle_name: middle_name
+          month_year_of_birth: month_year_of_birth
+          neet: neet
+          neet_ever: neet_ever
+          neet_start_date: neet_start_date
+          period_end: period_end
+          postcode: postcode
+          predicted_end_date: predicted_end_date
+          previous_ypid_identifier: previous_ypid_identifier
+          review_date: review_date
+          sen_support_flag: sen_support_flag
+          send_flag: send_flag
+          start_date: start_date
+          supplier_name: supplier_name
+          supplier_xml_version: supplier_xml_version
+          town: town
+          transferred_to_la_code: transferred_to_la_code
+          uk_provider_reference_number: uk_provider_reference_number
+          unique_learner_no: unique_learner_no
+          unknown: unknown
+          unknown_ever: unknown_ever
+          upn: upn
+          xml_schema_version: xml_schema_version
+          year: year
+          young_persons_id: young_persons_id
+          youth_contract_indicator: youth_contract_indicator
+          youth_contract_start_date: youth_contract_start_date
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        UNKNOWN_CODES:
+          ethnicity:
+          - REFU
+          - NOBT
+          gender:
+          - U
+          - W
+    outs:
+    - path: ../data/interim/neet_annotated.csv
+      md5: 8355ff37bef93e671c61f7d6f097078e
+      size: 50625944
+  mrege_neet_data:
+    cmd: python data/merge_neet_data.py
+    deps:
+    - path: ../data/processed/neet_annotated_feb16.csv
+      md5: 81a732b399f73c8da453ee1b14c1a879
+      size: 8300921
+    - path: ../data/processed/neet_annotated_feb17.csv
+      md5: 4b096f1d749596c7d8fb0ae4c7543a91
+      size: 8523427
+    - path: ../data/processed/neet_annotated_feb18.csv
+      md5: 8d79c998831ee32114313478c1a4c680
+      size: 5827911
+    - path: ../data/processed/neet_annotated_feb19.csv
+      md5: c0d99e946129159d755a880e4c41b178
+      size: 5918914
+    - path: ../data/processed/neet_annotated_feb20.csv
+      md5: ae0ef73923d865e6293bd6948ad5bc4d
+      size: 6208568
+    - path: ../data/processed/neet_annotated_feb21.csv
+      md5: cbf3e0eb77dc5a86702807b618ef319e
+      size: 5735186
+    - path: ../data/processed/neet_annotated_feb22.csv
+      md5: 4a1cade7caf6d007c76432960a9b2e3c
+      size: 5845182
+    - path: ../src/
+      md5: 60fa8afbcc53818696de2fc21ce11a76.dir
+      size: 68539
+      nfiles: 8
+    - path: data/merge_neet_data.py
+      md5: 779611af164518d71bef4c8ea082c851
+      size: 1478
+    outs:
+    - path: ../data/processed/neet_merged.csv
+      md5: f37172fab6d74889795a321574cf2e5d
+      size: 48798305
+  annotate_attendance_data:
+    cmd: python data/annotate_attendance_data.py
+    deps:
+    - path: ../data/interim/attendance_merged.csv
+      md5: 5c66059d4510363b654d1d0157845890
+      size: 73666495
+    - path: ../data/interim/secondary_schools.csv
+      md5: a7b5af3811af969c71fbe7615f7bc2f3
+      size: 3783
+    - path: ../src//attendance_utils.py
+      md5: 303348faf27240071588a4d891ec6503
+      size: 7723
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: ../src/merge_utils.py
+      md5: a903b370192df453233531ce10dfa096
+      size: 1710
+    - path: data/annotate_attendance_data.py
+      md5: 82658f8ee4acff06ff505dc567b60b2b
+      size: 5259
+    params:
+      params.yaml:
+        AttendanceDataColumns:
+          approved_activities: approved_activities
+          authorised_absences: authorised_absences
+          code_f: code_f
+          covid: covid
+          date_of_birth: date_of_birth
+          dual_registered: dual_registered
+          educational_visit_approved: educational_visit_approved
+          enrol_status: enrol_status
+          entry_date: entry_date
+          establishment_number: establishment_number
+          exceptional_circumstances: exceptional_circumstances
+          excluded_authorised: excluded_authorised
+          forename: forename
+          former_surname: former_surname
+          gender: gender
+          has_attendance_data: has_attendance_data
+          holiday_authorised: holiday_authorised
+          holiday_unauthorised: holiday_unauthorised
+          illness_authorised: illness_authorised
+          interview_approved: interview_approved
+          late_present: late_present
+          late_unauthorised: late_unauthorised
+          medical_authorised: medical_authorised
+          middlenames: middlenames
+          nc_year_actual:
+          - nc_year_actual
+          offsite_education_approved: offsite_education_approved
+          other_authorised: other_authorised
+          other_unauthorised: other_unauthorised
+          preferred_surname: preferred_surname
+          present_am: present_am
+          present_pm: present_pm
+          religious_authorised: religious_authorised
+          sports_approved: sports_approved
+          study_leave_authorised: study_leave_authorised
+          surname: surname
+          term_end: term_end
+          term_type: term_type
+          termly_sessions_authorised: termly_sessions_authorised
+          termly_sessions_possible: termly_sessions_possible
+          termly_sessions_unauthorised: termly_sessions_unauthorised
+          total_absences: total_absences
+          total_nonabsences: total_nonabsences
+          traveller_authorised: traveller_authorised
+          unauthorised_absences: unauthorised_absences
+          unknown_unauthorised: unknown_unauthorised
+          upn: upn
+          work_experience_approved: work_experience_approved
+          year: year
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        UNKNOWN_CODES:
+          ethnicity:
+          - REFU
+          - NOBT
+          gender:
+          - U
+          - W
+    outs:
+    - path: ../data/interim/attendance_annotated.csv
+      md5: a41d7308891e56661b1f004622f54bf1
+      size: 147342477
+  merge_attendance_data:
+    cmd: python data/merge_attendance_data.py
+    deps:
+    - path: ../data/interim/attendance_jan15.csv
+      md5: c8ae1144aa94e7390dc384ce69f503cf
+      size: 2156695
+    - path: ../data/interim/attendance_jan16.csv
+      md5: 02c0f0e6a560d271d48eb783cce3135c
+      size: 2190159
+    - path: ../data/interim/attendance_jan17.csv
+      md5: 386cf0ce634cbaf1454dc36c6bf1fc0e
+      size: 2260289
+    - path: ../data/interim/attendance_jan18.csv
+      md5: 37b1f3166f450cf062012df5490f8ee8
+      size: 2220702
+    - path: ../data/interim/attendance_jan19.csv
+      md5: b70a1aeaea2be7d9b7354705662653ec
+      size: 2271066
+    - path: ../data/interim/attendance_jan20.csv
+      md5: d6a52a2d3634cfdcf5b95c703452e7b7
+      size: 2330460
+    - path: ../data/interim/attendance_jan21.csv
+      md5: 5b0166ac05b985d0fdc6a7af075fe6d4
+      size: 3530847
+    - path: ../data/interim/attendance_jan22.csv
+      md5: b7fa6fc014c89a872bed84ca2bb46d52
+      size: 3670073
+    - path: ../data/interim/attendance_may15.csv
+      md5: e5e99e1426a48e1f62db8cf391f45f02
+      size: 1866481
+    - path: ../data/interim/attendance_may16.csv
+      md5: f0fe0779f7ac654f38c8caa308beeb12
+      size: 2174292
+    - path: ../data/interim/attendance_may17.csv
+      md5: 5029d91b175a1ec92793ffb232147d00
+      size: 2247819
+    - path: ../data/interim/attendance_may18.csv
+      md5: a0b4a5d42d2dd65874639637b875f285
+      size: 2207273
+    - path: ../data/interim/attendance_may19.csv
+      md5: a4bcd81ced957a0376f9e5d473e087f5
+      size: 2327782
+    - path: ../data/interim/attendance_may21.csv
+      md5: b544af0208e20e8c28257e9b0ca470da
+      size: 3683976
+    - path: ../data/interim/attendance_may22.csv
+      md5: bda1f955782ee587513cc8e9f178edde
+      size: 3448972
+    - path: ../data/interim/attendance_oct14.csv
+      md5: d381c5d204690a8efc4b77e3282614a1
+      size: 2527758
+    - path: ../data/interim/attendance_oct15.csv
+      md5: 987b990a0e8ef92ae046a643b3497efa
+      size: 2585426
+    - path: ../data/interim/attendance_oct16.csv
+      md5: aa8a61ff32b493ae470ec1a088b141c2
+      size: 2636636
+    - path: ../data/interim/attendance_oct17.csv
+      md5: a603d61d71d7fafd2fe1c7b4334f50fe
+      size: 2344465
+    - path: ../data/interim/attendance_oct18.csv
+      md5: 630b96b1ba41345ac37c26885f4fdf61
+      size: 2150333
+    - path: ../data/interim/attendance_oct19.csv
+      md5: 83a8f402902719f2b2ef492e741f419f
+      size: 2289563
+    - path: ../data/interim/attendance_oct20.csv
+      md5: ba4f1a89718181b5732e1949dc6a5728
+      size: 2479733
+    - path: ../data/interim/attendance_oct21.csv
+      md5: 9353c8ad029fef4e3a3428c17b8820f7
+      size: 2622052
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/merge_attendance_data.py
+      md5: 3abf4fcff7d946ad5f9bb8f1952f76c6
+      size: 1693
+    params:
+      params.yaml:
+        AttendanceDataColumns:
+          approved_activities: approved_activities
+          authorised_absences: authorised_absences
+          code_f: code_f
+          covid: covid
+          date_of_birth: date_of_birth
+          dual_registered: dual_registered
+          educational_visit_approved: educational_visit_approved
+          enrol_status: enrol_status
+          entry_date: entry_date
+          establishment_number: establishment_number
+          exceptional_circumstances: exceptional_circumstances
+          excluded_authorised: excluded_authorised
+          forename: forename
+          former_surname: former_surname
+          gender: gender
+          has_attendance_data: has_attendance_data
+          holiday_authorised: holiday_authorised
+          holiday_unauthorised: holiday_unauthorised
+          illness_authorised: illness_authorised
+          interview_approved: interview_approved
+          late_present: late_present
+          late_unauthorised: late_unauthorised
+          medical_authorised: medical_authorised
+          middlenames: middlenames
+          nc_year_actual:
+          - nc_year_actual
+          offsite_education_approved: offsite_education_approved
+          other_authorised: other_authorised
+          other_unauthorised: other_unauthorised
+          preferred_surname: preferred_surname
+          present_am: present_am
+          present_pm: present_pm
+          religious_authorised: religious_authorised
+          sports_approved: sports_approved
+          study_leave_authorised: study_leave_authorised
+          surname: surname
+          term_end: term_end
+          term_type: term_type
+          termly_sessions_authorised: termly_sessions_authorised
+          termly_sessions_possible: termly_sessions_possible
+          termly_sessions_unauthorised: termly_sessions_unauthorised
+          total_absences: total_absences
+          total_nonabsences: total_nonabsences
+          traveller_authorised: traveller_authorised
+          unauthorised_absences: unauthorised_absences
+          unknown_unauthorised: unknown_unauthorised
+          upn: upn
+          work_experience_approved: work_experience_approved
+          year: year
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+    outs:
+    - path: ../data/interim/attendance_merged.csv
+      md5: 5c66059d4510363b654d1d0157845890
+      size: 73666495
+  annotate_census_data:
+    cmd: python data/annotate_census_data.py
+    deps:
+    - path: ../data/interim/census_merged.csv
+      md5: e80a071aad598d5740d7061caa9fbb15
+      size: 26184962
+    - path: ../data/interim/secondary_schools.csv
+      md5: a7b5af3811af969c71fbe7615f7bc2f3
+      size: 3783
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: ../src/merge_utils.py
+      md5: a903b370192df453233531ce10dfa096
+      size: 1710
+    - path: data/annotate_census_data.py
+      md5: 8998439d3125b69acb66d36c46093b81
+      size: 3623
+    params:
+      params.yaml:
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        SchoolInfoColumns:
+          establishment_area: establishment_area
+          establishment_electoral_wards: establishment_electoral_wards
+          establishment_name: establishment_name
+          establishment_number: establishment_number
+          establishment_postcode: establishment_postcode
+          establishment_status: establishment_status
+          establishment_type: establishment_type
+          la_establishment_number: la_establishment_number
+        UNKNOWN_CODES:
+          ethnicity:
+          - REFU
+          - NOBT
+          gender:
+          - U
+          - W
+    outs:
+    - path: ../data/interim/census_annotated.csv
+      md5: 4f416ff9daacaa9b598da22fe6554675
+      size: 46282546
+  annotate_ks4_data:
+    cmd: python data/annotate_ks4_data.py
+    deps:
+    - path: ../data/interim/ks4_merged.csv
+      md5: 9d7e8624d0e172095fa063d244e44fe9
+      size: 13447428
+    - path: ../data/interim/secondary_schools.csv
+      md5: a7b5af3811af969c71fbe7615f7bc2f3
+      size: 3783
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: ../src/merge_utils.py
+      md5: a903b370192df453233531ce10dfa096
+      size: 1710
+    - path: data/annotate_ks4_data.py
+      md5: b52d4c1eb85d81db4b97cdbbea6160db
+      size: 1925
+    params:
+      params.yaml:
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        SchoolInfoColumns:
+          establishment_area: establishment_area
+          establishment_electoral_wards: establishment_electoral_wards
+          establishment_name: establishment_name
+          establishment_number: establishment_number
+          establishment_postcode: establishment_postcode
+          establishment_status: establishment_status
+          establishment_type: establishment_type
+          la_establishment_number: la_establishment_number
+        UNKNOWN_CODES:
+          ethnicity:
+          - REFU
+          - NOBT
+          gender:
+          - U
+          - W
+    outs:
+    - path: ../data/interim/ks4_annotated.csv
+      md5: e500a4033d7fcc1efa38916856e1b92b
+      size: 15709112
+  merge_ks4_data:
+    cmd: python data/merge_ks4_data.py
+    deps:
+    - path: ../data/interim/ks4_2015.csv
+      md5: 2d5a745daafb401cb57fb3f69de07316
+      size: 2539982
+    - path: ../data/interim/ks4_2016.csv
+      md5: 2d6ccd5a6e5b267cc38e26bbd38931fa
+      size: 1307826
+    - path: ../data/interim/ks4_2017.csv
+      md5: f33eddb6d730c8e6a7babb4bdc3da7cd
+      size: 1393798
+    - path: ../data/interim/ks4_2018.csv
+      md5: 3d76972e6e317fab54073ab91f8905dd
+      size: 1449198
+    - path: ../data/interim/ks4_2019.csv
+      md5: e7ecad43bdedce545433586be41b37e4
+      size: 1539410
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/merge_ks4_data.py
+      md5: 970d516e5a1b5f93bb31a6338dfa797b
+      size: 1745
+    params:
+      params.yaml:
+        KSDataColumns:
+          deprivation_indicator_idaci_score: deprivation_indicator_idaci_score
+          has_ks2_data: has_ks2_data
+          is_the_pupil_disadvantaged: is_the_pupil_disadvantaged
+          is_the_pupil_looked_after: is_the_pupil_looked_after
+          ks2_aps_cubed: ks2_aps_cubed
+          ks2_aps_squared: ks2_aps_squared
+          ks2_aps_va: ks2_aps_va
+          ks2_english: ks2_english
+          ks2_english_level_finely_graded: ks2_english_level_finely_graded
+          ks2_english_ps: ks2_english_ps
+          ks2_english_ps_deviation: ks2_english_ps_deviation
+          ks2_english_ta: ks2_english_ta
+          ks2_english_ta_level: ks2_english_ta_level
+          ks2_mathematics: ks2_mathematics
+          ks2_mathematics_finely_graded: ks2_mathematics_finely_graded
+          ks2_mathematics_level_finely_graded: ks2_mathematics_level_finely_graded
+          ks2_mathematics_ta: ks2_mathematics_ta
+          ks2_mathematics_ta_level: ks2_mathematics_ta_level
+          ks2_maths_ps: ks2_maths_ps
+          ks2_maths_ps_deviation: ks2_maths_ps_deviation
+          ks2_prior_band: ks2_prior_band
+          ks2_reading_level_finely_graded: ks2_reading_level_finely_graded
+          ks2_reading_ps: ks2_reading_ps
+          ks2_reading_ta_level: ks2_reading_ta_level
+          ks4_period_end: ks4_period_end
+          sen: sen
+          upn: upn
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+    outs:
+    - path: ../data/interim/ks4_merged.csv
+      md5: 9d7e8624d0e172095fa063d244e44fe9
+      size: 13447428
+  merge_census_data:
+    cmd: python data/merge_census_data.py
+    deps:
+    - path: ../data/interim/census_jan17.csv
+      md5: 2e745a071b90a5cfe2f79947ed9ae3bb
+      size: 3637139
+    - path: ../data/interim/census_jan18.csv
+      md5: da9962787c31c5aa02d802bde8f78faa
+      size: 4273898
+    - path: ../data/interim/census_jan19.csv
+      md5: 9d676746015ad37aeb07a8786e86e940
+      size: 3726972
+    - path: ../data/interim/census_jan20.csv
+      md5: c795e387b91ba31d55a958a979b2c61a
+      size: 3815206
+    - path: ../data/interim/census_jan21.csv
+      md5: 9e2e211e63c7c324bce074c8d30c2c7e
+      size: 3905885
+    - path: ../data/interim/census_jan22.csv
+      md5: 56ab2094bbaf960f8f879e464b0f43e2
+      size: 4020342
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/merge_census_data.py
+      md5: 7ae8bd158e0556f1a6ecd2cea08647fb
+      size: 1806
+    params:
+      params.yaml:
+        CensusDataColumns:
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          address_line5: address_line5
+          administrative_area: administrative_area
+          age: age
+          census_period_end: census_period_end
+          date_of_birth: date_of_birth
+          enrol_status: enrol_status
+          entry_date: entry_date
+          establishment_number: establishment_number
+          ethnicity: ethnicity
+          forename: forename
+          former_surname: former_surname
+          fsme_on_census_day: fsme_on_census_day
+          gender: gender
+          has_census_data: has_census_data
+          language: language
+          locality: locality
+          middlenames: middlenames
+          native_id: native_id
+          nc_year_actual: nc_year_actual
+          paon: paon
+          post_town: post_town
+          postcode: postcode
+          preferred_surname: preferred_surname
+          resourced_provision_indicator: resourced_provision_indicator
+          saon: saon
+          sen_need1: sen_need1
+          sen_need2: sen_need2
+          sen_provision: sen_provision
+          sen_unit_indicator: sen_unit_indicator
+          street: street
+          surname: surname
+          town: town
+          unique_learner_number: unique_learner_number
+          upn: upn
+          year: year
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+    outs:
+    - path: ../data/interim/census_merged.csv
+      md5: e80a071aad598d5740d7061caa9fbb15
+      size: 26184962
+  merge_neet_data:
+    cmd: python data/merge_neet_data.py
+    deps:
+    - path: ../data/interim/neet_feb16.csv
+      md5: 39058945f0133d1fca1cae84a47da763
+      size: 7104510
+    - path: ../data/interim/neet_feb17.csv
+      md5: 1a1ad1b8c355b32976e9041b49a8db79
+      size: 7116161
+    - path: ../data/interim/neet_feb18.csv
+      md5: 6c2ef6167798b01ebf3c4198f969a605
+      size: 4763306
+    - path: ../data/interim/neet_feb19.csv
+      md5: 8e41b66472fe852f4f2efc42eeeb707c
+      size: 4846913
+    - path: ../data/interim/neet_feb20.csv
+      md5: 2230819bd45b4e14cc81e55f517f0615
+      size: 5098322
+    - path: ../data/interim/neet_feb21.csv
+      md5: c3f8141d4a91fb4d7fef2751d0f91962
+      size: 4603450
+    - path: ../data/interim/neet_feb22.csv
+      md5: 1db4b33fe6c459b6c23e05914e58ce92
+      size: 4666291
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/merge_neet_data.py
+      md5: 78e79f1ffa525e7363b3fff871fbcc75
+      size: 1625
+    params:
+      params.yaml:
+        CCISDataColumns:
+          activity_code: activity_code
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          age: age
+          birth_month: birth_month
+          birth_year: birth_year
+          ccis_period_end: ccis_period_end
+          characteristic_code: characteristic_code
+          cohort_status: cohort_status
+          compulsory_school: compulsory_school
+          county: county
+          currency_lapsed: currency_lapsed
+          database_id: database_id
+          date_ascertained: date_ascertained
+          date_of_send: date_of_send
+          date_verified: date_verified
+          due_to_lapse_date: due_to_lapse_date
+          educated_lea: educated_lea
+          establishment_name: establishment_name
+          ethnicity: ethnicity
+          family_name: family_name
+          gender: gender
+          given_name: given_name
+          guarantee_status: guarantee_status
+          guarantee_status3: guarantee_status3
+          guarantee_status_indicator: guarantee_status_indicator
+          intended_destination_yr11: intended_destination_yr11
+          la_establishment_number: la_establishment_number
+          lea_code: lea_code
+          lea_code2: lea_code2
+          lea_code4: lea_code4
+          lea_code_at_year11: lea_code_at_year11
+          lead_lea: lead_lea
+          level_of_need_code: level_of_need_code
+          middle_name: middle_name
+          month_year_of_birth: month_year_of_birth
+          neet: neet
+          neet_ever: neet_ever
+          neet_start_date: neet_start_date
+          period_end: period_end
+          postcode: postcode
+          predicted_end_date: predicted_end_date
+          previous_ypid_identifier: previous_ypid_identifier
+          review_date: review_date
+          sen_support_flag: sen_support_flag
+          send_flag: send_flag
+          start_date: start_date
+          supplier_name: supplier_name
+          supplier_xml_version: supplier_xml_version
+          town: town
+          transferred_to_la_code: transferred_to_la_code
+          uk_provider_reference_number: uk_provider_reference_number
+          unique_learner_no: unique_learner_no
+          unknown: unknown
+          unknown_ever: unknown_ever
+          upn: upn
+          xml_schema_version: xml_schema_version
+          year: year
+          young_persons_id: young_persons_id
+          youth_contract_indicator: youth_contract_indicator
+          youth_contract_start_date: youth_contract_start_date
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+    outs:
+    - path: ../data/interim/neet_merged.csv
+      md5: 5da018824c85bda7fe396235b9e583f0
+      size: 40488639
+  attendance_annual_exact:
+    cmd: python data/attendance_annual_exact.py
+    deps:
+    - path: ../data/processed/attendance_annotated.csv
+      md5: 0cda8f6614d3ef775037b98cd8c40e73
+      size: 147342470
+    - path: ../src/
+      md5: ace01c1a8909db7e5f792a75c26e20d0.dir
+      size: 133976
+      nfiles: 19
+    - path: data/attendance_annual_exact.py
+      md5: 67ee3ef45eb3e0755cf577ec7652f770
+      size: 2057
+    outs:
+    - path: ../data/processed/attendance_exact.csv
+      md5: f5082a8f99af53e8e5d59972d37c439d
+      size: 21351673
+  attendance_normalized_term_averaged:
+    cmd: python data/attendance_normalized_term_averaged.py
+    deps:
+    - path: ../data/processed/attendance_annotated.csv
+      md5: 0cda8f6614d3ef775037b98cd8c40e73
+      size: 147342470
+    - path: ../src/
+      md5: ace01c1a8909db7e5f792a75c26e20d0.dir
+      size: 133976
+      nfiles: 19
+    - path: data/attendance_normalized_term_averaged.py
+      md5: 80883e10a411468753a31ee0124d24a5
+      size: 3256
+    outs:
+    - path: ../data/processed/attendance_normalized.csv
+      md5: b41ed492445a00d510583ee3c7db3b78
+      size: 108113171
+  ks2_categorical:
+    cmd: python data/ks2_categorical.py
+    deps:
+    - path: ../data/processed/ks4_annotated.csv
+      md5: e884afb40fd4fc09648b62403e10e411
+      size: 15709112
+    - path: ../src/
+      md5: 2cedfaba1e9d2e75361ece07d7de75ea.dir
+      size: 88703
+      nfiles: 16
+    - path: data/ks2_categorical.py
+      md5: 9ff9a46d6c0e0f070f8cfecf85d6ab3e
+      size: 3093
+    outs:
+    - path: ../data/processed/ks2_categorical.csv
+      md5: 0e90f7ce640c8f10c25250cb40d5c80b
+      size: 3849773
+  census_categorical:
+    cmd: python data/census_categorical.py
+    deps:
+    - path: ../data/processed/census_annotated.csv
+      md5: 2e8597172313f999fdab279cc5599a4d
+      size: 47228798
+    - path: ../src/
+      md5: 2cedfaba1e9d2e75361ece07d7de75ea.dir
+      size: 88703
+      nfiles: 16
+    - path: data/census_categorical.py
+      md5: 6e4cb02c16e982ed219cebbc8b680fcc
+      size: 4226
+    outs:
+    - path: ../data/processed/census_categorical.csv
+      md5: 0255132a5e80c65e951407761e873897
+      size: 137799823
+  attendance_annual_percent1:
+    cmd: python data/attendance_annual_percent1.py
+    deps:
+    - path: ../data/processed/attendance_exact.csv
+      md5: f5082a8f99af53e8e5d59972d37c439d
+      size: 21351673
+    - path: ../src/
+      md5: 99942d2450a929fe118789dc0f8f1e04.dir
+      size: 145823
+      nfiles: 23
+    - path: data/attendance_annual_percent1.py
+      md5: ae2268c10ef1d05b93a3d8bc066b47d1
+      size: 2755
+    outs:
+    - path: ../data/processed/attendance_percent1.csv
+      md5: d03f14d00fbfc2687838aace94501637
+      size: 40714961
+  neet_categorical:
+    cmd: python data/neet_categorical.py
+    deps:
+    - path: ../data/processed/census_annotated.csv
+      md5: 2e8597172313f999fdab279cc5599a4d
+      size: 47228798
+    - path: ../src/
+      md5: 2cedfaba1e9d2e75361ece07d7de75ea.dir
+      size: 88703
+      nfiles: 16
+    - path: data/neet_categorical.py
+      md5: ea48d00d0e660ca88ad01a662911eda6
+      size: 4784
+    outs:
+    - path: ../data/processed/neet_categorical.csv
+      md5: 6eae50a884db6db06e912301ce659b38
+      size: 36281828
+  attendance_annual_percent2:
+    cmd: python data/attendance_annual_percent2.py
+    deps:
+    - path: ../data/processed/attendance_exact.csv
+      md5: f5082a8f99af53e8e5d59972d37c439d
+      size: 21351673
+    - path: ../src/
+      md5: ace01c1a8909db7e5f792a75c26e20d0.dir
+      size: 133976
+      nfiles: 19
+    - path: data/attendance_annual_percent2.py
+      md5: b60e3bc7c8f9c0f9e90c259e4e0fb2a9
+      size: 2370
+    outs:
+    - path: ../data/processed/attendance_percent2.csv
+      md5: fc1b54c95b3b71d591e560d1f34d1a8b
+      size: 47477619
+  merge_multi_upn_attendance_term_normalized:
+    cmd: python data/merge_datasets_multi_upn.py --attendance ../data/processed/attendance_normalized.csv
+      --key_stage ../data/processed/ks2_categorical.csv --census ../data/processed/census_categorical.csv
+      --neet ../data/processed/neet_categorical.csv --output ../data/processed/merged_multi_upn_att_norm.csv
+    deps:
+    - path: ../data/processed/attendance_normalized.csv
+      md5: b41ed492445a00d510583ee3c7db3b78
+      size: 108113171
+    - path: ../data/processed/census_categorical.csv
+      md5: 0255132a5e80c65e951407761e873897
+      size: 137799823
+    - path: ../data/processed/ks2_categorical.csv
+      md5: 0e90f7ce640c8f10c25250cb40d5c80b
+      size: 3849773
+    - path: ../data/processed/neet_categorical.csv
+      md5: 6eae50a884db6db06e912301ce659b38
+      size: 36281828
+    - path: ../src/
+      md5: 2cedfaba1e9d2e75361ece07d7de75ea.dir
+      size: 88703
+      nfiles: 16
+    - path: data/merge_datasets_multi_upn.py
+      md5: 7ddab7b0861d8ea8cc4ec090d5f5c3e7
+      size: 4121
+    outs:
+    - path: ../data/processed/merged_multi_upn_att_norm.csv
+      md5: a29571dee50f4b7ecbd1f3121f81cfe3
+      size: 387379613
+  neet_pre_age15_premerge:
+    cmd: python data/neet_pre_age15_premerge.py --level_of_need_aggregation categorical_sum
+    deps:
+    - path: ../data/processed/neet_annotated.csv
+      md5: 02a2da95ca16a6dc05ddc056e10d9f5a
+      size: 50625944
+    - path: ../src/
+      md5: 0cc71e628b390546959f1a46b457a685.dir
+      size: 142262
+      nfiles: 22
+    - path: data/neet_pre_age15_premerge.py
+      md5: 218ff67f4657a05383f31a39a28179a9
+      size: 7958
+    outs:
+    - path: ../data/processed/neet_pre_age15_premerge.csv
+      md5: 6dc714f959701169568754143316d39d
+      size: 3438070
+  ks2_filter:
+    cmd: python data/ks2_filter.py
+    deps:
+    - path: ../data/interim/ks4_annotated.csv
+      md5: e500a4033d7fcc1efa38916856e1b92b
+      size: 15709112
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/ks2_filter.py
+      md5: f8f8fcfd26b41eb017b9f7727f77bdbd
+      size: 1804
+    params:
+      params.yaml:
+        KS2Columns:
+          deprivation_indicator_idaci_score: deprivation_indicator_idaci_score
+          is_the_pupil_disadvantaged: is_the_pupil_disadvantaged
+          is_the_pupil_looked_after: is_the_pupil_looked_after
+          ks2_aps_cubed: ks2_aps_cubed
+          ks2_aps_squared: ks2_aps_squared
+          ks2_aps_va: ks2_aps_va
+          ks2_english: ks2_english
+          ks2_english_level_finely_graded: ks2_english_level_finely_graded
+          ks2_english_ps: ks2_english_ps
+          ks2_english_ps_deviation: ks2_english_ps_deviation
+          ks2_english_ta: ks2_english_ta
+          ks2_english_ta_level: ks2_english_ta_level
+          ks2_mathematics: ks2_mathematics
+          ks2_mathematics_finely_graded: ks2_mathematics_finely_graded
+          ks2_mathematics_level_finely_graded: ks2_mathematics_level_finely_graded
+          ks2_mathematics_ta: ks2_mathematics_ta
+          ks2_mathematics_ta_level: ks2_mathematics_ta_level
+          ks2_maths_ps: ks2_maths_ps
+          ks2_maths_ps_deviation: ks2_maths_ps_deviation
+          ks2_prior_band: ks2_prior_band
+          ks2_reading_level_finely_graded: ks2_reading_level_finely_graded
+          ks2_reading_ps: ks2_reading_ps
+          ks2_reading_ta_level: ks2_reading_ta_level
+          sen: sen
+          upn: upn
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        UPN: upn
+    outs:
+    - path: ../data/interim/ks2.csv
+      md5: 0fa8db8f4ab97766a73987a1ada059a1
+      size: 2099297
+  census_pre_age15_premerge:
+    cmd: python data/census_pre_age15_premerge.py
+    deps:
+    - path: ../data/processed/census_annotated.csv
+      md5: 799638c254529a86e843b42226cf7c4f
+      size: 46282546
+    - path: ../src/
+      md5: 5839add107b99913b2631feb9955f5e9.dir
+      size: 137400
+      nfiles: 21
+    - path: data/census_pre_age15_premerge.py
+      md5: f9090dd7e852a21bee483d54d7129675
+      size: 2646
+    outs:
+    - path: ../data/processed/census_pre_age15_premerge.csv
+      md5: 92ab7ddc70cfc1b0f6854df4cf7f4660
+      size: 14948172
+  pre_age15_merge_multi_upn_att_term_normalized:
+    cmd: python data/pre_age15_merge_multi_upn.py --target neet --attendance term_normalized
+    deps:
+    - path: ../data/processed/attendance_normalized.csv
+      md5: b41ed492445a00d510583ee3c7db3b78
+      size: 108113171
+    - path: ../data/processed/census_pre_age15_premerge.csv
+      md5: 92ab7ddc70cfc1b0f6854df4cf7f4660
+      size: 14948172
+    - path: ../data/processed/ks2.csv
+      md5: 0fa8db8f4ab97766a73987a1ada059a1
+      size: 2099297
+    - path: ../data/processed/neet_pre_age15_premerge.csv
+      md5: 6dc714f959701169568754143316d39d
+      size: 3438070
+    - path: ../src/
+      md5: 99942d2450a929fe118789dc0f8f1e04.dir
+      size: 145823
+      nfiles: 23
+    - path: data/pre_age15_merge_multi_upn.py
+      md5: be9c9d4a2292afabee3ae585d86569dd
+      size: 4710
+    outs:
+    - path: ../data/processed/merged_multi_upn_att_norm.csv
+      md5: c55b1acb83569fddde54b6031aeb4aed
+      size: 44384767
+  pre_age15_multi_upn_categorical_att_term_normalized:
+    cmd: python data/pre_age15_multi_upn_categorical.py
+    deps:
+    - path: ../data/processed/merged_multi_upn_att_norm.csv
+      md5: c55b1acb83569fddde54b6031aeb4aed
+      size: 44384767
+    - path: ../src/
+      md5: 99942d2450a929fe118789dc0f8f1e04.dir
+      size: 145823
+      nfiles: 23
+    - path: data/pre_age15_multi_upn_categorical.py
+      md5: 04aa35b7794d0a7826bef0129d7b3fce
+      size: 5725
+    outs:
+    - path: ../data/processed/merged_multi_upn_att_norm_categorical.csv
+      md5: ee1e797e3e8caab87a726dc1bb45b9a7
+      size: 78245666
+  census_premerge:
+    cmd: python data/census_premerge.py
+    deps:
+    - path: ../data/interim/census_annotated.csv
+      md5: 4f416ff9daacaa9b598da22fe6554675
+      size: 46282546
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/census_premerge.py
+      md5: 8e4daaf05782d36bc7bb9bb9084cd6b8
+      size: 2791
+    params:
+      params.yaml:
+        CensusDataColumns:
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          address_line5: address_line5
+          administrative_area: administrative_area
+          age: age
+          census_period_end: census_period_end
+          date_of_birth: date_of_birth
+          enrol_status: enrol_status
+          entry_date: entry_date
+          establishment_number: establishment_number
+          ethnicity: ethnicity
+          forename: forename
+          former_surname: former_surname
+          fsme_on_census_day: fsme_on_census_day
+          gender: gender
+          has_census_data: has_census_data
+          language: language
+          locality: locality
+          middlenames: middlenames
+          native_id: native_id
+          nc_year_actual: nc_year_actual
+          paon: paon
+          post_town: post_town
+          postcode: postcode
+          preferred_surname: preferred_surname
+          resourced_provision_indicator: resourced_provision_indicator
+          saon: saon
+          sen_need1: sen_need1
+          sen_need2: sen_need2
+          sen_provision: sen_provision
+          sen_unit_indicator: sen_unit_indicator
+          street: street
+          surname: surname
+          town: town
+          unique_learner_number: unique_learner_number
+          upn: upn
+          year: year
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        SchoolInfoColumns:
+          establishment_area: establishment_area
+          establishment_electoral_wards: establishment_electoral_wards
+          establishment_name: establishment_name
+          establishment_number: establishment_number
+          establishment_postcode: establishment_postcode
+          establishment_status: establishment_status
+          establishment_type: establishment_type
+          la_establishment_number: la_establishment_number
+        UPN: upn
+    outs:
+    - path: ../data/interim/census_premerge.csv
+      md5: c0186623fee536cc0c8ef12508b12f61
+      size: 14948172
+  attendance_premerge:
+    cmd: python data/attendance_premerge.py
+    deps:
+    - path: ../data/interim/attendance_annotated.csv
+      md5: a41d7308891e56661b1f004622f54bf1
+      size: 147342477
+    - path: ../src/attendance_utils.py
+      md5: 303348faf27240071588a4d891ec6503
+      size: 7723
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/attendance_premerge.py
+      md5: ed84eea38266cf5736c54c2c30de70f9
+      size: 9403
+    params:
+      params.yaml:
+        ATTENDANCE_TYPE: percent1
+        AttendanceDataColumns:
+          approved_activities: approved_activities
+          authorised_absences: authorised_absences
+          code_f: code_f
+          covid: covid
+          date_of_birth: date_of_birth
+          dual_registered: dual_registered
+          educational_visit_approved: educational_visit_approved
+          enrol_status: enrol_status
+          entry_date: entry_date
+          establishment_number: establishment_number
+          exceptional_circumstances: exceptional_circumstances
+          excluded_authorised: excluded_authorised
+          forename: forename
+          former_surname: former_surname
+          gender: gender
+          has_attendance_data: has_attendance_data
+          holiday_authorised: holiday_authorised
+          holiday_unauthorised: holiday_unauthorised
+          illness_authorised: illness_authorised
+          interview_approved: interview_approved
+          late_present: late_present
+          late_unauthorised: late_unauthorised
+          medical_authorised: medical_authorised
+          middlenames: middlenames
+          nc_year_actual:
+          - nc_year_actual
+          offsite_education_approved: offsite_education_approved
+          other_authorised: other_authorised
+          other_unauthorised: other_unauthorised
+          preferred_surname: preferred_surname
+          present_am: present_am
+          present_pm: present_pm
+          religious_authorised: religious_authorised
+          sports_approved: sports_approved
+          study_leave_authorised: study_leave_authorised
+          surname: surname
+          term_end: term_end
+          term_type: term_type
+          termly_sessions_authorised: termly_sessions_authorised
+          termly_sessions_possible: termly_sessions_possible
+          termly_sessions_unauthorised: termly_sessions_unauthorised
+          total_absences: total_absences
+          total_nonabsences: total_nonabsences
+          traveller_authorised: traveller_authorised
+          unauthorised_absences: unauthorised_absences
+          unknown_unauthorised: unknown_unauthorised
+          upn: upn
+          work_experience_approved: work_experience_approved
+          year: year
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+    outs:
+    - path: ../data/interim/attendance_premerge.csv
+      md5: 48e580f1c49f21d127878461d841b25f
+      size: 45120520
+  neet_premerge:
+    cmd: python data/neet_premerge.py
+    deps:
+    - path: ../data/interim/neet_annotated.csv
+      md5: 8355ff37bef93e671c61f7d6f097078e
+      size: 50625944
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/neet_premerge.py
+      md5: 616724626f471fdb8a9df795c53191a7
+      size: 7675
+    params:
+      params.yaml:
+        CCISDataColumns:
+          activity_code: activity_code
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          age: age
+          birth_month: birth_month
+          birth_year: birth_year
+          ccis_period_end: ccis_period_end
+          characteristic_code: characteristic_code
+          cohort_status: cohort_status
+          compulsory_school: compulsory_school
+          county: county
+          currency_lapsed: currency_lapsed
+          database_id: database_id
+          date_ascertained: date_ascertained
+          date_of_send: date_of_send
+          date_verified: date_verified
+          due_to_lapse_date: due_to_lapse_date
+          educated_lea: educated_lea
+          establishment_name: establishment_name
+          ethnicity: ethnicity
+          family_name: family_name
+          gender: gender
+          given_name: given_name
+          guarantee_status: guarantee_status
+          guarantee_status3: guarantee_status3
+          guarantee_status_indicator: guarantee_status_indicator
+          intended_destination_yr11: intended_destination_yr11
+          la_establishment_number: la_establishment_number
+          lea_code: lea_code
+          lea_code2: lea_code2
+          lea_code4: lea_code4
+          lea_code_at_year11: lea_code_at_year11
+          lead_lea: lead_lea
+          level_of_need_code: level_of_need_code
+          middle_name: middle_name
+          month_year_of_birth: month_year_of_birth
+          neet: neet
+          neet_ever: neet_ever
+          neet_start_date: neet_start_date
+          period_end: period_end
+          postcode: postcode
+          predicted_end_date: predicted_end_date
+          previous_ypid_identifier: previous_ypid_identifier
+          review_date: review_date
+          sen_support_flag: sen_support_flag
+          send_flag: send_flag
+          start_date: start_date
+          supplier_name: supplier_name
+          supplier_xml_version: supplier_xml_version
+          town: town
+          transferred_to_la_code: transferred_to_la_code
+          uk_provider_reference_number: uk_provider_reference_number
+          unique_learner_no: unique_learner_no
+          unknown: unknown
+          unknown_ever: unknown_ever
+          upn: upn
+          xml_schema_version: xml_schema_version
+          year: year
+          young_persons_id: young_persons_id
+          youth_contract_indicator: youth_contract_indicator
+          youth_contract_start_date: youth_contract_start_date
+        ETHNICITY_UNKNOWN:
+        - REFU
+        - NOBT
+        GENDER_UNKNOWN:
+        - U
+        - W
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        NEET_PREMERGE_AGG:
+          level_of_need_code: categorical_max
+        PRE_AGE15: true
+        SchoolInfoColumns:
+          establishment_area: establishment_area
+          establishment_electoral_wards: establishment_electoral_wards
+          establishment_name: establishment_name
+          establishment_number: establishment_number
+          establishment_postcode: establishment_postcode
+          establishment_status: establishment_status
+          establishment_type: establishment_type
+          la_establishment_number: la_establishment_number
+    outs:
+    - path: ../data/interim/neet_premerge.csv
+      md5: 95dd2bdacb5224d3a0eba1b70a11f0e0
+      size: 3438070
+  merge_multi_upn:
+    cmd: python data/merge_multi_upn.py
+    deps:
+    - path: ../data/interim/attendance_premerge.csv
+      md5: 48e580f1c49f21d127878461d841b25f
+      size: 45120520
+    - path: ../data/interim/census_premerge.csv
+      md5: c0186623fee536cc0c8ef12508b12f61
+      size: 14948172
+    - path: ../data/interim/ks2.csv
+      md5: 0fa8db8f4ab97766a73987a1ada059a1
+      size: 2099297
+    - path: ../data/interim/neet_premerge.csv
+      md5: 95dd2bdacb5224d3a0eba1b70a11f0e0
+      size: 3438070
+    - path: ../src/ccis_utils.py
+      md5: 98f870fbd2c7b1940481da1767ac3a11
+      size: 8392
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: ../src/merge_utils.py
+      md5: a903b370192df453233531ce10dfa096
+      size: 1710
+    - path: data/merge_multi_upn.py
+      md5: 57ee551850806290a5141e379fd8ad67
+      size: 9203
+    params:
+      params.yaml:
+        AttendanceDataColumns:
+          approved_activities: approved_activities
+          authorised_absences: authorised_absences
+          code_f: code_f
+          covid: covid
+          date_of_birth: date_of_birth
+          dual_registered: dual_registered
+          educational_visit_approved: educational_visit_approved
+          enrol_status: enrol_status
+          entry_date: entry_date
+          establishment_number: establishment_number
+          exceptional_circumstances: exceptional_circumstances
+          excluded_authorised: excluded_authorised
+          forename: forename
+          former_surname: former_surname
+          gender: gender
+          has_attendance_data: has_attendance_data
+          holiday_authorised: holiday_authorised
+          holiday_unauthorised: holiday_unauthorised
+          illness_authorised: illness_authorised
+          interview_approved: interview_approved
+          late_present: late_present
+          late_unauthorised: late_unauthorised
+          medical_authorised: medical_authorised
+          middlenames: middlenames
+          nc_year_actual:
+          - nc_year_actual
+          offsite_education_approved: offsite_education_approved
+          other_authorised: other_authorised
+          other_unauthorised: other_unauthorised
+          preferred_surname: preferred_surname
+          present_am: present_am
+          present_pm: present_pm
+          religious_authorised: religious_authorised
+          sports_approved: sports_approved
+          study_leave_authorised: study_leave_authorised
+          surname: surname
+          term_end: term_end
+          term_type: term_type
+          termly_sessions_authorised: termly_sessions_authorised
+          termly_sessions_possible: termly_sessions_possible
+          termly_sessions_unauthorised: termly_sessions_unauthorised
+          total_absences: total_absences
+          total_nonabsences: total_nonabsences
+          traveller_authorised: traveller_authorised
+          unauthorised_absences: unauthorised_absences
+          unknown_unauthorised: unknown_unauthorised
+          upn: upn
+          work_experience_approved: work_experience_approved
+          year: year
+        CCISDataColumns:
+          activity_code: activity_code
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          age: age
+          birth_month: birth_month
+          birth_year: birth_year
+          ccis_period_end: ccis_period_end
+          characteristic_code: characteristic_code
+          cohort_status: cohort_status
+          compulsory_school: compulsory_school
+          county: county
+          currency_lapsed: currency_lapsed
+          database_id: database_id
+          date_ascertained: date_ascertained
+          date_of_send: date_of_send
+          date_verified: date_verified
+          due_to_lapse_date: due_to_lapse_date
+          educated_lea: educated_lea
+          establishment_name: establishment_name
+          ethnicity: ethnicity
+          family_name: family_name
+          gender: gender
+          given_name: given_name
+          guarantee_status: guarantee_status
+          guarantee_status3: guarantee_status3
+          guarantee_status_indicator: guarantee_status_indicator
+          intended_destination_yr11: intended_destination_yr11
+          la_establishment_number: la_establishment_number
+          lea_code: lea_code
+          lea_code2: lea_code2
+          lea_code4: lea_code4
+          lea_code_at_year11: lea_code_at_year11
+          lead_lea: lead_lea
+          level_of_need_code: level_of_need_code
+          middle_name: middle_name
+          month_year_of_birth: month_year_of_birth
+          neet: neet
+          neet_ever: neet_ever
+          neet_start_date: neet_start_date
+          period_end: period_end
+          postcode: postcode
+          predicted_end_date: predicted_end_date
+          previous_ypid_identifier: previous_ypid_identifier
+          review_date: review_date
+          sen_support_flag: sen_support_flag
+          send_flag: send_flag
+          start_date: start_date
+          supplier_name: supplier_name
+          supplier_xml_version: supplier_xml_version
+          town: town
+          transferred_to_la_code: transferred_to_la_code
+          uk_provider_reference_number: uk_provider_reference_number
+          unique_learner_no: unique_learner_no
+          unknown: unknown
+          unknown_ever: unknown_ever
+          upn: upn
+          xml_schema_version: xml_schema_version
+          year: year
+          young_persons_id: young_persons_id
+          youth_contract_indicator: youth_contract_indicator
+          youth_contract_start_date: youth_contract_start_date
+        CensusDataColumns:
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          address_line5: address_line5
+          administrative_area: administrative_area
+          age: age
+          census_period_end: census_period_end
+          date_of_birth: date_of_birth
+          enrol_status: enrol_status
+          entry_date: entry_date
+          establishment_number: establishment_number
+          ethnicity: ethnicity
+          forename: forename
+          former_surname: former_surname
+          fsme_on_census_day: fsme_on_census_day
+          gender: gender
+          has_census_data: has_census_data
+          language: language
+          locality: locality
+          middlenames: middlenames
+          native_id: native_id
+          nc_year_actual: nc_year_actual
+          paon: paon
+          post_town: post_town
+          postcode: postcode
+          preferred_surname: preferred_surname
+          resourced_provision_indicator: resourced_provision_indicator
+          saon: saon
+          sen_need1: sen_need1
+          sen_need2: sen_need2
+          sen_provision: sen_provision
+          sen_unit_indicator: sen_unit_indicator
+          street: street
+          surname: surname
+          town: town
+          unique_learner_number: unique_learner_number
+          upn: upn
+          year: year
+        KSDataColumns:
+          deprivation_indicator_idaci_score: deprivation_indicator_idaci_score
+          has_ks2_data: has_ks2_data
+          is_the_pupil_disadvantaged: is_the_pupil_disadvantaged
+          is_the_pupil_looked_after: is_the_pupil_looked_after
+          ks2_aps_cubed: ks2_aps_cubed
+          ks2_aps_squared: ks2_aps_squared
+          ks2_aps_va: ks2_aps_va
+          ks2_english: ks2_english
+          ks2_english_level_finely_graded: ks2_english_level_finely_graded
+          ks2_english_ps: ks2_english_ps
+          ks2_english_ps_deviation: ks2_english_ps_deviation
+          ks2_english_ta: ks2_english_ta
+          ks2_english_ta_level: ks2_english_ta_level
+          ks2_mathematics: ks2_mathematics
+          ks2_mathematics_finely_graded: ks2_mathematics_finely_graded
+          ks2_mathematics_level_finely_graded: ks2_mathematics_level_finely_graded
+          ks2_mathematics_ta: ks2_mathematics_ta
+          ks2_mathematics_ta_level: ks2_mathematics_ta_level
+          ks2_maths_ps: ks2_maths_ps
+          ks2_maths_ps_deviation: ks2_maths_ps_deviation
+          ks2_prior_band: ks2_prior_band
+          ks2_reading_level_finely_graded: ks2_reading_level_finely_graded
+          ks2_reading_ps: ks2_reading_ps
+          ks2_reading_ta_level: ks2_reading_ta_level
+          ks4_period_end: ks4_period_end
+          sen: sen
+          upn: upn
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        PRE_AGE15: true
+        SchoolInfoColumns:
+          establishment_area: establishment_area
+          establishment_electoral_wards: establishment_electoral_wards
+          establishment_name: establishment_name
+          establishment_number: establishment_number
+          establishment_postcode: establishment_postcode
+          establishment_status: establishment_status
+          establishment_type: establishment_type
+          la_establishment_number: la_establishment_number
+        UNKNOWN_CODES:
+          ethnicity:
+          - REFU
+          - NOBT
+          gender:
+          - U
+          - W
+        UPN: upn
+    outs:
+    - path: ../data/interim/multi_upn.csv
+      md5: 201e8a7acc7b68415d41c6e2cf360cca
+      size: 25150783
+  multi_upn_categorical:
+    cmd: python data/multi_upn_categorical.py
+    deps:
+    - path: ../data/interim/multi_upn.csv
+      md5: 201e8a7acc7b68415d41c6e2cf360cca
+      size: 25150783
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/multi_upn_categorical.py
+      md5: ec5cf57fc409a91897e74e5ededd0f41
+      size: 5542
+    params:
+      params.yaml:
+        CCISDataColumns:
+          activity_code: activity_code
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          age: age
+          birth_month: birth_month
+          birth_year: birth_year
+          ccis_period_end: ccis_period_end
+          characteristic_code: characteristic_code
+          cohort_status: cohort_status
+          compulsory_school: compulsory_school
+          county: county
+          currency_lapsed: currency_lapsed
+          database_id: database_id
+          date_ascertained: date_ascertained
+          date_of_send: date_of_send
+          date_verified: date_verified
+          due_to_lapse_date: due_to_lapse_date
+          educated_lea: educated_lea
+          establishment_name: establishment_name
+          ethnicity: ethnicity
+          family_name: family_name
+          gender: gender
+          given_name: given_name
+          guarantee_status: guarantee_status
+          guarantee_status3: guarantee_status3
+          guarantee_status_indicator: guarantee_status_indicator
+          intended_destination_yr11: intended_destination_yr11
+          la_establishment_number: la_establishment_number
+          lea_code: lea_code
+          lea_code2: lea_code2
+          lea_code4: lea_code4
+          lea_code_at_year11: lea_code_at_year11
+          lead_lea: lead_lea
+          level_of_need_code: level_of_need_code
+          middle_name: middle_name
+          month_year_of_birth: month_year_of_birth
+          neet: neet
+          neet_ever: neet_ever
+          neet_start_date: neet_start_date
+          period_end: period_end
+          postcode: postcode
+          predicted_end_date: predicted_end_date
+          previous_ypid_identifier: previous_ypid_identifier
+          review_date: review_date
+          sen_support_flag: sen_support_flag
+          send_flag: send_flag
+          start_date: start_date
+          supplier_name: supplier_name
+          supplier_xml_version: supplier_xml_version
+          town: town
+          transferred_to_la_code: transferred_to_la_code
+          uk_provider_reference_number: uk_provider_reference_number
+          unique_learner_no: unique_learner_no
+          unknown: unknown
+          unknown_ever: unknown_ever
+          upn: upn
+          xml_schema_version: xml_schema_version
+          year: year
+          young_persons_id: young_persons_id
+          youth_contract_indicator: youth_contract_indicator
+          youth_contract_start_date: youth_contract_start_date
+        CensusDataColumns:
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          address_line5: address_line5
+          administrative_area: administrative_area
+          age: age
+          census_period_end: census_period_end
+          date_of_birth: date_of_birth
+          enrol_status: enrol_status
+          entry_date: entry_date
+          establishment_number: establishment_number
+          ethnicity: ethnicity
+          forename: forename
+          former_surname: former_surname
+          fsme_on_census_day: fsme_on_census_day
+          gender: gender
+          has_census_data: has_census_data
+          language: language
+          locality: locality
+          middlenames: middlenames
+          native_id: native_id
+          nc_year_actual: nc_year_actual
+          paon: paon
+          post_town: post_town
+          postcode: postcode
+          preferred_surname: preferred_surname
+          resourced_provision_indicator: resourced_provision_indicator
+          saon: saon
+          sen_need1: sen_need1
+          sen_need2: sen_need2
+          sen_provision: sen_provision
+          sen_unit_indicator: sen_unit_indicator
+          street: street
+          surname: surname
+          town: town
+          unique_learner_number: unique_learner_number
+          upn: upn
+          year: year
+        KS2Columns:
+          deprivation_indicator_idaci_score: deprivation_indicator_idaci_score
+          is_the_pupil_disadvantaged: is_the_pupil_disadvantaged
+          is_the_pupil_looked_after: is_the_pupil_looked_after
+          ks2_aps_cubed: ks2_aps_cubed
+          ks2_aps_squared: ks2_aps_squared
+          ks2_aps_va: ks2_aps_va
+          ks2_english: ks2_english
+          ks2_english_level_finely_graded: ks2_english_level_finely_graded
+          ks2_english_ps: ks2_english_ps
+          ks2_english_ps_deviation: ks2_english_ps_deviation
+          ks2_english_ta: ks2_english_ta
+          ks2_english_ta_level: ks2_english_ta_level
+          ks2_mathematics: ks2_mathematics
+          ks2_mathematics_finely_graded: ks2_mathematics_finely_graded
+          ks2_mathematics_level_finely_graded: ks2_mathematics_level_finely_graded
+          ks2_mathematics_ta: ks2_mathematics_ta
+          ks2_mathematics_ta_level: ks2_mathematics_ta_level
+          ks2_maths_ps: ks2_maths_ps
+          ks2_maths_ps_deviation: ks2_maths_ps_deviation
+          ks2_prior_band: ks2_prior_band
+          ks2_reading_level_finely_graded: ks2_reading_level_finely_graded
+          ks2_reading_ps: ks2_reading_ps
+          ks2_reading_ta_level: ks2_reading_ta_level
+          sen: sen
+          upn: upn
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        SchoolInfoColumns:
+          establishment_area: establishment_area
+          establishment_electoral_wards: establishment_electoral_wards
+          establishment_name: establishment_name
+          establishment_number: establishment_number
+          establishment_postcode: establishment_postcode
+          establishment_status: establishment_status
+          establishment_type: establishment_type
+          la_establishment_number: la_establishment_number
+        UPN: upn
+    outs:
+    - path: ../data/processed/multi_upn_categorical.csv
+      md5: fe9ca9b842d154b30f4282d649ab5fef
+      size: 66661188
+  feature_selection_multi_upn:
+    cmd: python data/feature_selection_multi_upn.py
+    deps:
+    - path: ../data/processed/multi_upn_categorical.csv
+      md5: fe9ca9b842d154b30f4282d649ab5fef
+      size: 66661188
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/feature_selection_multi_upn.py
+      md5: f82ac6f1d328b4cf382dc9b59a3074a3
+      size: 3952
+    params:
+      params.yaml:
+        CensusDataColumns:
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          address_line5: address_line5
+          administrative_area: administrative_area
+          age: age
+          census_period_end: census_period_end
+          date_of_birth: date_of_birth
+          enrol_status: enrol_status
+          entry_date: entry_date
+          establishment_number: establishment_number
+          ethnicity: ethnicity
+          forename: forename
+          former_surname: former_surname
+          fsme_on_census_day: fsme_on_census_day
+          gender: gender
+          has_census_data: has_census_data
+          language: language
+          locality: locality
+          middlenames: middlenames
+          native_id: native_id
+          nc_year_actual: nc_year_actual
+          paon: paon
+          post_town: post_town
+          postcode: postcode
+          preferred_surname: preferred_surname
+          resourced_provision_indicator: resourced_provision_indicator
+          saon: saon
+          sen_need1: sen_need1
+          sen_need2: sen_need2
+          sen_provision: sen_provision
+          sen_unit_indicator: sen_unit_indicator
+          street: street
+          surname: surname
+          town: town
+          unique_learner_number: unique_learner_number
+          upn: upn
+          year: year
+        FEATURE_SELECTION_METHOD: remove_mostly_missing
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        REMOVE_MOSTLY_MISSING_MULTI_UPN_THRESHOLD: 0.6
+        UPN: upn
+    outs:
+    - path: ../data/processed/feature_selected_multi_upn_categorical.csv
+      md5: 4d3fbc1aff624022d6fee43efb3a27f0
+      size: 48114587
+  multiple_to_single:
+    cmd: python data/multiple_to_single.py
+    deps:
+    - path: ../data/processed/multi_upn_categorical.csv
+      md5: fe9ca9b842d154b30f4282d649ab5fef
+      size: 66661188
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/multiple_to_single.py
+      md5: 5768e1548b7ec0613d9a376889fa2e05
+      size: 1542
+    params:
+      params.yaml:
+        AGE: age
+        MULTI_UPN_CATEGORICAL_TO_SINGLE_AGGS:
+          birth_month_1: max
+          birth_month_10: max
+          birth_month_11: max
+          birth_month_12: max
+          birth_month_2: max
+          birth_month_3: max
+          birth_month_4: max
+          birth_month_5: max
+          birth_month_6: max
+          birth_month_7: max
+          birth_month_8: max
+          birth_month_9: max
+          characteristic_code_110: max
+          characteristic_code_120: max
+          characteristic_code_130: max
+          characteristic_code_140: max
+          characteristic_code_150: max
+          characteristic_code_160: max
+          characteristic_code_170: max
+          characteristic_code_180: max
+          characteristic_code_190: max
+          characteristic_code_200: max
+          characteristic_code_210: max
+          covid: mean
+          deprivation_indicator_idaci_score: last
+          educational_visit_approved: mean
+          enrol_status_c: max
+          enrol_status_m: max
+          enrol_status_s: max
+          establishment_status_academy: max
+          establishment_status_free: max
+          establishment_status_maintained: max
+          establishment_status_utc: max
+          establishment_type_all through: max
+          establishment_type_grammar: max
+          establishment_type_pru: max
+          establishment_type_special: max
+          establishment_type_upper: max
+          establishment_type_utc: max
+          ethnicity_aban: max
+          ethnicity_aind: max
+          ethnicity_aoth: max
+          ethnicity_apkn: max
+          ethnicity_bafr: max
+          ethnicity_bbri: max
+          ethnicity_bcrb: max
+          ethnicity_both: max
+          ethnicity_chne: max
+          ethnicity_moth: max
+          ethnicity_mwas: max
+          ethnicity_mwba: max
+          ethnicity_mwbc: max
+          ethnicity_nobt: max
+          ethnicity_oara: max
+          ethnicity_ooth: max
+          ethnicity_refu: max
+          ethnicity_wbri: max
+          ethnicity_wiri: max
+          ethnicity_woth: max
+          ethnicity_wrom: max
+          exceptional_circumstances: mean
+          excluded_authorised: mean
+          fsme_on_census_day: max
+          gender_f: max
+          gender_m: max
+          has_attendance_data: max
+          has_census_data: max
+          has_ks2_data: max
+          holiday_authorised: mean
+          holiday_unauthorised: mean
+          illness_authorised: mean
+          interview_approved: mean
+          is_the_pupil_disadvantaged: max
+          is_the_pupil_looked_after: max
+          ks2_aps_cubed: mean
+          ks2_aps_squared: mean
+          ks2_aps_va: mean
+          ks2_english: mean
+          ks2_english_codes_a: max
+          ks2_english_codes_m: max
+          ks2_english_codes_z: max
+          ks2_english_level_finely_graded: mean
+          ks2_english_level_finely_graded_codes_b: max
+          ks2_english_level_finely_graded_codes_m: max
+          ks2_english_ps: mean
+          ks2_english_ps_deviation: mean
+          ks2_english_ta: mean
+          ks2_english_ta_codes_w: max
+          ks2_english_ta_level: mean
+          ks2_english_ta_level_codes_w: max
+          ks2_mathematics: mean
+          ks2_mathematics_codes_a: max
+          ks2_mathematics_codes_m: max
+          ks2_mathematics_codes_z: max
+          ks2_mathematics_finely_graded: mean
+          ks2_mathematics_finely_graded_codes_b: max
+          ks2_mathematics_level_finely_graded: mean
+          ks2_mathematics_level_finely_graded_codes_b: max
+          ks2_mathematics_level_finely_graded_codes_m: max
+          ks2_mathematics_ta: mean
+          ks2_mathematics_ta_codes_w: max
+          ks2_mathematics_ta_level: mean
+          ks2_mathematics_ta_level_codes_d: max
+          ks2_mathematics_ta_level_codes_w: max
+          ks2_maths_ps: mean
+          ks2_maths_ps_deviation: mean
+          ks2_prior_band: mean
+          ks2_reading_level_finely_graded: mean
+          ks2_reading_level_finely_graded_codes_b: max
+          ks2_reading_ps: mean
+          ks2_reading_ta_level: mean
+          ks2_reading_ta_level_codes_d: max
+          ks2_reading_ta_level_codes_w: max
+          language_afk: max
+          language_aka: max
+          language_alb: max
+          language_amr: max
+          language_ara: max
+          language_aram: max
+          language_asm: max
+          language_bel: max
+          language_bma: max
+          language_bng: max
+          language_bnga: max
+          language_bngs: max
+          language_bul: max
+          language_cce: max
+          language_chi: max
+          language_chic: max
+          language_chim: max
+          language_cym: max
+          language_cze: max
+          language_dan: max
+          language_dut: max
+          language_ebi: max
+          language_enb: max
+          language_eng: max
+          language_esa: max
+          language_fin: max
+          language_frn: max
+          language_geo: max
+          language_ger: max
+          language_gre: max
+          language_grea: max
+          language_grec: max
+          language_guj: max
+          language_heb: max
+          language_hgr: max
+          language_hin: max
+          language_igb: max
+          language_ilo: max
+          language_ita: max
+          language_jpn: max
+          language_kan: max
+          language_kch: max
+          language_knk: max
+          language_kor: max
+          language_lga: max
+          language_lit: max
+          language_ltv: max
+          language_mai: max
+          language_mana: max
+          language_mar: max
+          language_mkd: max
+          language_mlm: max
+          language_mlt: max
+          language_ndbz: max
+          language_nep: max
+          language_not: max
+          language_otb: max
+          language_oth: max
+          language_otl: max
+          language_pat: max
+          language_phr: max
+          language_pnj: max
+          language_pnja: max
+          language_pnjg: max
+          language_pnjm: max
+          language_pnjp: max
+          language_pol: max
+          language_por: max
+          language_pora: max
+          language_prs: max
+          language_prsa: max
+          language_prsd: max
+          language_raj: max
+          language_ref: max
+          language_rmn: max
+          language_rmnm: max
+          language_rmnr: max
+          language_rms: max
+          language_rus: max
+          language_scb: max
+          language_scbb: max
+          language_scbc: max
+          language_scbs: max
+          language_sho: max
+          language_slo: max
+          language_snd: max
+          language_snh: max
+          language_som: max
+          language_spa: max
+          language_swa: max
+          language_swaa: max
+          language_swak: max
+          language_swe: max
+          language_tam: max
+          language_tel: max
+          language_tgl: max
+          language_tglf: max
+          language_tglg: max
+          language_tha: max
+          language_tiv: max
+          language_tmz: max
+          language_tul: max
+          language_tur: max
+          language_ukr: max
+          language_urd: max
+          language_vie: max
+          language_wol: max
+          language_yor: max
+          language_zul: max
+          language_zzz: max
+          late_present: mean
+          late_unauthorised: mean
+          level_of_need_code_1: max
+          level_of_need_code_2: max
+          level_of_need_code_3: max
+          medical_authorised: mean
+          neet_ever: max
+          offsite_education_approved: mean
+          other_authorised: mean
+          other_unauthorised: mean
+          religious_authorised: mean
+          resourced_provision_indicator_false: max
+          resourced_provision_indicator_true: max
+          sen_a: max
+          sen_e: max
+          sen_k: max
+          sen_n: max
+          sen_need_asd: max
+          sen_need_hi: max
+          sen_need_mld: max
+          sen_need_msi: max
+          sen_need_nsa: max
+          sen_need_oth: max
+          sen_need_pd: max
+          sen_need_pmld: max
+          sen_need_semh: max
+          sen_need_slcn: max
+          sen_need_sld: max
+          sen_need_spld: max
+          sen_need_vi: max
+          sen_p: max
+          sen_provision_e: max
+          sen_provision_k: max
+          sen_provision_n: max
+          sen_provision_s: max
+          sen_s: max
+          sen_support_flag_0: max
+          sen_support_flag_1: max
+          sen_unit_indicator_false: max
+          sen_unit_indicator_true: max
+          send_flag: max
+          sports_approved: mean
+          study_leave_authorised: mean
+          termly_sessions_possible: mean
+          total_absences: mean
+          total_nonabsences: mean
+          traveller_authorised: mean
+          unknown_unauthorised: mean
+          work_experience_approved: mean
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        UPN: upn
+        YEAR: year
+    outs:
+    - path: ../data/processed/single_upn_categorical.csv
+      md5: 89f12e366458d50c7314b692ec416f0b
+      size: 21172429
+  feature_selection_single_upn:
+    cmd: python data/feature_selection_multi_upn.py --single
+    deps:
+    - path: ../data/processed/single_upn_categorical.csv
+      md5: 89f12e366458d50c7314b692ec416f0b
+      size: 21172429
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: data/feature_selection_multi_upn.py
+      md5: f82ac6f1d328b4cf382dc9b59a3074a3
+      size: 3952
+    params:
+      params.yaml:
+        CensusDataColumns:
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          address_line5: address_line5
+          administrative_area: administrative_area
+          age: age
+          census_period_end: census_period_end
+          date_of_birth: date_of_birth
+          enrol_status: enrol_status
+          entry_date: entry_date
+          establishment_number: establishment_number
+          ethnicity: ethnicity
+          forename: forename
+          former_surname: former_surname
+          fsme_on_census_day: fsme_on_census_day
+          gender: gender
+          has_census_data: has_census_data
+          language: language
+          locality: locality
+          middlenames: middlenames
+          native_id: native_id
+          nc_year_actual: nc_year_actual
+          paon: paon
+          post_town: post_town
+          postcode: postcode
+          preferred_surname: preferred_surname
+          resourced_provision_indicator: resourced_provision_indicator
+          saon: saon
+          sen_need1: sen_need1
+          sen_need2: sen_need2
+          sen_provision: sen_provision
+          sen_unit_indicator: sen_unit_indicator
+          street: street
+          surname: surname
+          town: town
+          unique_learner_number: unique_learner_number
+          upn: upn
+          year: year
+        FEATURE_SELECTION_METHOD: remove_mostly_missing
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        REMOVE_MOSTLY_MISSING_SINGLE_UPN_THRESHOLD: 0.7
+        UPN: upn
+    outs:
+    - path: ../data/processed/feature_selected_single_upn_categorical.csv
+      md5: a290361b12cfaa48d9b6a8486ddb781c
+      size: 19048686
+  split_data_multiple:
+    cmd: python model/split_data.py
+    deps:
+    - path: ../data/processed/feature_selected_multi_upn_categorical.csv
+      md5: 4d3fbc1aff624022d6fee43efb3a27f0
+      size: 48114587
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: model/split_data.py
+      md5: 0bb39ba69e3c3cda2f54d886a68be2da
+      size: 2316
+    params:
+      params.yaml:
+        CCISDataColumns:
+          activity_code: activity_code
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          age: age
+          birth_month: birth_month
+          birth_year: birth_year
+          ccis_period_end: ccis_period_end
+          characteristic_code: characteristic_code
+          cohort_status: cohort_status
+          compulsory_school: compulsory_school
+          county: county
+          currency_lapsed: currency_lapsed
+          database_id: database_id
+          date_ascertained: date_ascertained
+          date_of_send: date_of_send
+          date_verified: date_verified
+          due_to_lapse_date: due_to_lapse_date
+          educated_lea: educated_lea
+          establishment_name: establishment_name
+          ethnicity: ethnicity
+          family_name: family_name
+          gender: gender
+          given_name: given_name
+          guarantee_status: guarantee_status
+          guarantee_status3: guarantee_status3
+          guarantee_status_indicator: guarantee_status_indicator
+          intended_destination_yr11: intended_destination_yr11
+          la_establishment_number: la_establishment_number
+          lea_code: lea_code
+          lea_code2: lea_code2
+          lea_code4: lea_code4
+          lea_code_at_year11: lea_code_at_year11
+          lead_lea: lead_lea
+          level_of_need_code: level_of_need_code
+          middle_name: middle_name
+          month_year_of_birth: month_year_of_birth
+          neet: neet
+          neet_ever: neet_ever
+          neet_start_date: neet_start_date
+          period_end: period_end
+          postcode: postcode
+          predicted_end_date: predicted_end_date
+          previous_ypid_identifier: previous_ypid_identifier
+          review_date: review_date
+          sen_support_flag: sen_support_flag
+          send_flag: send_flag
+          start_date: start_date
+          supplier_name: supplier_name
+          supplier_xml_version: supplier_xml_version
+          town: town
+          transferred_to_la_code: transferred_to_la_code
+          uk_provider_reference_number: uk_provider_reference_number
+          unique_learner_no: unique_learner_no
+          unknown: unknown
+          unknown_ever: unknown_ever
+          upn: upn
+          xml_schema_version: xml_schema_version
+          year: year
+          young_persons_id: young_persons_id
+          youth_contract_indicator: youth_contract_indicator
+          youth_contract_start_date: youth_contract_start_date
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        TEST_SPLIT: 0.2
+        UPN: upn
+    outs:
+    - path: ../data/processed/test_multiUPN.csv
+      md5: cb5a4f526cc14cf8d6f468dc824f42aa
+      size: 69329
+    - path: ../data/processed/train_multiUPN.csv
+      md5: 7942cf28ebb1f2a48ade6022e89be173
+      size: 38628195
+  split_data_single:
+    cmd: python model/split_data.py --single
+    deps:
+    - path: ../data/processed/feature_selected_single_upn_categorical.csv
+      md5: a290361b12cfaa48d9b6a8486ddb781c
+      size: 19048686
+    - path: ../src/data_utils.py
+      md5: 1d4c65f69e922cebe0a9b98a737cbc7f
+      size: 13185
+    - path: ../src/file_utils.py
+      md5: 35a2cee1d206acf4e2252ebb38bf71bc
+      size: 836
+    - path: ../src/log_utils.py
+      md5: b2d440c64204e446e48f78339c970027
+      size: 1307
+    - path: model/split_data.py
+      md5: 0bb39ba69e3c3cda2f54d886a68be2da
+      size: 2316
+    params:
+      params.yaml:
+        CCISDataColumns:
+          activity_code: activity_code
+          address_line1: address_line1
+          address_line2: address_line2
+          address_line3: address_line3
+          address_line4: address_line4
+          age: age
+          birth_month: birth_month
+          birth_year: birth_year
+          ccis_period_end: ccis_period_end
+          characteristic_code: characteristic_code
+          cohort_status: cohort_status
+          compulsory_school: compulsory_school
+          county: county
+          currency_lapsed: currency_lapsed
+          database_id: database_id
+          date_ascertained: date_ascertained
+          date_of_send: date_of_send
+          date_verified: date_verified
+          due_to_lapse_date: due_to_lapse_date
+          educated_lea: educated_lea
+          establishment_name: establishment_name
+          ethnicity: ethnicity
+          family_name: family_name
+          gender: gender
+          given_name: given_name
+          guarantee_status: guarantee_status
+          guarantee_status3: guarantee_status3
+          guarantee_status_indicator: guarantee_status_indicator
+          intended_destination_yr11: intended_destination_yr11
+          la_establishment_number: la_establishment_number
+          lea_code: lea_code
+          lea_code2: lea_code2
+          lea_code4: lea_code4
+          lea_code_at_year11: lea_code_at_year11
+          lead_lea: lead_lea
+          level_of_need_code: level_of_need_code
+          middle_name: middle_name
+          month_year_of_birth: month_year_of_birth
+          neet: neet
+          neet_ever: neet_ever
+          neet_start_date: neet_start_date
+          period_end: period_end
+          postcode: postcode
+          predicted_end_date: predicted_end_date
+          previous_ypid_identifier: previous_ypid_identifier
+          review_date: review_date
+          sen_support_flag: sen_support_flag
+          send_flag: send_flag
+          start_date: start_date
+          supplier_name: supplier_name
+          supplier_xml_version: supplier_xml_version
+          town: town
+          transferred_to_la_code: transferred_to_la_code
+          uk_provider_reference_number: uk_provider_reference_number
+          unique_learner_no: unique_learner_no
+          unknown: unknown
+          unknown_ever: unknown_ever
+          upn: upn
+          xml_schema_version: xml_schema_version
+          year: year
+          young_persons_id: young_persons_id
+          youth_contract_indicator: youth_contract_indicator
+          youth_contract_start_date: youth_contract_start_date
+        NA_VALS:
+        - ''
+        - '#VALUE!'
+        TEST_SPLIT: 0.2
+        UPN: upn
+    outs:
+    - path: ../data/processed/test_singleUPN.csv
+      md5: 1129d95af8f9906c0f341d533991b84c
+      size: 3814395
+    - path: ../data/processed/train_singleUPN.csv
+      md5: 9a0709f8c19e89564db0555fd1e018ee
+      size: 15238444
+  old_attendance_to_csv@1:
+    cmd: python data/old_attendance_to_csv.py --input ../data/raw/school_census_attendance_Spr21_Hard_Coded.xlsx
+      --output ../data/raw/school_census_attendance_Spr21_Hard_Coded.csv
+    deps:
+    - path: ../data/raw/school_census_attendance_Spr21_Hard_Coded.xlsx
+      md5: 1ce264eccca51d88cb7654a76c360657
+      size: 6171903
+    - path: ../src/data_utils.py
+      md5: 2d93840936125c0c6d71f2efff6e7920
+      size: 16281
+    - path: ../src/file_utils.py
+      md5: 3d41d2ead52f6a1299c0067f5502dcea
+      size: 1102
+    - path: ../src/log_utils.py
+      md5: 934d51c1ffb1382c6e73907ac6957726
+      size: 3111
+    outs:
+    - path: ../data/raw/school_census_attendance_Spr21_Hard_Coded.csv
+      md5: 7eb7255f0af6fe204ed30d83a93a5e3d
+      size: 3664253
+  old_attendance_to_csv@spr21:
+    cmd: python data/old_attendance_to_csv.py --input ../data/raw/school_census_attendance_Spr21_Hard_Coded.xlsx
+      --output ../data/raw/school_census_attendance_Spr21_Hard_Coded.csv
+    deps:
+    - path: ../data/raw/school_census_attendance_Spr21_Hard_Coded.xlsx
+      md5: 1ce264eccca51d88cb7654a76c360657
+      size: 6171903
+    - path: ../src/data_utils.py
+      md5: 2d93840936125c0c6d71f2efff6e7920
+      size: 16281
+    - path: ../src/file_utils.py
+      md5: 3d41d2ead52f6a1299c0067f5502dcea
+      size: 1102
+    - path: ../src/log_utils.py
+      md5: 934d51c1ffb1382c6e73907ac6957726
+      size: 3111
+    outs:
+    - path: ../data/raw/school_census_attendance_Spr21_Hard_Coded.csv
+      md5: 7eb7255f0af6fe204ed30d83a93a5e3d
+      size: 3664253
+  old_attendance_to_csv@sum21:
+    cmd: python data/old_attendance_to_csv.py --input ../data/raw/school_census_attendance_Sum21_Hard_Coded.xlsx
+      --output ../data/raw/school_census_attendance_Sum21_Hard_Coded.csv
+    deps:
+    - path: ../data/raw/school_census_attendance_Sum21_Hard_Coded.xlsx
+      md5: 8a6f2d0cc7795839991d90533e59411f
+      size: 5978381
+    - path: ../src/data_utils.py
+      md5: 2d93840936125c0c6d71f2efff6e7920
+      size: 16281
+    - path: ../src/file_utils.py
+      md5: 3d41d2ead52f6a1299c0067f5502dcea
+      size: 1102
+    - path: ../src/log_utils.py
+      md5: 934d51c1ffb1382c6e73907ac6957726
+      size: 3111
+    outs:
+    - path: ../data/raw/school_census_attendance_Sum21_Hard_Coded.csv
+      md5: 44a151b4f15a4493a213b92b3a099882
+      size: 3551914
+  old_attendance_to_csv@aut21:
+    cmd: python data/old_attendance_to_csv.py --input ../data/raw/school_census_attendance_Aut21_Hard_Coded.xlsx
+      --output ../data/raw/school_census_attendance_Aut21_Hard_Coded.csv
+    deps:
+    - path: ../data/raw/school_census_attendance_Aut21_Hard_Coded.xlsx
+      md5: 48fc49267d79f53ad1d84f7bbd078d4f
+      size: 6117266
+    - path: ../src/data_utils.py
+      md5: 2d93840936125c0c6d71f2efff6e7920
+      size: 16281
+    - path: ../src/file_utils.py
+      md5: 3d41d2ead52f6a1299c0067f5502dcea
+      size: 1102
+    - path: ../src/log_utils.py
+      md5: 934d51c1ffb1382c6e73907ac6957726
+      size: 3111
+    outs:
+    - path: ../data/raw/school_census_attendance_Aut21_Hard_Coded.csv
+      md5: 6064e8a1267a52965fa83d8e7bb1ebbb
+      size: 3628479
