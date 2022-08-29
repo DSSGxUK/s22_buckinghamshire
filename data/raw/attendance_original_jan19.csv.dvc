@@ -1,0 +1,4 @@
+outs:
+- md5: 262255b273278c8830fe3e4d47309859
+  size: 820921
+  path: attendance_original_jan19.csv

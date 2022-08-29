@@ -1,15 +1,15 @@
-stages:
-  old_attendance_to_csv:
-    foreach: ${OLD_ATT_TO_CSV_PARAMS}
-    do:
-      cmd: python data/old_attendance_to_csv.py --input ${item.input} --output ${item.output}
-      deps:
-        - ${item.input}
-        - ../src/file_utils.py
-        - ../src/log_utils.py
-        - ../src/data_utils.py
-      outs:
-        - ${item.output}
+# stages:
+#   old_attendance_to_csv:
+#     foreach: ${OLD_ATT_TO_CSV_PARAMS}
+#     do:
+#       cmd: python data/old_attendance_to_csv.py --input ${item.input} --output ${item.output}
+#       deps:
+#         - ${item.input}
+#         - ../src/file_utils.py
+#         - ../src/log_utils.py
+#         - ../src/data_utils.py
+#       outs:
+#         - ${item.output}
   # new_attendance_to_csv:
   #   cmd: python data/new_attendance_to_csv.py ${NEW_ATT_TO_CSV_PARAMS}
   #   deps:
