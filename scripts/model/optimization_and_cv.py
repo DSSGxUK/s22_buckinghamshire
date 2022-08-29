@@ -58,7 +58,7 @@ parser.add_argument('--target', required=True, choices=list(asdict(Targets).valu
                     help='which target variable to add to csv')
 parser.add_argument('--checkpoint', action='store_true',
                     help='whether to save a checkpoint pickle of the hyperparameter search')
-parser.add_argument('--load_checkpoint', required=False,
+parser.add_argument('--load_checkpoint', required=False, action="store_true",
                     help='where to load a checkpoint pickle that we can start from')
 # parser.add_argument('--pipeline_model_output', required=True,
 #                     help='where to save the pickle of the best pipeline')
@@ -120,8 +120,7 @@ if __name__ == '__main__':
     threshold_scorer = cv.ThresholdingScorer(thresholded_scoring_functions=thresholded_scoring_functions, num_thresholds=args.num_thresholds)
     nonthreshold_scorer = cv.MultiMetricScorer(scoring_functions=nonthresholded_scoring_functions)
     scorer = cv.UnionScorer(threshold_scorer, nonthreshold_scorer)    
-    
-    
+       
     # Get the input data
     # y should be labels per student and X_indices should be an index of students
     y = df[args.target].astype(int).groupby(level=UPN).max()
@@ -169,7 +168,8 @@ if __name__ == '__main__':
     def objective(**params):
         return _objective(**params)
     
-    if args.load_checkpoint is not None:
+    if args.load_checkpoint:
+        checkpoint_path = f.get_checkpoint_filepath(args.space)
         res = skopt.load(args.load_checkpoint)
         x0 = cv.fix_checkpoint_x_iters(res.x_iters, search_space)
         y0 = res.func_vals

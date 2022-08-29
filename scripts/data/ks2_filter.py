@@ -19,20 +19,12 @@ csv file
 """
 
 import argparse
-import pandas as pd
-import numpy as np
-import os
-from pprint import pprint
-import inflection
-import re
-from tqdm import tqdm
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 from dataclasses import asdict
 
 # DVC Params
 from src.constants import (
     KS2Columns,
+    PupilDeprivationColumns,
     UPN,
     NA_VALS,
 )
@@ -58,8 +50,8 @@ if __name__ == "__main__":
     
     df = d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
         args.input, 
-        drop_empty=True, 
-        drop_single_valued=True,
+        drop_empty=False, 
+        drop_single_valued=False,
         drop_duplicates=True,
         read_as_str=True,  # This will ensure values are not cast to floats
         use_na=True,  # and this will ensure empty values are read as nan
@@ -72,15 +64,14 @@ if __name__ == "__main__":
     logger.info(f'Initial row count {len(df)}')
     logger.info(f'Initial column count {len(df.columns)}')
     
-    logger.info(f'Only keeping KS2 columns {asdict(KS2Columns).values()}')
-    df = df[asdict(KS2Columns).values()]
+    keep_cols = list(asdict(KS2Columns).values()) + list(asdict(PupilDeprivationColumns).values())
+    logger.info(f'Only keeping KS2 columns {keep_cols}')
+    df = df[keep_cols]
     
     logger.info(f'Final row count {len(df)}')
     logger.info(f'Final column count {len(df.columns)}')
     
-    csv_fp = args.output
-    if args.debug:
-         csv_fp = f.tmp_path(csv_fp)
+    csv_fp = f.tmp_path(args.output, debug=args.debug)
     
     logger.info(f'Saving categorical data to {csv_fp}')
     df.to_csv(csv_fp, index=False)

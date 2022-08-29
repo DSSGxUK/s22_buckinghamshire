@@ -56,14 +56,41 @@ Future code would then import and use `A`, not `_A`:
 'hello'
 
 """
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 from .shared_constants import *
 from .school_info_constants import *
 
+@dataclass 
+class _CharacteristicsOriginalColumns:
+    upn: str = UPN
+    ethnicity: str = "ethnicity"
+    gender: str = "gender"
+    sen_support_flag: str = "sen_support_flag"
+    send_flag: str = "send_flag"
+    birth_month: str = "birth_month"
+    characteristic_code: str = "characteristic_code"
+    level_of_need_code: str = "level_of_need_code"
+    birth_year: str = "birth_year"
+
+CharacteristicsOriginalColumns = _CharacteristicsOriginalColumns()
 
 @dataclass
-class _CCISOriginalDataColumns:
+class _CharacteristicsAddedColumns:
+    has_characteristics_data: str = "has_characteristics_data"
+    age: str = AGE
+    year: str = YEAR
+
+CharacteristicsAddedColumns = _CharacteristicsAddedColumns()
+
+@dataclass
+class _CharacteristicsDataColumns(_CharacteristicsOriginalColumns, _CharacteristicsAddedColumns):
+    pass
+
+CharacteristicsDataColumns = _CharacteristicsDataColumns()
+
+@dataclass
+class _CCISOriginalDataColumns(_CharacteristicsOriginalColumns):
     activity_code: str = 'activity_code'
     address_line1: str = 'address_line1'
     address_line2: str = 'address_line2'
@@ -77,6 +104,7 @@ class _CCISOriginalDataColumns:
     date_ascertained: str = 'date_ascertained'
     date_of_send: str = 'date_of_send'
     date_verified: str = 'date_verified'
+    date_of_birth: str = 'date_of_birth'
     due_to_lapse_date: str = 'due_to_lapse_date'
     educated_lea: str = 'educated_lea'
     establishment_name: str = SchoolInfoColumns.establishment_name
@@ -121,16 +149,21 @@ class _CCISOriginalDataColumns:
 CCISOriginalDataColumns = _CCISOriginalDataColumns()
 
 @dataclass
-class _CCISAddedDataColumns:
+class _CCISAddedDataColumns(_CharacteristicsAddedColumns):
+    data_date: str = DATA_DATE
+
     # Added columns
     year: str = YEAR
     ccis_period_end: str = 'ccis_period_end'
     birth_year: str = 'birth_year'
     birth_month: str = 'birth_month'
-    age: str = AGE
     neet: str = 'neet'
     compulsory_school: str = 'compulsory_school'
     unknown: str = 'unknown'
+    unknown_currently: str = "unknown_currently"
+    compulsory_school_always: str = "compulsory_school_always"
+
+    has_ccis_data: str = "has_ccis_data"
 
 CCISAddedDataColumns = _CCISAddedDataColumns()
 
@@ -150,6 +183,8 @@ class _CCISDataColumns(_CCISOriginalDataColumns, _CCISAddedDataColumns, _Targets
 
 CCISDataColumns = _CCISDataColumns()
 
+non_prediction_columns = list(asdict(Targets).values()) + [CCISDataColumns.compulsory_school_always, CCISDataColumns.unknown_currently,]
+
 CCIS_COLUMN_RENAME = {
     'ActivityCode': CCISOriginalDataColumns.activity_code,
     'AddressLine1': CCISOriginalDataColumns.address_line1,
@@ -164,6 +199,7 @@ CCIS_COLUMN_RENAME = {
     'DateAscertained': CCISOriginalDataColumns.date_ascertained,
     'DateOfSend': CCISOriginalDataColumns.date_of_send,
     'DateVerified': CCISOriginalDataColumns.date_verified,
+    'DOB': CCISOriginalDataColumns.date_of_birth,
     'DueToLapseDate': CCISOriginalDataColumns.due_to_lapse_date,
     'EducatedLEA': CCISOriginalDataColumns.educated_lea,
     'Estab': CCISOriginalDataColumns.la_establishment_number,   

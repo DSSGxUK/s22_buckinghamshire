@@ -45,12 +45,9 @@ def expand_categorical_max_agg_dict(
     for catcol in categorical_max_aggs:
         matching_catcols = [col for col in columns if col.startswith(catcol + prefix_sep)]
         if len(matching_catcols) == 0:
-            error_with_logging(
-                f"We cannot aggregate over categorical column {catcol} since did not occur in provided columns {columns}.",
-                logger=logger,
-                error_type=ValueError
-            )
-        df_catcols += matching_catcols
+            logger.warning(f"We cannot aggregate over categorical column {catcol} since did not occur in provided columns.")
+        else:
+            df_catcols += matching_catcols
     
     logger.debug(f"Replacing columns {categorical_max_aggs} in agg_dict with {df_catcols}.")
     return {**{catcol: Aggregations.max for catcol in df_catcols}, **{k: v for k,v in agg_dict.items() if k not in categorical_max_aggs}}
@@ -145,8 +142,12 @@ def gby_agg_with_logging(
     """
     logger.info(f'Aggregating columns {agg_dict}')
     prev_columns = set(df.columns)
+    filtered_agg_dict = {k: v for k,v in agg_dict.items() if k in prev_columns}
+    removed_from_agg_dict = agg_dict.keys() - prev_columns
+    if len(removed_from_agg_dict) > 0:
+        logger.warn(f"Could not aggregate on columns {removed_from_agg_dict} because they did not exist.")
     df = df.groupby(by=groupby_column) \
-        .agg(agg_dict) \
+        .agg(filtered_agg_dict) \
         .reset_index()
     dropped_by_agg = list(prev_columns - set(df.columns))
     if len(dropped_by_agg) > 0:

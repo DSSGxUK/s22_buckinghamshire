@@ -8,10 +8,7 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 
-def remove_suffix(s,suffix):
-    if s.endswith(suffix):
-        s=s[:-len(suffix)]
-    return s
+from .py_utils import remove_suffix
 
 def merge_priority_data(df1, df2, on, how='outer', unknown_vals: Optional[Dict] = None, na_vals=tuple()):
     if unknown_vals is None:
@@ -28,7 +25,7 @@ def merge_priority_data(df1, df2, on, how='outer', unknown_vals: Optional[Dict] 
         # First fill na values with the other column
         df[orig_col] = df[orig_col].fillna(df[col])
         # If there are additional unknown vals try to fill it with known vals from the other df
-        replacement_dict = {val: np.nan for val in (list(na_vals) + list(unknown_vals[orig_col]))}
+        replacement_dict = {val: pd.NA for val in (list(na_vals) + list(unknown_vals[orig_col]))}
         # Replace unknown values with nan
         # fill it in with the second column of only known values
         # fill in any remaining nans with the original column and its unknown values

@@ -95,10 +95,12 @@ def remove_mostly_missing(df, threshold, na_vals, logger=l.PrintLogger):
 #    breakpoint()
     
     num_orig_rows = len(df)
-    df.dropna(inplace=True)
+    df.dropna(inplace=True) #drop na rows
+             
     logger.info(f'Dropped {num_orig_rows - len(df)} rows ({(num_orig_rows - len(df)) / num_orig_rows  * 100}%) because they contained a missing value')
+    #breakpoint()
     
-#     breakpoint()
+    #breakpoint()
     
     return df
     
@@ -188,10 +190,11 @@ if __name__ == "__main__":
             ValueError
         )
     #breakpoint()
+    #breakpoint()
     
     csv_fp = args.output
-    if args.debug:
-         csv_fp = f.tmp_path(csv_fp)
+    if args.debug :
+        csv_fp = f.tmp_path(csv_fp)
     
     logger.info(f'Saving categorical data to {csv_fp}')
     df.to_csv(csv_fp, index=False)

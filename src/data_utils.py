@@ -2,6 +2,8 @@
 This utils file contains helpers for processing the data files
 """
 
+import re
+from turtle import down
 from typing import List, Dict
 from collections import defaultdict
 import numpy as np
@@ -149,8 +151,11 @@ def load_csvs(
     drop_missing_upns=False, 
     drop_duplicates=False, 
     read_as_str=False,
+    use_na=False,
     upn_col=UPN,
     na_vals=NA_VALS,
+    convert_dtypes=False,  # This will use the experimental pd.NA. If read_as_str=True, then all columns will be turned into strings. Otherwise, it will infer types
+    downcast=False,  # This will convert numeric types to the smallest possible data size as possible. This saves memory
     logger=l.PrintLogger
 ):
     return_dict = {}
@@ -163,8 +168,11 @@ def load_csvs(
             drop_missing_upns=drop_missing_upns, 
             drop_duplicates=drop_duplicates,
             read_as_str=read_as_str,
+            use_na=use_na,
             upn_col=upn_col,
             na_vals=na_vals,
+            convert_dtypes=convert_dtypes,
+            downcast=downcast,
             logger=logger,
         )
     return return_dict
@@ -187,7 +195,7 @@ def load_csv(
     logger.info(f"Reading {fp}")
     if read_as_str:
         logger.info(f'Reading all data as str')
-        df = pd.read_csv(fp, keep_default_na=False, dtype=str)
+        df = pd.read_csv(fp, keep_default_na=False, dtype=pd.StringDtype())
     else:
         df = pd.read_csv(fp, keep_default_na=False, na_values=na_vals)
     if use_na:
@@ -197,6 +205,7 @@ def load_csv(
         logger.info(f'Converting pandas dtypes and using pd.NA instead of np.nan')
         df = df.convert_dtypes()\
             .fillna(pd.NA)\
+            .replace({np.nan: pd.NA})\
             .convert_dtypes()
     if downcast:
         logger.info(f'Downcasting dataframe to save space')
@@ -347,28 +356,7 @@ def create_code_dicts(codes_df):
         'language': language_code_dict,
         'level_of_need_code': level_of_need_code_dict,
     }
-
-# Deprecated
-# def load_codes(codes_fp=constants.NEET_CODES_FP):
-#     print(f'Loading codes dict from {codes_fp}')
-#     codes_df = pd.read_csv(codes_fp)
-#     return create_code_dicts(codes_df)
-
-# def rename_codes(df_dict, codes_dict):
-#     new_df_dict = {}
-#     for df_type, df in df_dict.items():
-#         if df_type == constants.NEET:
-#             print(f'Renaming codes in {df_type} data')
-#             new_df_dict[df_type] = rename_codes_neet(df, codes_dict)
-#         elif df_type == constants.CENSUS:
-#             print(f'Renaming codes in {df_type} data')
-#             new_df_dict[df_type] = rename_codes_census(df, codes_dict)
-#         else:
-#             print(f'No codes to rename in {df_type} data')
-#             new_df_dict[df_type] = df
-#     return new_df_dict
-
-        
+   
 def _rename_individual_codes(df, codes_dict, rename_cols):
     df = df.copy()
     for code_dict_key, source_col, new_col in rename_cols:
@@ -407,8 +395,9 @@ def map_groupings(grouping_dict, f, default=None, progress=False):
         new_dict = defaultdict(default, new_dict)
     return new_dict
 
-def add_column(df, col_name, data):
-    df = df.copy()
+def add_column(df: pd.DataFrame, col_name, data: pd.Series, inplace=False):
+    if not inplace:
+        df = df.copy()
     df[col_name] = data
     return df
 
@@ -435,6 +424,7 @@ def divide_with_na(x, y, fillna=0, fill_prev_na=False):
         res = res.fillna(fillna)
     if not fill_prev_na:
         res.loc[~x.isna()] = res.loc[~x.isna()].fillna(fillna)
+    res = res.fillna(pd.NA)
     return res
 
 def get_dummies_with_logging(df, columns, prefix_sep=CATEGORICAL_SEP, logger=l.PrintLogger):
@@ -475,8 +465,46 @@ def get_dummies_with_logging(df, columns, prefix_sep=CATEGORICAL_SEP, logger=l.P
 
     return df
 
+def expand_categorical_columns(df_cols, categorical_cols, prefix_sep=CATEGORICAL_SEP):
+    df_catcols = []
+    for col in df_cols:
+        matching_catcols = [catcol for catcol in categorical_cols if catcol.startswith(col + prefix_sep)]
+        if len(matching_catcols) == 0:
+            df_catcols.append(col)
+        else:
+            df_catcols += matching_catcols
+    return df_catcols
+
+def is_categorical(name: str, prefix_sep=CATEGORICAL_SEP):
+    return prefix_sep in name
+
+def to_categorical(col: str, category: str, prefix_sep=CATEGORICAL_SEP):
+    return col + prefix_sep + category
+
+def parse_human_list(msg):
+    re_split = r'(, )|( and )'
+    re_remove = r'\d sites: '
+    msg = re.sub(re_remove, '', msg)
+    msg = re.sub(re_split, ':', msg)
+
+    return msg
 
 
+def empty_series(length: int, index: pd.Index=None, name=None):
+    res = pd.Series([pd.NA] * length)
+    if index is not None:
+        res.index = index
+    if name is not None:
+        res.name = name
+    return res
 
-
-    
+def compute_school_end_year(date_cols):
+    """Computes the year at which the current school cycle will end for the student.
+    """
+    dates = pd.to_datetime(date_cols)
+    months = dates.apply(lambda x: x.month).astype(pd.Int16Dtype())
+    years = dates.apply(lambda x: x.year).astype(pd.Int16Dtype())
+    # If any entries are pd.NA, they will implicitly be treated as False when indexing.
+    same_end_year = years[months < 9]
+    next_end_year = years[months >= 9] + 1
+    return pd.concat([same_end_year, next_end_year], axis=0)

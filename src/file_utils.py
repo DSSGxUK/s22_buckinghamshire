@@ -40,8 +40,8 @@ def tag_file(fp, **tags):
     return os.path.join(dirname, new_canonical_filename + ext)
 
 def get_checkpoint_filepath(space):
-    timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
-    return os.path.join(INTERIM_MODELS_DIR, f"{space}_{timestamp}.pkl")
+    # timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+    return os.path.join(INTERIM_MODELS_DIR, f"{space}.pkl")
 
 def get_cv_results_filepath(space):
     return os.path.join(METRICS_DIR, f"{space}.csv")

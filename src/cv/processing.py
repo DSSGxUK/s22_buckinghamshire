@@ -46,6 +46,7 @@ class DataJoinerTransformerFunc:
             return new_X, new_y
         return new_X
 
+
 class AggregatorTransformerFunc(BaseEstimator):
 
     def __init__(self, aggregation_method: str = Aggregations.mean, aggregation_index: Any = 0) -> None:
@@ -115,10 +116,12 @@ class PandasEstimatorWrapper(TransformerMixin, BaseEstimator):
     Currently only supports binary classification.
     """
 
-    def __init__(self, estimator, preprocessor=identity_preprocessor, postprocessor=identity_postprocessor) -> None:
+    def __init__(self, estimator, preprocessor=identity_preprocessor, postprocessor=identity_postprocessor, threshold: float = 0.5, threshold_type='predict_proba') -> None:
         self.estimator = estimator
         self.preprocessor = preprocessor
         self.postprocessor = postprocessor
+        self.threshold_type = threshold_type
+        self.threshold = threshold
 
     def fit(self, X_index: pd.Index, y: pd.Series):
         X, y = self.preprocessor(X_index, y_series=y)
@@ -136,10 +139,17 @@ class PandasEstimatorWrapper(TransformerMixin, BaseEstimator):
         return Xt
 
     def predict(self, X_index):
-        try:
-            return (self.decision_function(X_index) > 0).astype(int)
-        except AttributeError: 
-            return (self.predict_proba(X_index) > 0.5).astype(int)
+        if self.threshold_type == 'decision_function' :
+            return (self.decision_function(X_index) > self.threshold).astype(int)
+        elif self.threshold_type == 'predict_proba' :
+             return (self.predict_proba(X_index) > self.threshold).astype(int)
+        else:
+            raise ValueError(f'Unknown threshold type {self.threshold_type}')
+        
+        #try:
+        #    return (self.decision_function(X_index) > 0).astype(int)
+        #except AttributeError: 
+        #    return (self.predict_proba(X_index) > 0.5).astype(int)
 
     @staticmethod
     def check_binary_prediction(y_pred_np: np.ndarray):

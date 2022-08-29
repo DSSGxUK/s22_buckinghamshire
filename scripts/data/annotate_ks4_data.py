@@ -9,7 +9,7 @@ debug : bool
     If passed as an argument, it will run this pipeline stage in
     debug mode. This will lower the logging level to `DEBUG` and
     save all outputs into the `tmp` directory.
-input_ks4 : string
+input : string
     The filepath to the input ks4 csv. 
 input_school_info : string
     The filepath to the input school info csv.
@@ -22,10 +22,7 @@ csv file
    annotated ks4 dataset saved at output filepath as a csv file.  
 
 """
-import pandas as pd
-import os
 import argparse
-from datetime import datetime
 
 # DVC Params
 from src.constants import (
@@ -43,9 +40,9 @@ from src import data_utils as d
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--debug', action='store_true',
                     help='run transform in debug mode')
-parser.add_argument('--input_ks4', required=True,
+parser.add_argument('--input', required=True,
                     help='where to find the input ks4 merged csv')
-parser.add_argument('--input_school_info', required=True,
+parser.add_argument('--school_info', required=True,
                     help='where to find the input school info csv')
 parser.add_argument('--output', required=True,
                     help='where to put the output ks4 annotated csv')
@@ -57,23 +54,26 @@ if __name__ == "__main__":
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
     
     df = d.load_csv(
-        args.input_ks4, 
+        args.input,
         drop_empty=False, 
         drop_single_valued=False,
-        drop_duplicates=True,
+        drop_duplicates=False,  # Annotating is nondestructive
         read_as_str=True,
         na_vals=NA_VALS,
+        use_na=True,
         logger=logger
     )
+    
 
     school_df = d.load_csv(
-        args.input_school_info, 
+        args.school_info, 
         drop_empty=False, 
         drop_single_valued=False, 
         drop_missing_upns=False, 
         drop_duplicates=False, 
         read_as_str=True,
         na_vals=NA_VALS,
+        use_na=True,
         logger=logger
     )
     
@@ -86,9 +86,7 @@ if __name__ == "__main__":
         na_vals=NA_VALS,
     )
     
-    csv_fp = args.output
-    if args.debug:
-         csv_fp = f.tmp_path(csv_fp)
+    csv_fp = f.tmp_path(args.output, debug=args.debug)
     
     logger.info(f'Saving annotated data to {csv_fp}')
     df.to_csv(csv_fp, index=False)
