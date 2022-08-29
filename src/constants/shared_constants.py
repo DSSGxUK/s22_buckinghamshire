@@ -5,7 +5,7 @@ that are fixed throughout the code and not expected to change.
 """
 
 # This variable specifies what values are treated as missing data
-NA_VALS = ['', '#VALUE!']
+NA_VALS = ['', '#VALUE!', 'nan']
 
 # Useful Shared Columns
 UPN = 'upn'
@@ -15,6 +15,7 @@ AGE = 'age'
 NC_YEAR_ACTUAL = 'nc_year_actual'
 ETHNICITY = 'ethnicity'
 GENDER = 'gender'
+DATA_DATE = 'data_date'
 
 # Unknown Codes
 ETHNICITY_UNKNOWN = ['REFU', 'NOBT']

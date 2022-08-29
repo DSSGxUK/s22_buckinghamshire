@@ -40,9 +40,7 @@ csv file
 """
 
 import pandas as pd
-import os
 import argparse
-from datetime import datetime
 
 # DVC Params
 from src.constants import (
@@ -72,10 +70,6 @@ parser.add_argument('--include_test_taken_code', action='store_true',
                     help='whether to include a code that tells us the student took the ks2 test.')
 
 def demix_column(mixed_data, numeric_name, categorical_name, include_test_taken_code: bool):   
-    
-    for col_name, code_col_name in zip(mix_columns, code_columns):
-        demixed_df = demix_column(df[col_name], numeric_name=col_name, categorical_name=code_col_name, include_test_taken_code=args.include_test_taken_code)   
-
     """
     Splits columns with mixed numeric and categroical data into 2 columns 
     
@@ -102,7 +96,7 @@ def demix_column(mixed_data, numeric_name, categorical_name, include_test_taken_
     numeric_data = mixed_data[where_numeric]
     numeric_data.name = numeric_name
     
-    categorical_data = mixed_data[~where_numeric]
+    categorical_data = mixed_data[~where_numeric].astype(pd.StringDtype())  # Categorical data will be treated as strings
     categorical_data.name = categorical_name
     demixed = pd.concat([numeric_data, categorical_data], axis=1).convert_dtypes()
     if include_test_taken_code:
@@ -115,13 +109,13 @@ if __name__ == "__main__":
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
     
-    df = d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
-        args.input,
-        drop_empty=True, 
-        drop_single_valued=True,
+    df = d.load_csv(  # All unnecessary columns and rows should already be dropped.
+        args.input,  
+        drop_empty=False, 
+        drop_single_valued=False,  
         drop_duplicates=True,
         read_as_str=False,
-        drop_missing_upns=True,
+        drop_missing_upns=False,
         use_na=True,
         upn_col=UPN,
         na_vals=NA_VALS,
@@ -131,6 +125,7 @@ if __name__ == "__main__":
     
     logger.info(f'Initial merged row count {len(df)}')
     logger.info(f'Initial column count {len(df.columns)}')
+    
     
     # Census Data, to categorical
     simple_categorical_columns = [
@@ -155,7 +150,7 @@ if __name__ == "__main__":
     logger.info(f'Found sen need values {sen_need_values}')
     df[CensusDataColumns.sen_need1] = pd.Categorical(df[CensusDataColumns.sen_need1], categories=sen_need_values)
     df[CensusDataColumns.sen_need2] = pd.Categorical(df[CensusDataColumns.sen_need2], categories=sen_need_values)
-    dummy_sen_need = pd.get_dummies(df[CensusDataColumns.sen_need1]) + pd.get_dummies(df[CensusDataColumns.sen_need2])
+    dummy_sen_need = pd.concat([pd.get_dummies(df[CensusDataColumns.sen_need1]), pd.get_dummies(df[CensusDataColumns.sen_need2])]).max(level=0)
     dummy_sen_need = dummy_sen_need.add_prefix('sen_need' + CATEGORICAL_SEP)
     df.drop([CensusDataColumns.sen_need1, CensusDataColumns.sen_need2], axis=1, inplace=True)
     df = pd.concat([df, dummy_sen_need], axis=1)
@@ -177,6 +172,7 @@ if __name__ == "__main__":
     code_columns = [n + '_codes' for n in mix_columns]
     logger.info(f'Demixing KS2 columns {mix_columns} with both numeric and categorical data')
     logger.info(f'We are {"" if args.include_test_taken_code else "not "} including a code for whether the test was taken in the categorical codes columns')
+    
     for col_name, code_col_name in zip(mix_columns, code_columns):
         demixed_df = demix_column(df[col_name], numeric_name=col_name, categorical_name=code_col_name, include_test_taken_code=args.include_test_taken_code)
         df.drop(col_name, axis=1, inplace=True)
@@ -188,12 +184,11 @@ if __name__ == "__main__":
     logger.info(f'Creating simple categorical columns (using pd.get_dummies) for KS2 columns {simple_categorical}')
     df = d.get_dummies_with_logging(df, columns=simple_categorical, logger=logger)
 
-    # breakpoint()
+    # 
     
     # CCIS
     simple_categorical_columns = [
         CCISDataColumns.birth_month,
-        CCISDataColumns.sen_support_flag,  # Null values so do categorical
     ]
     df = d.get_dummies_with_logging(df, columns=simple_categorical_columns, logger=logger)
     
@@ -203,9 +198,7 @@ if __name__ == "__main__":
     logger.info(f'Final merged row count {len(df)}')
     logger.info(f'Final column count {len(df.columns)}')
     
-    csv_fp = args.output
-    if args.debug:
-         csv_fp = f.tmp_path(csv_fp)
+    csv_fp = f.tmp_path(args.output, debug=args.debug)
     
     logger.info(f'Saving categorical data to {csv_fp}')
     df.to_csv(csv_fp, index=False)

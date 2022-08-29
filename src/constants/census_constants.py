@@ -105,6 +105,8 @@ CensusDataOriginalColumns     = _CensusDataOriginalColumns()
 # Added columns
 @dataclass
 class _CensusDataAdditionalColumns:
+    data_date: str = DATA_DATE
+
     year: str = YEAR
     census_period_end: str = 'census_period_end'
     has_census_data: str = 'has_census_data'

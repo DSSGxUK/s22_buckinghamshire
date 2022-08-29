@@ -127,6 +127,8 @@ KS4Columns = _KS4Columns()
 
 @dataclass
 class _KSAddedColumns:
+    data_date: str = DATA_DATE
+
     ks4_period_end: str = 'ks4_period_end'
     has_ks2_data: str = 'has_ks2_data'
 

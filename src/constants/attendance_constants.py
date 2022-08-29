@@ -180,6 +180,8 @@ class _AttendanceAddedDataColumns:
     total_absences: str = 'total_absences'
     total_nonabsences: str = 'total_nonabsences'
     
+    data_date: str = DATA_DATE
+    
     term_end: str = 'term_end'
     term_type: str = 'term_type'
     has_attendance_data: str = 'has_attendance_data'

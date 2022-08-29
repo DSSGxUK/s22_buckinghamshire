@@ -81,30 +81,32 @@ if __name__ == "__main__":
     logger.info(f'Initial column count {len(df.columns)}')
     
     # Drop
-    drop_columns = [
-        CensusDataColumns.entry_date,
-        SchoolInfoColumns.establishment_area,
-        SchoolInfoColumns.establishment_electoral_wards,
-        SchoolInfoColumns.establishment_name,
-        SchoolInfoColumns.establishment_number,
-        SchoolInfoColumns.establishment_postcode,
-        SchoolInfoColumns.la_establishment_number,
-        CensusDataColumns.census_period_end,
-        CensusDataColumns.nc_year_actual  # We'll use age for now instead
+    modeling_columns = [
+        SchoolInfoColumns.establishment_type,
+        SchoolInfoColumns.establishment_status,
+        CensusDataColumns.upn,
+        CensusDataColumns.gender,
+        CensusDataColumns.enrol_status,
+        CensusDataColumns.ethnicity,
+        CensusDataColumns.language,
+        CensusDataColumns.sen_provision,
+        CensusDataColumns.sen_need1,
+        CensusDataColumns.sen_need2,
+        CensusDataColumns.sen_unit_indicator,
+        CensusDataColumns.resourced_provision_indicator,
+        CensusDataColumns.fsme_on_census_day,
+        CensusDataColumns.age,
+        CensusDataColumns.year,
     ]
-    logger.info(f'Dropping the columns {drop_columns}')
-    df.drop(drop_columns, axis=1, inplace=True)
-    
-#     breakpoint()
+    logger.info(f'Keeping the modeling columns {modeling_columns}')
+    df = df[modeling_columns]
     
     logger.info(f'Final row count {len(df)}')
     logger.info(f'Final column count {len(df.columns)}')
     
     
     
-    csv_fp = args.output
-    if args.debug:
-         csv_fp = f.tmp_path(csv_fp)
+    csv_fp = f.tmp_path(args.output, debug=args.debug)
     
     logger.info(f'Saving census premerge data to {csv_fp}')
     df.to_csv(csv_fp, index=False)

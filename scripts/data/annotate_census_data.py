@@ -9,9 +9,9 @@ debug : bool
     If passed as an argument, it will run this pipeline stage in
     debug mode. This will lower the logging level to `DEBUG` and
     save all outputs into the `tmp` directory.
-input_census : string
+input : string
     The filepath to the input census csv. 
-input_school_info : string
+school_info : string
     The filepath to the input school info csv
 output : string
     The filepath to the output annotated census csv. 
@@ -22,10 +22,9 @@ csv file
    annotated census dataset saved at output filepath as a csv file.  
 
 """
+from multiprocessing.sharedctypes import Value
 import pandas as pd
-import os
 import argparse
-from datetime import datetime
 
 # DVC Params
 from src.constants import (
@@ -39,23 +38,25 @@ from src import merge_utils as mu
 from src import file_utils as f
 from src import log_utils as l
 from src import data_utils as d
-
-def remove_suffix(s,suffix):
-    if s.endswith(suffix):
-        s=s[:-len(suffix)]
-    return s
+from src import py_utils as py
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--debug', action='store_true',
                     help='run transform in debug mode')
-parser.add_argument('--input_census', required=True,
+parser.add_argument('--input', required=True,
                     help='where to find the input census merged csv')
-parser.add_argument('--input_school_info', required=True,
+parser.add_argument('--school_info', required=True,
                     help='where to find the input school info csv')
 parser.add_argument('--output', required=True,
                     help='where to put the output census annotated csv')
 
 def merged_census_validation(df):
+    assert not d.isna(df[CensusDataColumns.data_date], na_vals=NA_VALS).any(), f"Some data dates are missing. Please check the input census file and ensure there are no entries with value {NA_VALS} in the data_date column. Then check the merge_data script for any bugs."
+    try:
+        pd.to_datetime(df[CensusDataColumns.data_date], errors="raise")
+    except ValueError as e:
+        print(f"There was an error in parsing the data_date column. Please check the entries for any malformed dates. This may be a bug in the merge_data script.")
+        raise e
     fsme_values = set(df[CensusDataColumns.fsme_on_census_day].unique())
     fsme_values_expected = {'FALSE', 'TRUE'}
     assert  fsme_values== fsme_values_expected, f'fsme_on_census_day has extra values {fsme_values - fsme_values_expected}. Only  values {fsme_values_expected} are allowed. Please correct.'
@@ -67,27 +68,30 @@ if __name__ == "__main__":
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
     
     df = d.load_csv(
-        args.input_census, 
+        args.input,
         drop_empty=False, 
         drop_single_valued=False,
-        drop_duplicates=True,
+        drop_duplicates=False,  # Annotating is nondestructive
         read_as_str=True,
         na_vals=NA_VALS,
+        use_na=True,
         logger=logger
     )
     logger.info('Doing some validation on the incoming merged census df')
     merged_census_validation(df)
 
     school_df = d.load_csv(
-        args.input_school_info, 
+        args.school_info, 
         drop_empty=False, 
         drop_single_valued=False, 
         drop_missing_upns=False, 
         drop_duplicates=False, 
         read_as_str=True,
         na_vals=NA_VALS,
+        use_na=True,
         logger=logger
     )
+    
     
     logger.info(f'Initial row count {len(df)}')
     logger.info(f'Initial column count {len(df.columns)}')
@@ -101,23 +105,22 @@ if __name__ == "__main__":
         na_vals=NA_VALS,
     )
     logger.info(f'Adding column for end_year of school term')
-    df[CensusDataColumns.year] = pd.to_datetime(df[CensusDataColumns.census_period_end]).apply(lambda x: x.year)
+    df[CensusDataColumns.census_period_end] = pd.to_datetime(df[CensusDataColumns.data_date], errors="raise")
+    df[CensusDataColumns.year] = df[CensusDataColumns.census_period_end].apply(lambda x: x.year).astype(pd.Int16Dtype())
     logger.info(f'Removing + at the end of ages')
-    df[CensusDataColumns.age] = df[CensusDataColumns.age].apply(lambda x: remove_suffix(x,'+'))#x.removesuffix('+'))
+    df[CensusDataColumns.age] = df[CensusDataColumns.age].apply(lambda x: py.remove_suffix(x,'+')).astype(pd.Int16Dtype())
     
     logger.info(f'Converting census column {CensusDataColumns.fsme_on_census_day} to a binary column')
     # There shouldn't be any na values
     logger.debug(f'{CensusDataColumns.fsme_on_census_day} currently has values {df[CensusDataColumns.fsme_on_census_day].unique()}')
-    df[CensusDataColumns.fsme_on_census_day] = df[CensusDataColumns.fsme_on_census_day].replace({'TRUE': 1, 'FALSE': 0}).astype(int)
+    # We must replace with strings because pandas will enforce that the column remain a string type.
+    df[CensusDataColumns.fsme_on_census_day] = df[CensusDataColumns.fsme_on_census_day].replace({'TRUE': "1", 'FALSE': "0"}).astype(pd.Int8Dtype())
     logger.debug(f'{CensusDataColumns.fsme_on_census_day} now has values {df[CensusDataColumns.fsme_on_census_day].unique()}')
     
     logger.info(f'Final row count {len(df)}')
     logger.info(f'Final column count {len(df.columns)}')
     
-    csv_fp = args.output
-    if args.debug:
-         csv_fp = f.tmp_path(csv_fp)
-    
+    csv_fp = f.tmp_path(args.output, debug=args.debug)
     logger.info(f'Saving annotated data to {csv_fp}')
     df.to_csv(csv_fp, index=False)
     

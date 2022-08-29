@@ -5,6 +5,37 @@ from .census_constants import *
 from .attendance_constants import *
 from .ks_constants import *
 
+@dataclass
+class _DatasetTypes:
+    attendance: str = "attendance"
+    census: str = "census"
+    ccis: str = "ccis"
+    ks4: str = "ks4"
+    school_info: str = "school_info"
+    # These two are new datasets we will incorporate for the council
+    ks2: str = "ks2"
+    characteristics: str = "characteristics"
+
+DatasetTypes = _DatasetTypes()
+
+RENAME_DICT = {
+    DatasetTypes.attendance: ATTENDANCE_COLUMN_RENAME,
+    DatasetTypes.census: SCHOOL_CENSUS_COLUMN_RENAME,
+    DatasetTypes.ks4: KS4_COLUMN_RENAME,
+    DatasetTypes.ccis: CCIS_COLUMN_RENAME,
+    DatasetTypes.school_info: SCHOOL_INFO_RENAME,
+    # DatasetTypes.characteristics: ...,
+    # DatasetTypes.ks2: ...,
+}
+
+@dataclass
+class _OutputDatasetTypes:
+    modeling: str = "modeling"
+    unknowns: str = "unknowns"
+    prediction: str = "prediction"
+
+OutputDatasetTypes = _OutputDatasetTypes()
+
 # These are the different feature selection methods
 # we allow. This class does not actually implement any
 # feature selection methods, it simply specifies the 
@@ -42,13 +73,15 @@ NEET_PREMERGE_AGG = {
     CCISDataColumns.characteristic_code: Aggregations.categorical_max,
     CCISDataColumns.ethnicity: Aggregations.last_with_unknown,
     CCISDataColumns.gender: Aggregations.last_with_unknown,
-    CCISDataColumns.sen_support_flag: Aggregations.max,
-    CCISDataColumns.send_flag: Aggregations.max,
+    CCISDataColumns.sen_support_flag: Aggregations.categorical_max,
+    CCISDataColumns.send_flag: Aggregations.categorical_max,
     CCISDataColumns.neet_ever: Aggregations.max,
     CCISDataColumns.unknown_ever: Aggregations.max,
-    CCISDataColumns.compulsory_school: Aggregations.min,  # Used to determine who to drop
     CCISDataColumns.birth_year: Aggregations.last,
     CCISDataColumns.birth_month: Aggregations.last,
+    CCISDataColumns.birth_month: Aggregations.last,
+    CCISDataColumns.compulsory_school_always: Aggregations.min,
+    CCISDataColumns.unknown_currently: Aggregations.max,
 }
 
 # This dictionary specifies how we aggregate the 
@@ -56,13 +89,13 @@ NEET_PREMERGE_AGG = {
 # multi-upn dataset (rows correspond to student-years)
 # to the single-upn dataset (rows correspond to single students).
 MULTI_UPN_CATEGORICAL_TO_SINGLE_AGGS = {
-    CCISDataColumns.send_flag: Aggregations.max,
+    CCISDataColumns.send_flag: Aggregations.categorical_max,
     CCISDataColumns.neet_ever: Aggregations.max,
     CCISDataColumns.neet_unknown_ever: Aggregations.max,
     CCISDataColumns.unknown_ever: Aggregations.max,
     CCISDataColumns.characteristic_code: Aggregations.categorical_max,
     CCISDataColumns.level_of_need_code: Aggregations.categorical_max,
-    CensusDataColumns.fsme_on_census_day: Aggregations.categorical_max,
+    CensusDataColumns.fsme_on_census_day: Aggregations.max,
     AttendanceDataColumns.termly_sessions_possible: Aggregations.mean,
     AttendanceDataColumns.illness_authorised: Aggregations.mean,
     AttendanceDataColumns.medical_authorised: Aggregations.mean,

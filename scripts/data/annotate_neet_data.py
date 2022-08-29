@@ -66,33 +66,17 @@ parser.add_argument('--output', required=True,
                     help='where to put the output annotated CCIS data csv')
 parser.add_argument('--no_file_logging', action='store_true',
                     help='turn off file logging - useful for tests')
-    
-def split_up_birth_month_year(df):
-    """
-    Separates month and year of birth column into two separate columns: birth year and birth month
-    
-    Parameters
-    -----------
-    df : pd.DataFrame
-        dataframe containing ccis data with month and year of birth column
-    
-    Returns
-    ----------
-    df : pd.DataFrame
-        dataframe with separated birth month and year columns
-    
-    """
-    df = df.copy()
-    birth_data = pd.to_datetime(df[CCISDataColumns.month_year_of_birth])
-    df[CCISDataColumns.birth_year] = birth_data.apply(lambda x: x.year)
-    df[CCISDataColumns.birth_month] = birth_data.apply(lambda x: x.month)
-    return df.drop(CCISDataColumns.month_year_of_birth, axis=1)
+
     
 def annotated_neet_data_validation(df):
-    assert not (d.isna(df[CCISDataColumns.year]).any()), 'Some year values are not filled for the CCIS data. This error likely occured during merging of CCIS datasets.'
-    assert not (d.isna(df[CCISDataColumns.age]).any()), 'Some age values are not filled for the CCIS data. Please check all students have birth months and birth years filled in.'
+    assert not (d.isna(df[CCISDataColumns.year], na_vals=NA_VALS).any()), 'Some year values are not filled for the CCIS data. This error likely occured during merging of CCIS datasets.'
+    assert not (d.isna(df[CCISDataColumns.age], na_vals=NA_VALS).any()), 'Some age values are not filled for the CCIS data. Please check all students have birth months and birth years filled in.'
     # TODO add validation for neet_ever and unknown_ever columns
-    
+
+def merged_neet_data_validation(df):
+    assert not (d.isna(df[CCISDataColumns.young_persons_id]).any()), f"Some young_persons_id are missing for the CCIS data. Please check your source data and check to make sure none of the young_persons_id cells have any of the values {NA_VALS}."
+
+
 if __name__ == '__main__':
     args = parser.parse_args()
     
@@ -103,11 +87,14 @@ if __name__ == '__main__':
         args.input,
         drop_empty=False, 
         drop_single_valued=False,
-        drop_duplicates=True,
+        drop_duplicates=False,  # Annotating is nondestructive
         read_as_str=True,
         na_vals=NA_VALS,
+        use_na=True,
         logger=logger
     )
+    merged_neet_data_validation(df)
+    df[CCISDataColumns.ccis_period_end] = pd.to_datetime(df[CCISDataColumns.data_date], errors="raise")  # This will set the data date specific column for CCIS data
     
     school_df = d.load_csv(
         args.school_info, 
@@ -117,6 +104,7 @@ if __name__ == '__main__':
         drop_duplicates=False, 
         read_as_str=True,
         na_vals=NA_VALS,
+        use_na=True,
         logger=logger
     )
     
@@ -131,29 +119,56 @@ if __name__ == '__main__':
     )
     # Add column for neet and unknown
     logger.info('Adding columns for neet and unknown status')
-    df = d.add_column(df, CCISDataColumns.neet, nu.neet(df).astype(int))
-    df = d.add_column(df, CCISDataColumns.unknown, nu.unknown(df).astype(int))
-    df = d.add_column(df, CCISDataColumns.compulsory_school, nu.in_compulsory_school(df).astype(int))
-    
+    df = d.add_column(df, CCISDataColumns.neet, nu.neet(df).astype(pd.Int8Dtype()))  # These are booleans so use Int8 to save space.
+    df = d.add_column(df, CCISDataColumns.unknown, nu.unknown(df).astype(pd.Int8Dtype()))
+    df = d.add_column(df, CCISDataColumns.compulsory_school, nu.in_compulsory_school(df).astype(pd.Int8Dtype()))
+
     # Split up month/year of birth into two columns
     logger.info('Splitting up birth month and birth year into separate columns')
-    df = split_up_birth_month_year(df)
+    df = nu.split_up_birth_month_year(df)
     
-    logger.info('Adding year column for joining datasets')
-    df[CCISDataColumns.year] = pd.to_datetime(df[CCISDataColumns.ccis_period_end]).apply(lambda x: x.year)
+    logger.info('Adding year column for joining datasets that corresponds to the end of school year.')
+    df[CCISDataColumns.year] = d.compute_school_end_year(df[CCISDataColumns.ccis_period_end])
     
     logger.info('Compute age of students at the end of prior august')
     df[CCISDataColumns.age] = nu.compute_age(df)
     
-    # Propogate neet and unknown statuses to other instances of the upn
+    # Propogate neet and unknown statuses to other instances of the ypid
     logger.info('Marking NEET and unknown students')
-    df.loc[:, [CCISDataColumns.neet, CCISDataColumns.unknown]] = df[[CCISDataColumns.neet, CCISDataColumns.unknown]].astype(int)
-    neet_propogated_df = df[[CCISDataColumns.upn, CCISDataColumns.neet, CCISDataColumns.unknown]] \
-        .groupby(by=CCISDataColumns.upn) \
+    # We use ypid because UPN may be missing. YPID is assumed to all be non-missing, and this is validated upon loading the merged df.
+    # Alternatively, we could use .all() instead of .max().
+    neet_propogated_df = df[[CCISDataColumns.young_persons_id, CCISDataColumns.neet, CCISDataColumns.unknown]] \
+        .groupby(by=CCISDataColumns.young_persons_id) \
         .max() \
         .reset_index()
-    df = df.merge(neet_propogated_df, on=CCISDataColumns.upn, how='left', suffixes=(None, '_ever'))
-    
+    df = df.merge(neet_propogated_df, on=CCISDataColumns.young_persons_id, how='left', suffixes=(None, '_ever'))
+
+    logger.info("Marking students whose current (in latest ccis dataset) is unknown")
+    latest_date = df[CCISDataColumns.ccis_period_end].max()
+    # It is possible the student has multiple rows, with one of which they are unknown
+    # and the others where they are known. However, these rows can have different 
+    # activity dates and currency lapsed dates. The reasonable thing to do would be
+    # to classify a student as currently unknown if all of their last known statuses in the
+    # latest dataset have currency lapsed. However, this is somewhat complicated logic
+    # and to keep things simple, we just mark a student as currently unknown if 
+    # one of the entries for the student in the latest dataset is an unknown activity.
+    # Alternatively, we could use .all() instead of .max().
+    unknown_currently_df = df.loc[df[CCISDataColumns.ccis_period_end] == latest_date, [CCISDataColumns.young_persons_id, CCISDataColumns.unknown]] \
+        .groupby(by=CCISDataColumns.young_persons_id) \
+        .max() \
+        .reset_index()
+    df = df.merge(unknown_currently_df, on=CCISDataColumns.young_persons_id, how='left', suffixes=(None, '_currently'))
+    df[CCISDataColumns.unknown_currently] = df[CCISDataColumns.unknown_currently].fillna(0)  # Anyone who is NA is not in the latest dataset and is thus not currently unknown
+
+    logger.info("Marking students who have no data outside of compulsory school")
+    # We take the min so that if a student only has data from compulsory school, then that column will always be
+    # 1 and the output would be 1. Alternatively, we could use .any().
+    compulsory_school_always_df = df[[CCISDataColumns.young_persons_id, CCISDataColumns.compulsory_school]] \
+        .groupby(by=CCISDataColumns.young_persons_id) \
+        .min() \
+        .reset_index()
+    df = df.merge(compulsory_school_always_df, on=CCISDataColumns.young_persons_id, how='left', suffixes=(None, '_always'))
+
     # NEET data
     y_n_columns = [
         CCISDataColumns.send_flag,  # Y/N
@@ -163,7 +178,8 @@ if __name__ == '__main__':
     ]
     logger.info(f'Converting Y/N to 1/0 in columns {y_n_columns}')
     for col in y_n_columns:
-        df[col] = df[col].replace({'Y':1,'N':0})
+        # We must replace with strings because pandas will enforce that the column remain a string type.
+        df[col] = df[col].replace({'Y':'1','N':'0'}).astype(pd.Int8Dtype())
     
     # Some data validation
     logger.info('Validating annotated data')

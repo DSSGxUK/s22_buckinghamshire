@@ -28,13 +28,8 @@ csv file
 """
 
 import argparse
+from dataclasses import asdict
 import pandas as pd
-import numpy as np
-import os
-from pprint import pprint
-import inflection
-import re
-from tqdm import tqdm
 
 # DVC Params
 from src.constants import (
@@ -48,6 +43,7 @@ from src import file_utils as f
 from src import log_utils as l
 from src import data_utils as d
 from src import attendance_utils as au
+from src import py_utils as py
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--debug', action='store_true',
@@ -56,7 +52,7 @@ parser.add_argument('--input', required=True,
                     help='where to find input annotated attendance csv')
 parser.add_argument('--output', required=True,
                     help='where to output the produced csv file')
-parser.add_argument('--attendance_type',required=True,
+parser.add_argument('--attendance_type',required=True, choices=asdict(AttendanceTypes).values(),
                    help='how to aggregate the attendance data across terms for each student-year')
 
 def create_attendance_exact_df(df, logger=l.PrintLogger):
@@ -77,23 +73,20 @@ def create_attendance_exact_df(df, logger=l.PrintLogger):
     """
     gby_columns=[AttendanceDataColumns.upn, AttendanceDataColumns.year]
     
-    absence_columns = au.get_absence_reason_columns(df)
-    nonabsence_columns = au.get_nonabsence_reason_columns(df)
-    
     logger.info('Drop all columns that are not useful for attendance numbers')
-    drop_columns = [c for c in df.columns if not au.keep_column_criteria(
+    keep_columns = [c for c in df.columns if au.keep_column_criteria(
         c, 
         gby_columns
     )]
-    logger.info(f'Dropping {drop_columns}')
-    df = df.drop(drop_columns, axis=1)
+    logger.info(f'Keeping columns {keep_columns}')
+    df = df[keep_columns]
     
     logger.info('Do a groupby and sum')
     # The only columns left that are not na should all be numerical columns
     numerical_cols = [c for c in df.columns if c not in gby_columns]
     logger.info(f'Summing over columns {numerical_cols}')
-    df.loc[:, numerical_cols] = d.to_int(df[numerical_cols])
-    df.drop(df[df['total_absences']>df['termly_sessions_possible']].index, inplace=True) #drop rows in which total absences is greater than termly sessions possible
+    df.loc[:, numerical_cols] = df[numerical_cols].astype(pd.Int16Dtype())
+    df = df[df['total_absences'] <= df['termly_sessions_possible']] # keep rows only where total absences is not greater than termly sessions possible
     df = df.groupby(by=gby_columns).sum().reset_index()
     
     return df
@@ -149,11 +142,11 @@ def create_attendance_percent1_df(
     for col in absence_columns:
         # Percent of total absences
         df_percent[col] =  d.divide_with_na(
-        df[col], 
-        df[au.AttendanceDataColumns.total_absences], 
-        fillna=0, 
-        fill_prev_na=False
-    )
+            df[col], 
+            df[au.AttendanceDataColumns.total_absences], 
+            fillna=0, 
+            fill_prev_na=False
+        )
 
     # Percent late of sessions possible
     logger.info(f'Computing percentage of late_present wrt termly_sessions_possible')
@@ -255,16 +248,13 @@ def create_attendance_normed_df(df, eps=1e-9, logger=l.PrintLogger):
     norm_gby_columns = [AttendanceDataColumns.year, AttendanceDataColumns.term_type]
     final_gby_columns = [AttendanceDataColumns.upn, AttendanceDataColumns.year]
     
-    absence_columns = au.get_absence_reason_columns(df)
-    nonabsence_columns = au.get_nonabsence_reason_columns(df)
-    
-    logger.info('Drop all columns that are not useful for attendance numbers')
-    drop_columns = [c for c in df.columns if not au.keep_column_criteria(
+    logger.info('Keep all columns that are useful for attendance numbers')
+    keep_columns = [c for c in df.columns if au.keep_column_criteria(
         c,
         gby_columns
     )]
-    logger.info(f'Dropping {drop_columns}')
-    df = df.drop(drop_columns, axis=1)
+    logger.info(f'Keeping {keep_columns}')
+    df = df[keep_columns]
 
     # The only columns left that are not na should all be numerical columns
     logger.info('Do a groupby and sum')
@@ -281,18 +271,19 @@ def create_attendance_normed_df(df, eps=1e-9, logger=l.PrintLogger):
                          .merge(df_term_stds, on=norm_gby_columns, suffixes=(None, '_std'), how='left')
     
     df_means = df_with_norms[[c for c in df_with_norms.columns if c.endswith('_mean')]]
-    df_means.columns = df_means.columns.map(lambda x: x.removesuffix('_mean'))
+    df_means.columns = df_means.columns.map(lambda x: py.remove_suffix(x, '_mean'))
     df_stds = df_with_norms[[c for c in df_with_norms.columns if c.endswith('_std')]]
-    df_stds.columns = df_stds.columns.map(lambda x: x.removesuffix('_std'))
+    df_stds.columns = df_stds.columns.map(lambda x: py.remove_suffix(x, '_std'))
     
     # TODO: Check if d.divide_with_na here fixes the issue of many Nans cropping up
     df_normed = df.copy()
-    df_normed.loc[:, df_means.columns] = d.divide_with_na(
-        df_normed[df_means.columns] - df_means,
-        df_stds,
-        fillna=0, 
-        fill_prev_na=False
-    )
+    for col in df_means.columns:
+        df_normed[col] = d.divide_with_na(
+            df_normed[col] - df_means[col],
+            df_stds[col],
+            fillna=0, 
+            fill_prev_na=False
+        )
     
     logger.info('Average over terms in year')
     df_normed = df_normed.groupby(by=final_gby_columns).mean().reset_index()
@@ -313,8 +304,15 @@ if __name__ == '__main__':
         drop_duplicates=True,
         read_as_str=False,
         drop_missing_upns=True,
+        use_na=True,
+        convert_dtypes=True,
         na_vals=NA_VALS
     )
+
+    # Drop termly sessions authorised, termly sessions unauthorised, present_am, present_pm columns
+    logger.info('Dropping inconsistent columns')
+    drop_cols = [AttendanceDataColumns.termly_sessions_authorised, AttendanceDataColumns.termly_sessions_unauthorised, AttendanceDataColumns.present_am, AttendanceDataColumns.present_pm]
+    df = d.safe_drop_columns(df, drop_cols)
     
     logger.info(f'Creating attendance dataset of type "{args.attendance_type}".')
     if args.attendance_type == AttendanceTypes.exact:
@@ -323,15 +321,13 @@ if __name__ == '__main__':
         df = create_attendance_percent1_df(df, logger)
     elif args.attendance_type == AttendanceTypes.percent2:
         df = create_attendance_percent2_df(df, logger)
-#     elif args.attendance_type == AttendanceTypes.percent2:
-#         df = create_attendance_percent2_df(df, logger)
+    elif args.attendance_type == AttendanceTypes.term_normalized:
+        df = create_attendance_normed_df(df, logger=logger)
     else:
         raise NotImplementedError(f'Attendance type "{args.attendance_type}" is not valid')
     
     
-    csv_fp = args.output
-    if args.debug:
-         csv_fp = f.tmp_path(csv_fp)
+    csv_fp = f.tmp_path(args.output, debug=args.debug)
     
     logger.info(f'Saving attendance premerge data to {csv_fp}')
     df.to_csv(csv_fp, index=False)

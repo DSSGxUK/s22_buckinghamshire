@@ -1,494 +1,360 @@
-# stages:
-#   old_attendance_to_csv:
-#     foreach: ${OLD_ATT_TO_CSV_PARAMS}
-#     do:
-#       cmd: python data/old_attendance_to_csv.py --input ${item.input} --output ${item.output}
-#       deps:
-#         - ${item.input}
-#         - ../src/file_utils.py
-#         - ../src/log_utils.py
-#         - ../src/data_utils.py
-#       outs:
-#         - ${item.output}
-  # new_attendance_to_csv:
-  #   cmd: python data/new_attendance_to_csv.py ${NEW_ATT_TO_CSV_PARAMS}
-  #   deps:
-  #     - ${NEW_ATTENDANCE_DATA_XL_FPS.oct14}
-  #     - ${NEW_ATTENDANCE_DATA_XL_FPS.oct15}
-  #     - ${NEW_ATTENDANCE_DATA_XL_FPS.oct16}
-  #     - ${NEW_ATTENDANCE_DATA_XL_FPS.oct17}
-  #     - ${NEW_ATTENDANCE_DATA_XL_FPS.oct18}
-  #     - ${NEW_ATTENDANCE_DATA_XL_FPS.oct20}
-  #     - data/new_attendance_to_csv.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #   outs:
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan15}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan16}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan17}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan18}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan19}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan20}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan21}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan22}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may15}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may16}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may17}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may18}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may19}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may21}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may22}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct14}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct15}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct16}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct17}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct18}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct19}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct20}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct21}
-  # new_neet_to_csv:
-  #   cmd: python data/new_neet_to_csv.py ${NEET_TO_CSV_PARAMS}
-  #   deps:
-  #     - ${NEET_NEW_DATASET_XL_FPS.feb16}
-  #     - ${NEET_NEW_DATASET_XL_FPS.feb17}
-  #     - ${NEET_NEW_DATASET_XL_FPS.feb18}
-  #     - ${NEET_NEW_DATASET_XL_FPS.feb19}
-  #     - ${NEET_NEW_DATASET_XL_FPS.feb20}
-  #     - ${NEET_NEW_DATASET_XL_FPS.feb21}
-  #     - ${NEET_NEW_DATASET_XL_FPS.feb22}
-  #     - data/new_neet_to_csv.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb16}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb17}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb18}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb19}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb20}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb21}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb22}
-  # census_data_to_csv:
-  #   cmd: python data/census_data_to_csv.py ${CENSUS_TO_CSV_PARAMS}
-  #   deps:
-  #     - ${SCHOOL_CENSUS_XL_FPS.jan17}
-  #     - ${SCHOOL_CENSUS_XL_FPS.jan18}
-  #     - ${SCHOOL_CENSUS_XL_FPS.jan19}
-  #     - ${SCHOOL_CENSUS_XL_FPS.jan20}
-  #     - ${SCHOOL_CENSUS_XL_FPS.jan21}
-  #     - ${SCHOOL_CENSUS_XL_FPS.jan22}
-  #     - data/census_data_to_csv.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan17}
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan18}
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan19}
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan20}
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan21}
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan22}
-  # school_info_to_csv:
-  #   cmd: python data/school_info_to_csv.py ${SCHOOL_INFO_CSV_PARAMS}
-  #   deps:
-  #     - ${SCHOOL_INFO_XL_FP}
-  #     - data/school_info_to_csv.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${SCHOOL_INFO_CSV_FP}
-  # canonicalize_neet_data:
-  #   cmd: python data/canonicalize_neet_data.py ${CANONICALIZE_NEET_PARAMS}
-  #   deps:
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb16}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb17}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb18}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb19}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb20}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb21}
-  #     - ${NEET_NEW_DATASET_CSV_FPS.feb22}
-  #     - data/canonicalize_neet_data.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb16}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb17}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb18}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb19}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb20}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb21}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb22}
-  # canonicalize_census_data:
-  #   cmd: python data/canonicalize_census_data.py ${CANONICALIZE_CENSUS_PARAMS}
-  #   deps:
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan17}
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan18}
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan19}
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan20}
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan21}
-  #     - ${SCHOOL_CENSUS_CSV_FPS.jan22}
-  #     - data/canonicalize_census_data.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan17}
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan18}
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan19}
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan20}
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan21}
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan22}
-  # canonicalize_ks4_data:
-  #   cmd: python data/canonicalize_ks4_data.py ${CANONICALIZE_KS4_PARAMS}
-  #   deps:
-  #     - ${KS4_DATA_CSV_FPS.2015}
-  #     - ${KS4_DATA_CSV_FPS.2016}
-  #     - ${KS4_DATA_CSV_FPS.2017}
-  #     - ${KS4_DATA_CSV_FPS.2018}
-  #     - ${KS4_DATA_CSV_FPS.2019}
-  #     - data/canonicalize_ks4_data.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${KS4_CANONICALIZED_CSV_FPS.2015}
-  #     - ${KS4_CANONICALIZED_CSV_FPS.2016}
-  #     - ${KS4_CANONICALIZED_CSV_FPS.2017}
-  #     - ${KS4_CANONICALIZED_CSV_FPS.2018}
-  #     - ${KS4_CANONICALIZED_CSV_FPS.2019}
-  # canonicalize_attendance_data:
-  #   cmd: python data/canonicalize_attendance_data.py ${CANONICALIZE_ATTENDANCE_PARAMS}
-  #   deps:
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan15}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan16}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan17}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan18}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan19}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan20}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan21}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.jan22}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may15}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may16}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may17}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may18}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may19}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may21}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.may22}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct14}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct15}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct16}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct17}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct18}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct19}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct20}
-  #     - ${NEW_ATTENDANCE_DATA_CSV_FPS.oct21}
-  #     - ${OLD_ATTENDANCE_DATA_CSV_FPS.aut21}
-  #     - ${OLD_ATTENDANCE_DATA_CSV_FPS.spr21}
-  #     - ${OLD_ATTENDANCE_DATA_CSV_FPS.sum21}
-  #     - data/canonicalize_attendance_data.py
-  #     - ../src/merge_utils.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan15}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan16}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan17}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan18}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan19}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan20}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan21}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan22}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may15}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may16}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may17}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may18}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may19}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may21}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may22}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct14}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct15}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct16}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct17}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct18}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct19}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct20}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct21}
-  # canonicalize_school_info:
-  #   cmd: python data/canonicalize_school_info.py ${CANONICALIZE_SCHOOL_INFO_PARAMS}
-  #   deps:
-  #     - ${SCHOOL_INFO_CSV_FP}
-  #     - data/canonicalize_school_info.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${SCHOOL_INFO_CANONICALIZED_CSV_FP}
-  # merge_neet_data:
-  #   cmd: python data/merge_neet_data.py ${MERGE_NEET_PARAMS}
-  #   deps:
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb16}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb17}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb18}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb19}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb20}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb21}
-  #     - ${NEET_CANONICALIZED_CSV_FPS.feb22}
-  #     - data/merge_neet_data.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${NEET_MERGED_FP}
-  # merge_attendance_data:
-  #   cmd: python data/merge_attendance_data.py ${MERGE_ATTENDANCE_PARAMS}
-  #   deps:
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan15}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan16}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan17}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan18}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan19}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan20}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan21}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.jan22}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may15}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may16}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may17}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may18}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may19}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may21}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.may22}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct14}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct15}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct16}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct17}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct18}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct19}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct20}
-  #     - ${ATTENDANCE_CANONICALIZED_CSV_FPS.oct21}
-  #     - data/merge_attendance_data.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${ATTENDANCE_MERGED_FP}
-  # merge_ks4_data:
-  #   cmd: python data/merge_ks4_data.py ${MERGE_KS4_PARAMS}
-  #   deps:
-  #     - ${KS4_CANONICALIZED_CSV_FPS.2015}
-  #     - ${KS4_CANONICALIZED_CSV_FPS.2016}
-  #     - ${KS4_CANONICALIZED_CSV_FPS.2017}
-  #     - ${KS4_CANONICALIZED_CSV_FPS.2018}
-  #     - ${KS4_CANONICALIZED_CSV_FPS.2019}
-  #     - data/merge_ks4_data.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${KS4_DATA_MERGED_FP}
-  # merge_census_data:
-  #   cmd: python data/merge_census_data.py ${MERGE_CENSUS_PARAMS}
-  #   deps:
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan17}
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan18}
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan19}
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan20}
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan21}
-  #     - ${SCHOOL_CENSUS_CANONICALIZED_CSV_FPS.jan22}
-  #     - data/merge_census_data.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${SCHOOL_CENSUS_MERGED_DATA_FP}
-  # annotate_neet_data:
-  #   cmd: python data/annotate_neet_data.py ${ANNOTATE_NEET_PARAMS}
-  #   deps:
-  #     - ${NEET_MERGED_FP}
-  #     - ${SCHOOL_INFO_CANONICALIZED_CSV_FP}
-  #     - data/annotate_neet_data.py
-  #     - ../src/merge_utils.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #     - ../src/ccis_utils.py
-  #   outs:
-  #     - ${NEET_ANNOTATED_CSV_FP}
-  # annotate_attendance_data:
-  #   cmd: python data/annotate_attendance_data.py ${ANNOTATE_ATTENDANCE_PARAMS}
-  #   deps:
-  #     - ${ATTENDANCE_MERGED_FP}
-  #     - ${SCHOOL_INFO_CANONICALIZED_CSV_FP}
-  #     - data/annotate_attendance_data.py
-  #     - ../src/merge_utils.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #     - ../src//attendance_utils.py
-  #   outs:
-  #     - ${ATTENDANCE_ANNOTATED_CSV_FP}
-  # annotate_ks4_data:
-  #   cmd: python data/annotate_ks4_data.py ${ANNOTATE_KS4_PARAMS}
-  #   deps:
-  #     - ${SCHOOL_INFO_CANONICALIZED_CSV_FP}
-  #     - ${KS4_DATA_MERGED_FP}
-  #     - data/annotate_ks4_data.py
-  #     - ../src/merge_utils.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${KS4_ANNOTATED_CSV_FP}
-  # annotate_census_data:
-  #   cmd: python data/annotate_census_data.py ${ANNOTATE_CENSUS_PARAMS}
-  #   deps:
-  #     - ${SCHOOL_INFO_CANONICALIZED_CSV_FP}
-  #     - ${SCHOOL_CENSUS_MERGED_DATA_FP}
-  #     - data/annotate_census_data.py
-  #     - ../src/merge_utils.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-  #     - ${SCHOOL_CENSUS_ANNOTATED_CSV_FP}
-  # build_ccis_ks_eda_dataset:
-  #   cmd: python data/build_ccis_ks_eda_dataset.py ${BUILD_CCIS_KS_EDA_DATASET_ARGS}
-  #   deps:
-  #     - ${NEET_ANNOTATED_CSV_FP}
-  #     - ${KS4_ANNOTATED_CSV_FP}
-  #     - data/build_ccis_ks_eda_dataset.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #     - ../src/merge_utils.py
-  #   outs:
-  #     - ${NEET_KS_EDA_FP}
-
-  # neet_premerge:
-  #   cmd: python data/neet_premerge.py ${NEET_PREMERGE_STAGE_PARAMS}
-  #   deps:
-  #     - ${NEET_ANNOTATED_CSV_FP}
-  #     - data/neet_premerge.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   params:
-  #     - PRE_AGE15
-  #   outs:
-  #     - ${NEET_PREMERGE_CSV_FP}
-  # attendance_premerge:
-  #   cmd: python data/attendance_premerge.py ${ATTENDANCE_PREMERGE_PARAMS}
-  #   deps:
-  #     - data/attendance_premerge.py
-  #     - ${ATTENDANCE_ANNOTATED_CSV_FP}
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #     - ../src/attendance_utils.py
-  #   params:
-  #     - ATTENDANCE_TYPE
-  #   outs:
-  #     - ${ATTENDANCE_PREMERGE_CSV_FP}
-  # ks2_filter:
-  #   cmd: python data/ks2_filter.py ${KS2_FILTER_PARAMS}
-  #   deps:
-  #     - data/ks2_filter.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #     - ${KS4_ANNOTATED_CSV_FP}
-  #   outs:
-  #     - ${KS2_CSV_FP}
-  # census_premerge:
-  #   cmd: python data/census_premerge.py ${CENSUS_PREMERGE_PARAMS}
-  #   deps:
-  #     - data/census_premerge.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #     - ${SCHOOL_CENSUS_ANNOTATED_CSV_FP}
-  #   outs:
-  #     - ${SCHOOL_CENSUS_PREMERGE_CSV_FP}
-  
-  # merge_multi_upn:
-  #   cmd: python data/merge_multi_upn.py ${MERGE_MULTI_UPN_PARAMS}
-  #   deps:
-  #     - ${ATTENDANCE_PREMERGE_CSV_FP}
-  #     - ${KS2_CSV_FP}
-  #     - ${SCHOOL_CENSUS_PREMERGE_CSV_FP} 
-  #     - ${NEET_PREMERGE_CSV_FP}
-  #     - data/merge_multi_upn.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #     - ../src/merge_utils.py
-  #     - ../src/ccis_utils.py
-  #   params:
-  #     - TARGET
-  #     - PRE_AGE15
-  #   outs:
-  #     - ${MULTI_UPN_FP}
-
-  # multi_upn_categorical:
-  #   cmd: python data/multi_upn_categorical.py ${MULTI_UPN_CATEGORICAL_PARAMS}
-  #   deps:
-  #     - ${MULTI_UPN_FP}
-  #     - data/multi_upn_categorical.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   params:
-  #     - TEST_TAKEN_CODE
-  #   outs:
-  #     - ${MULTI_UPN_CATEGORICAL_FP}
+stages:
+  xl_to_csv:
+    foreach: ${XL_TO_CSV_ARGS}
+    do:
+      cmd: python data/xl_to_csv.py --inputs ${item.inputs} --outputs ${item.outputs}
+      deps:
+        - ${item.inputs}
+        - data/xl_to_csv.py
+        - ../src/file_utils.py
+        - ../src/log_utils.py
+        - ../src/data_utils.py
+      outs:
+        - ${item.outputs}
+  canonicalize_data:
+    foreach: ${CANONICALIZE_CSV_ARGS}
+    do:
+      cmd: python data/canonicalize_data.py --inputs ${item.inputs} --outputs ${item.outputs} --dataset_type ${item.dataset_type}
+      deps:
+        - ${item.inputs}
+        - data/canonicalize_data.py
+        - ../src/file_utils.py
+        - ../src/log_utils.py
+        - ../src/data_utils.py
+      outs:
+        - ${item.outputs}
+  merge_census_data:
+    cmd: python data/merge_data.py ${MERGE_CENSUS_DATA_ARGS}
+    deps:
+      - ${SCHOOL_CENSUS_CANONICALIZED_CSV_DIR}
+      - data/merge_data.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${MERGE_CENSUS_DATA_ARGS.output}
+  merge_attendance_data:
+    cmd: python data/merge_data.py ${MERGE_ATTENDANCE_DATA_ARGS}
+    deps:
+      - ${ATTENDANCE_CANONICALIZED_CSV_DIR}
+      - data/merge_data.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${MERGE_ATTENDANCE_DATA_ARGS.output}
+  merge_ccis_data:
+    cmd: python data/merge_data.py ${MERGE_CCIS_DATA_ARGS}
+    deps:
+      - ${NEET_CANONICALIZED_CSV_DIR}
+      - data/merge_data.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${MERGE_CCIS_DATA_ARGS.output}
+  merge_ks4_data:
+    cmd: python data/merge_data.py ${MERGE_KS4_DATA_ARGS}
+    deps:
+      - ${KS4_CANONICALIZED_CSV_DIR}
+      - data/merge_data.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${MERGE_KS4_DATA_ARGS.output}
+  annotate_census_data:
+    cmd: python data/annotate_census_data.py ${ANNOTATE_CENSUS_ARGS}
+    deps:
+      - ${ANNOTATE_CENSUS_ARGS.input}
+      - ${ANNOTATE_CENSUS_ARGS.school_info}
+      - data/annotate_census_data.py
+      - ../src/merge_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/py_utils.py
+    outs:
+      - ${ANNOTATE_CENSUS_ARGS.output}
+  annotate_attendance_data:
+    cmd: python data/annotate_attendance_data.py ${ANNOTATE_ATTENDANCE_ARGS}
+    deps:
+      - ${ANNOTATE_ATTENDANCE_ARGS.input}
+      - ${ANNOTATE_ATTENDANCE_ARGS.school_info}
+      - data/annotate_attendance_data.py
+      - ../src/merge_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src//attendance_utils.py
+    outs:
+      - ${ANNOTATE_ATTENDANCE_ARGS.output}
+  annotate_ccis_data:
+    cmd: python data/annotate_neet_data.py ${ANNOTATE_CCIS_ARGS}
+    deps:
+      - ${ANNOTATE_CCIS_ARGS.input}
+      - ${ANNOTATE_CCIS_ARGS.school_info}
+      - data/annotate_neet_data.py
+      - ../src/merge_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/ccis_utils.py
+    outs:
+      - ${ANNOTATE_CCIS_ARGS.output}
+  annotate_ks4_data:
+    cmd: python data/annotate_ks4_data.py ${ANNOTATE_KS4_ARGS}
+    deps:
+      - ${ANNOTATE_KS4_ARGS.input}
+      - ${ANNOTATE_KS4_ARGS.school_info}
+      - data/annotate_ks4_data.py
+      - ../src/merge_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${ANNOTATE_KS4_ARGS.output}
+  ccis_premerge:
+    cmd: python data/neet_premerge.py ${CCIS_PREMERGE_ARGS}
+    deps:
+      - ${CCIS_PREMERGE_ARGS.input}
+      - data/neet_premerge.py
+      - ../src/data_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/aggregation_utils.py
+    outs:
+      - ${CCIS_PREMERGE_ARGS.output}
+  attendance_exact:
+    cmd: python data/attendance_premerge.py  ${ATTENDANCE_EXACT_ARGS}
+    deps:
+      - ${ATTENDANCE_EXACT_ARGS.input}
+      - data/attendance_premerge.py
+      - ../src/data_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/attendance_utils.py
+    outs:
+      - ${ATTENDANCE_EXACT_ARGS.output}
+  attendance_percent1:
+    cmd: python data/attendance_premerge.py ${ATTENDANCE_PERCENT1_ARGS}
+    deps:
+      - ${ATTENDANCE_PERCENT1_ARGS.input}
+      - data/attendance_premerge.py
+      - ../src/data_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/attendance_utils.py
+    outs:
+      - ${ATTENDANCE_PERCENT1_ARGS.output}
+  attendance_percent2:
+    cmd: python data/attendance_premerge.py ${ATTENDANCE_PERCENT2_ARGS}
+    deps:
+      - ${ATTENDANCE_PERCENT2_ARGS.input}
+      - data/attendance_premerge.py
+      - ../src/data_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/attendance_utils.py
+    outs:
+      - ${ATTENDANCE_PERCENT2_ARGS.output}
+  attendance_normed:
+    cmd: python data/attendance_premerge.py ${ATTENDANCE_NORMED_ARGS}
+    deps:
+      - ${ATTENDANCE_NORMED_ARGS.input}
+      - data/attendance_premerge.py
+      - ../src/data_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/attendance_utils.py
+    outs:
+      - ${ATTENDANCE_NORMED_ARGS.output}
+  ks2_filter:
+    cmd: python data/ks2_filter.py ${KS2_FILTER_ARGS}
+    deps:
+      - ${KS2_FILTER_ARGS.input}
+      - data/ks2_filter.py
+      - ../src/data_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+    outs:
+      - ${KS2_FILTER_ARGS.output}
+  census_premerge:
+    cmd: python data/census_premerge.py ${CENSUS_PREMERGE_ARGS}
+    deps:
+      - ${CENSUS_PREMERGE_ARGS.input}
+      - data/census_premerge.py
+      - ../src/data_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+    outs:
+      - ${CENSUS_PREMERGE_ARGS.output}
+  merge_multi_modeling:
+    cmd: python data/merge_multi_upn.py ${MERGE_MULTI_MODELING_ARGS}
+    # --output ${MERGE_MULTI_MODELING_ARGS.output} --att ${MERGE_MULTI_MODELING_ARGS.att} --ccis ${MERGE_MULTI_MODELING_ARGS.ccis} --census ${MERGE_MULTI_MODELING_ARGS.census} --ks2 ${MERGE_MULTI_MODELING_ARGS.ks2} modeling --target ${MERGE_MULTI_MODELING_ARGS.target}
+    deps:
+      - ${MERGE_MULTI_MODELING_ARGS.ccis}
+      - ${MERGE_MULTI_MODELING_ARGS.att}
+      - ${MERGE_MULTI_MODELING_ARGS.ks2}
+      - ${MERGE_MULTI_MODELING_ARGS.census}
+      - data/merge_multi_upn.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/merge_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${MERGE_MULTI_MODELING_ARGS.output}
+  merge_multi_unknowns:
+    cmd: python data/merge_multi_upn.py ${MERGE_MULTI_UNKNOWN_ARGS}
+    deps:
+      - ${MERGE_MULTI_UNKNOWN_ARGS.ccis}
+      - ${MERGE_MULTI_UNKNOWN_ARGS.att}
+      - ${MERGE_MULTI_UNKNOWN_ARGS.ks2}
+      - ${MERGE_MULTI_UNKNOWN_ARGS.census}
+      - data/merge_multi_upn.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/merge_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${MERGE_MULTI_UNKNOWN_ARGS.output}
+  merge_multi_prediction:
+    cmd: python data/merge_multi_upn.py ${MERGE_MULTI_PREDICTION_ARGS}
+    deps:
+      - ${MERGE_MULTI_PREDICTION_ARGS.ccis}
+      - ${MERGE_MULTI_PREDICTION_ARGS.att}
+      - ${MERGE_MULTI_PREDICTION_ARGS.ks2}
+      - ${MERGE_MULTI_PREDICTION_ARGS.census}
+      - data/merge_multi_upn.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/merge_utils.py
+      - ../src/data_utils.py
+    outs:
+        - ${MERGE_MULTI_PREDICTION_ARGS.output}
+  multi_categorical_modeling:
+    cmd: python data/multi_upn_categorical.py ${MULTI_UPN_CATEGORICAL_ARGS}
+    deps:
+      - data/multi_upn_categorical.py
+      - ${MULTI_UPN_CATEGORICAL_ARGS.input}
+      - ../src/file_utils.py
+      - ../src/data_utils.py
+      - ../src/log_utils.py
+    outs:
+      - ${MULTI_UPN_CATEGORICAL_ARGS.output}
+  multi_categorical_predictions:
+    cmd: python data/multi_upn_categorical.py ${MULTI_UPN_CATEGORICAL_PREDICTIONS_ARGS}
+    deps:
+      - data/multi_upn_categorical.py
+      - ${MULTI_UPN_CATEGORICAL_PREDICTIONS_ARGS.input}
+      - ../src/file_utils.py
+      - ../src/data_utils.py
+      - ../src/log_utils.py
+    outs:
+      - ${MULTI_UPN_CATEGORICAL_PREDICTIONS_ARGS.output}
+  multi_categorical_unknowns:
+    cmd: python data/multi_upn_categorical.py ${MULTI_UPN_CATEGORICAL_UNKNOWNS_ARGS}
+    deps:
+      - data/multi_upn_categorical.py
+      - ${MULTI_UPN_CATEGORICAL_UNKNOWNS_ARGS.input}
+      - ../src/file_utils.py
+      - ../src/data_utils.py
+      - ../src/log_utils.py
+    outs:
+      - ${MULTI_UPN_CATEGORICAL_UNKNOWNS_ARGS.output}
+  multi_to_single:
+    cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_ARGS}
+    deps:
+      - data/multiple_to_single.py
+      - ${MULTIPLE_TO_SINGLE_ARGS.input}
+    outs:
+      - ${MULTIPLE_TO_SINGLE_ARGS.output}
+  multi_to_single_unknowns:
+    cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS}
+    deps:
+      - data/multiple_to_single.py
+      - ${MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS.input}
+    outs:
+      - ${MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS.output}
+  multi_to_single_predictions:
+    cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS}
+    deps:
+      - data/multiple_to_single.py
+      - ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS.input}
+    outs:
+      - ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS.output}
+  feature_selection_single:
+    cmd: python data/feature_selection.py ${FEATURE_SELECTION_SINGLE_UPN_PARAMS}
+    deps:
+      - data/feature_selection.py
+      - ${FEATURE_SELECTION_SINGLE_UPN_PARAMS.input}
+    params:
+      - FEATURE_SELECTION_METHOD
+      - REMOVE_MOSTLY_MISSING_SINGLE_UPN_THRESHOLD
+    outs:
+      - ${FEATURE_SELECTION_SINGLE_UPN_PARAMS.output}
+  additional_data:
+    cmd: python data/additional_data.py ${ADDITIONAL_DATA_ARGS}
+    deps:
+      - data/additional_data.py
+      - ${ADDITIONAL_DATA_ARGS.census_input}
+      - ${ADDITIONAL_DATA_ARGS.att_input}
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/attendance_utils.py
+    outs:
+      - ${ADDITIONAL_DATA_ARGS.output}
+  feature_selection_predict_single:
+    cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS}
+    deps:
+      - data/feature_selection_for_predictions.py
+      - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.input}
+      - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.train_data}
+      - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.student_names}
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    params:
+      - FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.single
+      - FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.fill_fsme
+    outs:
+      - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.output}
+      - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.unidentified_csv}
+  feature_selection_unknowns_single:
+    cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS}
+    deps:
+      - data/feature_selection_for_predictions.py
+      - ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.input}
+      - ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.train_data}
+      - ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.student_names}
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    params:
+      - FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.single
+      - FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.fill_fsme
+    outs:
+      - ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.output}
+      - ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.unidentified_csv}
       
-  # feature_selection_multi_upn:
-  #   cmd: python data/feature_selection.py ${FEATURE_SELECTION_MULTI_UPN_PARAMS}
-  #   deps:
-  #     - ${MULTI_UPN_CATEGORICAL_FP}
-  #     - data/feature_selection.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #     - ../src/error_utils.py
-  #   params:
-  #     - FEATURE_SELECTION_METHOD
-  #     - REMOVE_MOSTLY_MISSING_MULTI_UPN_THRESHOLD
-  #   outs:
-  #     - ${FEATURE_SELECTED_MULTI_UPN_CATEGORICAL_FP}
-
-  # multiple_to_single:
-  #   cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_PARAMS} 
-  #   deps:
-  #     - ${MULTI_UPN_CATEGORICAL_FP}
-  #     - data/multiple_to_single.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   params:
-  #     - MULTI_UPN_CATEGORICAL_TO_SINGLE_AGGS
-  #   outs:
-  #     - ${SINGLE_UPN_CATEGORICAL_FP}
-
-  # feature_selection_single_upn:
-  #   cmd: python data/feature_selection.py ${FEATURE_SELECTION_SINGLE_UPN_PARAMS}
-  #   deps:
-  #     - ${SINGLE_UPN_CATEGORICAL_FP}
-  #     - data/feature_selection.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #     - ../src/error_utils.py
-  #   params:
-  #     - FEATURE_SELECTION_METHOD
-  #     - REMOVE_MOSTLY_MISSING_SINGLE_UPN_THRESHOLD
-  #   outs:
-  #     - ${FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_FP}
+  feature_selection_multi:
+    cmd: python data/feature_selection.py ${FEATURE_SELECTION_MULTI_UPN_ARGS}
+    deps:
+      - ${FEATURE_SELECTION_MULTI_UPN_ARGS.input}
+      - data/feature_selection.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/error_utils.py
+    params:
+      - FEATURE_SELECTION_METHOD
+      - REMOVE_MOSTLY_MISSING_MULTI_UPN_THRESHOLD
+    outs:
+      - ${FEATURE_SELECTION_MULTI_UPN_ARGS.output}
       
   # split_covid_years:
-  #   cmd: python data/split_covid_years.py ${SPLIT_COVID_YEARS_PARAMS}
+  #   cmd: python data/split_covid_years.py ${SPLIT_COVID_YEARS_ARGS}
   #   deps:
   #     - ${MULTI_UPN_CATEGORICAL_FP}
   #     - data/split_covid_years.py
@@ -500,7 +366,7 @@
   #     - ${POST_COVID_MULTI_UPN_CATEGORICAL_FP}
 
   # feature_selection_multi_upn_pre_covid:
-  #   cmd: python data/feature_selection.py ${FEATURE_SELECTION_MULTI_UPN_PRE_COVID_PARAMS}
+  #   cmd: python data/feature_selection.py ${FEATURE_SELECTION_MULTI_UPN_PRE_COVID_ARGS}
   #   deps:
   #     - ${PRE_COVID_MULTI_UPN_CATEGORICAL_FP}
   #     - data/feature_selection.py
@@ -515,7 +381,7 @@
   #     - ${FS_PRE_COVID_MULTI_UPN_CATEGORICAL_FP}
 
   # feature_selection_multi_upn_post_covid:
-  #   cmd: python data/feature_selection.py ${FEATURE_SELECTION_MULTI_UPN_POST_COVID_PARAMS}
+  #   cmd: python data/feature_selection.py ${FEATURE_SELECTION_MULTI_UPN_POST_COVID_ARGS}
   #   deps:
   #     - ${POST_COVID_MULTI_UPN_CATEGORICAL_FP}
   #     - data/feature_selection.py
@@ -530,7 +396,7 @@
   #     - ${FS_POST_COVID_MULTI_UPN_CATEGORICAL_FP}
       
   # multiple_to_single_pre_covid:
-  #   cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_PRE_COVID_PARAMS}
+  #   cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_PRE_COVID_ARGS}
   #   deps:
   #     - ${PRE_COVID_MULTI_UPN_CATEGORICAL_FP}
   #     - data/multiple_to_single.py
@@ -543,7 +409,7 @@
   #     - ${PRE_COVID_SINGLE_UPN_CATEGORICAL_FP}
 
   # multiple_to_single_post_covid:
-  #   cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_POST_COVID_PARAMS}
+  #   cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_POST_COVID_ARGS}
   #   deps:
   #     - ${POST_COVID_MULTI_UPN_CATEGORICAL_FP}
   #     - data/multiple_to_single.py
@@ -556,7 +422,7 @@
   #     - ${POST_COVID_SINGLE_UPN_CATEGORICAL_FP}
       
   # feature_selection_single_upn_pre_covid:
-  #   cmd: python data/feature_selection.py ${FEATURE_SELECTION_SINGLE_UPN_PRE_COVID_PARAMS}
+  #   cmd: python data/feature_selection.py ${FEATURE_SELECTION_SINGLE_UPN_PRE_COVID_ARGS}
   #   deps:
   #     - ${PRE_COVID_SINGLE_UPN_CATEGORICAL_FP}
   #     - data/feature_selection.py
@@ -571,7 +437,7 @@
   #     - ${FS_PRE_COVID_SINGLE_UPN_CATEGORICAL_FP}      
       
   # feature_selection_single_upn_post_covid:
-  #   cmd: python data/feature_selection.py ${FEATURE_SELECTION_SINGLE_UPN_POST_COVID_PARAMS}
+  #   cmd: python data/feature_selection.py ${FEATURE_SELECTION_SINGLE_UPN_POST_COVID_ARGS}
   #   deps:
   #     - ${POST_COVID_SINGLE_UPN_CATEGORICAL_FP}
   #     - data/feature_selection.py
@@ -585,33 +451,136 @@
   #   outs:
   #     - ${FS_POST_COVID_SINGLE_UPN_CATEGORICAL_FP}  
       
-  # split_data_single:
-  #   cmd: python model/split_data.py ${SPLIT_DATA_SINGLE_PARAMS}
-  #   deps:
-  #     - ${FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_FP}
-  #     - model/split_data.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   params:
-  #     - TEST_SPLIT
-  #     - TARGET
-  #   outs:
-  #     - ${SINGLE_TRAIN_FP}
-  #     - ${SINGLE_TEST_FP}
+  split_data_single:
+    cmd: python model/split_data.py ${SPLIT_DATA_SINGLE_ARGS}
+    deps:
+      - ${FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_FP}
+      - model/split_data.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    params:
+      - TEST_SPLIT
+      - TARGET
+    outs:
+      - ${SINGLE_TRAIN_FP}
+      - ${SINGLE_TEST_FP}
       
-  # split_data_multiple:
-  #   cmd: python model/split_data.py ${SPLIT_DATA_MULTI_PARAMS}
-  #   deps:
-  #     - ${FEATURE_SELECTED_MULTI_UPN_CATEGORICAL_FP}
-  #     - model/split_data.py
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   params:
-  #     - TEST_SPLIT
-  #     - TARGET
-  #   outs:
-  #     - ${MULTI_TRAIN_FP}
-  #     - ${MULTI_TEST_FP}
+  split_data_multiple:
+    cmd: python model/split_data.py ${SPLIT_DATA_MULTI_ARGS}
+    deps:
+      - ${FEATURE_SELECTED_MULTI_UPN_CATEGORICAL_FP}
+      - model/split_data.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    params:
+      - TEST_SPLIT
+      - TARGET
+    outs:
+      - ${MULTI_TRAIN_FP}
+
+
+  model_evaluation_roni_model:
+    cmd: python model/roni_tool.py ${RONI_PARAMS}
+    deps:
+      - ${SINGLE_TRAIN_FP}
+      - ${SINGLE_TEST_FP}
+      - model/roni_tool.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/roni.py
+    params:
+      - TARGET
+    outs:
+      - ${RONI_TEST_RESULTS}:
+          cache: false
+
+  feature_selection_predict_multi :
+    cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_MULTI_UPN_PREDICT_PARAMS}
+    deps:
+      - ${MULTI_UPN_CATEGORICAL_PREDICT_FP}
+      - ${MULTI_TRAIN_FP}
+      - ${ADDITIONAL_DATA_FP}
+      - data/feature_selection_for_predictions.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/error_utils.py
+    outs:
+      - ${FS_MULTI_UPN_CATEGORICAL_PREDICT_FP} 
+      - ${MULTI_UNIDENTIFIED_PRED_FP}
+  cv_optimization_and_cv:
+    cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_ARGS}
+    deps:
+      - python model/optimization_and_cv.py
+      - ${OPTIMIZATION_AND_CV_ARGS.input}
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+  retrain_model_single:
+    cmd: python model/retrain.py ${RETRAIN_SINGLE_PARAMS}
+    deps:
+      - ${SINGLE_TRAIN_FP}
+      - ${LGBM1_METRICS_SINGLE}
+      - model/retrain.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    params:
+      - TARGET
+    outs:
+      - ${MODEL_BEST_THRESH_SINGLE}:
+          cache: false
+      - ${MODEL_MEAN_THRESH_SINGLE}:
+          cache: false
+
+  test_model_single:
+    cmd: python model/test.py ${TEST_SINGLE_PARAMS}
+    deps:
+      - ${SINGLE_TEST_FP}
+      - ${MODEL_BEST_THRESH_SINGLE}
+      - ${MODEL_MEAN_THRESH_SINGLE}
+      - model/test.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    params:
+      - TARGET
+    outs:
+      - ${TEST_RESULTS_SINGLE_CSV_FP}:
+          cache: false
+      - ${FINAL_MODEL_SINGLE_FP}:
+          cache: false
+
+  prediction_predict_single:
+    cmd: python model/predict.py ${PREDICT_SINGLE_PARAMS}
+    deps:
+      - ${FS_SINGLE_UPN_CATEGORICAL_PREDICT_FP}
+      - ${FINAL_MODEL_SINGLE_FP}
+      - ${RONI_TEST_RESULTS}
+      - ${ADDITIONAL_DATA_FP} 
+      - model/predict.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${PREDICTIONS_CSV_FP_SINGLE}
+
+  predict_unknowns_single:
+    cmd: python model/predict.py ${UNKNOWNS_SINGLE_PARAMS}
+    deps:
+      - ${FS_SINGLE_UPN_CATEGORICAL_UNKNOWNS_FP}
+      - ${FINAL_MODEL_SINGLE_FP}
+      - ${RONI_TEST_RESULTS}
+      - ${ADDITIONAL_DATA_FP} 
+      - model/predict.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${UNKNOWN_PREDICTIONS_CSV_FP_SINGLE}
       
+

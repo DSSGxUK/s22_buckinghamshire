@@ -52,23 +52,24 @@ if __name__ == "__main__":
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
     
     # loading the multiple UPN dataset file
-    df = d.load_csv(args.input,drop_empty=True, drop_single_valued=True,drop_duplicates=True,read_as_str=False,na_vals=NA_VALS,logger=logger)
-        
+    df = d.load_csv(
+        args.input,
+        drop_empty=False, 
+        drop_single_valued=False,
+        drop_duplicates=True,
+        read_as_str=False,
+        na_vals=NA_VALS,
+        logger=logger,
+        convert_dtypes=True,
+        downcast=True,
+        use_na=True
+    )
     # applying aggregation function
     agg_dict = au.build_agg_dict(MULTI_UPN_CATEGORICAL_TO_SINGLE_AGGS, columns=df.columns)
     df = au.gby_agg_with_logging(df, groupby_column=UPN, agg_dict=agg_dict, logger=logger)
 
-    # breakpoint()
-        
-    csv_fp = args.output
+    csv_fp = f.tmp_path(args.output, debug=args.debug)
 
-    if args.debug:
-         csv_fp = f.tmp_path(csv_fp)
-    
     logger.info(f'Saving aggregated(Single UPN) data to {csv_fp}')
     df.to_csv(csv_fp, index=False)
-        
-    
-    
-    
     
