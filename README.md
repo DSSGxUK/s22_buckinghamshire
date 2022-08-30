@@ -62,28 +62,39 @@ This part will change slightly depending on what operating system you are using.
   `dvc pull -r origin` <br />
   
   `cd scripts` <br />
-
-  ## Generate datasets for modelling
-    
-    `dvc repro --glob generate_modeling_*`
-    
-  ## Retrain model [only when there is new data]: 
   
-    `dvc repro --glob retrain_*`
-    
-  ## Run cross validation and hyper parameter search
-    
-    `dvc repro --glob cv_*`
-    
-  ## Model Evaluation
-    
-    `dvc repro --glob evaluate_model_*`
-    
-  ## Generate datasets for predictions and final output
+  ## Run the whole pipeline
   
-    `dvc repro --glob prediction_*`
+    ### Generate datasets for modelling <br />
+     `dvc repro --glob generate_modeling_*` <br />
+    ### Run cross validation and hyper parameter search <br />
+      `dvc repro --glob cv_*` <br />
+    ### Model Evaluation <br />
+      `dvc repro --glob evaluate_model_*` <br />
+    ### Generate datasets for predictions and final output <br />
+      `dvc repro --glob prediction_*` <br />
+    
+  ## Run the train with old best params
+    
+    ### Generate datasets for modelling <br />
+    `dvc repro --glob generate_modeling_*` <br />
+    ### Model Evaluation <br />
+      `dvc repro --glob evaluate_model_*` <br />
+    ### Generate datasets for predictions and final output <br />
+      `dvc repro --glob prediction_*`
+    
+  ## Run the old model with new data
+    
+    ### Generate datasets for modelling <br />
+    `dvc repro --glob generate_modeling_*` <br />
+    ### Retrain model <br />
+    `dvc repro --glob retrain_*` <br />
+    ### Model Evaluation <br />
+     `dvc repro --glob evaluate_model_*` <br />
+    ### Generate datasets for predictions and final output <br />
+      `dvc repro --glob prediction_*`
 
-
+    
     
 # Expected data schema for Power BI dashboard:
 
@@ -111,7 +122,6 @@ This part will change slightly depending on what operating system you are using.
 
 8. unidentified%
 - unidentified% = DISTINCTCOUNT(Unidentified[UPN])*100/DISTINCTCOUNT(fake_test_dataset[upn])
-
 
 
 •	We also need to create few new columns for PowerBI. These are as follows along with the formula:
