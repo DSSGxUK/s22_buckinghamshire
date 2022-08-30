@@ -17,14 +17,17 @@ parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
     "--ccis_input",
+    type=lambda x: x.strip("'"),
     required=True,
     help="where to find the CCIS (NEET dataset) annotated csv",
 )
 parser.add_argument(
-    "--ks_input", required=True, help="where to find the Key Stage annotated csv"
+    "--ks_input", 
+    type=lambda x: x.strip("'"),required=True, help="where to find the Key Stage annotated csv"
 )
 parser.add_argument(
-    "--output", required=True, help="where to put the produced CCIS - Key Stage EDA csv"
+    "--output", 
+    type=lambda x: x.strip("'"),required=True, help="where to put the produced CCIS - Key Stage EDA csv"
 )
 parser.add_argument(
     "--no_file_logging",

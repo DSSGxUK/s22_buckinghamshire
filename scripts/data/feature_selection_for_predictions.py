@@ -45,23 +45,28 @@ parser.add_argument(
     help="should use single upn dataset instead of multi?",
 )
 parser.add_argument(
-    "--input", required=True, help="where to find the prediction dataset"
+    "--input", type=lambda x: x.strip("'"),
+    required=True, help="where to find the prediction dataset"
 )
 parser.add_argument(
-    "--output", required=True, help="where to save the feature selected dataset"
+    "--output", type=lambda x: x.strip("'"),
+    required=True, help="where to save the feature selected dataset"
 )
 parser.add_argument(
     "--student_names",
+    type=lambda x: x.strip("'"),
     required=True,
     help="where to find the dataset with student names",
 )
 parser.add_argument(
     "--unidentified_csv",
+    type=lambda x: x.strip("'"),
     required=True,
     help="where to save the csv with unidentifiable students",
 )
 parser.add_argument(
-    "--train_data", required=True, help="where to locate the training dataset"
+    "--train_data", type=lambda x: x.strip("'"),
+    required=True, help="where to locate the training dataset"
 )
 parser.add_argument(
     "--fill_fsme", action="store_true", help="whether to forward fill fsme"

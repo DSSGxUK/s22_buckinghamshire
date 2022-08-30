@@ -40,20 +40,25 @@ parser.add_argument(
     "--inputs",
     required=True,
     nargs="+",
+    type=lambda x: x.strip("'"),
     help="where to find the input canonicalized data csvs",
 )
 parser.add_argument(
     "--data_dates",
     required=True,
     nargs="+",
+    type=lambda x: x.strip("'"),
     help="The date of of the data submission in the form of [Month][Yr] (e.g. oct21 is for October 2021)",
 )
 parser.add_argument(
-    "--output", required=True, help="where to put the output merged attendance csv"
+    "--output", required=True, 
+    type=lambda x: x.strip("'"),
+    help="where to put the output merged attendance csv"
 )
 parser.add_argument(
     "--dataset_type",
     required=True,
+    type=lambda x: x.strip("'"),
     choices=asdict(DatasetTypes).values(),
     help="where to put the output merged attendance csv",
 )

@@ -215,25 +215,25 @@ CANONICALIZE_CSV_ARGS:
   outputs: ../data\interim\census_canonicalized_csv\census_jan22.csv
 - dataset_type: ccis
   inputs: ../data\raw\ccis_original_csv\NEET_MI_Feb16_with_YPID_to_Warwick.csv
-  outputs: ../data\raw\ccis_canonicalized_csv\neet_mar16.csv
+  outputs: ../data\interim\ccis_canonicalized_csv\neet_mar16.csv
 - dataset_type: ccis
   inputs: ../data\raw\ccis_original_csv\NEET_MI_Feb17_with_YPID_to_Warwick.csv
-  outputs: ../data\raw\ccis_canonicalized_csv\neet_mar17.csv
+  outputs: ../data\interim\ccis_canonicalized_csv\neet_mar17.csv
 - dataset_type: ccis
   inputs: ../data\raw\ccis_original_csv\NEET_MI_Feb18_with_YPID_to_Warwick.csv
-  outputs: ../data\raw\ccis_canonicalized_csv\neet_mar18.csv
+  outputs: ../data\interim\ccis_canonicalized_csv\neet_mar18.csv
 - dataset_type: ccis
   inputs: ../data\raw\ccis_original_csv\NEET_MI_Feb19_with_YPID_to_Warwick.csv
-  outputs: ../data\raw\ccis_canonicalized_csv\neet_mar19.csv
+  outputs: ../data\interim\ccis_canonicalized_csv\neet_mar19.csv
 - dataset_type: ccis
   inputs: ../data\raw\ccis_original_csv\NEET_MI_Feb20_with_YPID_to_Warwick.csv
-  outputs: ../data\raw\ccis_canonicalized_csv\neet_mar20.csv
+  outputs: ../data\interim\ccis_canonicalized_csv\neet_mar20.csv
 - dataset_type: ccis
   inputs: ../data\raw\ccis_original_csv\NEET_MI_Feb21_with_YPID_to_Warwick.csv
-  outputs: ../data\raw\ccis_canonicalized_csv\neet_mar21.csv
+  outputs: ../data\interim\ccis_canonicalized_csv\neet_mar21.csv
 - dataset_type: ccis
   inputs: ../data\raw\ccis_original_csv\NEET_MI_Feb22_with_YPID_to_Warwick.csv
-  outputs: ../data\raw\ccis_canonicalized_csv\neet_mar22.csv
+  outputs: ../data\interim\ccis_canonicalized_csv\neet_mar22.csv
 - dataset_type: ks4
   inputs: ../data\raw\ks4_original_csv\KS4_2015_Hard_Coded.csv
   outputs: ../data\interim\ks4_canonicalized_csv\ks4_sep15.csv
@@ -425,13 +425,13 @@ MERGE_CCIS_DATA_ARGS:
   - mar22
   dataset_type: ccis
   inputs:
-  - ../data\raw\ccis_canonicalized_csv\neet_mar16.csv
-  - ../data\raw\ccis_canonicalized_csv\neet_mar17.csv
-  - ../data\raw\ccis_canonicalized_csv\neet_mar18.csv
-  - ../data\raw\ccis_canonicalized_csv\neet_mar19.csv
-  - ../data\raw\ccis_canonicalized_csv\neet_mar20.csv
-  - ../data\raw\ccis_canonicalized_csv\neet_mar21.csv
-  - ../data\raw\ccis_canonicalized_csv\neet_mar22.csv
+  - ../data\interim\ccis_canonicalized_csv\neet_mar16.csv
+  - ../data\interim\ccis_canonicalized_csv\neet_mar17.csv
+  - ../data\interim\ccis_canonicalized_csv\neet_mar18.csv
+  - ../data\interim\ccis_canonicalized_csv\neet_mar19.csv
+  - ../data\interim\ccis_canonicalized_csv\neet_mar20.csv
+  - ../data\interim\ccis_canonicalized_csv\neet_mar21.csv
+  - ../data\interim\ccis_canonicalized_csv\neet_mar22.csv
   output: ../data\interim\neet_merged.csv
 MERGE_CENSUS_DATA_ARGS:
   data_dates:
@@ -526,15 +526,15 @@ MULTI_UPN_FP: ../data\interim\multi_upn.csv
 MULTI_UPN_PREDICTION_FP: ../data\interim\multi_upn_prediction.csv
 MULTI_UPN_UNKNOWNS_FP: ../data\interim\multi_upn_unknowns.csv
 NEET_ANNOTATED_CSV_FP: ../data\interim\neet_annotated.csv
-NEET_CANONICALIZED_CSV_DIR: ../data\raw\ccis_canonicalized_csv
+NEET_CANONICALIZED_CSV_DIR: ../data\interim\ccis_canonicalized_csv
 NEET_CANONICALIZED_CSV_FPS:
-  mar16: ../data\raw\ccis_canonicalized_csv\neet_mar16.csv
-  mar17: ../data\raw\ccis_canonicalized_csv\neet_mar17.csv
-  mar18: ../data\raw\ccis_canonicalized_csv\neet_mar18.csv
-  mar19: ../data\raw\ccis_canonicalized_csv\neet_mar19.csv
-  mar20: ../data\raw\ccis_canonicalized_csv\neet_mar20.csv
-  mar21: ../data\raw\ccis_canonicalized_csv\neet_mar21.csv
-  mar22: ../data\raw\ccis_canonicalized_csv\neet_mar22.csv
+  mar16: ../data\interim\ccis_canonicalized_csv\neet_mar16.csv
+  mar17: ../data\interim\ccis_canonicalized_csv\neet_mar17.csv
+  mar18: ../data\interim\ccis_canonicalized_csv\neet_mar18.csv
+  mar19: ../data\interim\ccis_canonicalized_csv\neet_mar19.csv
+  mar20: ../data\interim\ccis_canonicalized_csv\neet_mar20.csv
+  mar21: ../data\interim\ccis_canonicalized_csv\neet_mar21.csv
+  mar22: ../data\interim\ccis_canonicalized_csv\neet_mar22.csv
 NEET_DATASET_CSV_DIR: ../data\raw\ccis_original_csv
 NEET_DATASET_CSV_FPS:
   mar16: ../data\raw\ccis_original_csv\NEET_MI_Feb16_with_YPID_to_Warwick.csv
