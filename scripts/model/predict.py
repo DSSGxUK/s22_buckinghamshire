@@ -45,6 +45,7 @@ from src.constants import (
     AttendanceDataColumns,
     CharacteristicsDataColumns,
     UPN,
+    YEAR,
     NA_VALS,
     Targets,
 )
@@ -216,6 +217,7 @@ if __name__ == "__main__":
     # Save predictions & probabilities
     PREDICTIONS_CSV_FP = args.output
     output_predictions = df_original
+
     output_predictions["predictions"] = predictions
     output_predictions["probabilities"] = y_prob
     # print (max(output_predictions['probabilities']),min(output_predictions['probabilities']))
@@ -224,6 +226,7 @@ if __name__ == "__main__":
     logger.info(f"Scaling probabilities for power bi dashboard")
     new_threshold = 7  # for power bi dashboard
     threshold = pipeline.threshold
+
     neet = output_predictions[output_predictions["predictions"] == 1]
     eet = output_predictions[output_predictions["predictions"] == 0]
     eet = scale_probs_sep_threshold(
@@ -237,6 +240,7 @@ if __name__ == "__main__":
     feature_names = data_df.columns
     # Feature importance
     logger.info(f"Calculating feature importances")
+
     final_estimator = pipeline.estimator[-1]
     if hasattr(final_estimator, "coef_"):
         model_coefs = pd.Series(pipeline.estimator[-1].coef_[0], index=feature_names)
