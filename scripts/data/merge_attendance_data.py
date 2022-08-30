@@ -43,40 +43,48 @@ from src import file_utils as f
 from src import log_utils as l
 from src import data_utils as d
 
-parser = argparse.ArgumentParser(description='')
-parser.add_argument('--debug', action='store_true',
-                    help='run transform in debug mode')
-parser.add_argument('--input', required=True,
-                    help='where to find the input canonicalized attendance data csv')
-parser.add_argument('--output', required=True,
-                    help='where to put the output merged attendance csv')
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
+parser.add_argument(
+    "--input",
+    required=True,
+    help="where to find the input canonicalized attendance data csv",
+)
+parser.add_argument(
+    "--output", required=True, help="where to put the output merged attendance csv"
+)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parser.parse_args()
-    
+
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
-    
+
     att_dfs = d.load_csvs(
-        args.input, 
-        drop_empty=False, 
+        args.input,
+        drop_empty=False,
         drop_single_valued=False,
         drop_duplicates=True,
         read_as_str=True,
         na_vals=NA_VALS,
-        logger=logger
+        logger=logger,
     )
-    
+
     att_dfs = {d.savedate_to_datetime(date): df for date, df in att_dfs.items()}
-    logger.info('Adding column for end of term of each attendance dataset')
+    logger.info("Adding column for end of term of each attendance dataset")
     merged_att_df = pd.concat(
-        [d.add_column(df, AttendanceDataColumns.term_end, datetime.strftime(date, '%Y-%m-%d')) for date, df in sorted(att_dfs.items(), key=lambda x: x[0])], 
-        axis=0
+        [
+            d.add_column(
+                df, AttendanceDataColumns.term_end, datetime.strftime(date, "%Y-%m-%d")
+            )
+            for date, df in sorted(att_dfs.items(), key=lambda x: x[0])
+        ],
+        axis=0,
     )
-    
+
     csv_fp = args.output
     if args.debug:
         csv_fp = f.tmp_path(csv_fp)
-    
-    logger.info(f'Saving merged data for attendance data to {csv_fp}')
+
+    logger.info(f"Saving merged data for attendance data to {csv_fp}")
     merged_att_df.to_csv(csv_fp, index=False)

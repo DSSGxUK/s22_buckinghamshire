@@ -10,7 +10,7 @@ def error_with_logging(msg: str, logger: logging.Logger, error_type):
 
     We use this method as a shorthand because we often want to log an error
     and raise it. The advantage of logging it is our logger may be setup
-    to write to other streams in addition to `sys.stdout` (where `print` 
+    to write to other streams in addition to `sys.stdout` (where `print`
     writes to), such as a file.
 
     Parameters

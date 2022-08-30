@@ -25,35 +25,32 @@ import argparse
 from datetime import datetime
 
 # DVC Params
-#from src.constants import ()
+# from src.constants import ()
 
 # Other code
 from src import file_utils as f
 from src import log_utils as l
 from src import data_utils as d
 
-parser = argparse.ArgumentParser(description='')
-parser.add_argument('--debug', action='store_true',
-                    help='run transform in debug mode')
-parser.add_argument('--input', required=True,
-                    help='where to find the input school info excel file')
-parser.add_argument('--output', required=True,
-                    help='where to put the output school info csv')
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
+parser.add_argument(
+    "--input", required=True, help="where to find the input school info excel file"
+)
+parser.add_argument(
+    "--output", required=True, help="where to put the output school info csv"
+)
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    
+
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
-    
-    csv_fps = {'schools': args.output}
+
+    csv_fps = {"schools": args.output}
     if args.debug:
-         csv_fps = f.tmp_paths(csv_fps)
-    
+        csv_fps = f.tmp_paths(csv_fps)
+
     d.save_xls_to_csv(
-        xl_fps= {'schools': args.input},
-        csv_fps=csv_fps,
-        header_row=3,
-        logger=logger
+        xl_fps={"schools": args.input}, csv_fps=csv_fps, header_row=3, logger=logger
     )
-    

@@ -27,74 +27,99 @@ from datetime import datetime
 from dataclasses import asdict
 
 # DVC Params
-from src.constants import (
-    NA_VALS,
-    DatasetTypes,
-    DATA_DATE
-)
+from src.constants import NA_VALS, DatasetTypes, DATA_DATE
 
 # Other code
 from src import file_utils as f
 from src import log_utils as l
 from src import data_utils as d
 
-parser = argparse.ArgumentParser(description='')
-parser.add_argument('--debug', action='store_true',
-                    help='run transform in debug mode')
-parser.add_argument('--inputs', required=True, nargs="+",
-                    help='where to find the input canonicalized data csvs')
-parser.add_argument('--data_dates', required=True, nargs="+",
-                    help='The date of of the data submission in the form of [Month][Yr] (e.g. oct21 is for October 2021)')
-parser.add_argument('--output', required=True,
-                    help='where to put the output merged attendance csv')
-parser.add_argument('--dataset_type', required=True, #choices=asdict(DatasetTypes).values(),
-                    help='where to put the output merged attendance csv')
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
+parser.add_argument(
+    "--inputs",
+    required=True,
+    nargs="+",
+    help="where to find the input canonicalized data csvs",
+)
+parser.add_argument(
+    "--data_dates",
+    required=True,
+    nargs="+",
+    help="The date of of the data submission in the form of [Month][Yr] (e.g. oct21 is for October 2021)",
+)
+parser.add_argument(
+    "--output", required=True, help="where to put the output merged attendance csv"
+)
+parser.add_argument(
+    "--dataset_type",
+    required=True,
+    choices=asdict(DatasetTypes).values(),
+    help="where to put the output merged attendance csv",
+)
+
 
 def merged_data_validation(df):
-    assert not (d.isna(df[DATA_DATE]).any()), f"Some data dates are missing. This is likely a bug in this script."
+    assert not (
+        d.isna(df[DATA_DATE]).any()
+    ), f"Some data dates are missing. This is likely a bug in this script."
     try:
         pd.to_datetime(df[DATA_DATE], errors="raise")
     except ValueError as e:
-        print(f"Parsing of dates from the {DATA_DATE} column failed. This is likely an bug in the code.")
+        print(
+            f"Parsing of dates from the {DATA_DATE} column failed. This is likely an bug in the code."
+        )
         raise e
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.dataset_type in [DatasetTypes.characteristics, DatasetTypes.ks2]:
-        raise NotImplementedError("We have not implemented canonicalization for dataset of characteristics or of ks2.")
+        raise NotImplementedError(
+            "We have not implemented canonicalization for dataset of characteristics or of ks2."
+        )
 
     if len(args.inputs) != len(args.data_dates):
-        raise ValueError(f"The number of input files must match the number of output files. You had {len(args.inputs)} input files and {len(args.source_annotations)} output files. The inputs were {args.inputs} and the outputs were {args.source_annotations}.")
-    
+        raise ValueError(
+            f"The number of input files must match the number of output files. You had {len(args.inputs)} input files and {len(args.source_annotations)} output files. The inputs were {args.inputs} and the outputs were {args.source_annotations}."
+        )
+
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
-    
+
     try:
         data_dates = [d.savedate_to_datetime(date) for date in args.data_dates]
     except ValueError as e:
-        print(f"Parsing of data dates from command line arguments failed. Please check that your data_dates are in the form [MONTH][YEAR] where [MONTH] is the three letter month abbreviation and [YEAR] is the two-digit year (e.g. 'sep21' for September 2021).")
+        print(
+            f"Parsing of data dates from command line arguments failed. Please check that your data_dates are in the form [MONTH][YEAR] where [MONTH] is the three letter month abbreviation and [YEAR] is the two-digit year (e.g. 'sep21' for September 2021)."
+        )
         raise e
 
     input_csv_dict = dict(zip(data_dates, args.inputs))
     dfs = d.load_csvs(
-        input_csv_dict, 
-        drop_empty=False, 
+        input_csv_dict,
+        drop_empty=False,
         drop_single_valued=False,
         drop_duplicates=False,  # Merging is not destructive
         read_as_str=True,
         na_vals=NA_VALS,
         use_na=True,
-        logger=logger
+        logger=logger,
     )
-    
-    logger.info('Adding column for data submissing date of dataset')
+
+    logger.info("Adding column for data submissing date of dataset")
     merged_df = pd.concat(
-        [d.add_column(df, DATA_DATE, datetime.strftime(date, '%Y-%m-%d'), inplace=True) for date,df in sorted(dfs.items(), key=lambda x: x[0])],
-        axis=0
+        [
+            d.add_column(
+                df, DATA_DATE, datetime.strftime(date, "%Y-%m-%d"), inplace=True
+            )
+            for date, df in sorted(dfs.items(), key=lambda x: x[0])
+        ],
+        axis=0,
     )
-    
+
     csv_fp = f.tmp_path(args.output, debug=args.debug)
 
-    logger.info(f'Saving merged data to {csv_fp}')
+    logger.info(f"Saving merged data to {csv_fp}")
     merged_df.to_csv(csv_fp, index=False)

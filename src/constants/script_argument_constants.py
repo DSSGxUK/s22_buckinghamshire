@@ -5,6 +5,7 @@ from .census_constants import *
 from .attendance_constants import *
 from .ks_constants import *
 
+
 @dataclass
 class _DatasetTypes:
     attendance: str = "attendance"
@@ -15,6 +16,7 @@ class _DatasetTypes:
     # These two are new datasets we will incorporate for the council
     ks2: str = "ks2"
     characteristics: str = "characteristics"
+
 
 DatasetTypes = _DatasetTypes()
 
@@ -28,17 +30,19 @@ RENAME_DICT = {
     # DatasetTypes.ks2: ...,
 }
 
+
 @dataclass
 class _OutputDatasetTypes:
     modeling: str = "modeling"
     unknowns: str = "unknowns"
     prediction: str = "prediction"
 
+
 OutputDatasetTypes = _OutputDatasetTypes()
 
 # These are the different feature selection methods
 # we allow. This class does not actually implement any
-# feature selection methods, it simply specifies the 
+# feature selection methods, it simply specifies the
 # different options that we accept.
 @dataclass
 class _FeatureSelectionMethods:
@@ -55,13 +59,13 @@ FeatureSelectionMethods = _FeatureSelectionMethods()
 # code in src/aggregation_utils.py
 @dataclass
 class _Aggregations:
-    mean: str ="mean"  # understood by pandas
-    median: str ="median"  # understood by pandas
+    mean: str = "mean"  # understood by pandas
+    median: str = "median"  # understood by pandas
     max: str = "max"  # understood by pandas
     min: str = "min"  # understood by pandas
     last: str = "last"  # understood by pandas
-    categorical_max: str ="categorical_max"
-    last_with_unknown: str ="last_with_unknown"
+    categorical_max: str = "categorical_max"
+    last_with_unknown: str = "last_with_unknown"
 
 Aggregations = _Aggregations()
 
@@ -84,8 +88,8 @@ NEET_PREMERGE_AGG = {
     CCISDataColumns.unknown_currently: Aggregations.max,
 }
 
-# This dictionary specifies how we aggregate the 
-# different features when converting from the 
+# This dictionary specifies how we aggregate the
+# different features when converting from the
 # multi-upn dataset (rows correspond to student-years)
 # to the single-upn dataset (rows correspond to single students).
 MULTI_UPN_CATEGORICAL_TO_SINGLE_AGGS = {
@@ -157,18 +161,22 @@ MULTI_UPN_CATEGORICAL_TO_SINGLE_AGGS = {
     KSDataColumns.ks2_mathematics + CODED_SUFFIX: Aggregations.categorical_max,
     KSDataColumns.ks2_english_ta + CODED_SUFFIX: Aggregations.categorical_max,
     KSDataColumns.ks2_english_ta_level + CODED_SUFFIX: Aggregations.categorical_max,
-    KSDataColumns.ks2_english_level_finely_graded + CODED_SUFFIX: Aggregations.categorical_max,
+    KSDataColumns.ks2_english_level_finely_graded
+    + CODED_SUFFIX: Aggregations.categorical_max,
     KSDataColumns.ks2_mathematics_ta + CODED_SUFFIX: Aggregations.categorical_max,
     KSDataColumns.ks2_mathematics_ta_level + CODED_SUFFIX: Aggregations.categorical_max,
-    KSDataColumns.ks2_mathematics_level_finely_graded + CODED_SUFFIX: Aggregations.categorical_max,
+    KSDataColumns.ks2_mathematics_level_finely_graded
+    + CODED_SUFFIX: Aggregations.categorical_max,
     KSDataColumns.ks2_reading_ta_level + CODED_SUFFIX: Aggregations.categorical_max,
-    KSDataColumns.ks2_reading_level_finely_graded + CODED_SUFFIX: Aggregations.categorical_max,
-    KSDataColumns.ks2_mathematics_finely_graded + CODED_SUFFIX: Aggregations.categorical_max,
+    KSDataColumns.ks2_reading_level_finely_graded
+    + CODED_SUFFIX: Aggregations.categorical_max,
+    KSDataColumns.ks2_mathematics_finely_graded
+    + CODED_SUFFIX: Aggregations.categorical_max,
     CCISDataColumns.birth_month: Aggregations.categorical_max,
     CCISDataColumns.sen_support_flag: Aggregations.categorical_max,
     CensusDataColumns.has_census_data: Aggregations.max,
     KSDataColumns.has_ks2_data: Aggregations.max,
-    AttendanceDataColumns.has_attendance_data: Aggregations.max
+    AttendanceDataColumns.has_attendance_data: Aggregations.max,
 }
 
 YEAR_OF_COVID_SPLIT = 2018
