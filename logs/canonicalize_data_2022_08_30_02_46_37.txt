@@ -1,0 +1,6 @@
+2022-08-30 02:46:37,811 INFO     Logfile will be written to ../logs\canonicalize_data_2022_08_30_02_46_37.txt
+2022-08-30 02:46:37,812 INFO     Reading ../data\raw\ccis_original_csv\NEET_MI_Feb20_with_YPID_to_Warwick.csv
+2022-08-30 02:46:37,813 INFO     Reading all data as str
+2022-08-30 02:46:37,891 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:38,041 INFO     Renaming columns of ccis dataset
+2022-08-30 02:46:38,043 INFO     Saving canonicalized data to ../data\interim\ccis_canonicalized_csv\neet_mar20.csv

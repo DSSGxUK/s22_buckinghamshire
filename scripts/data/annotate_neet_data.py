@@ -54,15 +54,20 @@ from src import ccis_utils as nu
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--input", required=True, help="where to find the input CCIS merged data csv"
+    "--input", required=True, 
+    type=lambda x: x.strip("'"),
+    help="where to find the input CCIS merged data csv"
 )
 parser.add_argument(
     "--school_info",
     required=True,
+    type=lambda x: x.strip("'"),
     help="where to find the input canonicalized secondary school info csv",
 )
 parser.add_argument(
-    "--output", required=True, help="where to put the output annotated CCIS data csv"
+    "--output", required=True, 
+    type=lambda x: x.strip("'"),
+    help="where to put the output annotated CCIS data csv"
 )
 parser.add_argument(
     "--no_file_logging",

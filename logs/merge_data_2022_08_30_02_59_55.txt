@@ -1,0 +1,27 @@
+2022-08-30 02:59:55,265 INFO     Logfile will be written to ../logs\merge_data_2022_08_30_02_59_55.txt
+2022-08-30 02:59:55,265 INFO     Loading CSV at ../data\interim\census_canonicalized_csv\census_jan17.csv for 2017-01-01 00:00:00
+2022-08-30 02:59:55,265 INFO     Reading ../data\interim\census_canonicalized_csv\census_jan17.csv
+2022-08-30 02:59:55,265 INFO     Reading all data as str
+2022-08-30 02:59:55,331 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:59:55,426 INFO     Loading CSV at ../data\interim\census_canonicalized_csv\census_jan18.csv for 2018-01-01 00:00:00
+2022-08-30 02:59:55,426 INFO     Reading ../data\interim\census_canonicalized_csv\census_jan18.csv
+2022-08-30 02:59:55,442 INFO     Reading all data as str
+2022-08-30 02:59:55,488 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:59:55,598 INFO     Loading CSV at ../data\interim\census_canonicalized_csv\census_jan19.csv for 2019-01-01 00:00:00
+2022-08-30 02:59:55,598 INFO     Reading ../data\interim\census_canonicalized_csv\census_jan19.csv
+2022-08-30 02:59:55,598 INFO     Reading all data as str
+2022-08-30 02:59:55,663 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:59:55,765 INFO     Loading CSV at ../data\interim\census_canonicalized_csv\census_jan20.csv for 2020-01-01 00:00:00
+2022-08-30 02:59:55,765 INFO     Reading ../data\interim\census_canonicalized_csv\census_jan20.csv
+2022-08-30 02:59:55,765 INFO     Reading all data as str
+2022-08-30 02:59:55,815 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:59:55,934 INFO     Loading CSV at ../data\interim\census_canonicalized_csv\census_jan21.csv for 2021-01-01 00:00:00
+2022-08-30 02:59:55,934 INFO     Reading ../data\interim\census_canonicalized_csv\census_jan21.csv
+2022-08-30 02:59:55,936 INFO     Reading all data as str
+2022-08-30 02:59:55,991 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:59:56,088 INFO     Loading CSV at ../data\interim\census_canonicalized_csv\census_jan22.csv for 2022-01-01 00:00:00
+2022-08-30 02:59:56,088 INFO     Reading ../data\interim\census_canonicalized_csv\census_jan22.csv
+2022-08-30 02:59:56,088 INFO     Reading all data as str
+2022-08-30 02:59:56,135 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:59:56,244 INFO     Adding column for data submissing date of dataset
+2022-08-30 02:59:56,340 INFO     Saving merged data to ../data\interim\census_merged.csv
