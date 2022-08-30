@@ -36,10 +36,10 @@ from src import aggregation_utils as au
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--input", required=True, help="where to find multi upn categorical dataset"
+    "--input", type=lambda x: x.strip("'"), required=True, help="where to find multi upn categorical dataset"
 )
 parser.add_argument(
-    "--output", required=True, help="where to put single upn categorical dataset"
+    "--output", type=lambda x: x.strip("'"), required=True, help="where to put single upn categorical dataset"
 )
 
 if __name__ == "__main__":

@@ -37,10 +37,12 @@ from src import data_utils as d
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--input", required=True, help="where to find input csv file: annotated ks4 data"
+    "--input", type=lambda x: x.strip("'"),
+    required=True, help="where to find input csv file: annotated ks4 data"
 )
 parser.add_argument(
-    "--output", required=True, help="where to output the produced csv file"
+    "--output", type=lambda x: x.strip("'"),
+    required=True, help="where to output the produced csv file"
 )
 
 if __name__ == "__main__":

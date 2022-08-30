@@ -29,10 +29,7 @@ csv file
     
 """
 
-import pandas as pd
-import os
 import argparse
-from datetime import datetime
 from dataclasses import asdict
 
 
@@ -111,10 +108,10 @@ parser.add_argument(
     help="should use single upn dataset instead of multi?",
 )
 parser.add_argument(
-    "--input", required=True, help="where to find the categorical dataset"
+    "--input", type=lambda x: x.strip("'"), required=True, help="where to find the categorical dataset"
 )
 parser.add_argument(
-    "--output", required=True, help="where to put dataset after feature selection"
+    "--output", type=lambda x: x.strip("'"), required=True, help="where to put dataset after feature selection"
 )
 parser.add_argument(
     "--forward_fill_fsme_column",
@@ -123,7 +120,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--feature_selection_method",
-    required=True,
+    type=lambda x: x.strip("'"), required=True,
     choices=list(asdict(FeatureSelectionMethods).values()),
     help="which feature selection method to use",
 )

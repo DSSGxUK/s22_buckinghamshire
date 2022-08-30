@@ -60,10 +60,10 @@ def annotated_neet_data_validation(df):
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--input", required=True, help="where to find the input CCIS annotated csv"
+    "--input", type=lambda x: x.strip("'"), required=True, help="where to find the input CCIS annotated csv"
 )
 parser.add_argument(
-    "--output", required=True, help="where to put the output CCIS premerge csv"
+    "--output", type=lambda x: x.strip("'"), required=True, help="where to put the output CCIS premerge csv"
 )
 
 if __name__ == "__main__":
