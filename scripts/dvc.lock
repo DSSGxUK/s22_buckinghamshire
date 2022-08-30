@@ -2978,19 +2978,19 @@ stages:
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_jan22.csv
       md5: f61a3c1629f8844fcb73769a238db2c6
-      size: 1031595
+      size: 1041596
     - path: ../src/data_utils.py
-      md5: 4e80a010c1fb0b3d2109ded78ca873e2
-      size: 18221
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
     - path: ../src/file_utils.py
-      md5: 200b1866a936d863e54973106038fc2d
-      size: 1464
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
     - path: ../src/log_utils.py
-      md5: 433ff55bfc23701f1bad9e0075c87d2e
-      size: 3577
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
     - path: data/canonicalize_data.py
-      md5: ce8259af47d2a3f886bcfd9e9b79228d
-      size: 4549
+      md5: 48e73bf0511b19b8759a41cc6ced32c0
+      size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_jan22.csv
       md5: ac4ba6628c889e47b43945a28d093dbc
@@ -3002,19 +3002,19 @@ stages:
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_oct14.csv
       md5: e28be8a37c3053f8f238a81b5e5bd048
-      size: 913821
+      size: 923822
     - path: ../src/data_utils.py
-      md5: 4e80a010c1fb0b3d2109ded78ca873e2
-      size: 18221
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
     - path: ../src/file_utils.py
-      md5: 200b1866a936d863e54973106038fc2d
-      size: 1464
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
     - path: ../src/log_utils.py
-      md5: 433ff55bfc23701f1bad9e0075c87d2e
-      size: 3577
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
     - path: data/canonicalize_data.py
-      md5: ce8259af47d2a3f886bcfd9e9b79228d
-      size: 4549
+      md5: 48e73bf0511b19b8759a41cc6ced32c0
+      size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_oct14.csv
       md5: 42e3699747aed70ae3ae3dde5f28bb46
@@ -3026,19 +3026,19 @@ stages:
     deps:
     - path: ../data\raw\ks4_original_csv\KS4_2016_Hard_Coded.csv
       md5: c7fd3fe50a759f9421148584d352e8da
-      size: 2897134
+      size: 2907135
     - path: ../src/data_utils.py
-      md5: 4e80a010c1fb0b3d2109ded78ca873e2
-      size: 18221
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
     - path: ../src/file_utils.py
-      md5: 200b1866a936d863e54973106038fc2d
-      size: 1464
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
     - path: ../src/log_utils.py
-      md5: 433ff55bfc23701f1bad9e0075c87d2e
-      size: 3577
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
     - path: data/canonicalize_data.py
-      md5: ce8259af47d2a3f886bcfd9e9b79228d
-      size: 4549
+      md5: 48e73bf0511b19b8759a41cc6ced32c0
+      size: 4733
     outs:
     - path: ../data\interim\ks4_canonicalized_csv\ks4_sep16.csv
       md5: 81f597ca1b80e0abf4538e73f48e1b50
@@ -3050,19 +3050,19 @@ stages:
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_may21.csv
       md5: 69dd9891a9f260ff9a21f92f8422118b
-      size: 1114475
+      size: 1124476
     - path: ../src/data_utils.py
-      md5: 4e80a010c1fb0b3d2109ded78ca873e2
-      size: 18221
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
     - path: ../src/file_utils.py
-      md5: 200b1866a936d863e54973106038fc2d
-      size: 1464
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
     - path: ../src/log_utils.py
-      md5: 433ff55bfc23701f1bad9e0075c87d2e
-      size: 3577
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
     - path: data/canonicalize_data.py
-      md5: ce8259af47d2a3f886bcfd9e9b79228d
-      size: 4549
+      md5: 48e73bf0511b19b8759a41cc6ced32c0
+      size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_may21.csv
       md5: 71622df219292cc22a3f36ceaecab6c9
@@ -3074,19 +3074,19 @@ stages:
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_jan15.csv
       md5: ebc6ce36577a04725e0e72318daad728
-      size: 899125
+      size: 909126
     - path: ../src/data_utils.py
-      md5: 4e80a010c1fb0b3d2109ded78ca873e2
-      size: 18221
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
     - path: ../src/file_utils.py
-      md5: 200b1866a936d863e54973106038fc2d
-      size: 1464
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
     - path: ../src/log_utils.py
-      md5: 433ff55bfc23701f1bad9e0075c87d2e
-      size: 3577
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
     - path: data/canonicalize_data.py
-      md5: ce8259af47d2a3f886bcfd9e9b79228d
-      size: 4549
+      md5: 48e73bf0511b19b8759a41cc6ced32c0
+      size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_jan15.csv
       md5: ee4e4b947c4985a410fdc18966b5d112
@@ -3463,7 +3463,7 @@ stages:
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_oct16.csv
       md5: 619186292dee641de9071286982e5a68
-      size: 900629
+      size: 910630
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
