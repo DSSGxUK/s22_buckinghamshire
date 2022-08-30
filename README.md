@@ -6,23 +6,7 @@ Welcome to the code repository for the project conducted under Data Science for 
 4.	How to run different workflows
 5.	Expected data schema for Power BI dashboard
 
-
-# Setting up a machine for running all the workflows
-
-This part will change slightly depending on what operating system you are using.
-
-## Windows
-
-1. Ensure you have an updated python installed on your machine. You can install it through the [Microsoft Store](https://www.microsoft.com/store/productId/9PJPW5LDXLZ5). As of writing this, the most up to date version was python 3.10.
-2. Ensure you have git installed. You can get an installer [here](https://git-scm.com/download/win).
-3. Open a powershell as administrator
-4. Navigate to the desired parent directory using the `cd` (change directory) command. You can run `ls` to see the contents of a directory.
-5. Run `git clone https://github.com/DSSGxUK/s22_buckinghamshire.git`. This will download the code repository to the current folder.
-6. Run `cd s22_buckinghamshire` to navigate to the repository folder.
-7. Create a python virtual environment by calling `python -m venv venv`. 
-8. Run the virtual environment by calling `.\venv\Scripts\activate`. If you get an error that says ```... s22_buckinghamshire\venv\Scripts\Activate.ps1 cannot be loaded because running scripts is disabled on this system. For more information, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170```, then we need to enable execution of signed scripts. We can do this by running `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`.
-9. Update pip if necessary `python.exe -m pip install --upgrade pip`.
-10. Install required python packages `pip install -r .\requirements.txt`.
+# Folder Structure
 
 # Assumptions
 
@@ -44,21 +28,38 @@ In addition, we want to allow data on *characteristics* and *ks2*. This has not 
   4. No column names can include "__"! This is a special reserved character for our code.
 
 
+# Setting up a machine for running all the workflows
+
+This part will change slightly depending on what operating system you are using.
+
+## Windows
+
+1. Ensure you have an updated python installed on your machine. You can install it through the [Microsoft Store](https://www.microsoft.com/store/productId/9PJPW5LDXLZ5). As of writing this, the most up to date version was python 3.10.
+2. Ensure you have git installed. You can get an installer [here](https://git-scm.com/download/win).
+3. Open a powershell as administrator
+4. Navigate to the desired parent directory using the `cd` (change directory) command. You can run `ls` to see the contents of a directory.
+5. Run `git clone https://github.com/DSSGxUK/s22_buckinghamshire.git`. This will download the code repository to the current folder.
+6. Run `cd s22_buckinghamshire` to navigate to the repository folder.
+7. Create a python virtual environment by calling `python -m venv venv`. 
+8. Run the virtual environment by calling `.\venv\Scripts\activate`. If you get an error that says ```... s22_buckinghamshire\venv\Scripts\Activate.ps1 cannot be loaded because running scripts is disabled on this system. For more information, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170```, then we need to enable execution of signed scripts. We can do this by running `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`.
+9. Update pip if necessary `python.exe -m pip install --upgrade pip`.
+10. Install required python packages `pip install -r .\requirements.txt`.
+
 # How to run different workflows
 
 **Please follow the below steps before running the workflows**:
 
-  `dvc init` (if theres a LoadError when running dvc related to win32com you might need to do pip uninstall pywin32)
-  `dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc`
-  `dvc remote modify origin --local auth basic`
-  `dvc remote modify origin --local user username`
-  `dvc remote modify origin --local password your_token`
-  `dvc pull -r origin`
-  `cd scripts`
+  `dvc init` (if theres a LoadError when running dvc related to win32com you might need to do pip uninstall pywin32) <br />
+  `dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc` <br />
+  `dvc remote modify origin --local auth basic` <br />
+  `dvc remote modify origin --local user username` <br />
+  `dvc remote modify origin --local password your_token` <br />
+  `dvc pull -r origin` <br />
+  `cd scripts` <br />
 
 **Running different stages of the pipeline**
 
-  ## Generate datasets for modelling:
+  ## Generate datasets for modelling
     
     `dvc repro --glob generate_modeling_*`
     
@@ -66,15 +67,15 @@ In addition, we want to allow data on *characteristics* and *ks2*. This has not 
   
     `dvc repro --glob retrain_*`
     
-  ## Run cross validation and hyper parameter search:
+  ## Run cross validation and hyper parameter search
     
     `dvc repro --glob cv_*`
     
-  ## Model Evaluation:
+  ## Model Evaluation
     
     `dvc repro --glob evaluate_model_*`
     
-  ## Generate datasets for predictions and final output:
+  ## Generate datasets for predictions and final output
   
     `dvc repro --glob prediction_*`
 
