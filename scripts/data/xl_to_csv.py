@@ -29,12 +29,14 @@ parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
     "--inputs",
+    type=lambda x: x.strip("'"),
     required=True,
     nargs="+",
     help="where to find the input old attendance data excel files",
 )
 parser.add_argument(
     "--outputs",
+    type=lambda x: x.strip("'"),
     required=True,
     nargs="+",
     help="where to put the output attendance data csvs",

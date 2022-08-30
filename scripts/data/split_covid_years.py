@@ -101,14 +101,14 @@ def split_data(df, YEAR_OF_COVID_SPLIT, logger=l.PrintLogger):
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--input", required=True, help="where to find multi upn categorical dataset"
+    "--input", type=lambda x: x.strip("'"), required=True, help="where to find multi upn categorical dataset"
 )
 parser.add_argument(
-    "--output_pre_covid", required=True, help="where to put pre-covid multi upn dataset"
+    "--output_pre_covid", type=lambda x: x.strip("'"), required=True, help="where to put pre-covid multi upn dataset"
 )
 parser.add_argument(
     "--output_post_covid",
-    required=True,
+    type=lambda x: x.strip("'"), required=True,
     help="where to put post-covid multi upn dataset",
 )
 

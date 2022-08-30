@@ -43,13 +43,13 @@ from src import py_utils as py
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--input", required=True, help="where to find the input census merged csv"
+    "--input", type=lambda x: x.strip("'"),required=True, help="where to find the input census merged csv"
 )
 parser.add_argument(
-    "--school_info", required=True, help="where to find the input school info csv"
+    "--school_info", type=lambda x: x.strip("'"),required=True, help="where to find the input school info csv"
 )
 parser.add_argument(
-    "--output", required=True, help="where to put the output census annotated csv"
+    "--output", type=lambda x: x.strip("'"),required=True, help="where to put the output census annotated csv"
 )
 
 
