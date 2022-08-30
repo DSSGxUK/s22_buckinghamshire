@@ -2926,8 +2926,8 @@ stages:
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_jan15.csv
-      md5: ebc6ce36577a04725e0e72318daad728
-      size: 899125
+      md5: 278342716c13d86fcc82be015778d6c0
+      size: 776674
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -2951,8 +2951,8 @@ stages:
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_jan16.csv
-      md5: 4e744cd63ad385f3bc78ebabc83cbdd6
-      size: 902993
+      md5: e2634d7de05e76d5c58470e764af40bf
+      size: 778376
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3097,8 +3097,8 @@ stages:
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_jan17.csv
-      md5: ddc70a3a6514288c2ff3ad4bd60c948d
-      size: 843319
+      md5: 5557f9aa5115f31ec74203eafe020488
+      size: 772548
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3113,16 +3113,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_jan17.csv
-      md5: a65a59743a7cf98cd0b27235982d616e
-      size: 853463
+      md5: 22d21773d678cfb036597f57ebfa7185
+      size: 772691
   generate_modeling_canonicalize_data@3:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_jan18.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_jan18.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_jan18.csv
-      md5: 556a5e422b8b3a83bb22d5bba3e8a50c
-      size: 821835
+      md5: fcfd944c43704d443785b4674976bb57
+      size: 751692
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3137,16 +3137,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_jan18.csv
-      md5: f956aa0e7dafbc35557fc9fb67bc0692
-      size: 831975
+      md5: ed1e59e860a1c9a3046eecfbd0d8df1e
+      size: 751831
   generate_modeling_canonicalize_data@4:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_jan19.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_jan19.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_jan19.csv
-      md5: 262255b273278c8830fe3e4d47309859
-      size: 820921
+      md5: 0e63d830eecfcd63e3bc0b3ecd36e385
+      size: 751456
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3161,16 +3161,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_jan19.csv
-      md5: 1ae5c0ab41982af5feba15cfe9cc722d
-      size: 831061
+      md5: 27b3045523207790c2ffae2dec6a0ab5
+      size: 751595
   generate_modeling_canonicalize_data@5:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_jan20.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_jan20.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_jan20.csv
-      md5: fd314b35752b60653eb2231dd7ebc391
-      size: 838379
+      md5: 5e52512d3a159fbdf59bc6e7fdf3bd88
+      size: 749973
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3194,8 +3194,8 @@ stages:
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_jan21.csv
-      md5: ef8cd9f84b9d929f00c27522c85508c9
-      size: 1164474
+      md5: d5332682c064f382ec55dee19767b910
+      size: 1105566
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3210,16 +3210,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_jan21.csv
-      md5: 5fe4eb329ae909effc83477e0bd8f163
-      size: 1174897
+      md5: e244c3cae1639d7e78474fe2cd1c3378
+      size: 1105988
   generate_modeling_canonicalize_data@7:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_jan22.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_jan22.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_jan22.csv
-      md5: f61a3c1629f8844fcb73769a238db2c6
-      size: 1031595
+      md5: 54fe0c25428bbaf42b032d2385c5d96a
+      size: 916998
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3243,8 +3243,8 @@ stages:
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_may15.csv
-      md5: 590f995c43f8dc2d1e7ded1d104fe398
-      size: 678997
+      md5: 9a9cb2c77a5f2728619be468e5d7826d
+      size: 664302
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3259,16 +3259,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_may15.csv
-      md5: 78690a2e1f02b43fbb9846815645b17f
-      size: 689141
+      md5: 1c77442a6a9b426df78f1e1f4e50a047
+      size: 664445
   generate_modeling_canonicalize_data@9:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_may16.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_may16.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_may16.csv
-      md5: d3391cc53e61d59694dc030006b4a87a
-      size: 773546
+      md5: bdabff93afa38d0216240c184c70ccf2
+      size: 760599
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3292,8 +3292,8 @@ stages:
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_may17.csv
-      md5: 792981c76979afa0f9457dde227cfc99
-      size: 778157
+      md5: 7f77cc46730c94240a2814f1d7bf3e2e
+      size: 763388
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3308,16 +3308,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_may17.csv
-      md5: 20f61726dca8e4df7d4980c46975f814
-      size: 788301
+      md5: 816212ab59669e476c7457ac61232464
+      size: 763531
   generate_modeling_canonicalize_data@11:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_may18.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_may18.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_may18.csv
-      md5: 194e1c07283b330e16a1fd3f6af0a0cb
-      size: 761788
+      md5: 6af08c4db3ce9a3560d775c22fad5d67
+      size: 744769
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3332,16 +3332,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_may18.csv
-      md5: 8f213fefa9c67b8ce30f93a947c1d77a
-      size: 771928
+      md5: 5f4c2bd8b991026aec1a9ba96dda906c
+      size: 744908
   generate_modeling_canonicalize_data@12:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_may19.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_may19.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_may19.csv
-      md5: 25309d1379b608350f44db87f2f44e54
-      size: 782478
+      md5: 22499d13fab9d3bff75b12533b94002d
+      size: 765913
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3356,16 +3356,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_may19.csv
-      md5: efef98545da4141005f16f4c00f01c81
-      size: 792622
+      md5: eb0b521d514134bf7651d623a51b02cd
+      size: 766056
   generate_modeling_canonicalize_data@13:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_may21.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_may21.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_may21.csv
-      md5: 69dd9891a9f260ff9a21f92f8422118b
-      size: 1114475
+      md5: d4593abf727ad413b346fabc7c49e14e
+      size: 932552
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3380,16 +3380,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_may21.csv
-      md5: 71622df219292cc22a3f36ceaecab6c9
-      size: 1124898
+      md5: b7e3a23a88b14fb6a12fbc2d2825e90e
+      size: 932974
   generate_modeling_canonicalize_data@14:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_may22.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_may22.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_may22.csv
-      md5: f23501a7200e8a2cc3b1cdc7878abc40
-      size: 1409833
+      md5: e5bb9097574fc3ceacd684fd308f67ab
+      size: 1044832
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3438,8 +3438,8 @@ stages:
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_oct15.csv
-      md5: c3ed07d7e16173a76a96bfde9daf35f0
-      size: 1137472
+      md5: e6a3750ef8b85e96a3b4c840a9d9cdef
+      size: 907473
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3454,8 +3454,8 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_oct15.csv
-      md5: 967e5fe692490fc7af17fb589370473a
-      size: 1147616
+      md5: ed8dd5988a0fd9adae214eb5a1b9b298
+      size: 907616
   generate_modeling_canonicalize_data@17:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_oct16.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_oct16.csv
@@ -3486,8 +3486,8 @@ stages:
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_oct17.csv
-      md5: b47493df5393c3fcbacf70958d681c63
-      size: 825756
+      md5: 9df21f9bcad27ceb936b3fce5dfaad20
+      size: 800925
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3502,16 +3502,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_oct17.csv
-      md5: a0c623c044fc99ebc4647d5dbdbb0b04
-      size: 835900
+      md5: d7e93bce3246d813f8288846d4d3452f
+      size: 801068
   generate_modeling_canonicalize_data@19:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_oct18.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_oct18.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_oct18.csv
-      md5: 16f768f8d0cc85288a9c8b49546dc061
-      size: 784679
+      md5: e0d66ae5f75d5fa934f8e9cd48efb4a7
+      size: 760302
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3526,16 +3526,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_oct18.csv
-      md5: 530402f67f86119a18e642955a5b1e6e
-      size: 794819
+      md5: 7013b6bab0bd25665e8db1082dbd3235
+      size: 760441
   generate_modeling_canonicalize_data@20:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_oct19.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_oct19.csv
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_oct19.csv
-      md5: 7b9cca6c001ee50155eb871c03c9acee
-      size: 782694
+      md5: 580faea3c5ce5cdd817a7ad812808e3e
+      size: 759095
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3583,8 +3583,8 @@ stages:
       --dataset_type attendance
     deps:
     - path: ../data\raw\attendance_original_csv\attendance_original_oct21.csv
-      md5: 3847430e00568436a3e7ae35f7836fb0
-      size: 1000809
+      md5: bffe63b92908aa400559289c3ae4959f
+      size: 911554
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3599,8 +3599,8 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_oct21.csv
-      md5: b1e5ca1272aeca7b2e8218e6ff85b69f
-      size: 1011232
+      md5: dfec133c7ef19a786fda9ff2df31e8a3
+      size: 911976
   generate_modeling_merge_attendance_data:
     cmd: python data/merge_data.py --data_dates 'jan15' 'jan16' 'jan17' 'jan18' 'jan19'
       'jan20' 'jan21' 'jan22' 'may15' 'may16' 'may17' 'may18' 'may19' 'may21' 'may22'
@@ -3620,9 +3620,9 @@ stages:
       --output '../data\interim\attendance_merged.csv'
     deps:
     - path: ../data\interim\attendance_canonicalized_csv
-      md5: fd7939190ee17cbc3c0dd82f5cf0a684.dir
-      size: 20775616
-      nfiles: 23
+      md5: ed83c3d60a83f6286e31c1aec83eada0.dir
+      size: 18841718
+      nfiles: 24
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3637,16 +3637,16 @@ stages:
       size: 4196
     outs:
     - path: ../data\interim\attendance_merged.csv
-      md5: 00ce3489589592f800b7f5b7f65be45a
-      size: 26235420
+      md5: 4829b4ce416543f64111df4f3e2870ab
+      size: 23931141
   generate_modeling_canonicalize_data@29:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\ccis_original_csv\NEET_MI_Feb16_with_YPID_to_Warwick.csv
       --outputs ../data\interim\ccis_canonicalized_csv\neet_mar16.csv --dataset_type
       ccis
     deps:
     - path: ../data\raw\ccis_original_csv\NEET_MI_Feb16_with_YPID_to_Warwick.csv
-      md5: 438734f4757ccc6a76eff924f63404bc
-      size: 2560238
+      md5: c686d7bbf5127dc28f6cbeebd321e470
+      size: 2524143
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3661,16 +3661,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\ccis_canonicalized_csv\neet_mar16.csv
-      md5: 88efc19196c06a80489324c979136fc9
-      size: 2570296
+      md5: 2335fb08efc0ff52593a7cde5c9180cb
+      size: 2524200
   generate_modeling_canonicalize_data@30:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\ccis_original_csv\NEET_MI_Feb17_with_YPID_to_Warwick.csv
       --outputs ../data\interim\ccis_canonicalized_csv\neet_mar17.csv --dataset_type
       ccis
     deps:
     - path: ../data\raw\ccis_original_csv\NEET_MI_Feb17_with_YPID_to_Warwick.csv
-      md5: 498f29d2bac002b967bfcf0c484a642f
-      size: 2580045
+      md5: 6dd309167be5a119ce70553db7b3ee5a
+      size: 2539246
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3685,16 +3685,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\ccis_canonicalized_csv\neet_mar17.csv
-      md5: f23690b58e2f3e4c8e72bba9933a9b02
-      size: 2590103
+      md5: de6bcc78fbd1d118b31ce68b9074bec5
+      size: 2539303
   generate_modeling_canonicalize_data@31:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\ccis_original_csv\NEET_MI_Feb18_with_YPID_to_Warwick.csv
       --outputs ../data\interim\ccis_canonicalized_csv\neet_mar18.csv --dataset_type
       ccis
     deps:
     - path: ../data\raw\ccis_original_csv\NEET_MI_Feb18_with_YPID_to_Warwick.csv
-      md5: 443b699aa05ecfc347db0eaaf56466e9
-      size: 2729085
+      md5: 4733aaa6434e26987aed7fe66b44ad2f
+      size: 2663694
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3709,16 +3709,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\ccis_canonicalized_csv\neet_mar18.csv
-      md5: 20df83db1fff8b2028025db4336fc2eb
-      size: 2739162
+      md5: 6e1d5ab654dbf6a30d1861f4f39377c2
+      size: 2663770
   generate_modeling_canonicalize_data@32:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\ccis_original_csv\NEET_MI_Feb19_with_YPID_to_Warwick.csv
       --outputs ../data\interim\ccis_canonicalized_csv\neet_mar19.csv --dataset_type
       ccis
     deps:
     - path: ../data\raw\ccis_original_csv\NEET_MI_Feb19_with_YPID_to_Warwick.csv
-      md5: d06c92b0c33e0f36edc73d735e227266
-      size: 2767063
+      md5: b2cabaecbd78887585b3d035b4d768b0
+      size: 2700708
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3733,16 +3733,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\ccis_canonicalized_csv\neet_mar19.csv
-      md5: 7b1a1501cc5953d4a6ec5e7e2f45555e
-      size: 2777111
+      md5: 8be6a92ea50a8abf0322d5bd3c719604
+      size: 2700755
   generate_modeling_canonicalize_data@33:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\ccis_original_csv\NEET_MI_Feb20_with_YPID_to_Warwick.csv
       --outputs ../data\interim\ccis_canonicalized_csv\neet_mar20.csv --dataset_type
       ccis
     deps:
     - path: ../data\raw\ccis_original_csv\NEET_MI_Feb20_with_YPID_to_Warwick.csv
-      md5: dfb0d9d87f830d1608548677295161fa
-      size: 2816544
+      md5: 31eb7df52eb306a05a702fd3045703b9
+      size: 2750211
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3757,16 +3757,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\ccis_canonicalized_csv\neet_mar20.csv
-      md5: 521c2f6c80b46bded67161ee1459fb80
-      size: 2826595
+      md5: a05e4357b1a6c3e9a3fefded20f2a7b5
+      size: 2750261
   generate_modeling_canonicalize_data@34:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\ccis_original_csv\NEET_MI_Feb21_with_YPID_to_Warwick.csv
       --outputs ../data\interim\ccis_canonicalized_csv\neet_mar21.csv --dataset_type
       ccis
     deps:
     - path: ../data\raw\ccis_original_csv\NEET_MI_Feb21_with_YPID_to_Warwick.csv
-      md5: 08ba0a5b1b692d60ef336a55e4d89455
-      size: 2475901
+      md5: 45867e13ba4e533b947c4e63bf630773
+      size: 2409444
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3781,16 +3781,16 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\ccis_canonicalized_csv\neet_mar21.csv
-      md5: 5659a8de5d349ac2ebc61762050578d8
-      size: 2485952
+      md5: 278522f9d333b8f47025ab7c5366cb9e
+      size: 2409494
   generate_modeling_canonicalize_data@35:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\ccis_original_csv\NEET_MI_Feb22_with_YPID_to_Warwick.csv
       --outputs ../data\interim\ccis_canonicalized_csv\neet_mar22.csv --dataset_type
       ccis
     deps:
     - path: ../data\raw\ccis_original_csv\NEET_MI_Feb22_with_YPID_to_Warwick.csv
-      md5: e301a1d799fe997a34b4ea51580de5cc
-      size: 2440156
+      md5: 08fddee99a099bb3885d955f5649ad8d
+      size: 2375229
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3805,8 +3805,8 @@ stages:
       size: 4733
     outs:
     - path: ../data\interim\ccis_canonicalized_csv\neet_mar22.csv
-      md5: 01395f07db1bfada5f57883fecf439dd
-      size: 2450208
+      md5: 3850e3ef319c7d666aefee8907474a4b
+      size: 2375280
   generate_modeling_merge_ccis_data:
     cmd: python data/merge_data.py --data_dates 'mar16' 'mar17' 'mar18' 'mar19' 'mar20'
       'mar21' 'mar22' --dataset_type 'ccis' --inputs '../data\interim\ccis_canonicalized_csv\neet_mar16.csv'
@@ -3816,9 +3816,9 @@ stages:
       --output '../data\interim\neet_merged.csv'
     deps:
     - path: ../data\interim\ccis_canonicalized_csv
-      md5: 70b0ad46f1a612157c3cd40873e155ed.dir
-      size: 18439427
-      nfiles: 7
+      md5: 6190526a479c561fd0e89d1c337a015b.dir
+      size: 17963182
+      nfiles: 8
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -3833,8 +3833,8 @@ stages:
       size: 4196
     outs:
     - path: ../data\interim\neet_merged.csv
-      md5: 5b74a9bf2396b05fb91f7bb86a842199
-      size: 19545091
+      md5: ce4bcfd716913615b6e6d74ca99b0a85
+      size: 19068727
   generate_modeling_canonicalize_data@41:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\Bucks_Secondary_School_2022.csv
       --outputs ../data\interim\secondary_schools.csv --dataset_type school_info
@@ -3863,8 +3863,8 @@ stages:
       --output '../data\interim\neet_annotated.csv' --school_info '../data\interim\secondary_schools.csv'
     deps:
     - path: ../data\interim\neet_merged.csv
-      md5: 5b74a9bf2396b05fb91f7bb86a842199
-      size: 19545091
+      md5: ce4bcfd716913615b6e6d74ca99b0a85
+      size: 19068727
     - path: ../data\interim\secondary_schools.csv
       md5: a7b5af3811af969c71fbe7615f7bc2f3
       size: 3822
@@ -3888,8 +3888,8 @@ stages:
       size: 9384
     outs:
     - path: ../data\interim\neet_annotated.csv
-      md5: f3a5909773346b0d380c55bf728cc40a
-      size: 22221870
+      md5: b5baf4923730ec09d68f68c6d1a22a51
+      size: 21745506
   generate_modeling_canonicalize_data@23:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\census_original_csv\school_census_context_Jan17_Hard_Coded.csv
       --outputs ../data\interim\census_canonicalized_csv\census_jan17.csv --dataset_type
@@ -4042,9 +4042,9 @@ stages:
       '../data\interim\census_canonicalized_csv\census_jan22.csv' --output '../data\interim\census_merged.csv'
     deps:
     - path: ../data\interim\census_canonicalized_csv
-      md5: d86d756be59457fb3c200575fa6c091f.dir
-      size: 5986968
-      nfiles: 7
+      md5: 16d20834ec4a06e554895d2aeb7284e5.dir
+      size: 5986854
+      nfiles: 6
     - path: ../src/data_utils.py
       md5: 25a10e6bd432e003aadbe8b098e51526
       size: 18588
@@ -4061,3 +4061,692 @@ stages:
     - path: ../data\interim\census_merged.csv
       md5: 7ba98aec148223b37ea349e5d2641281
       size: 6684679
+  generate_modeling_annotate_attendance_data:
+    cmd: python data/annotate_attendance_data.py --input '../data\interim\attendance_merged.csv'
+      --output '../data\interim\attendance_annotated.csv' --school_info '../data\interim\secondary_schools.csv'
+    deps:
+    - path: ../data\interim\attendance_merged.csv
+      md5: 4829b4ce416543f64111df4f3e2870ab
+      size: 23931141
+    - path: ../data\interim\secondary_schools.csv
+      md5: a7b5af3811af969c71fbe7615f7bc2f3
+      size: 3822
+    - path: ../src//attendance_utils.py
+      md5: db78857cf10cbb44e2728130d8759d22
+      size: 1619
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: ../src/merge_utils.py
+      md5: 936693cbed12a66bc7012ace60095f39
+      size: 1856
+    - path: data/annotate_attendance_data.py
+      md5: 97e6a33815f8339a26a4a32c65b46a30
+      size: 7871
+    outs:
+    - path: ../data\interim\attendance_annotated.csv
+      md5: d27b3a8dda696b48642df8cc437c34c2
+      size: 33793532
+  generate_modeling_attendance_percent2:
+    cmd: python data/attendance_premerge.py --attendance_type 'percent2' --input '../data\interim\attendance_annotated.csv'
+      --output '../data\interim\attendance_percent2.csv'
+    deps:
+    - path: ../data\interim\attendance_annotated.csv
+      md5: d27b3a8dda696b48642df8cc437c34c2
+      size: 33793532
+    - path: ../src/attendance_utils.py
+      md5: db78857cf10cbb44e2728130d8759d22
+      size: 1619
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/attendance_premerge.py
+      md5: d84bef91b7ffdbffded664aab16e0095
+      size: 13167
+    outs:
+    - path: ../data\interim\attendance_percent2.csv
+      md5: 58a8d349ed38dfd09a4dfbc0132f0f2f
+      size: 25196195
+  generate_modeling_attendance_normed:
+    cmd: python data/attendance_premerge.py --attendance_type 'term_normalized' --input
+      '../data\interim\attendance_annotated.csv' --output '../data\interim\attendance_normed.csv'
+    deps:
+    - path: ../data\interim\attendance_annotated.csv
+      md5: d27b3a8dda696b48642df8cc437c34c2
+      size: 33793532
+    - path: ../src/attendance_utils.py
+      md5: db78857cf10cbb44e2728130d8759d22
+      size: 1619
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/attendance_premerge.py
+      md5: d84bef91b7ffdbffded664aab16e0095
+      size: 13167
+    outs:
+    - path: ../data\interim\attendance_normed.csv
+      md5: e4ffd01c19461500388e82eeb4cb4221
+      size: 41834242
+  generate_modeling_ccis_premerge:
+    cmd: python data/neet_premerge.py --input '../data\interim\neet_annotated.csv'
+      --output '../data\interim\neet_premerge.csv'
+    deps:
+    - path: ../data\interim\neet_annotated.csv
+      md5: b5baf4923730ec09d68f68c6d1a22a51
+      size: 21745506
+    - path: ../src/aggregation_utils.py
+      md5: 5e1f94389df1868cd0dc14e974088a55
+      size: 4390
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/neet_premerge.py
+      md5: 16ea579facfe0258b44dab4d405b1f74
+      size: 5242
+    outs:
+    - path: ../data\interim\neet_premerge.csv
+      md5: c0fac2a86bc401ab34b3d00fb27bdba9
+      size: 2300737
+  generate_modeling_attendance_percent1:
+    cmd: python data/attendance_premerge.py --attendance_type 'percent1' --input '../data\interim\attendance_annotated.csv'
+      --output '../data\interim\attendance_percent1.csv'
+    deps:
+    - path: ../data\interim\attendance_annotated.csv
+      md5: d27b3a8dda696b48642df8cc437c34c2
+      size: 33793532
+    - path: ../src/attendance_utils.py
+      md5: db78857cf10cbb44e2728130d8759d22
+      size: 1619
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/attendance_premerge.py
+      md5: d84bef91b7ffdbffded664aab16e0095
+      size: 13167
+    outs:
+    - path: ../data\interim\attendance_percent1.csv
+      md5: 9079aed203e05fc8abfd6aa858901f72
+      size: 23154675
+  generate_modeling_canonicalize_data@36:
+    cmd: python data/canonicalize_data.py --inputs ../data\raw\ks4_original_csv\KS4_2015_Hard_Coded.csv
+      --outputs ../data\interim\ks4_canonicalized_csv\ks4_sep15.csv --dataset_type
+      ks4
+    deps:
+    - path: ../data\raw\ks4_original_csv\KS4_2015_Hard_Coded.csv
+      md5: 888699af54008023b6c447480d5dfcc4
+      size: 4083644
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/canonicalize_data.py
+      md5: 48e73bf0511b19b8759a41cc6ced32c0
+      size: 4733
+    outs:
+    - path: ../data\interim\ks4_canonicalized_csv\ks4_sep15.csv
+      md5: be85dd866fa6285106cf74afc66a3ed6
+      size: 4083621
+  generate_modeling_canonicalize_data@37:
+    cmd: python data/canonicalize_data.py --inputs ../data\raw\ks4_original_csv\KS4_2016_Hard_Coded.csv
+      --outputs ../data\interim\ks4_canonicalized_csv\ks4_sep16.csv --dataset_type
+      ks4
+    deps:
+    - path: ../data\raw\ks4_original_csv\KS4_2016_Hard_Coded.csv
+      md5: ee28c35a6967e663febd26c9f2858e96
+      size: 1907122
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/canonicalize_data.py
+      md5: 48e73bf0511b19b8759a41cc6ced32c0
+      size: 4733
+    outs:
+    - path: ../data\interim\ks4_canonicalized_csv\ks4_sep16.csv
+      md5: 4f79512bacbfa2e86eee8e410d3960fe
+      size: 1907097
+  generate_modeling_canonicalize_data@38:
+    cmd: python data/canonicalize_data.py --inputs ../data\raw\ks4_original_csv\KS4_2017_Hard_Coded.csv
+      --outputs ../data\interim\ks4_canonicalized_csv\ks4_sep17.csv --dataset_type
+      ks4
+    deps:
+    - path: ../data\raw\ks4_original_csv\KS4_2017_Hard_Coded.csv
+      md5: eed7faf22e80ecf6470b7474fd451f32
+      size: 1855800
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/canonicalize_data.py
+      md5: 48e73bf0511b19b8759a41cc6ced32c0
+      size: 4733
+    outs:
+    - path: ../data\interim\ks4_canonicalized_csv\ks4_sep17.csv
+      md5: f9cb0d9461dde8b4bfc7cecbdd02e7e5
+      size: 1855789
+  generate_modeling_canonicalize_data@39:
+    cmd: python data/canonicalize_data.py --inputs ../data\raw\ks4_original_csv\KS4_2018_Hard_Coded.csv
+      --outputs ../data\interim\ks4_canonicalized_csv\ks4_sep18.csv --dataset_type
+      ks4
+    deps:
+    - path: ../data\raw\ks4_original_csv\KS4_2018_Hard_Coded.csv
+      md5: 81144d7ce280f3bc9c331a7b9a1fe1ff
+      size: 1963649
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/canonicalize_data.py
+      md5: 48e73bf0511b19b8759a41cc6ced32c0
+      size: 4733
+    outs:
+    - path: ../data\interim\ks4_canonicalized_csv\ks4_sep18.csv
+      md5: ff1c9e3bf65bda509113642c3e77473a
+      size: 1963639
+  generate_modeling_canonicalize_data@40:
+    cmd: python data/canonicalize_data.py --inputs ../data\raw\ks4_original_csv\KS4_2019_Hard_Coded.csv
+      --outputs ../data\interim\ks4_canonicalized_csv\ks4_sep19.csv --dataset_type
+      ks4
+    deps:
+    - path: ../data\raw\ks4_original_csv\KS4_2019_Hard_Coded.csv
+      md5: 577a07ef4f1daecd1ebc8270f9170598
+      size: 2062457
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/canonicalize_data.py
+      md5: 48e73bf0511b19b8759a41cc6ced32c0
+      size: 4733
+    outs:
+    - path: ../data\interim\ks4_canonicalized_csv\ks4_sep19.csv
+      md5: 49669a6aace32f8d823cf983c24f07bd
+      size: 2062447
+  generate_modeling_merge_ks4_data:
+    cmd: python data/merge_data.py --data_dates 'sep15' 'sep16' 'sep17' 'sep18' 'sep19'
+      --dataset_type 'ks4' --inputs '../data\interim\ks4_canonicalized_csv\ks4_sep15.csv'
+      '../data\interim\ks4_canonicalized_csv\ks4_sep16.csv' '../data\interim\ks4_canonicalized_csv\ks4_sep17.csv'
+      '../data\interim\ks4_canonicalized_csv\ks4_sep18.csv' '../data\interim\ks4_canonicalized_csv\ks4_sep19.csv'
+      --output '../data\interim\ks4_merged.csv'
+    deps:
+    - path: ../data\interim\ks4_canonicalized_csv
+      md5: eabe58127a6dc3a22bd17720b219a548.dir
+      size: 11872673
+      nfiles: 6
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/merge_data.py
+      md5: fd017f2dc7212fd9d0c26ba5813e617c
+      size: 4196
+    outs:
+    - path: ../data\interim\ks4_merged.csv
+      md5: 5a5226068900345cf378e58b6ea2f8e2
+      size: 21065146
+  generate_modeling_annotate_ks4_data:
+    cmd: python data/annotate_ks4_data.py --input '../data\interim\ks4_merged.csv'
+      --output '../data\interim\ks4_annotated.csv' --school_info '../data\interim\secondary_schools.csv'
+    deps:
+    - path: ../data\interim\ks4_merged.csv
+      md5: 5a5226068900345cf378e58b6ea2f8e2
+      size: 21065146
+    - path: ../data\interim\secondary_schools.csv
+      md5: a7b5af3811af969c71fbe7615f7bc2f3
+      size: 3822
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: ../src/merge_utils.py
+      md5: 936693cbed12a66bc7012ace60095f39
+      size: 1856
+    - path: data/annotate_ks4_data.py
+      md5: c195bc0a01bb84a32f1b41e22a52aca0
+      size: 2742
+    outs:
+    - path: ../data\interim\ks4_annotated.csv
+      md5: 3904fb32c3d71f544eba75a4485b0bd8
+      size: 21415298
+  generate_modeling_ks2_filter:
+    cmd: python data/ks2_filter.py --input '../data\interim\ks4_annotated.csv' --output
+      '../data\interim\ks2.csv'
+    deps:
+    - path: ../data\interim\ks4_annotated.csv
+      md5: 3904fb32c3d71f544eba75a4485b0bd8
+      size: 21415298
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/ks2_filter.py
+      md5: a8688f77f7ec574b7ca247745be6bb5f
+      size: 2603
+    outs:
+    - path: ../data\interim\ks2.csv
+      md5: 47a3afe80567929ce634c9fb9c912783
+      size: 2957038
+  generate_modeling_annotate_census_data:
+    cmd: python data/annotate_census_data.py --input '../data\interim\census_merged.csv'
+      --output '../data\interim\census_annotated.csv' --school_info '../data\interim\secondary_schools.csv'
+    deps:
+    - path: ../data\interim\census_merged.csv
+      md5: 7ba98aec148223b37ea349e5d2641281
+      size: 6684679
+    - path: ../data\interim\secondary_schools.csv
+      md5: a7b5af3811af969c71fbe7615f7bc2f3
+      size: 3822
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: ../src/merge_utils.py
+      md5: 936693cbed12a66bc7012ace60095f39
+      size: 1856
+    - path: ../src/py_utils.py
+      md5: f3467fc41c4230efa5948e19262701b5
+      size: 199
+    - path: data/annotate_census_data.py
+      md5: f19f4e1588aa74008c02acde44d19953
+      size: 5475
+    outs:
+    - path: ../data\interim\census_annotated.csv
+      md5: 8df7c47fed68cca53b80851a859fbfa8
+      size: 7770821
+  generate_modeling_census_premerge:
+    cmd: python data/census_premerge.py --input '../data\interim\census_annotated.csv'
+      --output '../data\interim\census_premerge.csv'
+    deps:
+    - path: ../data\interim\census_annotated.csv
+      md5: 8df7c47fed68cca53b80851a859fbfa8
+      size: 7770821
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/census_premerge.py
+      md5: d16416872b9ccaa27e78da9a37208a36
+      size: 3148
+    outs:
+    - path: ../data\interim\census_premerge.csv
+      md5: 809e180e5a5f89839005b05383e89ff4
+      size: 3121294
+  prediction_merge_multi_prediction:
+    cmd: python data/merge_multi_upn.py --att '../data\interim\attendance_percent1.csv'
+      --ccis '../data\interim\neet_premerge.csv' --census '../data\interim\census_premerge.csv'
+      --ks2 '../data\interim\ks2.csv' --output '../data\interim\multi_upn_prediction.csv'
+      --output_dataset_type 'prediction'
+    deps:
+    - path: ../data\interim\attendance_percent1.csv
+      md5: 9079aed203e05fc8abfd6aa858901f72
+      size: 23154675
+    - path: ../data\interim\census_premerge.csv
+      md5: 809e180e5a5f89839005b05383e89ff4
+      size: 3121294
+    - path: ../data\interim\ks2.csv
+      md5: bea726d463437c887ad085fd53e8edbe
+      size: 3756002
+    - path: ../data\interim\neet_premerge.csv
+      md5: c0fac2a86bc401ab34b3d00fb27bdba9
+      size: 2300737
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: ../src/merge_utils.py
+      md5: 936693cbed12a66bc7012ace60095f39
+      size: 1856
+    - path: data/merge_multi_upn.py
+      md5: c31a42bbc230c97e332ad7f4a1eeb88f
+      size: 17020
+    outs:
+    - path: ../data\interim\multi_upn_prediction.csv
+      md5: a2b99eb111a01b715c72c7c0b844c4eb
+      size: 4891827
+  prediction_multi_categorical_predictions:
+    cmd: python data/multi_upn_categorical.py --include_test_taken_code --input '../data\interim\multi_upn_prediction.csv'
+      --output '../data\processed\predict_multiUPN.csv'
+    deps:
+    - path: ../data\interim\multi_upn_prediction.csv
+      md5: a2b99eb111a01b715c72c7c0b844c4eb
+      size: 4891827
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/multi_upn_categorical.py
+      md5: fb03625a7e1139d0b02008d1ded386a0
+      size: 8561
+    outs:
+    - path: ../data\processed\predict_multiUPN.csv
+      md5: feb626d9445c6ced352fec53e2924fa6
+      size: 9736354
+  prediction_multi_to_single_predictions:
+    cmd: python data/multiple_to_single.py --input '../data\processed\predict_multiUPN.csv'
+      --output '../data\processed\predict_singleUPN.csv'
+    deps:
+    - path: ../data\processed\predict_multiUPN.csv
+      md5: feb626d9445c6ced352fec53e2924fa6
+      size: 9736354
+    - path: data/multiple_to_single.py
+      md5: c0283dc3e2be733ccee0f543c2ba401a
+      size: 2486
+    outs:
+    - path: ../data\processed\predict_singleUPN.csv
+      md5: e010a6b99df78f22c36f11646e948a32
+      size: 9262129
+  prediction_merge_multi_unknowns:
+    cmd: python data/merge_multi_upn.py --att '../data\interim\attendance_percent1.csv'
+      --ccis '../data\interim\neet_premerge.csv' --census '../data\interim\census_premerge.csv'
+      --ks2 '../data\interim\ks2.csv' --output '../data\interim\multi_upn_unknowns.csv'
+      --output_dataset_type 'unknowns'
+    deps:
+    - path: ../data\interim\attendance_percent1.csv
+      md5: 9079aed203e05fc8abfd6aa858901f72
+      size: 23154675
+    - path: ../data\interim\census_premerge.csv
+      md5: 809e180e5a5f89839005b05383e89ff4
+      size: 3121294
+    - path: ../data\interim\ks2.csv
+      md5: 47a3afe80567929ce634c9fb9c912783
+      size: 2957038
+    - path: ../data\interim\neet_premerge.csv
+      md5: c0fac2a86bc401ab34b3d00fb27bdba9
+      size: 2300737
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: ../src/merge_utils.py
+      md5: 936693cbed12a66bc7012ace60095f39
+      size: 1856
+    - path: data/merge_multi_upn.py
+      md5: c31a42bbc230c97e332ad7f4a1eeb88f
+      size: 17020
+    outs:
+    - path: ../data\interim\multi_upn_unknowns.csv
+      md5: 60079c7f1d1b87e6b11c0b01a4d9a72c
+      size: 1454
+  prediction_multi_categorical_unknowns:
+    cmd: python data/multi_upn_categorical.py --include_test_taken_code --input '../data\interim\multi_upn_unknowns.csv'
+      --output '../data\processed\unknowns_multiUPN.csv'
+    deps:
+    - path: ../data\interim\multi_upn_unknowns.csv
+      md5: 60079c7f1d1b87e6b11c0b01a4d9a72c
+      size: 1454
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/multi_upn_categorical.py
+      md5: fb03625a7e1139d0b02008d1ded386a0
+      size: 8561
+    outs:
+    - path: ../data\processed\unknowns_multiUPN.csv
+      md5: bf387a77b5e9235e6f2e65fc181f1390
+      size: 1276
+  prediction_multi_to_single_unknowns:
+    cmd: python data/multiple_to_single.py --input '../data\processed\unknowns_multiUPN.csv'
+      --output '../data\processed\unknowns_singleUPN.csv'
+    deps:
+    - path: ../data\processed\unknowns_multiUPN.csv
+      md5: bf387a77b5e9235e6f2e65fc181f1390
+      size: 1276
+    - path: data/multiple_to_single.py
+      md5: c0283dc3e2be733ccee0f543c2ba401a
+      size: 2486
+    outs:
+    - path: ../data\processed\unknowns_singleUPN.csv
+      md5: 0288e44148a74d834a152988d980800c
+      size: 1253
+  generate_modeling_merge_multi_modeling:
+    cmd: python data/merge_multi_upn.py --att '../data\interim\attendance_percent1.csv'
+      --ccis '../data\interim\neet_premerge.csv' --census '../data\interim\census_premerge.csv'
+      --ks2 '../data\interim\ks2.csv' --output '../data\interim\multi_upn.csv' --output_dataset_type
+      'modeling' --target 'neet_ever'
+    deps:
+    - path: ../data\interim\attendance_percent1.csv
+      md5: 9079aed203e05fc8abfd6aa858901f72
+      size: 23154675
+    - path: ../data\interim\census_premerge.csv
+      md5: 809e180e5a5f89839005b05383e89ff4
+      size: 3121294
+    - path: ../data\interim\ks2.csv
+      md5: 47a3afe80567929ce634c9fb9c912783
+      size: 2957038
+    - path: ../data\interim\neet_premerge.csv
+      md5: c0fac2a86bc401ab34b3d00fb27bdba9
+      size: 2300737
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: ../src/merge_utils.py
+      md5: 936693cbed12a66bc7012ace60095f39
+      size: 1856
+    - path: data/merge_multi_upn.py
+      md5: c31a42bbc230c97e332ad7f4a1eeb88f
+      size: 17020
+    outs:
+    - path: ../data\interim\multi_upn.csv
+      md5: f9960b1363b7a06b7a70c919a0ef1c30
+      size: 17742751
+  generate_modeling_multi_categorical_modeling:
+    cmd: python data/multi_upn_categorical.py --include_test_taken_code --input '../data\interim\multi_upn.csv'
+      --output '../data\processed\multi_upn_categorical.csv'
+    deps:
+    - path: ../data\interim\multi_upn.csv
+      md5: f9960b1363b7a06b7a70c919a0ef1c30
+      size: 17742751
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/multi_upn_categorical.py
+      md5: fb03625a7e1139d0b02008d1ded386a0
+      size: 8561
+    outs:
+    - path: ../data\processed\multi_upn_categorical.csv
+      md5: 2bc0f11cbe8aa6815065efab6ca10791
+      size: 41460224
+  generate_modeling_multi_to_single:
+    cmd: python data/multiple_to_single.py --input '../data\processed\multi_upn_categorical.csv'
+      --output '../data\processed\single_upn_categorical.csv'
+    deps:
+    - path: ../data\processed\multi_upn_categorical.csv
+      md5: 2bc0f11cbe8aa6815065efab6ca10791
+      size: 41460224
+    - path: data/multiple_to_single.py
+      md5: c0283dc3e2be733ccee0f543c2ba401a
+      size: 2486
+    outs:
+    - path: ../data\processed\single_upn_categorical.csv
+      md5: 5086378d53a78c336d97610d08ce3939
+      size: 11601181
+  generate_modeling_feature_selection_single:
+    cmd: python data/feature_selection.py --feature_selection_method 'remove_mostly_missing'
+      --input '../data\processed\single_upn_categorical.csv' --output '../data\processed\feature_selected_single_upn_categorical.csv'
+      --remove_mostly_missing_threshold 0.7 --single
+    deps:
+    - path: ../data\processed\single_upn_categorical.csv
+      md5: 5086378d53a78c336d97610d08ce3939
+      size: 11601181
+    - path: data/feature_selection.py
+      md5: e955dcbb6aec1491e2a468c0e1b87acd
+      size: 8326
+    params:
+      params.yaml:
+        FEATURE_SELECTION_METHOD: remove_mostly_missing
+        REMOVE_MOSTLY_MISSING_SINGLE_UPN_THRESHOLD: 0.7
+    outs:
+    - path: ../data\processed\feature_selected_single_upn_categorical.csv
+      md5: a58d50118ecc0d22f1d4a7dda043316b
+      size: 9917262
+  generate_modeling_feature_selection_multi:
+    cmd: python data/feature_selection.py --feature_selection_method 'remove_mostly_missing'
+      --forward_fill_fsme_column --input '../data\processed\multi_upn_categorical.csv'
+      --output '../data\processed\feature_selected_multi_upn_categorical.csv' --remove_mostly_missing_threshold
+      0.6
+    deps:
+    - path: ../data\processed\multi_upn_categorical.csv
+      md5: 2bc0f11cbe8aa6815065efab6ca10791
+      size: 41460224
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/error_utils.py
+      md5: 7b0d0aebb666f6c9fb9afbc0080a06ad
+      size: 1066
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/feature_selection.py
+      md5: e955dcbb6aec1491e2a468c0e1b87acd
+      size: 8326
+    params:
+      params.yaml:
+        FEATURE_SELECTION_METHOD: remove_mostly_missing
+        REMOVE_MOSTLY_MISSING_MULTI_UPN_THRESHOLD: 0.6
+    outs:
+    - path: ../data\processed\feature_selected_multi_upn_categorical.csv
+      md5: d41063e3c35f1e87907c7bd33aedd58b
+      size: 25239965
+  generate_modeling_attendance_exact:
+    cmd: python data/attendance_premerge.py  --attendance_type 'exact' --input '../data\interim\attendance_annotated.csv'
+      --output '../data\interim\attendance_exact.csv'
+    deps:
+    - path: ../data\interim\attendance_annotated.csv
+      md5: d27b3a8dda696b48642df8cc437c34c2
+      size: 33793532
+    - path: ../src/attendance_utils.py
+      md5: db78857cf10cbb44e2728130d8759d22
+      size: 1619
+    - path: ../src/data_utils.py
+      md5: 25a10e6bd432e003aadbe8b098e51526
+      size: 18588
+    - path: ../src/file_utils.py
+      md5: bf68098aeadafb0f8b2f58c840c0b066
+      size: 1492
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: data/attendance_premerge.py
+      md5: d84bef91b7ffdbffded664aab16e0095
+      size: 13167
+    outs:
+    - path: ../data\interim\attendance_exact.csv
+      md5: 7bc7747ab6f31f0e642646debaf70c50
+      size: 8872540

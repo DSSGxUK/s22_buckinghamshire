@@ -63,10 +63,10 @@ if __name__ == "__main__":
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
 
-    df = d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
+    df = d.load_csv(
         args.input,
-        drop_empty=True,
-        drop_single_valued=True,
+        drop_empty=False,
+        drop_single_valued=False,
         drop_duplicates=True,
         read_as_str=False,
         drop_missing_upns=True,
@@ -74,8 +74,6 @@ if __name__ == "__main__":
         na_vals=NA_VALS,
         logger=logger,
     )
-
-    #     breakpoint()
 
     logger.info(f"Initial row count {len(df)}")
     logger.info(f"Initial column count {len(df.columns)}")

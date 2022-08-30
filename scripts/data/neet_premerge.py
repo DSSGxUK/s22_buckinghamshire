@@ -32,6 +32,7 @@ Validation
 """
 
 import argparse
+import pandas as pd
 
 # DVC Params
 from src.constants import (
@@ -121,14 +122,17 @@ if __name__ == "__main__":
     df = df[modeling_columns + target_columns + useful_columns]
 
     # Create categorical column for characteristic codes and level_of_need
+    to_categorical_columns = [
+        CCISDataColumns.characteristic_code,
+        CCISDataColumns.level_of_need_code,
+        CCISDataColumns.send_flag,
+        CCISDataColumns.sen_support_flag,
+    ]
+    for col in to_categorical_columns:
+        df[col] = df[col].astype(pd.Int16Dtype())  # Columns are not always ints for some reason
     df = d.get_dummies_with_logging(
         df,
-        columns=[
-            CCISDataColumns.characteristic_code,
-            CCISDataColumns.level_of_need_code,
-            CCISDataColumns.send_flag,
-            CCISDataColumns.sen_support_flag,
-        ],
+        columns=to_categorical_columns,
         logger=logger,
     )
 
