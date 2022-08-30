@@ -42,8 +42,8 @@ OutputDatasetTypes = _OutputDatasetTypes()
 # different options that we accept.
 @dataclass
 class _FeatureSelectionMethods:
-    none: str = 'none'
-    remove_mostly_missing: str = 'remove_mostly_missing'
+    none: str = "none"
+    remove_mostly_missing: str = "remove_mostly_missing"
 
 FeatureSelectionMethods = _FeatureSelectionMethods()
 
@@ -55,13 +55,13 @@ FeatureSelectionMethods = _FeatureSelectionMethods()
 # code in src/aggregation_utils.py
 @dataclass
 class _Aggregations:
-    mean: str ='mean'  # understood by pandas
-    median: str ='median'  # understood by pandas
-    max: str = 'max'  # understood by pandas
-    min: str = 'min'  # understood by pandas
-    last: str = 'last'  # understood by pandas
-    categorical_max: str ='categorical_max'
-    last_with_unknown: str ='last_with_unknown'
+    mean: str ="mean"  # understood by pandas
+    median: str ="median"  # understood by pandas
+    max: str = "max"  # understood by pandas
+    min: str = "min"  # understood by pandas
+    last: str = "last"  # understood by pandas
+    categorical_max: str ="categorical_max"
+    last_with_unknown: str ="last_with_unknown"
 
 Aggregations = _Aggregations()
 
