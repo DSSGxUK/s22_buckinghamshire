@@ -57,8 +57,6 @@ This part will change slightly depending on what operating system you are using.
   `dvc pull -r origin` <br />
   `cd scripts` <br />
 
-**Running different stages of the pipeline**
-
   ## Generate datasets for modelling
     
     `dvc repro --glob generate_modeling_*`
