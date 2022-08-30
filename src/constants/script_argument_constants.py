@@ -49,7 +49,6 @@ class _FeatureSelectionMethods:
     none: str = "none"
     remove_mostly_missing: str = "remove_mostly_missing"
 
-
 FeatureSelectionMethods = _FeatureSelectionMethods()
 
 # The different aggregations we allow.
@@ -67,7 +66,6 @@ class _Aggregations:
     last: str = "last"  # understood by pandas
     categorical_max: str = "categorical_max"
     last_with_unknown: str = "last_with_unknown"
-
 
 Aggregations = _Aggregations()
 
