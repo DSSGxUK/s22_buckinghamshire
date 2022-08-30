@@ -1,4 +1,4 @@
-Welcome to the code repository for the project conducted under Data Science for Social Good- UK 2022 (DSSGx UK), for the partners: Buckinghamshire Council & EY Foundation. The repository will focus on documenting:
+Welcome to the code repository for the project conducted under **Data Science for Social Good- UK 2022 (DSSGx UK)**, for the partners: **Buckinghamshire Council & EY Foundation**. The repository will focus on documenting:
 
 1.	Folder structure 
 2.  Assumptions
