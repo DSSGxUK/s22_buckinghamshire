@@ -91,7 +91,7 @@ This part will change slightly depending on what operating system you are using.
   ### Model Evaluation 
      `dvc repro --glob evaluate_model_*`
   ### Generate datasets for predictions and final output
-      `dvc repro --glob prediction_* `
+      `dvc repro --glob prediction_*`
 
     
     
