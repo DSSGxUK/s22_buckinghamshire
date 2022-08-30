@@ -1,4 +1,4 @@
-Welcome to the code repository for the project conducted under **Data Science for Social Good- UK 2022 (DSSGx UK)**, for the partners: **Buckinghamshire Council & EY Foundation**. The repository will focus on documenting:
+Welcome to the code repository for the project conducted under **Data Science for Social Good- UK 2022 (DSSGx UK)**, for our partner: **Buckinghamshire Council**. The repository will focus on documenting:
 
 1.	Folder structure 
 2.  Assumptions
@@ -65,33 +65,33 @@ This part will change slightly depending on what operating system you are using.
   
   ## Run the whole pipeline
   ### Generate datasets for modelling
-     `dvc repro --glob generate_modeling_*` <br />
+     `dvc repro --glob generate_modeling_* `
   ### Run cross validation and hyper parameter search 
-      `dvc repro --glob cv_*` <br />
+      `dvc repro --glob cv_* `
   ### Model Evaluation 
-      `dvc repro --glob evaluate_model_*` <br />
+      `dvc repro --glob evaluate_model_* `
   ### Generate datasets for predictions and final output 
-      `dvc repro --glob prediction_*` <br />
+      `dvc repro --glob prediction_* `
     
   ## Run the train with old best params
     
   ### Generate datasets for modelling 
-    `dvc repro --glob generate_modeling_*` <br />
+    `dvc repro --glob generate_modeling_* `
   ### Model Evaluation 
-     `dvc repro --glob evaluate_model_*` <br />
+     `dvc repro --glob evaluate_model_*`
   ### Generate datasets for predictions and final output
-     `dvc repro --glob prediction_*`
+     `dvc repro --glob prediction_* `
     
   ## Run the old model with new data
     
-   ### Generate datasets for modelling 
-    `dvc repro --glob generate_modeling_*` <br />
-   ### Retrain model 
-    `dvc repro --glob retrain_*` <br />
-   ### Model Evaluation 
-     `dvc repro --glob evaluate_model_*` <br />
-   ### Generate datasets for predictions and final output
-      `dvc repro --glob prediction_*`
+  ### Generate datasets for modelling 
+    `dvc repro --glob generate_modeling_* `
+  ### Retrain model 
+    `dvc repro --glob retrain_*`
+  ### Model Evaluation 
+     `dvc repro --glob evaluate_model_*`
+  ### Generate datasets for predictions and final output
+      `dvc repro --glob prediction_* `
 
     
     
