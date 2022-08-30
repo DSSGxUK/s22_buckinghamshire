@@ -569,7 +569,7 @@ stages:
     outs:
       - ${PREDICTIONS_CSV_FP_SINGLE}
 
-  predict_unknowns_single:
+  prediction_unknowns_single:
     cmd: python model/predict.py ${UNKNOWNS_SINGLE_PARAMS}
     deps:
       - ${FS_SINGLE_UPN_CATEGORICAL_UNKNOWNS_FP}
