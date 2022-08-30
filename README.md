@@ -65,33 +65,33 @@ This part will change slightly depending on what operating system you are using.
   
   ## Run the whole pipeline
   ### Generate datasets for modelling
-     `dvc repro --glob generate_modeling_* `
+     `dvc repro --glob generate_modeling_*`
   ### Run cross validation and hyper parameter search 
-      `dvc repro --glob cv_* `
+      `dvc repro --glob cv_*`
   ### Model Evaluation 
-      `dvc repro --glob evaluate_model_* `
+      `dvc repro --glob evaluate_model_* 
   ### Generate datasets for predictions and final output 
-      `dvc repro --glob prediction_* `
+      `dvc repro --glob prediction_* 
     
   ## Run the train with old best params
     
   ### Generate datasets for modelling 
-    `dvc repro --glob generate_modeling_* `
+    `dvc repro --glob generate_modeling_* 
   ### Model Evaluation 
-     `dvc repro --glob evaluate_model_*`
+     `dvc repro --glob evaluate_model_*
   ### Generate datasets for predictions and final output
-     `dvc repro --glob prediction_* `
+     `dvc repro --glob prediction_* 
     
   ## Run the old model with new data
     
   ### Generate datasets for modelling 
-    `dvc repro --glob generate_modeling_* `
+    `dvc repro --glob generate_modeling_* 
   ### Retrain model 
-    `dvc repro --glob retrain_*`
+    `dvc repro --glob retrain_*
   ### Model Evaluation 
      `dvc repro --glob evaluate_model_*`
   ### Generate datasets for predictions and final output
-      `dvc repro --glob prediction_*`
+      `dvc repro --glob prediction_*
 
     
     
