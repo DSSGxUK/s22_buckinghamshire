@@ -61,25 +61,26 @@ from dataclasses import dataclass
 # School Info
 @dataclass
 class _SchoolInfoColumns:
-    la_establishment_number: str = 'la_establishment_number'
-    establishment_number: str = 'establishment_number'
-    establishment_name: str = 'establishment_name'
-    establishment_type: str = 'establishment_type'
-    establishment_status: str = 'establishment_status'
-    establishment_area: str = 'establishment_area'
-    establishment_postcode: str = 'establishment_postcode'
-    establishment_electoral_wards: str = 'establishment_electoral_wards'
+    la_establishment_number: str = "la_establishment_number"
+    establishment_number: str = "establishment_number"
+    establishment_name: str = "establishment_name"
+    establishment_type: str = "establishment_type"
+    establishment_status: str = "establishment_status"
+    establishment_area: str = "establishment_area"
+    establishment_postcode: str = "establishment_postcode"
+    establishment_electoral_wards: str = "establishment_electoral_wards"
+
 
 SchoolInfoColumns = _SchoolInfoColumns()
-    
+
 
 SCHOOL_INFO_RENAME = {
-    'LAEstab (anon)': SchoolInfoColumns.la_establishment_number,
-    'Estab (Anon)': SchoolInfoColumns.establishment_number,
-    'School Name': SchoolInfoColumns.establishment_name,
-    'Type': SchoolInfoColumns.establishment_type,
-    'Status': SchoolInfoColumns.establishment_status,
-    'Area': SchoolInfoColumns.establishment_area,
-    'Postcode': SchoolInfoColumns.establishment_postcode,
-    'Electoral Ward*': SchoolInfoColumns.establishment_electoral_wards,
+    "LAEstab (anon)": SchoolInfoColumns.la_establishment_number,
+    "Estab (Anon)": SchoolInfoColumns.establishment_number,
+    "School Name": SchoolInfoColumns.establishment_name,
+    "Type": SchoolInfoColumns.establishment_type,
+    "Status": SchoolInfoColumns.establishment_status,
+    "Area": SchoolInfoColumns.establishment_area,
+    "Postcode": SchoolInfoColumns.establishment_postcode,
+    "Electoral Ward*": SchoolInfoColumns.establishment_electoral_wards,
 }

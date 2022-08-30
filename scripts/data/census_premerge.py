@@ -49,37 +49,38 @@ from src import file_utils as f
 from src import log_utils as l
 from src import data_utils as d
 
-parser = argparse.ArgumentParser(description='')
-parser.add_argument('--debug', action='store_true',
-                    help='run transform in debug mode')
-parser.add_argument('--input', required=True,
-                    help='where to find input annotated census csv')
-parser.add_argument('--output', required=True,
-                    help='where to output the produced csv file')
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
+parser.add_argument(
+    "--input", required=True, help="where to find input annotated census csv"
+)
+parser.add_argument(
+    "--output", required=True, help="where to output the produced csv file"
+)
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    
+
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
-    
+
     df = d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
-        args.input, 
-        drop_empty=True, 
+        args.input,
+        drop_empty=True,
         drop_single_valued=True,
         drop_duplicates=True,
         read_as_str=False,
         drop_missing_upns=True,
         upn_col=UPN,
         na_vals=NA_VALS,
-        logger=logger
+        logger=logger,
     )
-    
-#     breakpoint()
-    
-    logger.info(f'Initial row count {len(df)}')
-    logger.info(f'Initial column count {len(df.columns)}')
-    
+
+    #     breakpoint()
+
+    logger.info(f"Initial row count {len(df)}")
+    logger.info(f"Initial column count {len(df.columns)}")
+
     # Drop
     modeling_columns = [
         SchoolInfoColumns.establishment_type,
@@ -98,16 +99,13 @@ if __name__ == "__main__":
         CensusDataColumns.age,
         CensusDataColumns.year,
     ]
-    logger.info(f'Keeping the modeling columns {modeling_columns}')
+    logger.info(f"Keeping the modeling columns {modeling_columns}")
     df = df[modeling_columns]
-    
-    logger.info(f'Final row count {len(df)}')
-    logger.info(f'Final column count {len(df.columns)}')
-    
-    
-    
+
+    logger.info(f"Final row count {len(df)}")
+    logger.info(f"Final column count {len(df.columns)}")
+
     csv_fp = f.tmp_path(args.output, debug=args.debug)
-    
-    logger.info(f'Saving census premerge data to {csv_fp}')
+
+    logger.info(f"Saving census premerge data to {csv_fp}")
     df.to_csv(csv_fp, index=False)
-    

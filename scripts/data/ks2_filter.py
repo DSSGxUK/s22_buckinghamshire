@@ -33,24 +33,25 @@ from src.constants import (
 from src import file_utils as f
 from src import log_utils as l
 from src import data_utils as d
-    
-parser = argparse.ArgumentParser(description='')
-parser.add_argument('--debug', action='store_true',
-                    help='run transform in debug mode')
-parser.add_argument('--input', required=True,
-                    help='where to find input csv file: annotated ks4 data')
-parser.add_argument('--output', required=True,
-                    help='where to output the produced csv file')
+
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
+parser.add_argument(
+    "--input", required=True, help="where to find input csv file: annotated ks4 data"
+)
+parser.add_argument(
+    "--output", required=True, help="where to output the produced csv file"
+)
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    
+
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
-    
+
     df = d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
-        args.input, 
-        drop_empty=False, 
+        args.input,
+        drop_empty=False,
         drop_single_valued=False,
         drop_duplicates=True,
         read_as_str=True,  # This will ensure values are not cast to floats
@@ -58,21 +59,22 @@ if __name__ == "__main__":
         drop_missing_upns=True,
         upn_col=UPN,
         na_vals=NA_VALS,
-        logger=logger
+        logger=logger,
     )
-    
-    logger.info(f'Initial row count {len(df)}')
-    logger.info(f'Initial column count {len(df.columns)}')
-    
-    keep_cols = list(asdict(KS2Columns).values()) + list(asdict(PupilDeprivationColumns).values())
-    logger.info(f'Only keeping KS2 columns {keep_cols}')
+
+    logger.info(f"Initial row count {len(df)}")
+    logger.info(f"Initial column count {len(df.columns)}")
+
+    keep_cols = list(asdict(KS2Columns).values()) + list(
+        asdict(PupilDeprivationColumns).values()
+    )
+    logger.info(f"Only keeping KS2 columns {keep_cols}")
     df = df[keep_cols]
-    
-    logger.info(f'Final row count {len(df)}')
-    logger.info(f'Final column count {len(df.columns)}')
-    
+
+    logger.info(f"Final row count {len(df)}")
+    logger.info(f"Final column count {len(df.columns)}")
+
     csv_fp = f.tmp_path(args.output, debug=args.debug)
-    
-    logger.info(f'Saving categorical data to {csv_fp}')
+
+    logger.info(f"Saving categorical data to {csv_fp}")
     df.to_csv(csv_fp, index=False)
-    

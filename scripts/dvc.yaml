@@ -511,15 +511,15 @@ stages:
     outs:
       - ${FS_MULTI_UPN_CATEGORICAL_PREDICT_FP} 
       - ${MULTI_UNIDENTIFIED_PRED_FP}
-  cv_optimization_and_cv:
-    cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_ARGS}
-    deps:
-      - python model/optimization_and_cv.py
-      - ${OPTIMIZATION_AND_CV_ARGS.input}
-      - ../src/file_utils.py
-      - ../src/log_utils.py
-      - ../src/data_utils.py
-    outs:
+  # cv_optimization_and_cv:
+  #   cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_ARGS}
+  #   deps:
+  #     - python model/optimization_and_cv.py
+  #     - ${OPTIMIZATION_AND_CV_ARGS.input}
+  #     - ../src/file_utils.py
+  #     - ../src/log_utils.py
+  #     - ../src/data_utils.py
+  #   outs:
   retrain_model_single:
     cmd: python model/retrain.py ${RETRAIN_SINGLE_PARAMS}
     deps:
