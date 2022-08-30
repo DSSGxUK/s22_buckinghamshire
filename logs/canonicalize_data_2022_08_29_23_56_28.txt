@@ -1,0 +1,6 @@
+2022-08-29 23:56:28,337 INFO     Logfile will be written to ../logs\canonicalize_data_2022_08_29_23_56_28.txt
+2022-08-29 23:56:28,337 INFO     Reading ../data\raw\ks4_original_csv\KS4_2016_Hard_Coded.csv
+2022-08-29 23:56:28,337 INFO     Reading all data as str
+2022-08-29 23:56:28,437 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-29 23:56:28,623 INFO     Renaming columns of ks4 dataset
+2022-08-29 23:56:28,624 INFO     Saving canonicalized data to ../data\interim\ks4_canonicalized_csv\ks4_sep16.csv

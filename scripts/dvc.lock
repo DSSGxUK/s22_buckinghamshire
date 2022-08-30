@@ -2919,6 +2919,7 @@ stages:
     - path: ../results/predictions.csv
       md5: ad89a84e3e26ed9eba64ef333370dabb
       size: 90360225
+
   generate_modeling_canonicalize_data@0:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_jan15.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_jan15.csv
@@ -2943,6 +2944,7 @@ stages:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_jan15.csv
       md5: ee4e4b947c4985a410fdc18966b5d112
       size: 909269
+
   generate_modeling_canonicalize_data@1:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_jan16.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_jan16.csv
@@ -2963,10 +2965,132 @@ stages:
     - path: data/canonicalize_data.py
       md5: 48e73bf0511b19b8759a41cc6ced32c0
       size: 4733
+
     outs:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_jan16.csv
       md5: 97b99d8bd6f0f1e9a9c0deb4a99927db
       size: 913137
+
+  generate_modeling_canonicalize_data@7:
+    cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_jan22.csv
+      --outputs ../data\interim\attendance_canonicalized_csv\attendance_jan22.csv
+      --dataset_type attendance
+    deps:
+    - path: ../data\raw\attendance_original_csv\attendance_original_jan22.csv
+      md5: f61a3c1629f8844fcb73769a238db2c6
+      size: 1031595
+    - path: ../src/data_utils.py
+      md5: 4e80a010c1fb0b3d2109ded78ca873e2
+      size: 18221
+    - path: ../src/file_utils.py
+      md5: 200b1866a936d863e54973106038fc2d
+      size: 1464
+    - path: ../src/log_utils.py
+      md5: 433ff55bfc23701f1bad9e0075c87d2e
+      size: 3577
+    - path: data/canonicalize_data.py
+      md5: ce8259af47d2a3f886bcfd9e9b79228d
+      size: 4549
+    outs:
+    - path: ../data\interim\attendance_canonicalized_csv\attendance_jan22.csv
+      md5: ac4ba6628c889e47b43945a28d093dbc
+      size: 1042018
+  generate_modeling_canonicalize_data@15:
+    cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_oct14.csv
+      --outputs ../data\interim\attendance_canonicalized_csv\attendance_oct14.csv
+      --dataset_type attendance
+    deps:
+    - path: ../data\raw\attendance_original_csv\attendance_original_oct14.csv
+      md5: e28be8a37c3053f8f238a81b5e5bd048
+      size: 913821
+    - path: ../src/data_utils.py
+      md5: 4e80a010c1fb0b3d2109ded78ca873e2
+      size: 18221
+    - path: ../src/file_utils.py
+      md5: 200b1866a936d863e54973106038fc2d
+      size: 1464
+    - path: ../src/log_utils.py
+      md5: 433ff55bfc23701f1bad9e0075c87d2e
+      size: 3577
+    - path: data/canonicalize_data.py
+      md5: ce8259af47d2a3f886bcfd9e9b79228d
+      size: 4549
+    outs:
+    - path: ../data\interim\attendance_canonicalized_csv\attendance_oct14.csv
+      md5: 42e3699747aed70ae3ae3dde5f28bb46
+      size: 923961
+  generate_modeling_canonicalize_data@37:
+    cmd: python data/canonicalize_data.py --inputs ../data\raw\ks4_original_csv\KS4_2016_Hard_Coded.csv
+      --outputs ../data\interim\ks4_canonicalized_csv\ks4_sep16.csv --dataset_type
+      ks4
+    deps:
+    - path: ../data\raw\ks4_original_csv\KS4_2016_Hard_Coded.csv
+      md5: c7fd3fe50a759f9421148584d352e8da
+      size: 2897134
+    - path: ../src/data_utils.py
+      md5: 4e80a010c1fb0b3d2109ded78ca873e2
+      size: 18221
+    - path: ../src/file_utils.py
+      md5: 200b1866a936d863e54973106038fc2d
+      size: 1464
+    - path: ../src/log_utils.py
+      md5: 433ff55bfc23701f1bad9e0075c87d2e
+      size: 3577
+    - path: data/canonicalize_data.py
+      md5: ce8259af47d2a3f886bcfd9e9b79228d
+      size: 4549
+    outs:
+    - path: ../data\interim\ks4_canonicalized_csv\ks4_sep16.csv
+      md5: 81f597ca1b80e0abf4538e73f48e1b50
+      size: 2907019
+  generate_modeling_canonicalize_data@13:
+    cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_may21.csv
+      --outputs ../data\interim\attendance_canonicalized_csv\attendance_may21.csv
+      --dataset_type attendance
+    deps:
+    - path: ../data\raw\attendance_original_csv\attendance_original_may21.csv
+      md5: 69dd9891a9f260ff9a21f92f8422118b
+      size: 1114475
+    - path: ../src/data_utils.py
+      md5: 4e80a010c1fb0b3d2109ded78ca873e2
+      size: 18221
+    - path: ../src/file_utils.py
+      md5: 200b1866a936d863e54973106038fc2d
+      size: 1464
+    - path: ../src/log_utils.py
+      md5: 433ff55bfc23701f1bad9e0075c87d2e
+      size: 3577
+    - path: data/canonicalize_data.py
+      md5: ce8259af47d2a3f886bcfd9e9b79228d
+      size: 4549
+    outs:
+    - path: ../data\interim\attendance_canonicalized_csv\attendance_may21.csv
+      md5: 71622df219292cc22a3f36ceaecab6c9
+      size: 1124898
+  generate_modeling_canonicalize_data@0:
+    cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_jan15.csv
+      --outputs ../data\interim\attendance_canonicalized_csv\attendance_jan15.csv
+      --dataset_type attendance
+    deps:
+    - path: ../data\raw\attendance_original_csv\attendance_original_jan15.csv
+      md5: ebc6ce36577a04725e0e72318daad728
+      size: 899125
+    - path: ../src/data_utils.py
+      md5: 4e80a010c1fb0b3d2109ded78ca873e2
+      size: 18221
+    - path: ../src/file_utils.py
+      md5: 200b1866a936d863e54973106038fc2d
+      size: 1464
+    - path: ../src/log_utils.py
+      md5: 433ff55bfc23701f1bad9e0075c87d2e
+      size: 3577
+    - path: data/canonicalize_data.py
+      md5: ce8259af47d2a3f886bcfd9e9b79228d
+      size: 4549
+    outs:
+    - path: ../data\interim\attendance_canonicalized_csv\attendance_jan15.csv
+      md5: ee4e4b947c4985a410fdc18966b5d112
+      size: 909269
   generate_modeling_canonicalize_data@2:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_jan17.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_jan17.csv
@@ -3063,6 +3187,7 @@ stages:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_jan20.csv
       md5: 788a1078c037f3ca6a69bda8df2930d8
       size: 848519
+
   generate_modeling_canonicalize_data@6:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_jan21.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_jan21.csv
@@ -3111,6 +3236,7 @@ stages:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_jan22.csv
       md5: ac4ba6628c889e47b43945a28d093dbc
       size: 1042018
+
   generate_modeling_canonicalize_data@8:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_may15.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_may15.csv
@@ -3159,6 +3285,7 @@ stages:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_may16.csv
       md5: 5b2441a327a3cdb0eb13221c4f2ee222
       size: 783690
+
   generate_modeling_canonicalize_data@10:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_may17.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_may17.csv
@@ -3279,6 +3406,7 @@ stages:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_may22.csv
       md5: e80284941817a659c77ca6c48a4242c7
       size: 1420256
+
   generate_modeling_canonicalize_data@15:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_oct14.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_oct14.csv
@@ -3303,6 +3431,7 @@ stages:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_oct14.csv
       md5: 42e3699747aed70ae3ae3dde5f28bb46
       size: 923961
+
   generate_modeling_canonicalize_data@16:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_oct15.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_oct15.csv
@@ -3423,6 +3552,7 @@ stages:
     - path: ../data\interim\attendance_canonicalized_csv\attendance_oct19.csv
       md5: 8cf51c20730ce574c0845ccfed4af35d
       size: 792834
+
   generate_modeling_canonicalize_data@21:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\attendance_original_csv\attendance_original_oct20.csv
       --outputs ../data\interim\attendance_canonicalized_csv\attendance_oct20.csv
