@@ -47,7 +47,7 @@ parser.add_argument('--data_dates', required=True, nargs="+",
                     help='The date of of the data submission in the form of [Month][Yr] (e.g. oct21 is for October 2021)')
 parser.add_argument('--output', required=True,
                     help='where to put the output merged attendance csv')
-parser.add_argument('--dataset_type', required=True, choices=asdict(DatasetTypes).values(),
+parser.add_argument('--dataset_type', required=True, #choices=asdict(DatasetTypes).values(),
                     help='where to put the output merged attendance csv')
 
 def merged_data_validation(df):

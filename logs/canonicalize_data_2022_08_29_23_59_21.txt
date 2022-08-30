@@ -1,0 +1,6 @@
+2022-08-29 23:59:21,573 INFO     Logfile will be written to ../logs\canonicalize_data_2022_08_29_23_59_21.txt
+2022-08-29 23:59:21,573 INFO     Reading ../data\raw\attendance_original_csv\attendance_original_may17.csv
+2022-08-29 23:59:21,573 INFO     Reading all data as str
+2022-08-29 23:59:21,601 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-29 23:59:21,673 INFO     Renaming columns of attendance dataset
+2022-08-29 23:59:21,673 INFO     Saving canonicalized data to ../data\interim\attendance_canonicalized_csv\attendance_may17.csv

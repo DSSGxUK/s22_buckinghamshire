@@ -1,0 +1,6 @@
+2022-08-29 23:36:00,108 INFO     Logfile will be written to ../logs\canonicalize_data_2022_08_29_23_36_00.txt
+2022-08-29 23:36:00,108 INFO     Reading ../data\raw\census_original_csv\school_census_context_Jan20_Hard_Coded.csv
+2022-08-29 23:36:00,108 INFO     Reading all data as str
+2022-08-29 23:36:00,148 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-29 23:36:00,220 INFO     Renaming columns of census dataset
+2022-08-29 23:36:00,220 INFO     Saving canonicalized data to ../data\interim\census_canonicalized_csv\census_jan20.csv

@@ -45,6 +45,7 @@ from src.constants import (
     AttendanceDataColumns,
     CharacteristicsDataColumns,
     UPN,
+    YEAR,
     NA_VALS,
     Targets
 )
@@ -181,6 +182,7 @@ if __name__ == '__main__':
     output_predictions['predictions'] = predictions
     output_predictions['probabilities'] = y_prob
     #print (max(output_predictions['probabilities']),min(output_predictions['probabilities']))
+    breakpoint()
 
     #this section adds a new column with the probabilities scaled between 0 and 10, with a threshold of 7, for the power bi dashboard
     logger.info(f'Scaling probabilities for power bi dashboard')
@@ -191,7 +193,8 @@ if __name__ == '__main__':
     eet = scale_probs_sep_threshold(eet,'probabilities','prob_scaling',0,threshold,0,new_threshold)
     neet = scale_probs_sep_threshold(neet,'probabilities','prob_scaling',threshold,1,new_threshold,10)
     output_predictions = pd.concat([eet,neet]).sort_index()
-    
+    breakpoint()
+
     feature_names = data_df.columns    
     # Feature importance 
     logger.info(f'Calculating feature importances')
