@@ -374,7 +374,7 @@ NEET_DATASET_CSV_FPS = {
     ),
 }
 
-NEET_CANONICALIZED_CSV_DIR = os.path.join(RAW_DATA_DIR, "ccis_canonicalized_csv")
+NEET_CANONICALIZED_CSV_DIR = os.path.join(INTERIM_DIR, "ccis_canonicalized_csv")
 NEET_CANONICALIZED_CSV_FPS = {
     date: os.path.join(NEET_CANONICALIZED_CSV_DIR, f"neet_{date}.csv")
     for date in NEET_DATASET_CSV_FPS.keys()

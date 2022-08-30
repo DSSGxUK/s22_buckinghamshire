@@ -44,13 +44,16 @@ from src import py_utils as py
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--input", required=True, help="where to find input annotated attendance csv"
+    "--input", type=lambda x: x.strip("'"),
+    required=True, help="where to find input annotated attendance csv"
 )
 parser.add_argument(
-    "--output", required=True, help="where to output the produced csv file"
+    "--output", type=lambda x: x.strip("'"),
+    required=True, help="where to output the produced csv file"
 )
 parser.add_argument(
     "--attendance_type",
+    type=lambda x: x.strip("'"),
     required=True,
     choices=asdict(AttendanceTypes).values(),
     help="how to aggregate the attendance data across terms for each student-year",

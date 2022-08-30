@@ -12,4 +12,6 @@ PyYAML
 imbalanced-learn
 scikit-optimize
 lightgbm
+shap
+black
 -e .

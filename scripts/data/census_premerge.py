@@ -31,10 +31,7 @@ csv file
     csv file of census data ready to be merged with other datasets
 
 """
-import pandas as pd
-import os
 import argparse
-from datetime import datetime
 
 # DVC Params
 from src.constants import (
@@ -52,10 +49,12 @@ from src import data_utils as d
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--input", required=True, help="where to find input annotated census csv"
+    "--input", type=lambda x: x.strip("'"),
+    required=True, help="where to find input annotated census csv"
 )
 parser.add_argument(
-    "--output", required=True, help="where to output the produced csv file"
+    "--output", type=lambda x: x.strip("'"),
+    required=True, help="where to output the produced csv file"
 )
 
 if __name__ == "__main__":
