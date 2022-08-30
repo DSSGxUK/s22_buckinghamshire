@@ -81,19 +81,19 @@ def add_absence_columns(df, inplace=False):
     df = d.add_column(
         df,
         AttendanceDataColumns.authorised_absences,
-        df[authorised_columns].astype(pd.Int16Dtype()).sum(axis=1, min_count=1),
+        df[authorised_columns].astype("float").astype(pd.Int16Dtype()).sum(axis=1, min_count=1),
         inplace=inplace,
     )
     df = d.add_column(
         df,
         AttendanceDataColumns.unauthorised_absences,
-        df[unauthorised_columns].astype(pd.Int16Dtype()).sum(axis=1, min_count=1),
+        df[unauthorised_columns].astype("float").astype(pd.Int16Dtype()).sum(axis=1, min_count=1),
         inplace=inplace,
     )
     df = d.add_column(
         df,
         AttendanceDataColumns.approved_activities,
-        df[approved_columns].astype(pd.Int16Dtype()).sum(axis=1, min_count=1),
+        df[approved_columns].astype("float").astype(pd.Int16Dtype()).sum(axis=1, min_count=1),
         inplace=inplace,
     )
     df = d.add_column(
@@ -106,14 +106,14 @@ def add_absence_columns(df, inplace=False):
                 AttendanceDataColumns.approved_activities,
             ]
         ]
-        .astype(pd.Int16Dtype())
+        .astype("float").astype(pd.Int16Dtype())
         .sum(axis=1, min_count=1),
         inplace=inplace,
     )
     df = d.add_column(
         df,
         AttendanceDataColumns.total_nonabsences,
-        df[nonabsence_columns].astype(pd.Int16Dtype()).sum(axis=1, min_count=1),
+        df[nonabsence_columns].astype("float").astype(pd.Int16Dtype()).sum(axis=1, min_count=1),
         inplace=inplace,
     )
 

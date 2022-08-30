@@ -44,7 +44,7 @@ def calculate_roni_scores(df, threshold=None):
     pd.DataFrame
         dataframe with columns for each roni tool risk factor weighting and the overall roni score for each student
     """
-
+    #breakpoint()
     roni_df = pd.DataFrame()
     # roni_df[UPN] = df[UPN]
     roni_df["roni_att_below_90"] = np.where(
@@ -81,28 +81,48 @@ def calculate_roni_scores(df, threshold=None):
         (df["excluded_authorised"] <= 0.5) & (df["excluded_authorised"] > 0.0), 1, 0
     )
     roni_df["roni_excluded_2"] = np.where((df["excluded_authorised"] > 0.5), 2, 0)
-    roni_df["roni_alt_provision"] = np.where(
-        (df[d.to_categorical("characteristic_code", "200")] == 1), 1, 0
-    )
-    roni_df["roni_lac"] = np.where(
+    
+    if d.to_categorical("characteristic_code", "200") in roni_df.columns :
+        roni_df.loc[roni_df[d.to_categorical("characteristic_code", "200")] == 1, "roni_alt_provision"] = 1
+
+    #roni_df["roni_alt_provision"] = np.where(
+    #    (df[d.to_categorical("characteristic_code", "200")] == 1), 1, 0
+    #)
+    
+
+    if d.to_categorical("characteristic_code", "110") in roni_df.columns :
+
+        roni_df["roni_lac"] = np.where(
         (df[d.to_categorical("characteristic_code", "110")] == 1), 2, 0
     )
-    roni_df["roni_pregnant_or_parent"] = np.where(
-        (df[d.to_categorical("characteristic_code", "180")] == 1)
-        | (df[d.to_categorical("characteristic_code", "120")] == 1)
-        | (df[d.to_categorical("characteristic_code", "190")] == 1),
-        2,
-        0,
-    )
+    if d.to_categorical("characteristic_code", "180") in roni_df.columns :
+        roni_df.loc[roni_df[d.to_categorical("characteristic_code", "180")] == 1, "roni_pregnant_or_parent"] = 2
+    if d.to_categorical("characteristic_code", "120") in roni_df.columns :
+        roni_df.loc[roni_df[d.to_categorical("characteristic_code", "120")] == 1, "roni_pregnant_or_parent"] = 2
+    if d.to_categorical("characteristic_code", "190") in roni_df.columns : 
+        roni_df.loc[roni_df[d.to_categorical("characteristic_code", "190")] == 1, "roni_pregnant_or_parent"] = 2
+
+    # roni_df["roni_pregnant_or_parent"] = np.where(
+    #     (df[d.to_categorical("characteristic_code", "180")] == 1)
+    #     | (df[d.to_categorical("characteristic_code", "120")] == 1)
+    #     | (df[d.to_categorical("characteristic_code", "190")] == 1),
+    #     2,
+    #     0,
+    # )
+
     roni_df["roni_fsme"] = np.where(
         (df[d.to_categorical("fsme_on_census_day", "1")] == 1), 2, 0
     )
-    roni_df["roni_carer"] = np.where(
-        (df[d.to_categorical("characteristic_code", "140")] == 1), 2, 0
-    )
-    roni_df["roni_yot"] = np.where(
-        (df[d.to_categorical("characteristic_code", "170")] == 1), 2, 0
-    )
+    if d.to_categorical("characteristic_code", "140") in roni_df.columns :
+
+        roni_df["roni_carer"] = np.where(
+            (df[d.to_categorical("characteristic_code", "140")] == 1), 2, 0
+        )
+    if d.to_categorical("characteristic_code", "170") in roni_df.columns :
+
+        roni_df["roni_yot"] = np.where(
+            (df[d.to_categorical("characteristic_code", "170")] == 1), 2, 0
+        )
 
     roni_df["roni_score"] = roni_df.sum(axis=1)
 

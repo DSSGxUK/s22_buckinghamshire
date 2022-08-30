@@ -43,19 +43,19 @@ from src import roni
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--train_data", required=True, help="where the train data csv is located"
+    "--train_data", type=lambda x: x.strip("'"),required=True, help="where the train data csv is located"
 )
 parser.add_argument(
-    "--test_data", required=True, help="where the test data csv is located"
+    "--test_data", type=lambda x: x.strip("'"),required=True, help="where the test data csv is located"
 )
 parser.add_argument(
     "--output_test_metrics",
-    required=True,
+    type=lambda x: x.strip("'"),required=True,
     help="where to save the evaluation metrics csv",
 )
 parser.add_argument(
     "--target",
-    required=True,
+    type=lambda x: x.strip("'"),required=True,
     choices=list(asdict(Targets).values()),
     help="which target variable to add to csv",
 )

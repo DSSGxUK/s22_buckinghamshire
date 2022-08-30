@@ -47,16 +47,16 @@ parser.add_argument("--single", action="store_true", help="Use the single upn da
 parser.add_argument(
     "--split", type=float, help="The percentage of upns to hold out in the test set"
 )
-parser.add_argument("--input", required=True, help="where the input csv is located")
+parser.add_argument("--input", type=lambda x: x.strip("'"),required=True, help="where the input csv is located")
 parser.add_argument(
-    "--train_output", type=lambda x: x.strip("'")required=True, help="where the output train csv is located"
+    "--train_output", type=lambda x: x.strip("'"),required=True, help="where the output train csv is located"
 )
 parser.add_argument(
-    "--test_output", type=lambda x: x.strip("'")required=True, help="where the output test csv is located"
+    "--test_output", type=lambda x: x.strip("'"),required=True, help="where the output test csv is located"
 )
 parser.add_argument(
     "--target",
-    type=lambda x: x.strip("'")required=True,
+    type=lambda x: x.strip("'"),required=True,
     choices=list(asdict(Targets).values()),
     help="which target variable to add to csv",
 )

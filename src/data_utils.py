@@ -556,6 +556,8 @@ def to_categorical(col: str, category: str, prefix_sep=CATEGORICAL_SEP):
 
 
 def parse_human_list(msg):
+    #breakpoint()
+    msg = str(msg)
     re_split = r"(, )|( and )"
     re_remove = r"\d sites: "
     msg = re.sub(re_remove, "", msg)

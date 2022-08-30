@@ -72,23 +72,23 @@ parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument("--single", action="store_true", help="Use the single upn dataset")
 parser.add_argument(
-    "--input", required=True, help="where the input test csv is located"
+    "--input", type=lambda x: x.strip("'"),required=True, help="where the input test csv is located"
 )
 parser.add_argument(
-    "--output", required=True, help="where to output the evaluation metrics csv"
+    "--output", type=lambda x: x.strip("'"),required=True, help="where to output the evaluation metrics csv"
 )
 parser.add_argument(
-    "--model_output", required=True, help="where to save the final model pkl file"
+    "--model_output", type=lambda x: x.strip("'"),required=True, help="where to save the final model pkl file"
 )
 parser.add_argument(
     "--model_pkls",
-    required=True,
+    type=lambda x: x.strip("'"),required=True,
     nargs="+",
     help="where the model pkl files are located",
 )
 parser.add_argument(
     "--target",
-    required=True,
+    type=lambda x: x.strip("'"),required=True,
     choices=list(asdict(Targets).values()),
     help="which target variable to add to csv",
 )
@@ -241,9 +241,10 @@ if __name__ == "__main__":
 
     # breakpoint()
     FINAL_MODEL_FP = args.model_output
-    if args.debug:
-        TEST_RESULTS_CSV_FP = f.tmp_path(TEST_RESULTS_CSV_FP)
-        FINAL_MODEL_FP = f.tmp_path(args.model_output)
+    FINAL_MODEL_FP = f.tmp_path(args.model_output,debug=args.debug)
+    TEST_RESULTS_CSV_FP = f.tmp_path(TEST_RESULTS_CSV_FP,debug=args.debug)
+        
+
     logger.info(f"Saving final model to pickle file {FINAL_MODEL_FP}")
     pkl.dump(final_model, open(FINAL_MODEL_FP, "wb"))
 

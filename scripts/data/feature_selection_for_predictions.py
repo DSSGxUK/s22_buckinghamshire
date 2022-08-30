@@ -131,7 +131,7 @@ if __name__ == "__main__":
     df = d.get_dummies_with_logging(
         df, columns=[CensusDataColumns.fsme_on_census_day], logger=logger
     )
-    breakpoint()
+    #breakpoint()
 
     logger.info(
         f'Selecting columns from the {"single" if args.single else "multi"} upn predictions dataset'
@@ -142,7 +142,7 @@ if __name__ == "__main__":
     logger.info("Filter out any columns not in the train data")
     num_orig_rows = len(df)
     df = df.loc[:, df.columns.isin(features_for_model)]
-    breakpoint()
+    #breakpoint()
     logger.info(
         "Add any columns that are in the train data but not in the prediction data"
     )

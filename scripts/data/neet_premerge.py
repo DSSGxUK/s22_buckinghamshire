@@ -129,7 +129,7 @@ if __name__ == "__main__":
         CCISDataColumns.sen_support_flag,
     ]
     for col in to_categorical_columns:
-        df[col] = df[col].astype(pd.Int16Dtype())  # Columns are not always ints for some reason
+        df[col] = df[col].astype("float").astype(pd.Int16Dtype())  # Columns are not always ints for some reason
     df = d.get_dummies_with_logging(
         df,
         columns=to_categorical_columns,
