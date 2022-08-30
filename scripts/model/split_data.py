@@ -49,14 +49,14 @@ parser.add_argument(
 )
 parser.add_argument("--input", required=True, help="where the input csv is located")
 parser.add_argument(
-    "--train_output", required=True, help="where the output train csv is located"
+    "--train_output", type=lambda x: x.strip("'")required=True, help="where the output train csv is located"
 )
 parser.add_argument(
-    "--test_output", required=True, help="where the output test csv is located"
+    "--test_output", type=lambda x: x.strip("'")required=True, help="where the output test csv is located"
 )
 parser.add_argument(
     "--target",
-    required=True,
+    type=lambda x: x.strip("'")required=True,
     choices=list(asdict(Targets).values()),
     help="which target variable to add to csv",
 )
