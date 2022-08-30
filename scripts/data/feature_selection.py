@@ -36,12 +36,7 @@ from datetime import datetime
 from dataclasses import asdict
 
 
-from src.constants import (
-    FeatureSelectionMethods,
-    UPN,
-    NA_VALS,
-    CensusDataColumns
-)
+from src.constants import FeatureSelectionMethods, UPN, NA_VALS, CensusDataColumns
 
 # Other code
 from src.error_utils import error_with_logging
@@ -50,15 +45,14 @@ from src import log_utils as l
 from src import data_utils as d
 
 
-
 def remove_mostly_missing(df, threshold, na_vals, logger=l.PrintLogger):
     """
     This is the `remove_mostly_missing` feature selection method. It
     will remove columns that have fewer than `threshold` fraction of non-
     missing values. Finally, it will remove any rows (students if `--single` is used,
     student-years otherwise) that have any remaining missing values after removing
-    those columns. A properly chosen `threshold` should keep the number of students 
-    removed down to a minimum. For example, threshold=0.7 removes most ks2 columns 
+    those columns. A properly chosen `threshold` should keep the number of students
+    removed down to a minimum. For example, threshold=0.7 removes most ks2 columns
     and only 28 remaining students with missing values in their rows on the single-upn
     dataset.
 
@@ -82,57 +76,78 @@ def remove_mostly_missing(df, threshold, na_vals, logger=l.PrintLogger):
         selection has been applied.
     """
     df = df.copy()
-    
+
     na_percents = d.isna(df, na_vals=na_vals).sum(axis=0) / len(df)
     keep_cols = na_percents.index[na_percents < (1 - threshold)]
     drop_cols = na_percents.index[na_percents >= (1 - threshold)]
-    
-#    breakpoint()
-    
-    logger.info(f'Dropping columns {list(drop_cols)} because they had less than {args.remove_mostly_missing_threshold} non-missing values')
+
+    #    breakpoint()
+
+    logger.info(
+        f"Dropping columns {list(drop_cols)} because they had less than {args.remove_mostly_missing_threshold} non-missing values"
+    )
     df = df.loc[:, keep_cols]
-    
-#    breakpoint()
-    
+
+    #    breakpoint()
+
     num_orig_rows = len(df)
-    df.dropna(inplace=True) #drop na rows
-             
-    logger.info(f'Dropped {num_orig_rows - len(df)} rows ({(num_orig_rows - len(df)) / num_orig_rows  * 100}%) because they contained a missing value')
-    #breakpoint()
-    
-    #breakpoint()
-    
+    df.dropna(inplace=True)  # drop na rows
+
+    logger.info(
+        f"Dropped {num_orig_rows - len(df)} rows ({(num_orig_rows - len(df)) / num_orig_rows  * 100}%) because they contained a missing value"
+    )
+    # breakpoint()
+
+    # breakpoint()
+
     return df
-    
-parser = argparse.ArgumentParser(description='')
-parser.add_argument('--debug', action='store_true',
-                    help='run transform in debug mode')
-parser.add_argument('--single', action='store_true', help='should use single upn dataset instead of multi?')
-parser.add_argument('--input', required=True,
-                    help='where to find the categorical dataset')
-parser.add_argument('--output', required=True,
-                    help='where to put dataset after feature selection')
-parser.add_argument('--forward_fill_fsme_column', action='store_true',
-                    help='if we are running on the multi-upn dataset, should we fill in missing fsme values with the most recent known value for that student?')
-parser.add_argument('--feature_selection_method', required=True, choices=list(asdict(FeatureSelectionMethods).values()),
-                    help='which feature selection method to use')
-parser.add_argument('--remove_mostly_missing_threshold', required=False, type=float,
-                    help="if using the 'remove_mostly_missing' feature selection method, what threshold to use? \
-                        Columns will be rejected if their percentage of non-missing values falls below the threshold. ")
-                  
+
+
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
+parser.add_argument(
+    "--single",
+    action="store_true",
+    help="should use single upn dataset instead of multi?",
+)
+parser.add_argument(
+    "--input", required=True, help="where to find the categorical dataset"
+)
+parser.add_argument(
+    "--output", required=True, help="where to put dataset after feature selection"
+)
+parser.add_argument(
+    "--forward_fill_fsme_column",
+    action="store_true",
+    help="if we are running on the multi-upn dataset, should we fill in missing fsme values with the most recent known value for that student?",
+)
+parser.add_argument(
+    "--feature_selection_method",
+    required=True,
+    choices=list(asdict(FeatureSelectionMethods).values()),
+    help="which feature selection method to use",
+)
+parser.add_argument(
+    "--remove_mostly_missing_threshold",
+    required=False,
+    type=float,
+    help="if using the 'remove_mostly_missing' feature selection method, what threshold to use? \
+                        Columns will be rejected if their percentage of non-missing values falls below the threshold. ",
+)
+
 if __name__ == "__main__":
     args = parser.parse_args()
 
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
     logger.info(f'Processing the {"single" if args.single else "multi"} upn dataset')
-    
+
     if args.single:
         if args.forward_fill_fsme_column:
             error_with_logging(
                 f"'forward_fill_fsme_columns' cannot be passed with 'single'. It is only valid for processing the multi-upn dataset",
                 logger,
-                ValueError
+                ValueError,
             )
         fill_fsme_col = False
     else:
@@ -140,7 +155,7 @@ if __name__ == "__main__":
 
     df = d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
         args.input,
-        drop_empty=True, 
+        drop_empty=True,
         drop_single_valued=True,
         drop_duplicates=True,
         read_as_str=False,
@@ -149,25 +164,27 @@ if __name__ == "__main__":
         upn_col=UPN,
         na_vals=NA_VALS,
         convert_dtypes=True,
-        logger=logger
+        logger=logger,
     )
-    
+
     if not args.single:
-        if fill_fsme_col :
+        if fill_fsme_col:
             ffil_cols = [CensusDataColumns.fsme_on_census_day]
             logger.info(f"Forward filling fsme column {ffil_cols}.")
             df[ffil_cols] = df[([UPN] + ffil_cols)].groupby(by=UPN).ffill()
-    
-    df = d.get_dummies_with_logging(df, columns=[CensusDataColumns.fsme_on_census_day], logger=logger)
 
-    #breakpoint()
-    
+    df = d.get_dummies_with_logging(
+        df, columns=[CensusDataColumns.fsme_on_census_day], logger=logger
+    )
+
+    # breakpoint()
+
     if args.feature_selection_method == FeatureSelectionMethods.none:
         if args.remove_mostly_missing_threshold is not None:
             error_with_logging(
                 f"You cannot pass a value for 'remove_mostly_missing_threshold' if 'feature_selection_method' is none. You passed {args.remove_mostly_missing_threshold}.",
                 logger,
-                ValueError
+                ValueError,
             )
         pass
     elif args.feature_selection_method == FeatureSelectionMethods.remove_mostly_missing:
@@ -175,28 +192,26 @@ if __name__ == "__main__":
             error_with_logging(
                 f"You must pass a value for 'remove_mostly_missing_threshold' if 'feature_selection_method' is 'remove_mostly_missing'. You passed {args.remove_mostly_missing_threshold}.",
                 logger,
-                ValueError
+                ValueError,
             )
         df = remove_mostly_missing(
-            df, 
-            threshold=args.remove_mostly_missing_threshold, 
-            na_vals=NA_VALS, 
+            df,
+            threshold=args.remove_mostly_missing_threshold,
+            na_vals=NA_VALS,
             logger=logger,
         )
     else:
         error_with_logging(
-            f'{args.feature_selection_method} is not a valid feature selection method. It must be one of {list(asdict(FeatureSelectionMethods).values())}. If it is, then your method is currently not implemented.',
+            f"{args.feature_selection_method} is not a valid feature selection method. It must be one of {list(asdict(FeatureSelectionMethods).values())}. If it is, then your method is currently not implemented.",
             logger,
-            ValueError
+            ValueError,
         )
-    #breakpoint()
-    #breakpoint()
-    
+    # breakpoint()
+    # breakpoint()
+
     csv_fp = args.output
-    if args.debug :
+    if args.debug:
         csv_fp = f.tmp_path(csv_fp)
-    
-    logger.info(f'Saving categorical data to {csv_fp}')
+
+    logger.info(f"Saving categorical data to {csv_fp}")
     df.to_csv(csv_fp, index=False)
-    
-    
