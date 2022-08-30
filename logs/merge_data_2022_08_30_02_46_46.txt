@@ -1,0 +1,31 @@
+2022-08-30 02:46:46,816 INFO     Logfile will be written to ../logs\merge_data_2022_08_30_02_46_46.txt
+2022-08-30 02:46:46,834 INFO     Loading CSV at ../data\interim\ccis_canonicalized_csv\neet_mar16.csv for 2016-03-01 00:00:00
+2022-08-30 02:46:46,834 INFO     Reading ../data\interim\ccis_canonicalized_csv\neet_mar16.csv
+2022-08-30 02:46:46,834 INFO     Reading all data as str
+2022-08-30 02:46:46,932 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:47,073 INFO     Loading CSV at ../data\interim\ccis_canonicalized_csv\neet_mar17.csv for 2017-03-01 00:00:00
+2022-08-30 02:46:47,073 INFO     Reading ../data\interim\ccis_canonicalized_csv\neet_mar17.csv
+2022-08-30 02:46:47,073 INFO     Reading all data as str
+2022-08-30 02:46:47,166 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:47,309 INFO     Loading CSV at ../data\interim\ccis_canonicalized_csv\neet_mar18.csv for 2018-03-01 00:00:00
+2022-08-30 02:46:47,309 INFO     Reading ../data\interim\ccis_canonicalized_csv\neet_mar18.csv
+2022-08-30 02:46:47,309 INFO     Reading all data as str
+2022-08-30 02:46:47,408 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:47,536 INFO     Loading CSV at ../data\interim\ccis_canonicalized_csv\neet_mar19.csv for 2019-03-01 00:00:00
+2022-08-30 02:46:47,536 INFO     Reading ../data\interim\ccis_canonicalized_csv\neet_mar19.csv
+2022-08-30 02:46:47,536 INFO     Reading all data as str
+2022-08-30 02:46:47,614 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:47,755 INFO     Loading CSV at ../data\interim\ccis_canonicalized_csv\neet_mar20.csv for 2020-03-01 00:00:00
+2022-08-30 02:46:47,755 INFO     Reading ../data\interim\ccis_canonicalized_csv\neet_mar20.csv
+2022-08-30 02:46:47,755 INFO     Reading all data as str
+2022-08-30 02:46:47,833 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:47,976 INFO     Loading CSV at ../data\interim\ccis_canonicalized_csv\neet_mar21.csv for 2021-03-01 00:00:00
+2022-08-30 02:46:47,976 INFO     Reading ../data\interim\ccis_canonicalized_csv\neet_mar21.csv
+2022-08-30 02:46:47,976 INFO     Reading all data as str
+2022-08-30 02:46:48,070 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:48,197 INFO     Loading CSV at ../data\interim\ccis_canonicalized_csv\neet_mar22.csv for 2022-03-01 00:00:00
+2022-08-30 02:46:48,197 INFO     Reading ../data\interim\ccis_canonicalized_csv\neet_mar22.csv
+2022-08-30 02:46:48,197 INFO     Reading all data as str
+2022-08-30 02:46:48,291 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:48,416 INFO     Adding column for data submissing date of dataset
+2022-08-30 02:46:48,560 INFO     Saving merged data to ../data\interim\neet_merged.csv

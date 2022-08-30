@@ -1,0 +1,22 @@
+2022-08-30 01:36:40,048 INFO     Logfile will be written to ../logs\canonicalize_data_2022_08_30_01_36_40.txt
+2022-08-30 01:36:40,048 INFO     Reading ../data/raw/ks4_original_csv/KS4_2015_Hard_Coded.csv
+2022-08-30 01:36:40,048 INFO     Reading all data as str
+2022-08-30 01:36:40,048 ERROR    Uncaught Exception
+Traceback (most recent call last):
+  File "C:\Users\abhmu\s22_buckinghamshire\scripts\data\canonicalize_data.py", line 75, in <module>
+    df: pd.DataFrame = d.load_csv(
+  File "c:\users\abhmu\s22_buckinghamshire\src\data_utils.py", line 208, in load_csv
+    df = pd.read_csv(fp, keep_default_na=False, dtype=pd.StringDtype())
+  File "C:\Users\abhmu\s22_buckinghamshire\venv\lib\site-packages\pandas\util\_decorators.py", line 311, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\abhmu\s22_buckinghamshire\venv\lib\site-packages\pandas\io\parsers\readers.py", line 680, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\Users\abhmu\s22_buckinghamshire\venv\lib\site-packages\pandas\io\parsers\readers.py", line 575, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\Users\abhmu\s22_buckinghamshire\venv\lib\site-packages\pandas\io\parsers\readers.py", line 934, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "C:\Users\abhmu\s22_buckinghamshire\venv\lib\site-packages\pandas\io\parsers\readers.py", line 1218, in _make_engine
+    self.handles = get_handle(  # type: ignore[call-overload]
+  File "C:\Users\abhmu\s22_buckinghamshire\venv\lib\site-packages\pandas\io\common.py", line 786, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: '../data/raw/ks4_original_csv/KS4_2015_Hard_Coded.csv'

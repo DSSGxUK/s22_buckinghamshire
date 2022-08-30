@@ -1,0 +1,12 @@
+2022-08-30 02:59:59,417 INFO     Logfile will be written to ../logs\annotate_census_data_2022_08_30_02_59_59.txt
+2022-08-30 02:59:59,417 INFO     Reading ../data\interim\census_merged.csv
+2022-08-30 02:59:59,417 INFO     Reading all data as str
+2022-08-30 02:59:59,681 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 03:00:00,313 INFO     Doing some validation on the incoming merged census df
+2022-08-30 03:00:00,329 ERROR    Uncaught Exception
+Traceback (most recent call last):
+  File "C:\Users\abhmu\s22_buckinghamshire\scripts\data\annotate_census_data.py", line 91, in <module>
+    merged_census_validation(df)
+  File "C:\Users\abhmu\s22_buckinghamshire\scripts\data\annotate_census_data.py", line 69, in merged_census_validation
+    assert (
+AssertionError: fsme_on_census_day has extra values {'True', 'False'}. Only  values {'FALSE', 'TRUE'} are allowed. Please correct.

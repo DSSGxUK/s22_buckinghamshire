@@ -1,0 +1,95 @@
+2022-08-30 02:46:11,400 INFO     Logfile will be written to ../logs\merge_data_2022_08_30_02_46_11.txt
+2022-08-30 02:46:11,400 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_jan15.csv for 2015-01-01 00:00:00
+2022-08-30 02:46:11,400 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_jan15.csv
+2022-08-30 02:46:11,400 INFO     Reading all data as str
+2022-08-30 02:46:11,447 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:11,527 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_jan16.csv for 2016-01-01 00:00:00
+2022-08-30 02:46:11,543 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_jan16.csv
+2022-08-30 02:46:11,543 INFO     Reading all data as str
+2022-08-30 02:46:11,590 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:11,668 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_jan17.csv for 2017-01-01 00:00:00
+2022-08-30 02:46:11,668 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_jan17.csv
+2022-08-30 02:46:11,668 INFO     Reading all data as str
+2022-08-30 02:46:11,715 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:11,795 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_jan18.csv for 2018-01-01 00:00:00
+2022-08-30 02:46:11,795 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_jan18.csv
+2022-08-30 02:46:11,795 INFO     Reading all data as str
+2022-08-30 02:46:11,842 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:11,920 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_jan19.csv for 2019-01-01 00:00:00
+2022-08-30 02:46:11,920 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_jan19.csv
+2022-08-30 02:46:11,920 INFO     Reading all data as str
+2022-08-30 02:46:11,967 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:12,045 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_jan20.csv for 2020-01-01 00:00:00
+2022-08-30 02:46:12,045 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_jan20.csv
+2022-08-30 02:46:12,045 INFO     Reading all data as str
+2022-08-30 02:46:12,092 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:12,172 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_jan21.csv for 2021-01-01 00:00:00
+2022-08-30 02:46:12,172 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_jan21.csv
+2022-08-30 02:46:12,172 INFO     Reading all data as str
+2022-08-30 02:46:12,235 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:12,344 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_jan22.csv for 2022-01-01 00:00:00
+2022-08-30 02:46:12,344 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_jan22.csv
+2022-08-30 02:46:12,344 INFO     Reading all data as str
+2022-08-30 02:46:12,407 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:12,503 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_may15.csv for 2015-05-01 00:00:00
+2022-08-30 02:46:12,503 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_may15.csv
+2022-08-30 02:46:12,503 INFO     Reading all data as str
+2022-08-30 02:46:12,550 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:12,612 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_may16.csv for 2016-05-01 00:00:00
+2022-08-30 02:46:12,612 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_may16.csv
+2022-08-30 02:46:12,612 INFO     Reading all data as str
+2022-08-30 02:46:12,659 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:12,738 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_may17.csv for 2017-05-01 00:00:00
+2022-08-30 02:46:12,738 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_may17.csv
+2022-08-30 02:46:12,738 INFO     Reading all data as str
+2022-08-30 02:46:12,787 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:12,849 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_may18.csv for 2018-05-01 00:00:00
+2022-08-30 02:46:12,849 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_may18.csv
+2022-08-30 02:46:12,865 INFO     Reading all data as str
+2022-08-30 02:46:12,896 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:12,975 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_may19.csv for 2019-05-01 00:00:00
+2022-08-30 02:46:12,975 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_may19.csv
+2022-08-30 02:46:12,975 INFO     Reading all data as str
+2022-08-30 02:46:13,006 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:13,086 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_may21.csv for 2021-05-01 00:00:00
+2022-08-30 02:46:13,086 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_may21.csv
+2022-08-30 02:46:13,086 INFO     Reading all data as str
+2022-08-30 02:46:13,149 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:13,243 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_may22.csv for 2022-05-01 00:00:00
+2022-08-30 02:46:13,243 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_may22.csv
+2022-08-30 02:46:13,258 INFO     Reading all data as str
+2022-08-30 02:46:13,305 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:13,401 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_oct14.csv for 2014-10-01 00:00:00
+2022-08-30 02:46:13,401 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_oct14.csv
+2022-08-30 02:46:13,401 INFO     Reading all data as str
+2022-08-30 02:46:13,448 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:13,526 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_oct15.csv for 2015-10-01 00:00:00
+2022-08-30 02:46:13,526 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_oct15.csv
+2022-08-30 02:46:13,526 INFO     Reading all data as str
+2022-08-30 02:46:13,573 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:13,635 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_oct16.csv for 2016-10-01 00:00:00
+2022-08-30 02:46:13,635 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_oct16.csv
+2022-08-30 02:46:13,635 INFO     Reading all data as str
+2022-08-30 02:46:13,682 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:13,763 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_oct17.csv for 2017-10-01 00:00:00
+2022-08-30 02:46:13,763 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_oct17.csv
+2022-08-30 02:46:13,763 INFO     Reading all data as str
+2022-08-30 02:46:13,794 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:13,872 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_oct18.csv for 2018-10-01 00:00:00
+2022-08-30 02:46:13,872 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_oct18.csv
+2022-08-30 02:46:13,872 INFO     Reading all data as str
+2022-08-30 02:46:13,919 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:13,982 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_oct19.csv for 2019-10-01 00:00:00
+2022-08-30 02:46:13,982 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_oct19.csv
+2022-08-30 02:46:13,997 INFO     Reading all data as str
+2022-08-30 02:46:14,028 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:14,109 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_oct20.csv for 2020-10-01 00:00:00
+2022-08-30 02:46:14,109 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_oct20.csv
+2022-08-30 02:46:14,109 INFO     Reading all data as str
+2022-08-30 02:46:14,140 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:14,172 INFO     Loading CSV at ../data\interim\attendance_canonicalized_csv\attendance_oct21.csv for 2021-10-01 00:00:00
+2022-08-30 02:46:14,172 INFO     Reading ../data\interim\attendance_canonicalized_csv\attendance_oct21.csv
+2022-08-30 02:46:14,172 INFO     Reading all data as str
+2022-08-30 02:46:14,218 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:46:14,312 INFO     Adding column for data submissing date of dataset
+2022-08-30 02:46:14,724 INFO     Saving merged data to ../data\interim\attendance_merged.csv

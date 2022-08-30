@@ -39,13 +39,13 @@ from src import log_utils as l
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--input", required=True, help="where to find the input attendance merged csv"
+    "--input", type=lambda x: x.strip("'"), required=True, help="where to find the input attendance merged csv"
 )
 parser.add_argument(
-    "--school_info", required=True, help="where to find the input school info csv"
+    "--school_info", type=lambda x: x.strip("'"), required=True, help="where to find the input school info csv"
 )
 parser.add_argument(
-    "--output", required=True, help="where to put the output attendance annotated csv"
+    "--output", type=lambda x: x.strip("'"), required=True, help="where to put the output attendance annotated csv"
 )
 
 

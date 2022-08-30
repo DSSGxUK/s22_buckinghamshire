@@ -1,0 +1,6 @@
+2022-08-30 02:51:26,761 INFO     Logfile will be written to ../logs\canonicalize_data_2022_08_30_02_51_26.txt
+2022-08-30 02:51:26,761 INFO     Reading ../data\raw\Bucks_Secondary_School_2022.csv
+2022-08-30 02:51:26,761 INFO     Reading all data as str
+2022-08-30 02:51:26,777 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:51:26,777 INFO     Renaming columns of school_info dataset
+2022-08-30 02:51:26,777 INFO     Saving canonicalized data to ../data\interim\secondary_schools.csv

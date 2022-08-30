@@ -1,0 +1,18 @@
+2022-08-30 02:56:01,087 INFO     Logfile will be written to ../logs\annotate_neet_data_2022_08_30_02_56_01.txt
+2022-08-30 02:56:01,087 INFO     Reading ../data\interim\neet_merged.csv
+2022-08-30 02:56:01,087 INFO     Reading all data as str
+2022-08-30 02:56:01,594 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:56:02,588 INFO     Reading ../data\interim\secondary_schools.csv
+2022-08-30 02:56:02,588 INFO     Reading all data as str
+2022-08-30 02:56:02,588 INFO     Replacing ['', '#VALUE!', 'nan'] with np.nan
+2022-08-30 02:56:02,588 INFO     Merging school info with NEET data
+2022-08-30 02:56:02,919 INFO     Adding columns for neet and unknown status
+2022-08-30 02:56:03,169 INFO     Splitting up birth month and birth year into separate columns
+2022-08-30 02:56:03,404 INFO     Adding year column for joining datasets that corresponds to the end of school year.
+2022-08-30 02:56:03,607 INFO     Compute age of students at the end of prior august
+2022-08-30 02:56:09,936 INFO     Marking NEET and unknown students
+2022-08-30 02:56:10,264 INFO     Marking students whose current (in latest ccis dataset) is unknown
+2022-08-30 02:56:10,529 INFO     Marking students who have no data outside of compulsory school
+2022-08-30 02:56:10,842 INFO     Converting Y/N to 1/0 in columns ['send_flag', 'currency_lapsed', 'youth_contract_indicator', 'sen_support_flag']
+2022-08-30 02:56:10,920 INFO     Validating annotated data
+2022-08-30 02:56:10,936 INFO     Saving annotated data to ../data\interim\neet_annotated.csv

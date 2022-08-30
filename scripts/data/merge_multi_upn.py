@@ -67,35 +67,35 @@ from src import ccis_utils as nu
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--output", required=True, help="where to output the produced csv file"
+    "--output", type=lambda x: x.strip("'"), required=True, help="where to output the produced csv file"
 )
 parser.add_argument(
-    "--att", required=True, help="where to find input premerge attendance csv"
+    "--att", type=lambda x: x.strip("'"), required=True, help="where to find input premerge attendance csv"
 )
 parser.add_argument(
     "--ks2",
-    required=False,  # This can be None, in which case we won't use
+    type=lambda x: x.strip("'"), required=False,  # This can be None, in which case we won't use
     help="where to find input premerge key stage 2 csv",
 )
 parser.add_argument(
-    "--census", required=True, help="where to find input premerge census csv"
+    "--census", type=lambda x: x.strip("'"), required=True, help="where to find input premerge census csv"
 )
 parser.add_argument(
-    "--ccis", required=True, help="where to find input premerge ccis csv"
+    "--ccis", type=lambda x: x.strip("'"), required=True, help="where to find input premerge ccis csv"
 )
 parser.add_argument(
     "--output_dataset_type",
-    required=True,
+    type=lambda x: x.strip("'"), required=True,
     choices=asdict(OutputDatasetTypes).values(),
     help="What kind of output merged dataset to build",
 )
 # Optional in case we don't have it
 parser.add_argument(
-    "--chars", required=False, help="where to find the input characteristics data"
+    "--chars", type=lambda x: x.strip("'"), required=False, help="where to find the input characteristics data"
 )
 parser.add_argument(
     "--target",
-    required=False,
+    type=lambda x: x.strip("'"), required=False,
     choices=list(asdict(Targets).values()),
     help="which target variable to add to csv",
 )
