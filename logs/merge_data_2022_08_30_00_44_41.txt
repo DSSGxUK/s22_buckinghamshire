@@ -1,0 +1,16 @@
+2022-08-30 00:44:41,017 INFO     Logfile will be written to ../logs\merge_data_2022_08_30_00_44_41.txt
+2022-08-30 00:44:41,018 ERROR    Uncaught Exception
+Traceback (most recent call last):
+  File "C:\Users\rehum\OneDrive - University of Bristol\DSSG\s22_buckinghamshire\scripts\data\merge_data.py", line 77, in <module>
+    raise e
+  File "C:\Users\rehum\OneDrive - University of Bristol\DSSG\s22_buckinghamshire\scripts\data\merge_data.py", line 74, in <module>
+    data_dates = [d.savedate_to_datetime(date) for date in args.data_dates]
+  File "C:\Users\rehum\OneDrive - University of Bristol\DSSG\s22_buckinghamshire\scripts\data\merge_data.py", line 74, in <listcomp>
+    data_dates = [d.savedate_to_datetime(date) for date in args.data_dates]
+  File "c:\users\rehum\onedrive - university of bristol\dssg\s22_buckinghamshire\src\data_utils.py", line 405, in savedate_to_datetime
+    return datetime.strptime(date, '%b%y')
+  File "C:\Users\rehum\anaconda3\lib\_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "C:\Users\rehum\anaconda3\lib\_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data "'jan15'" does not match format '%b%y'

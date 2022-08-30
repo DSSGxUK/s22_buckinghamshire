@@ -4,6 +4,7 @@ stages of the pipeline. DVC will take these dictionaries
 and unpack them into the proper command line arguments
 for the scripts run at each stage.
 """
+from dataclasses import dataclass
 from ..constants import DatasetTypes, OutputDatasetTypes
 from .data_pipeline_params import *
 from .model_pipeline_params import *

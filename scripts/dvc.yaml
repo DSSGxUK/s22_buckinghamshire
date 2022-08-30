@@ -1,17 +1,17 @@
 stages:
-  xl_to_csv:
-    foreach: ${XL_TO_CSV_ARGS}
-    do:
-      cmd: python data/xl_to_csv.py --inputs ${item.inputs} --outputs ${item.outputs}
-      deps:
-        - ${item.inputs}
-        - data/xl_to_csv.py
-        - ../src/file_utils.py
-        - ../src/log_utils.py
-        - ../src/data_utils.py
-      outs:
-        - ${item.outputs}
-  canonicalize_data:
+  # xl_to_csv:
+  #   foreach: ${XL_TO_CSV_ARGS}
+  #   do:
+  #     cmd: python data/xl_to_csv.py --inputs ${item.inputs} --outputs ${item.outputs}
+  #     deps:
+  #       - ${item.inputs}
+  #       - data/xl_to_csv.py
+  #       - ../src/file_utils.py
+  #       - ../src/log_utils.py
+  #       - ../src/data_utils.py
+  #     outs:
+  #       - ${item.outputs}
+  generate_modeling_canonicalize_data:
     foreach: ${CANONICALIZE_CSV_ARGS}
     do:
       cmd: python data/canonicalize_data.py --inputs ${item.inputs} --outputs ${item.outputs} --dataset_type ${item.dataset_type}
@@ -23,7 +23,7 @@ stages:
         - ../src/data_utils.py
       outs:
         - ${item.outputs}
-  merge_census_data:
+  generate_modeling_merge_census_data:
     cmd: python data/merge_data.py ${MERGE_CENSUS_DATA_ARGS}
     deps:
       - ${SCHOOL_CENSUS_CANONICALIZED_CSV_DIR}
@@ -33,7 +33,7 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${MERGE_CENSUS_DATA_ARGS.output}
-  merge_attendance_data:
+  generate_modeling_merge_attendance_data:
     cmd: python data/merge_data.py ${MERGE_ATTENDANCE_DATA_ARGS}
     deps:
       - ${ATTENDANCE_CANONICALIZED_CSV_DIR}
@@ -43,7 +43,7 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${MERGE_ATTENDANCE_DATA_ARGS.output}
-  merge_ccis_data:
+  generate_modeling_merge_ccis_data:
     cmd: python data/merge_data.py ${MERGE_CCIS_DATA_ARGS}
     deps:
       - ${NEET_CANONICALIZED_CSV_DIR}
@@ -53,7 +53,7 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${MERGE_CCIS_DATA_ARGS.output}
-  merge_ks4_data:
+  generate_modeling_merge_ks4_data:
     cmd: python data/merge_data.py ${MERGE_KS4_DATA_ARGS}
     deps:
       - ${KS4_CANONICALIZED_CSV_DIR}
@@ -63,7 +63,7 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${MERGE_KS4_DATA_ARGS.output}
-  annotate_census_data:
+  generate_modeling_annotate_census_data:
     cmd: python data/annotate_census_data.py ${ANNOTATE_CENSUS_ARGS}
     deps:
       - ${ANNOTATE_CENSUS_ARGS.input}
@@ -76,7 +76,7 @@ stages:
       - ../src/py_utils.py
     outs:
       - ${ANNOTATE_CENSUS_ARGS.output}
-  annotate_attendance_data:
+  generate_modeling_annotate_attendance_data:
     cmd: python data/annotate_attendance_data.py ${ANNOTATE_ATTENDANCE_ARGS}
     deps:
       - ${ANNOTATE_ATTENDANCE_ARGS.input}
@@ -89,7 +89,7 @@ stages:
       - ../src//attendance_utils.py
     outs:
       - ${ANNOTATE_ATTENDANCE_ARGS.output}
-  annotate_ccis_data:
+  generate_modeling_annotate_ccis_data:
     cmd: python data/annotate_neet_data.py ${ANNOTATE_CCIS_ARGS}
     deps:
       - ${ANNOTATE_CCIS_ARGS.input}
@@ -102,7 +102,7 @@ stages:
       - ../src/ccis_utils.py
     outs:
       - ${ANNOTATE_CCIS_ARGS.output}
-  annotate_ks4_data:
+  generate_modeling_annotate_ks4_data:
     cmd: python data/annotate_ks4_data.py ${ANNOTATE_KS4_ARGS}
     deps:
       - ${ANNOTATE_KS4_ARGS.input}
@@ -114,7 +114,7 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${ANNOTATE_KS4_ARGS.output}
-  ccis_premerge:
+  generate_modeling_ccis_premerge:
     cmd: python data/neet_premerge.py ${CCIS_PREMERGE_ARGS}
     deps:
       - ${CCIS_PREMERGE_ARGS.input}
@@ -125,7 +125,7 @@ stages:
       - ../src/aggregation_utils.py
     outs:
       - ${CCIS_PREMERGE_ARGS.output}
-  attendance_exact:
+  generate_modeling_attendance_exact:
     cmd: python data/attendance_premerge.py  ${ATTENDANCE_EXACT_ARGS}
     deps:
       - ${ATTENDANCE_EXACT_ARGS.input}
@@ -136,7 +136,7 @@ stages:
       - ../src/attendance_utils.py
     outs:
       - ${ATTENDANCE_EXACT_ARGS.output}
-  attendance_percent1:
+  generate_modeling_attendance_percent1:
     cmd: python data/attendance_premerge.py ${ATTENDANCE_PERCENT1_ARGS}
     deps:
       - ${ATTENDANCE_PERCENT1_ARGS.input}
@@ -147,7 +147,7 @@ stages:
       - ../src/attendance_utils.py
     outs:
       - ${ATTENDANCE_PERCENT1_ARGS.output}
-  attendance_percent2:
+  generate_modeling_attendance_percent2:
     cmd: python data/attendance_premerge.py ${ATTENDANCE_PERCENT2_ARGS}
     deps:
       - ${ATTENDANCE_PERCENT2_ARGS.input}
@@ -158,7 +158,7 @@ stages:
       - ../src/attendance_utils.py
     outs:
       - ${ATTENDANCE_PERCENT2_ARGS.output}
-  attendance_normed:
+  generate_modeling_attendance_normed:
     cmd: python data/attendance_premerge.py ${ATTENDANCE_NORMED_ARGS}
     deps:
       - ${ATTENDANCE_NORMED_ARGS.input}
@@ -169,7 +169,7 @@ stages:
       - ../src/attendance_utils.py
     outs:
       - ${ATTENDANCE_NORMED_ARGS.output}
-  ks2_filter:
+  generate_modeling_ks2_filter:
     cmd: python data/ks2_filter.py ${KS2_FILTER_ARGS}
     deps:
       - ${KS2_FILTER_ARGS.input}
@@ -179,7 +179,7 @@ stages:
       - ../src/log_utils.py
     outs:
       - ${KS2_FILTER_ARGS.output}
-  census_premerge:
+  generate_modeling_census_premerge:
     cmd: python data/census_premerge.py ${CENSUS_PREMERGE_ARGS}
     deps:
       - ${CENSUS_PREMERGE_ARGS.input}
@@ -189,7 +189,7 @@ stages:
       - ../src/log_utils.py
     outs:
       - ${CENSUS_PREMERGE_ARGS.output}
-  merge_multi_modeling:
+  generate_modeling_merge_multi_modeling:
     cmd: python data/merge_multi_upn.py ${MERGE_MULTI_MODELING_ARGS}
     # --output ${MERGE_MULTI_MODELING_ARGS.output} --att ${MERGE_MULTI_MODELING_ARGS.att} --ccis ${MERGE_MULTI_MODELING_ARGS.ccis} --census ${MERGE_MULTI_MODELING_ARGS.census} --ks2 ${MERGE_MULTI_MODELING_ARGS.ks2} modeling --target ${MERGE_MULTI_MODELING_ARGS.target}
     deps:
@@ -204,7 +204,7 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${MERGE_MULTI_MODELING_ARGS.output}
-  merge_multi_unknowns:
+  prediction_merge_multi_unknowns:
     cmd: python data/merge_multi_upn.py ${MERGE_MULTI_UNKNOWN_ARGS}
     deps:
       - ${MERGE_MULTI_UNKNOWN_ARGS.ccis}
@@ -218,7 +218,7 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${MERGE_MULTI_UNKNOWN_ARGS.output}
-  merge_multi_prediction:
+  prediction_merge_multi_prediction:
     cmd: python data/merge_multi_upn.py ${MERGE_MULTI_PREDICTION_ARGS}
     deps:
       - ${MERGE_MULTI_PREDICTION_ARGS.ccis}
@@ -232,7 +232,7 @@ stages:
       - ../src/data_utils.py
     outs:
         - ${MERGE_MULTI_PREDICTION_ARGS.output}
-  multi_categorical_modeling:
+  generate_modeling_multi_categorical_modeling:
     cmd: python data/multi_upn_categorical.py ${MULTI_UPN_CATEGORICAL_ARGS}
     deps:
       - data/multi_upn_categorical.py
@@ -242,7 +242,7 @@ stages:
       - ../src/log_utils.py
     outs:
       - ${MULTI_UPN_CATEGORICAL_ARGS.output}
-  multi_categorical_predictions:
+  prediction_multi_categorical_predictions:
     cmd: python data/multi_upn_categorical.py ${MULTI_UPN_CATEGORICAL_PREDICTIONS_ARGS}
     deps:
       - data/multi_upn_categorical.py
@@ -252,7 +252,7 @@ stages:
       - ../src/log_utils.py
     outs:
       - ${MULTI_UPN_CATEGORICAL_PREDICTIONS_ARGS.output}
-  multi_categorical_unknowns:
+  prediction_multi_categorical_unknowns:
     cmd: python data/multi_upn_categorical.py ${MULTI_UPN_CATEGORICAL_UNKNOWNS_ARGS}
     deps:
       - data/multi_upn_categorical.py
@@ -262,28 +262,28 @@ stages:
       - ../src/log_utils.py
     outs:
       - ${MULTI_UPN_CATEGORICAL_UNKNOWNS_ARGS.output}
-  multi_to_single:
+  generate_modeling_multi_to_single:
     cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_ARGS}
     deps:
       - data/multiple_to_single.py
       - ${MULTIPLE_TO_SINGLE_ARGS.input}
     outs:
       - ${MULTIPLE_TO_SINGLE_ARGS.output}
-  multi_to_single_unknowns:
+  prediction_multi_to_single_unknowns:
     cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS}
     deps:
       - data/multiple_to_single.py
       - ${MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS.input}
     outs:
       - ${MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS.output}
-  multi_to_single_predictions:
+  prediction_multi_to_single_predictions:
     cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS}
     deps:
       - data/multiple_to_single.py
       - ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS.input}
     outs:
       - ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS.output}
-  feature_selection_single:
+  generate_modeling_feature_selection_single:
     cmd: python data/feature_selection.py ${FEATURE_SELECTION_SINGLE_UPN_PARAMS}
     deps:
       - data/feature_selection.py
@@ -293,7 +293,7 @@ stages:
       - REMOVE_MOSTLY_MISSING_SINGLE_UPN_THRESHOLD
     outs:
       - ${FEATURE_SELECTION_SINGLE_UPN_PARAMS.output}
-  additional_data:
+  prediction_additional_data:
     cmd: python data/additional_data.py ${ADDITIONAL_DATA_ARGS}
     deps:
       - data/additional_data.py
@@ -305,7 +305,7 @@ stages:
       - ../src/attendance_utils.py
     outs:
       - ${ADDITIONAL_DATA_ARGS.output}
-  feature_selection_predict_single:
+  prediction_feature_selection_predict_single:
     cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS}
     deps:
       - data/feature_selection_for_predictions.py
@@ -321,7 +321,7 @@ stages:
     outs:
       - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.output}
       - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.unidentified_csv}
-  feature_selection_unknowns_single:
+  prediction_feature_selection_unknowns_single:
     cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS}
     deps:
       - data/feature_selection_for_predictions.py
@@ -338,7 +338,7 @@ stages:
       - ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.output}
       - ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.unidentified_csv}
       
-  feature_selection_multi:
+  generate_modeling_feature_selection_multi:
     cmd: python data/feature_selection.py ${FEATURE_SELECTION_MULTI_UPN_ARGS}
     deps:
       - ${FEATURE_SELECTION_MULTI_UPN_ARGS.input}
@@ -451,7 +451,7 @@ stages:
   #   outs:
   #     - ${FS_POST_COVID_SINGLE_UPN_CATEGORICAL_FP}  
       
-  split_data_single:
+  generate_modeling_split_data_single:
     cmd: python model/split_data.py ${SPLIT_DATA_SINGLE_ARGS}
     deps:
       - ${FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_FP}
@@ -466,7 +466,7 @@ stages:
       - ${SINGLE_TRAIN_FP}
       - ${SINGLE_TEST_FP}
       
-  split_data_multiple:
+  generate_modeling_split_data_multiple:
     cmd: python model/split_data.py ${SPLIT_DATA_MULTI_ARGS}
     deps:
       - ${FEATURE_SELECTED_MULTI_UPN_CATEGORICAL_FP}
@@ -497,7 +497,7 @@ stages:
       - ${RONI_TEST_RESULTS}:
           cache: false
 
-  feature_selection_predict_multi :
+  prediction_feature_selection_predict_multi :
     cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_MULTI_UPN_PREDICT_PARAMS}
     deps:
       - ${MULTI_UPN_CATEGORICAL_PREDICT_FP}
@@ -520,7 +520,8 @@ stages:
   #     - ../src/log_utils.py
   #     - ../src/data_utils.py
   #   outs:
-  retrain_model_single:
+
+  model_evaluation_retrain_model_single:
     cmd: python model/retrain.py ${RETRAIN_SINGLE_PARAMS}
     deps:
       - ${SINGLE_TRAIN_FP}
@@ -537,7 +538,7 @@ stages:
       - ${MODEL_MEAN_THRESH_SINGLE}:
           cache: false
 
-  test_model_single:
+  model_evaluation_test_model_single:
     cmd: python model/test.py ${TEST_SINGLE_PARAMS}
     deps:
       - ${SINGLE_TEST_FP}
@@ -569,7 +570,9 @@ stages:
     outs:
       - ${PREDICTIONS_CSV_FP_SINGLE}
 
-  prediction_unknowns_single:
+
+  prediction_predict_unknowns_single:
+
     cmd: python model/predict.py ${UNKNOWNS_SINGLE_PARAMS}
     deps:
       - ${FS_SINGLE_UPN_CATEGORICAL_UNKNOWNS_FP}
