@@ -4,7 +4,7 @@ This part will change slightly depending on what operating system you are using.
 
 ## Windows
 
-1. Ensure you have python installed on your machine. You can install it through the [Microsoft Store](https://www.microsoft.com/store/productId/9PJPW5LDXLZ5).
+1. Ensure you have an updated python installed on your machine. You can install it through the [Microsoft Store](https://www.microsoft.com/store/productId/9PJPW5LDXLZ5). As of writing this, the most up to date version was python 3.10.
 2. Ensure you have git installed. You can get an installer [here](https://git-scm.com/download/win).
 3. Open a powershell as administrator
 4. Navigate to the desired parent directory using the `cd` (change directory) command. You can run `ls` to see the contents of a directory.
