@@ -529,8 +529,10 @@ stages:
     outs:
       - ${LGBM1_METRICS_SINGLE}:
           cache: false
+          persist: true
       - ${LGBM1_SINGLE_CHECKPOINT_FP}:
           cache: false
+          persist: true
   cv_optimization_and_cv_lgbm2_single:
     cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_LGBM2_ARGS}
     deps:
@@ -543,8 +545,10 @@ stages:
     outs:
       - ${LGBM2_METRICS_SINGLE}:
           cache: false
+          persist: true
       - ${LGBM2_SINGLE_CHECKPOINT_FP}:
           cache: false
+          persist: true
   model_evaluation_retrain_model_single:
     cmd: python model/retrain.py ${RETRAIN_SINGLE_PARAMS}
     deps:

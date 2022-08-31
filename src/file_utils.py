@@ -40,7 +40,8 @@ def get_canonical_filename(fp):
 def tag_file(fp, **tags):
     dirname, basename = os.path.split(fp)
     canonical_filename, ext = os.path.splitext(basename)
-    new_canonical_filename = "_".join([canonical_filename] + list(tags.items()))
+    tag_strs = ["_".join(item) for item in tags.items()]
+    new_canonical_filename = "_".join([canonical_filename] + tag_strs)
 
     return os.path.join(dirname, new_canonical_filename + ext)
 
