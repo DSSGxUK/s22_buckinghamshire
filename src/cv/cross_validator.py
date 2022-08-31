@@ -370,6 +370,7 @@ class ObjectiveFunction:
         random_state=1,
         n_jobs=-1,
         results_csv_fp=None,
+        append_to_old_results=False,
         maximize=True,
     ) -> None:
         self.base_model = clone(base_model)
@@ -381,6 +382,11 @@ class ObjectiveFunction:
         self.n_jobs = n_jobs
         self.results_csv_fp = results_csv_fp
         self.maximize = maximize
+        self.append_to_old_results = append_to_old_results
+
+        if not self.append_to_old_results and self.results_csv_fp is not None:
+            # Clean the file contents
+            open(self.results_csv_fp, 'w').close()
 
         # We will call the wrapper on the base_cv_object everytime we need an iterator that spits out the different training and validation sets.
         # Otherwise, the iterator would not restart.

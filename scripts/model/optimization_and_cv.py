@@ -188,6 +188,7 @@ if __name__ == "__main__":
         )
         if args.log_results
         else None,
+        append_to_old_results=args.load_checkpoint,
         maximize=True,
     )
 
