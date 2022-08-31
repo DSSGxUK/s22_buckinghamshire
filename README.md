@@ -175,13 +175,13 @@ s22_buckinghamshire
 
 `data` : This folder contains two sub-folders : `interim` and `raw`. After running the pipeline an additional `processed` folder will also be present. The original dataset files are stored in their dataset sub-folder within the `raw` folder e.g. `raw/attendance_original_csv` will contain the original csv files for attendance datasets. These original files will go through the data pipeline and will generate additional files which will be canonicalized (standardised formatting), annotated and merged across years, which will be stored in `interim` sub-folder. The `processed` subfolder will contain the final datasets ready to be used for modeling.
   
-`metrics` : This folder contains outputs from the hyperparameter search, roni tool performance results and our model performance results on the test dataset.
+`metrics` : This folder contains outputs from the hyperparameter search (`lgbm1_single.csv`), roni tool performance results (`roni_test_results.csv`) and our model performance results (`single_test_results.csv`) on the test dataset.
 
 `models` : This folder contains pickle files of the models. There are two sub-folders: `interim` and `final`. `interim` holds the checkpoints. You can find more details about these in the [Reloading the hyperparameter search from a checkpoint](#reloading-the-hyperparameter-search-from-a-checkpoint) section. The final, retrained best model can be found in `models/final/model_single.pkl`.
 
 `results` : After running the pipeline, this folder will contain the final output CSV files: `predictions.csv`, `unknown_predictions.csv`, `unidentified_students_single.csv`, `unidentified_unknowns_single.csv`. These files are outlined in more detail below under [Outputs from running the pipeline](#outputs-from-running-the-pipeline)
 
-`scripts` : This folder contains the `dvc.yaml` file that outlines the different stages and steps of the pipeline. It also includes two main sub-folders: `data` and `model`. The `data` sub-folder contains python scripts that prepare interim and final datasets for modeling. The `model` sub-folder contains scripts that split the final dataset into train and test datasets, runs the cross-validation and hyperparameter search, re-trains the model, calculates roni scores and uses the trained model to generate predictions for current/unknown students.        
+`scripts` : This folder contains the `dvc.yaml` file that outlines the different stages and steps of the pipeline. It also includes two main sub-folders: `data` and `model`. The `data` sub-folder contains python scripts that prepare the interim datasets and final datasets used for modeling. The `model` sub-folder contains scripts that split the final dataset into train and test datasets, runs the cross-validation and hyperparameter search, re-trains the model, calculates roni scores and uses the trained model to generate predictions for current/unknown students.        
 
 `src` : This folder contains helper functions (found in the `*_utils.py` scripts) and also contains scripts that can set different parameters. There are three sub-folders: `constants`, `cv` and `params`. The `cv` sub-folder contains helper functions for the cross-validation and hyper-parameter search stage. It also contains dictionaries of the hyper-parameter search spaces in `search_spaces.py`. The `constants` folder contains parameters for the pipeline that are unlikely to need to change, whereas the `params` sub-folder contains parameters for the pipeline that may need/want to be changed. The `*_arguments.py` scripts in this sub-folder include the arguments that are sent to the `dvc.yaml` pipeline.    
 
@@ -287,7 +287,7 @@ This part will change slightly depending on what operating system you are using.
 ### Downloading the synthetic data
 
 We've published synthetic data (data that does not come from any real person) to dagshub so 
-you can play around with the pipeline. To retrieve it, please run the following
+you can play around with the pipeline. To retrieve it, please run the following:
 ```bash
 dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc
 dvc pull -r origin
@@ -297,7 +297,7 @@ dvc pull -r origin
 
 If you are a council with your own data, these datasets will need to be saved in the `data/raw` directory as csv files in the correct formats with the correct column names. 
 
-@to be done? We have examples of what this should look like here...
+@to be done: We have examples of what this should look like here...
 
 Within the `data/raw` directory are 4 folders that correspond to the different datasets listed above under *Assumptions*: 
 - `attendance_original_csv`
@@ -346,7 +346,7 @@ Alternatively, you could run the steps individually:
 
   ### Output predictions on new data without re-running the hyper parameter search  
   
-  Following these steps re-trains the model with new data using the previous best hyper parameters.
+  Following these steps re-trains the model with new data using the previous best hyper-parameters.
     
 ```bash
   # Generate datasets for modelling
@@ -416,7 +416,16 @@ These files can be found in the `results/` directory after running the pipeline.
 
 ## Expected data schema for Power BI dashboard:
 
-Additional datasets (`neet_annotated.csv` and `census_annotated.csv`) with data on previous years of students for the "Changes over years" Power BI dashboard page can be found in the `data/interim/` directory after running the pipeline. 
+The datasets to be loaded into the power BI dahsboard after running the pipeline are found here:
+- `results/predictions.csv` 
+- `results/unknown_predictions.csv`
+- `results/unidentified_students_single.csv`
+- `data/interim/neet_annotated.csv`
+- `data/interim/census_annotated.csv`
+
+The first two contain predictions for current school students in Years 7-10 and for current unknown students, respectively.
+The third contains unidentified current school students for which predictions could not be generated due to too much missing data.
+The final two files contain neet and census data from previous years of students. These two datasets are for a separate page of the power bi dashboard that looks at certain factor trends over the years.    
 
 The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given):
 1. Att<85% 
@@ -470,7 +479,6 @@ We also need to create few new columns for PowerBI. These are as follows along w
     - Formula: Gender = IF(unknowns_prediction[gender_m]==1, "M","F")
 
 NOTE: replace fake_test_dataset with the actual file name which contains the predictions
-
 
 @Vanshika this should not be in the final product
 
