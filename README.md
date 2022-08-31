@@ -8,6 +8,7 @@ Welcome to the code repository for the project conducted under **Data Science fo
 
 # Folder Structure
 
+@Vanshika - this should be written out in full sentences and explained
 # Assumptions
 
 Assuming that the data provided by the user are of the following types:
@@ -32,6 +33,7 @@ In addition, we want to allow data on *characteristics* and *ks2*. This has not 
 
 This part will change slightly depending on what operating system you are using.
 
+@Vanshika - please rewrite directions in backtick bash block (see below)
 ## Windows
 
 1. Ensure you have an updated python installed on your machine. You can install it through the [Microsoft Store](https://www.microsoft.com/store/productId/9PJPW5LDXLZ5). As of writing this, the most up to date version was python 3.10.
@@ -47,38 +49,48 @@ This part will change slightly depending on what operating system you are using.
 
 # How to run different workflows
 
-**Please follow the below steps before running the workflows**:
+## Downloading the synthetic data
 
-  `dvc init` (if theres a LoadError when running dvc related to win32com you might need to do pip uninstall pywin32) <br />
+We've published synthetic data (data that does not come from any real person) to dagshub so 
+you can play around with the pipeline. To retrieve it, please run the following
+```bash
+dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc
+dvc pull -r origin
+```
+
+**Please follow the below steps before running the workflows**:
   
-  `dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc` <br />
-  
-  `dvc remote modify origin --local auth basic` <br />
-  
-  `dvc remote modify origin --local user username` <br />
-  
-  `dvc remote modify origin --local password your_token` <br />
-  
-  `dvc pull -r origin` <br />
-  
-  `cd scripts` <br />
-  
-  ## Run the whole pipeline
-  ### Generate datasets for modelling
-     dvc repro --glob generate_modeling_*
-  ### Run cross validation and hyper parameter search 
-     dvc repro --glob cv_*
-  ### Model Evaluation 
-     dvc repro --glob evaluate_model_* 
-  ### Generate datasets for predictions and final output 
-     dvc repro --glob prediction_* 
+```bash
+cd .\scripts\
+```
+
+@Vanshika - please write directions like below
+## Run the whole pipeline
+To run the whole pipeline you can just run:
+
+```bash
+dvc repro
+```
+
+Alternatively, you could run the individual steps:
+
+```bash
+# Generate datasets for modelling
+dvc repro -s --glob generate_modeling_*
+#Run cross validation and hyper parameter search 
+dvc repro -s --glob cv_*
+# Model Evaluation 
+dvc repro -s --glob evaluate_model_* 
+# Generate datasets for predictions and final output 
+dvc repro -s --glob prediction_* 
+```
     
-  ## Run the train with old best params
+  ## Run the prediction using a model trained on older data
     
   ### Generate datasets for modelling 
-    dvc repro --glob generate_modeling_* 
+    dvc repro -s --glob generate_modeling_* 
   ### Model Evaluation 
-    dvc repro --glob evaluate_model_*
+    dvc repro -s --glob evaluate_model_*
   ### Generate datasets for predictions and final output
     dvc repro --glob prediction_* 
     
@@ -93,11 +105,11 @@ This part will change slightly depending on what operating system you are using.
   ### Generate datasets for predictions and final output
     dvc repro --glob prediction_*
 
-    
+@Vanshika - we need directions on how to rerun the hyperparameter search from a checkpoint. To do this, the user has to change the LOAD_CHECKPOINTS value in the params.yaml file to true. When they rerun the pipeline with new data, they should set this to false otherwise it will use an old checkpoint for new data.
     
 # Expected data schema for Power BI dashboard:
 
-•	The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given):
+The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given):
 1. Att<85% 
 - Att<85% = SUM(fake_test_dataset[att_less_than_85])/DISTINCTCOUNT(fake_test_dataset[upn])
 
@@ -123,7 +135,7 @@ This part will change slightly depending on what operating system you are using.
 - unidentified% = DISTINCTCOUNT(Unidentified[UPN])*100/DISTINCTCOUNT(fake_test_dataset[upn])
 
 
-•	We also need to create few new columns for PowerBI. These are as follows along with the formula:
+We also need to create few new columns for PowerBI. These are as follows along with the formula:
 1.	Column Name: MentalHealthFlag
     - File: desens_sdv__neet_annotated
     - Formula: MentalHealthFlag = if(desens_sdv_neet_annotated[characteristic_code]="210",1,0)
@@ -150,6 +162,8 @@ This part will change slightly depending on what operating system you are using.
 
 NOTE: replace fake_test_dataset with the actual file name which contains the predictions
 
+
+@Vanshika this should not be in the final product
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Some initial notes as we move towards a README:

@@ -517,16 +517,32 @@ stages:
     outs:
       - ${FS_MULTI_UPN_CATEGORICAL_PREDICT_FP} 
       - ${MULTI_UNIDENTIFIED_PRED_FP}
-  # cv_optimization_and_cv:
-  #   cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_ARGS}
-  #   deps:
-  #     - python model/optimization_and_cv.py
-  #     - ${OPTIMIZATION_AND_CV_ARGS.input}
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-
+  cv_optimization_and_cv_lgbm1_single:
+    cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_LGBM1_ARGS}
+    deps:
+      - python model/optimization_and_cv.py
+      - ${OPTIMIZATION_AND_CV_LGBM1_ARGS.input}
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${LGBM1_METRICS_SINGLE}:
+          cache: false
+      - ${LGBM1_SINGLE_CHECKPOINT_FP}:
+          cache: false
+  cv_optimization_and_cv_lgbm2_single:
+    cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_LGBM2_ARGS}
+    deps:
+      - python model/optimization_and_cv.py
+      - ${OPTIMIZATION_AND_CV_LGBM2_ARGS.input}
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${LGBM2_METRICS_SINGLE}:
+          cache: false
+      - ${LGBM2_SINGLE_CHECKPOINT_FP}:
+          cache: false
   model_evaluation_retrain_model_single:
     cmd: python model/retrain.py ${RETRAIN_SINGLE_PARAMS}
     deps:

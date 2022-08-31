@@ -314,15 +314,15 @@ LGBM0_1 = lambda: (
 LGBM1 = lambda: (
     {
         "estimator__model": Categorical([LGBMClassifier()]),
-        "estimator__model__boosting_type": Categorical(["gbdt"]),
-        "estimator__model__num_leaves": (2, 31**2, "log-uniform"),  # 31
+        "estimator__model__boosting_type": Categorical(["gbdt", "dart", "goss", "rf"]),
+        "estimator__model__num_leaves": Integer(2, 31**2, "log-uniform"),  # 31
         "estimator__model__max_depth": (
             -21,
             21,
             "uniform",
         ),  # default  is -1, <= 0 means no depth constraint
         "estimator__model__learning_rate": Real(1e-4, 1e2, "log-uniform"),  # 0.1
-        "estimator__model__n_estimators": (5, 100**2, "log-uniform"),  # 100
+        "estimator__model__n_estimators": Integer(5, 100**2, "log-uniform"),  # 100
         "estimator__model__min_child_samples": (2, 20**2, "log-uniform"),  # 20
         "estimator__model__is_unbalance": Categorical(
             [False, True]
@@ -342,7 +342,7 @@ LGBM1 = lambda: (
 LGBM2 = lambda: (
     {
         "estimator__model": Categorical([LGBMClassifier()]),
-        "estimator__model__boosting_type": Categorical(["gbdt"]),
+        "estimator__model__boosting_type": Categorical(["gbdt", "dart", "goss", "rf"]),
         "estimator__model__num_leaves": (2, 31**2, "log-uniform"),  # 31
         "estimator__model__max_depth": (
             -21,
@@ -360,7 +360,7 @@ LGBM2 = lambda: (
         "estimator__imputation": Categorical([None]),
         "estimator__scaler": Categorical([StandardScaler(), None]),
     },
-    100,
+    50,
 )
 
 LGBM3 = lambda: (

@@ -103,15 +103,18 @@ TRAIN_FP = os.path.join(PROCESSED_DATA_DIR, "train.csv")
 MODEL_FP = os.path.join(FINAL_MODELS_DIR, "model.pkl")
 PIPELINE_MODEL_FP = os.path.join(INTERIM_MODELS_DIR, "pipeline_model.pkl")
 BASE_MODEL_FP = os.path.join(INTERIM_MODELS_DIR, "base_model.pkl")
-CHECKPOINT_FP = os.path.join(INTERIM_MODELS_DIR, "checkpoint.pkl")
 CV_METRICS_FP = os.path.join(METRICS_DIR, "cv.yaml")
 CV_RESULTS_CSV_FP = os.path.join(METRICS_DIR, "cv.csv")
 TEST_RESULTS_CSV_FP = os.path.join(METRICS_DIR, "test_results.csv")
 
 RONI_TEST_RESULTS = os.path.join(METRICS_DIR, "roni_test_results.csv")
 
-LGBM1_METRICS_MULTI = os.path.join(METRICS_DIR, "lgbm1.csv")
-LGBM1_METRICS_SINGLE = os.path.join(METRICS_DIR, "lgbm_single.csv")
+LGBM1_METRICS_MULTI = os.path.join(METRICS_DIR, "lgbm1_multi.csv")
+LGBM1_METRICS_SINGLE = os.path.join(METRICS_DIR, "lgbm1_single.csv")
+LGBM2_METRICS_SINGLE = os.path.join(METRICS_DIR, "lgbm2_single.csv")
+LGBM1_SINGLE_CHECKPOINT_FP = os.path.join(INTERIM_MODELS_DIR, "lgbm1_checkpoint_single.pkl")
+LGBM2_SINGLE_CHECKPOINT_FP = os.path.join(INTERIM_MODELS_DIR, "lgbm2_checkpoint_single.pkl")
+
 
 MODEL_BEST_THRESH_MULTI = os.path.join(
     INTERIM_MODELS_DIR, "model_best_thresh_multi.pkl"
