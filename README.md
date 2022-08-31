@@ -10,6 +10,8 @@ Welcome to the code repository for the project conducted under **Data Science fo
 
 # Folder Structure
 
+```bash
+
 s22_buckinghamshire
 ├── .dvc
 │   ├── .gitignore                                         
@@ -222,6 +224,8 @@ s22_buckinghamshire
 ├── requirements.R
 ├── requirements.txt
 ├── setup.py
+
+```
 
 # Brief Folder Description
 
