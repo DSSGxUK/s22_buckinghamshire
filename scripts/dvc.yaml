@@ -198,6 +198,7 @@ stages:
       - ${MERGE_MULTI_MODELING_ARGS.ks2}
       - ${MERGE_MULTI_MODELING_ARGS.census}
       - data/merge_multi_upn.py
+      - ../src/py_utils.py
       - ../src/file_utils.py
       - ../src/log_utils.py
       - ../src/merge_utils.py
@@ -212,6 +213,7 @@ stages:
       - ${MERGE_MULTI_UNKNOWN_ARGS.ks2}
       - ${MERGE_MULTI_UNKNOWN_ARGS.census}
       - data/merge_multi_upn.py
+      - ../src/py_utils.py
       - ../src/file_utils.py
       - ../src/log_utils.py
       - ../src/merge_utils.py
@@ -226,6 +228,7 @@ stages:
       - ${MERGE_MULTI_PREDICTION_ARGS.ks2}
       - ${MERGE_MULTI_PREDICTION_ARGS.census}
       - data/merge_multi_upn.py
+      - ../src/py_utils.py
       - ../src/file_utils.py
       - ../src/log_utils.py
       - ../src/merge_utils.py
@@ -309,6 +312,7 @@ stages:
     cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS}
     deps:
       - data/feature_selection_for_predictions.py
+      - ../src/py_utils.py
       - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.input}
       - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.train_data}
       - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.student_names}
@@ -325,6 +329,7 @@ stages:
     cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS}
     deps:
       - data/feature_selection_for_predictions.py
+      - ../src/py_utils.py
       - ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.input}
       - ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.train_data}
       - ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.student_names}
@@ -504,6 +509,7 @@ stages:
       - ${MULTI_TRAIN_FP}
       - ${ADDITIONAL_DATA_FP}
       - data/feature_selection_for_predictions.py
+      - ../src/py_utils.py
       - ../src/file_utils.py
       - ../src/log_utils.py
       - ../src/data_utils.py
@@ -511,16 +517,32 @@ stages:
     outs:
       - ${FS_MULTI_UPN_CATEGORICAL_PREDICT_FP} 
       - ${MULTI_UNIDENTIFIED_PRED_FP}
-  # cv_optimization_and_cv:
-  #   cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_ARGS}
-  #   deps:
-  #     - python model/optimization_and_cv.py
-  #     - ${OPTIMIZATION_AND_CV_ARGS.input}
-  #     - ../src/file_utils.py
-  #     - ../src/log_utils.py
-  #     - ../src/data_utils.py
-  #   outs:
-
+  cv_optimization_and_cv_lgbm1_single:
+    cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_LGBM1_ARGS}
+    deps:
+      - model/optimization_and_cv.py
+      - ${OPTIMIZATION_AND_CV_LGBM1_ARGS.input}
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${LGBM1_METRICS_SINGLE}:
+          cache: false
+      - ${LGBM1_SINGLE_CHECKPOINT_FP}:
+          cache: false
+  cv_optimization_and_cv_lgbm2_single:
+    cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_LGBM2_ARGS}
+    deps:
+      - model/optimization_and_cv.py
+      - ${OPTIMIZATION_AND_CV_LGBM2_ARGS.input}
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${LGBM2_METRICS_SINGLE}:
+          cache: false
+      - ${LGBM2_SINGLE_CHECKPOINT_FP}:
+          cache: false
   model_evaluation_retrain_model_single:
     cmd: python model/retrain.py ${RETRAIN_SINGLE_PARAMS}
     deps:
@@ -567,6 +589,7 @@ stages:
       - ../src/file_utils.py
       - ../src/log_utils.py
       - ../src/data_utils.py
+      - ../src/merge_utils.py
     outs:
       - ${PREDICTIONS_CSV_FP_SINGLE}
 
@@ -581,6 +604,7 @@ stages:
       - ../src/file_utils.py
       - ../src/log_utils.py
       - ../src/data_utils.py
+      - ../src/merge_utils.py
     outs:
       - ${UNKNOWN_PREDICTIONS_CSV_FP_SINGLE}
       

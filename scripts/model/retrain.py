@@ -27,11 +27,8 @@ pickle file
 import argparse
 from dataclasses import asdict
 import pandas as pd
-from functools import partial
 import pickle as pkl
 from imblearn.pipeline import Pipeline
-import skopt
-import yaml
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
@@ -44,7 +41,6 @@ from src.constants import (
     CensusDataColumns,
     KSDataColumns,
     AttendanceDataColumns,
-    BASE_PIPELINE_STEPS,
     UPN,
     YEAR,
     Targets,
@@ -52,9 +48,6 @@ from src.constants import (
 )
 
 # Non DVC params but necessary to import
-from src.params import (
-    get_random_seed,
-)
 
 # Other code
 from src import cv
@@ -69,24 +62,24 @@ parser.add_argument(
     "--input", type=lambda x: x.strip("'"), required=True, help="where to find the input training dataset"
 )
 parser.add_argument(
-    "--model_metrics",
-    type=lambda x: x.strip("'"),required=True,
+    "--model_metrics", nargs="+",
+    type=lambda x: x.strip("'"), required=True,
     help="where to find the csv containing the best model metrics",
 )
 parser.add_argument(
     "--target",
     required=True,
-    type=lambda x: x.strip("'"),choices=list(asdict(Targets).values()),
+    type=lambda x: x.strip("'"), choices=list(asdict(Targets).values()),
     help="which target variable to add to csv",
 )
 parser.add_argument(
     "--model_output_best",
-    type=lambda x: x.strip("'"),required=True,
+    type=lambda x: x.strip("'"), required=True,
     help="where to save the pickle of the best thresholded model",
 )
 parser.add_argument(
     "--model_output_mean",
-    type=lambda x: x.strip("'"),required=True,
+    type=lambda x: x.strip("'"), required=True,
     help="where to save the pickle of the mean thresholded model",
 )
 
@@ -103,7 +96,7 @@ if __name__ == "__main__":
     # Load train dataset
     df = d.load_csv(
         args.input,
-        drop_empty=True,
+        drop_empty=False,
         drop_single_valued=False,  # Columns here will also be in test set, so don't drop them.
         drop_duplicates=True,
         read_as_str=False,
@@ -152,9 +145,11 @@ if __name__ == "__main__":
     )
 
     # Load csv with best model parameters and threshold
-    metrics = pd.read_csv(args.model_metrics)
-    best_model = metrics.loc[
-        metrics["f2_binary_mean"].idxmax()
+    all_metrics = [pd.read_csv(metrics_paths) for metrics_paths in args.model_metrics]
+    best_metrics = max(all_metrics, key=lambda m: m["f2_binary_mean"].max())
+
+    best_model = best_metrics.loc[
+        best_metrics["f2_binary_mean"].idxmax()
     ]  # get best model parameters
     best_threshold = best_model["f2_binary__threshold_best"]  # best threshold
     mean_threshold = best_model["f2_binary__threshold_mean"]  # mean threshold

@@ -229,60 +229,6 @@ def load_csv(
     return df
 
 
-# Deprecated
-# def load_csv_of_type(
-#     fp,
-#     df_type,
-#     drop_empty=True,
-#     drop_single_valued=True,
-#     drop_missing_upns=False,
-#     drop_duplicates=True,
-#     upn_col=UPN,
-# ):
-#     df = load_csv(
-#         fp,
-#         drop_empty=drop_empty,
-#         drop_single_valued=drop_single_valued,
-#         drop_missing_upns=drop_missing_upns,
-#         drop_duplicates=drop_duplicates,
-#         upn_col=UPN,
-#     )
-#     if df_type == constants.CENSUS:
-#         print('Processing special logic for Census data')
-#         df['SENneed1'] = df['SENneed1'].fillna(df['SENNeed1'])
-#         df['SENneed2'] = df['SENneed2'].fillna(df['SENNeed2'])
-#         df = df.drop(['SENNeed1', 'SENNeed2'], axis=1)
-#     else:
-#         print(f'No special logic to process for {df_type} data')
-
-#     return df
-
-
-# Deprecated
-# def load_all_merged_data(
-#     drop_empty=True,
-#     drop_single_valued=True,
-#     drop_missing_upns=False,
-#     drop_duplicates=True,
-#     should_rename_codes=True
-# ):
-#     df_dict = {k: load_csv_of_type(
-#         fp,
-#         df_type=k,
-#         drop_empty=drop_empty,
-#         drop_single_valued=drop_single_valued,
-#         drop_missing_upns=drop_missing_upns,
-#         drop_duplicates=drop_duplicates
-#     ) for k, fp in constants.MERGED_FPS.items()}
-
-#     if should_rename_codes:
-#         codes_dict = load_codes()
-#         print('Renaming codes')
-#         df_dict = rename_codes(df_dict, codes_dict)
-
-#     return df_dict
-
-
 def drop_duplicate_rows(df, logger=l.PrintLogger):
     new_df = df.drop_duplicates()
     n_dropped_rows = len(df) - len(new_df)

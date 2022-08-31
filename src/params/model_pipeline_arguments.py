@@ -19,7 +19,7 @@ RONI_PARAMS = {
 RETRAIN_SINGLE_PARAMS = {
     "input": SINGLE_TRAIN_FP,
     "single": True,
-    "model_metrics": LGBM1_METRICS_SINGLE,
+    "model_metrics": [LGBM1_METRICS_SINGLE, LGBM2_METRICS_SINGLE],
     "target": TARGET,
     "model_output_best": MODEL_BEST_THRESH_SINGLE,
     "model_output_mean": MODEL_MEAN_THRESH_SINGLE,
@@ -60,7 +60,17 @@ OPTIMIZATION_AND_CV_LGBM1_ARGS = {
     "input": SINGLE_TRAIN_FP,
     "target": Targets.neet_ever,
     "checkpoint": True,
-    "load_checkpoint": True,
+    "log_results": True,
+    "num_folds": 4,
+}
+OPTIMIZATION_AND_CV_LGBM2_ARGS = {
+    "single": True,
+    "space": "lgbm2",
+    "parallel": True,
+    "num_thresholds": 100,
+    "input": SINGLE_TRAIN_FP,
+    "target": Targets.neet_ever,
+    "checkpoint": True,
     "log_results": True,
     "num_folds": 4,
 }

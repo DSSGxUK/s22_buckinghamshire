@@ -1,13 +1,11 @@
 """
 """
 import argparse
+import os
 from dataclasses import asdict
-import pandas as pd
 from functools import partial
-import pickle as pkl
 from imblearn.pipeline import Pipeline
 import skopt
-import yaml
 
 from sklearn.metrics import (
     f1_score,
@@ -46,6 +44,7 @@ parser.add_argument("--debug", action="store_true", help="run transform in debug
 parser.add_argument("--single", action="store_true", help="Use the single upn dataset")
 parser.add_argument(
     "--space",
+    type=lambda x: x.strip("'"),
     required=True,
     help="which search space to use",
     choices=list(cv.SEARCH_SPACES.keys()),
@@ -60,10 +59,11 @@ parser.add_argument(
     help="Roughly how many thresholds to try to assess. Not passing this will test all the thresholds",
 )
 parser.add_argument(
-    "--input", required=True, help="where to find the input training dataset"
+    "--input", type=lambda x: x.strip("'"), required=True, help="where to find the input training dataset"
 )
 parser.add_argument(
     "--target",
+    type=lambda x: x.strip("'"),
     required=True,
     choices=list(asdict(Targets).values()),
     help="which target variable to add to csv",
@@ -75,16 +75,9 @@ parser.add_argument(
 )
 parser.add_argument(
     "--load_checkpoint",
-    required=False,
     action="store_true",
-    help="where to load a checkpoint pickle that we can start from",
+    help="whether to load a saved checkpoint pickle that we can start from",
 )
-# parser.add_argument('--pipeline_model_output', required=True,
-#                     help='where to save the pickle of the best pipeline')
-# parser.add_argument('--base_model_output', required=True,
-#                     help='where to save the pickle of the best base model (without oversampling)')
-# parser.add_argument('--model_output', required=True,
-#                     help='where to save the pickle of the best thresholded model')
 parser.add_argument(
     "--log_results",
     action="store_true",
@@ -110,7 +103,7 @@ if __name__ == "__main__":
 
     df = d.load_csv(
         args.input,
-        drop_empty=True,
+        drop_empty=False,
         drop_single_valued=False,  # Columns here will also be in test set, so don't drop them.
         drop_duplicates=True,
         read_as_str=False,
@@ -176,7 +169,7 @@ if __name__ == "__main__":
     base_pipeline_steps = BASE_PIPELINE_STEPS
     pipeline = Pipeline(base_pipeline_steps)
     preprocessor = cv.DataJoinerTransformerFunc(data_df)
-    postprocessor = None if args.single else cv.AggregatorTransformerFunc()
+    postprocessor = cv.identity_postprocessor if args.single else cv.AggregatorTransformerFunc()
     pipeline = cv.PandasEstimatorWrapper(
         pipeline, preprocessor=preprocessor, postprocessor=postprocessor
     )
@@ -191,10 +184,11 @@ if __name__ == "__main__":
         random_state=get_random_seed(),
         n_jobs=(-1 if args.parallel else 1),
         results_csv_fp=f.tmp_path(
-            f.get_cv_results_filepath(args.space), debug=args.debug
+            f.get_cv_results_filepath(args.space, "single" if args.single else "multi"), debug=args.debug
         )
         if args.log_results
         else None,
+        append_to_old_results=args.load_checkpoint,
         maximize=True,
     )
 
@@ -203,7 +197,7 @@ if __name__ == "__main__":
     if args.checkpoint:
         callbacks.append(
             skopt.callbacks.CheckpointSaver(
-                f.tmp_path(f.get_checkpoint_filepath(args.space), debug=args.debug)
+                f.tmp_path(f.get_checkpoint_filepath(args.space, "single" if args.single else "multi"), debug=args.debug)
             )
         )
     if args.debug:
@@ -225,8 +219,8 @@ if __name__ == "__main__":
     def objective(**params):
         return _objective(**params)
 
-    if args.load_checkpoint:
-        checkpoint_path = f.get_checkpoint_filepath(args.space)
+    checkpoint_path = f.get_checkpoint_filepath(args.space,  "single" if args.single else "multi")
+    if args.load_checkpoint and os.path.exists(checkpoint_path):
         res = skopt.load(args.load_checkpoint)
         x0 = cv.fix_checkpoint_x_iters(res.x_iters, search_space)
         y0 = res.func_vals

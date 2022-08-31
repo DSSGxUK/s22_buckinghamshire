@@ -4,7 +4,6 @@ stages of the pipeline. DVC will take these dictionaries
 and unpack them into the proper command line arguments
 for the scripts run at each stage.
 """
-from dataclasses import dataclass
 from ..constants import DatasetTypes, OutputDatasetTypes
 from .data_pipeline_params import *
 from .model_pipeline_params import *
@@ -23,24 +22,24 @@ from .filepaths import *
 # This allows to pass lists and booleans to the scripts. If we also need to template
 # a separate value for `deps` or `outs` we can put the "args" in a sub-dictionary.
 # See `merge_data` for an example of this.
-XL_TO_CSV_INPUTS = (
-    list(ATTENDANCE_DATA_XL_FPS.values())
-    + list(NEET_DATASET_XL_FPS.values())
-    + list(SCHOOL_CENSUS_XL_FPS.values())
-    + [SCHOOL_INFO_XL_FP]
-)
-XL_TO_CSV_OUTPUTS = (
-    list(ATTENDANCE_DATA_CSV_FPS.values())
-    + list(NEET_DATASET_CSV_FPS.values())
-    + list(SCHOOL_CENSUS_CSV_FPS.values())
-    + [SCHOOL_INFO_CSV_FP]
-)
-assert len(XL_TO_CSV_INPUTS) == len(XL_TO_CSV_OUTPUTS)
+# XL_TO_CSV_INPUTS = (
+#     list(ATTENDANCE_DATA_XL_FPS.values())
+#     + list(NEET_DATASET_XL_FPS.values())
+#     + list(SCHOOL_CENSUS_XL_FPS.values())
+#     + [SCHOOL_INFO_XL_FP]
+# )
+# XL_TO_CSV_OUTPUTS = (
+#     list(ATTENDANCE_DATA_CSV_FPS.values())
+#     + list(NEET_DATASET_CSV_FPS.values())
+#     + list(SCHOOL_CENSUS_CSV_FPS.values())
+#     + [SCHOOL_INFO_CSV_FP]
+# )
+# assert len(XL_TO_CSV_INPUTS) == len(XL_TO_CSV_OUTPUTS)
 
-XL_TO_CSV_ARGS = [
-    {"inputs": input_fp, "outputs": output_fp}
-    for input_fp, output_fp in zip(XL_TO_CSV_INPUTS, XL_TO_CSV_OUTPUTS)
-]
+# XL_TO_CSV_ARGS = [
+#     {"inputs": input_fp, "outputs": output_fp}
+#     for input_fp, output_fp in zip(XL_TO_CSV_INPUTS, XL_TO_CSV_OUTPUTS)
+# ]
 
 CANONICALIZE_CSV_ARGS = (
     [

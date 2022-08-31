@@ -1,3 +1,15 @@
 /train_singleUPN.csv
 /test_singleUPN.csv
 /train_multiUPN.csv
+/predict_multiUPN.csv
+/multi_upn_categorical.csv
+/feature_selected_multi_upn_categorical.csv
+/additional_data.csv
+/fs_predict_multiUPN.csv
+/single_upn_categorical.csv
+/feature_selected_single_upn_categorical.csv
+/fs_unknowns_singleUPN.csv
+/predict_singleUPN.csv
+/fs_predict_singleUPN.csv
+/unknowns_multiUPN.csv
+/unknowns_singleUPN.csv

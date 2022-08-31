@@ -36,6 +36,7 @@ from src.constants import UPN, NA_VALS, CensusDataColumns, non_prediction_column
 from src import file_utils as f
 from src import log_utils as l
 from src import data_utils as d
+from src import py_utils as py
 
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
@@ -128,10 +129,11 @@ if __name__ == "__main__":
             logger.info(f"Forward filling fsme column {ffil_cols}.")
             df[ffil_cols] = df[([UPN] + ffil_cols)].groupby(by=UPN).ffill()
 
+
     df = d.get_dummies_with_logging(
         df, columns=[CensusDataColumns.fsme_on_census_day], logger=logger
     )
-    #breakpoint()
+    
 
     logger.info(
         f'Selecting columns from the {"single" if args.single else "multi"} upn predictions dataset'
@@ -142,7 +144,6 @@ if __name__ == "__main__":
     logger.info("Filter out any columns not in the train data")
     num_orig_rows = len(df)
     df = df.loc[:, df.columns.isin(features_for_model)]
-    #breakpoint()
     logger.info(
         "Add any columns that are in the train data but not in the prediction data"
     )
@@ -161,7 +162,7 @@ if __name__ == "__main__":
 
     df.dropna(inplace=True)  # drop na rows
     logger.info(
-        f"Dropped {num_orig_rows - len(df)} rows ({(num_orig_rows - len(df)) / num_orig_rows  * 100}%) because they contained a missing value"
+        f"Dropped {num_orig_rows - len(df)} rows ({py.safe_divide(num_orig_rows - len(df), num_orig_rows)  * 100}%) because they contained a missing value"
     )
 
     unidentified_df = pd.DataFrame()
@@ -169,7 +170,6 @@ if __name__ == "__main__":
 
     logger.info(f"Matching student name to unidentified upns")
 
-    # breakpoint()
     add_data = df_additional_data[
         [
             UPN,
