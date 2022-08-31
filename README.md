@@ -1,6 +1,6 @@
 # Predicting students at risk of becoming NEET (Not in Education, Employment or Training)
 
-Welcome to the code repository for the project conducted under **Data Science for Social Good- UK 2022 (DSSGx UK)**, for our partner: **Buckinghamshire Council**. The repository will focus on documenting:
+Welcome to the code repository for the project conducted under **Data Science for Social Good- UK 2022 (DSSGx UK)**, for our partner: **Buckinghamshire Council**. The aim of the project was to identify students, before Year 11, at risk of becoming NEET after they complete their GCSEs. This readme will focus on documenting:
 
 1.	Folder structure 
 2.  Assumptions
@@ -23,7 +23,7 @@ In addition, we want to allow data on *characteristics* and *ks2*. This has not 
 
 **Points to remember**:
   1. Please ensure files are in CSV format only
-  2. Currently columns are renamed to `snake_case`. You may need to add more columns to the renaming dictionary if your columns have changed or are different. 
+  2. Currently columns are renamed to `snake_case` (lowercase with spaces as _). You may need to add more columns to the renaming dictionary if your columns have changed or are different. 
      You can find the renaming dictionary in the `src` directory in the `[TYPE]_utils.py` file where `[TYPE]` refers to whatever your data type is. Note *ks2* and
      *characteristics* will not currently show up in there.
   3. We assume that the CCIS datasets have a `month/year of birth` column with numeric month and year values in the form `[MONTH]/[YEAR]`. We don't use the date of
@@ -34,8 +34,6 @@ In addition, we want to allow data on *characteristics* and *ks2*. This has not 
 # Setting up a machine for running all the workflows
 
 This part will change slightly depending on what operating system you are using.
-
-@Vanshika - please rewrite directions in backtick bash block (see below)
 
 ## Windows
 
@@ -78,13 +76,24 @@ dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc
 dvc pull -r origin
 ```
 
+## Using your own data
+
+If you are a council with your own data, these datasets will need to be saved in the `data/raw` directory as csv files in the correct formats with the correct column names. We have examples of what this should look like here...
+
+Within the `data/raw` directory are 4 folders that correspond to the different datasets listed above under *Assumptions*: 
+- `attendance_original_csv`
+- `ccis_original_csv`
+- `census_original_csv`
+- `ks4_original_csv`
+
+The datasets in these directories should be named `[TYPE]_original_[DATE].csv` where `[TYPE]` refers to the dataset (attendance, ccis, census, ks4) and `[DATE]` refers to the month and year of the dataset (e.g. `attendance_original_jan21.csv`). `[DATE]` should be written as the first 3 letters of the month and the last 2 digits of the year e.g. `jan21`, `sep19` 
+
 **Please follow the below steps before running the workflows**:
   
 ```bash
 cd .\scripts\
 ```
 
-@Vanshika - please write directions like below
 ## Run the whole pipeline
 To run the whole pipeline you can just run:
 
@@ -168,8 +177,17 @@ Below is a brief overview of what each stage within a workflow is doing:
   - Returns scaled probability scores for a student at risk of becoming NEET (between 1-10)
 
 @Vanshika - we need directions on how to rerun the hyperparameter search from a checkpoint. To do this, the user has to change the LOAD_CHECKPOINTS value in the params.yaml file to true. When they rerun the pipeline with new data, they should set this to false otherwise it will use an old checkpoint for new data.
-    
-# Expected data schema for Power BI dashboard:
+
+## Outputs from running the model
+
+- `predictions.csv`: Contains the dataset used for modeling with additional columns containing predictions and probabilities for current students in Year 7-10
+- `unknown_predictions.csv`: Contains the dataset used for modeling with additional columns containing predictions and probabilities for students with unknown destinations 
+- `unidentified_students_single.csv`: List of school students that had too much missing data and therefore could not be used in the model
+- `unidentified_unknowns_single.csv`: List of students with unknown destinations that had too much missing data and therefore could not be used in the model
+- annotated_ccis_data
+- annotated_census_data
+
+## Expected data schema for Power BI dashboard:
 
 The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given):
 1. Att<85% 
