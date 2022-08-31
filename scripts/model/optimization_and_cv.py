@@ -44,6 +44,7 @@ parser.add_argument("--debug", action="store_true", help="run transform in debug
 parser.add_argument("--single", action="store_true", help="Use the single upn dataset")
 parser.add_argument(
     "--space",
+    type=lambda x: x.strip("'"),
     required=True,
     help="which search space to use",
     choices=list(cv.SEARCH_SPACES.keys()),
@@ -58,10 +59,11 @@ parser.add_argument(
     help="Roughly how many thresholds to try to assess. Not passing this will test all the thresholds",
 )
 parser.add_argument(
-    "--input", required=True, help="where to find the input training dataset"
+    "--input", type=lambda x: x.strip("'"), required=True, help="where to find the input training dataset"
 )
 parser.add_argument(
     "--target",
+    type=lambda x: x.strip("'"),
     required=True,
     choices=list(asdict(Targets).values()),
     help="which target variable to add to csv",
@@ -73,7 +75,6 @@ parser.add_argument(
 )
 parser.add_argument(
     "--load_checkpoint",
-    required=False,
     action="store_true",
     help="whether to load a saved checkpoint pickle that we can start from",
 )
@@ -168,7 +169,7 @@ if __name__ == "__main__":
     base_pipeline_steps = BASE_PIPELINE_STEPS
     pipeline = Pipeline(base_pipeline_steps)
     preprocessor = cv.DataJoinerTransformerFunc(data_df)
-    postprocessor = None if args.single else cv.AggregatorTransformerFunc()
+    postprocessor = cv.identity_postprocessor if args.single else cv.AggregatorTransformerFunc()
     pipeline = cv.PandasEstimatorWrapper(
         pipeline, preprocessor=preprocessor, postprocessor=postprocessor
     )

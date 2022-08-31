@@ -520,7 +520,7 @@ stages:
   cv_optimization_and_cv_lgbm1_single:
     cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_LGBM1_ARGS}
     deps:
-      - python model/optimization_and_cv.py
+      - model/optimization_and_cv.py
       - ${OPTIMIZATION_AND_CV_LGBM1_ARGS.input}
       - ../src/file_utils.py
       - ../src/log_utils.py
@@ -533,7 +533,7 @@ stages:
   cv_optimization_and_cv_lgbm2_single:
     cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_LGBM2_ARGS}
     deps:
-      - python model/optimization_and_cv.py
+      - model/optimization_and_cv.py
       - ${OPTIMIZATION_AND_CV_LGBM2_ARGS.input}
       - ../src/file_utils.py
       - ../src/log_utils.py

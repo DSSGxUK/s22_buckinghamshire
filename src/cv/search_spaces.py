@@ -314,7 +314,35 @@ LGBM0_1 = lambda: (
 LGBM1 = lambda: (
     {
         "estimator__model": Categorical([LGBMClassifier()]),
-        "estimator__model__boosting_type": Categorical(["gbdt", "dart", "goss", "rf"]),
+        "estimator__model__boosting_type": Categorical(["gbdt", "dart", "goss"]),
+        "estimator__model__num_leaves": Integer(2, 31**2, "log-uniform"),  # 31
+        "estimator__model__max_depth": (
+            -21,
+            21,
+            "uniform",
+        ),  # default  is -1, <= 0 means no depth constraint
+        "estimator__model__learning_rate": Real(1e-4, 1e2, "log-uniform"),  # 0.1
+        "estimator__model__n_estimators": Integer(5, 100**2, "log-uniform"),  # 100
+        "estimator__model__min_child_samples": (2, 20**2, "log-uniform"),  # 20
+        "estimator__model__is_unbalance": Categorical(
+            [False, True]
+        ),  # I think this takes into account unbalanced data?
+        "estimator__model__objective": Categorical(["binary"]),
+        "estimator__oversampling": Categorical([RandomOverSampler()]),
+        "estimator__oversampling__sampling_strategy": Real(
+            0.1, 1.0, "uniform"
+        ),  # Needs to have a lower bound bigger than % of neets and upper bound of 1.
+        "estimator__oversampling__random_state": Categorical([get_random_seed()]),
+        "estimator__oversampling__shrinkage": Categorical([0, 1e-4, 1e-2, 1, 2, 4]),
+        "estimator__imputation": Categorical([None]),
+        "estimator__scaler": Categorical([StandardScaler(), None]),
+    },
+    50,
+)
+LGBM2 = lambda: (
+    {
+        "estimator__model": Categorical([LGBMClassifier()]),
+        "estimator__model__boosting_type": Categorical(["gbdt", "dart", "goss"]),
         "estimator__model__num_leaves": Integer(2, 31**2, "log-uniform"),  # 31
         "estimator__model__max_depth": (
             -21,
