@@ -310,7 +310,7 @@ if __name__ == "__main__":
 
     df = d.load_csv(
         args.input,
-        drop_empty=True,  # This is a model dataset, so drop all irrelevant features
+        drop_empty=False,
         drop_single_valued=False,
         drop_duplicates=True,
         read_as_str=False,

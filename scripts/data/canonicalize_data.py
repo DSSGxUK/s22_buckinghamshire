@@ -108,13 +108,16 @@ if __name__ == "__main__":
             assert set(new_row.keys()) == set(df.columns)
             df = pd.concat([df, new_row], axis=0).reset_index(drop=True)
             # Parse the list of electoral wards
+            #breakpoint()
             df[SchoolInfoColumns.establishment_electoral_wards] = df[
                 SchoolInfoColumns.establishment_electoral_wards
             ].apply(lambda x: d.parse_human_list(x))
+
             # Remove the "- The" at the end of some school names
+            #breakpoint()
             df[SchoolInfoColumns.establishment_name] = df[
                 SchoolInfoColumns.establishment_name
-            ].apply(lambda x: x.replace(" - The", ""))
+            ].apply(lambda x: x.replace(" - The", "") if not pd.isna(x) else x)
 
         csv_fp = f.tmp_path(output_fp, debug=args.debug)
         logger.info(f"Saving canonicalized data to {csv_fp}")

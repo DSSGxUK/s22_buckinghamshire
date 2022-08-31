@@ -1,13 +1,11 @@
 from dataclasses import asdict
-from multiprocessing.sharedctypes import Value
-from textwrap import indent
 from typing import Any
 import numpy as np
 import pandas as pd
-import scipy as sp
+import shap
 from sklearn.base import TransformerMixin, BaseEstimator
 
-from ..constants import Aggregations, UPN
+from ..constants import Aggregations
 
 from ..aggregation_utils import build_agg
 
@@ -111,6 +109,24 @@ def identity_preprocessor(X, labels=None):
 def identity_postprocessor(X):
     return X
 
+def get_values_or_dummy_if_empty(X: pd.DataFrame):
+    if len(X) == 0:
+        X_np = np.zeros((1, len(X.columns)))
+    else:
+        X_np = X.values
+    return X_np
+
+def np_to_df_or_empty(X_np: np.ndarray, index: pd.Index, columns: pd.Index):
+    if len(index) == 0:
+        return pd.DataFrame(index=index, columns=columns)
+    else:
+        return pd.DataFrame(X_np, index=index, columns=columns)
+
+def np_to_series_or_empty(X_np: np.ndarray, index: pd.Index):
+    if len(index) == 0:
+        return pd.Series(index=index)
+    else:
+        return pd.Series(X_np, index=index)
 
 class PandasEstimatorWrapper(TransformerMixin, BaseEstimator):
     """
@@ -151,9 +167,9 @@ class PandasEstimatorWrapper(TransformerMixin, BaseEstimator):
 
     def transform(self, X_index):
         X = self.preprocessor(X_index)
-        X_np = X.values
+        X_np = get_values_or_dummy_if_empty(X)
         Xt_np = self.estimator.transform(X_np)
-        Xt = pd.DataFrame(Xt_np, index=X.index)
+        Xt = np_to_df_or_empty(Xt_np, index=X.index)
         Xt = self.postprocessor(Xt)
         return Xt
 
@@ -190,20 +206,30 @@ class PandasEstimatorWrapper(TransformerMixin, BaseEstimator):
 
     def decision_function(self, X_index):
         X = self.preprocessor(X_index)
-        X_np = X.values
+        X_np = get_values_or_dummy_if_empty(X)
         y_pred_np = self.estimator.decision_function(X_np)
         # We've assumed binary classification, so that we can safely only return the output for one class
         y_pred_np = self.check_binary_prediction(y_pred_np)
-        y_pred = pd.Series(y_pred_np, index=X.index)
+        y_pred = np_to_series_or_empty(y_pred_np, index=X.index)
         y_pred = self.postprocessor(y_pred)
         return y_pred
 
     def predict_proba(self, X_index):
         X = self.preprocessor(X_index)
-        X_np = X.values
+        X_np = get_values_or_dummy_if_empty(X)
         y_pred_np = self.estimator.predict_proba(X_np)
         # We've assumed binary classification, so that we can safely only return the output for one class
         y_pred_np = self.check_binary_prediction(y_pred_np)
-        y_pred = pd.Series(y_pred_np, index=X.index)
+        y_pred = np_to_series_or_empty(y_pred_np, index=X.index)
         y_pred = self.postprocessor(y_pred)
         return y_pred
+    
+    def shapley_values(self, X_index, explainer: shap.Explainer):
+        X = self.preprocessor(X_index)
+        X_np = get_values_or_dummy_if_empty(X)
+        X_np_trans = self.estimator[:-1].transform(X_np)
+        shap_values = explainer.shap_values(X_np_trans)[1]
+        shap_df = np_to_df_or_empty(shap_values, index=X.index, columns=X.columns)
+        shap_df = self.postprocessor(shap_df)
+
+        return shap_df

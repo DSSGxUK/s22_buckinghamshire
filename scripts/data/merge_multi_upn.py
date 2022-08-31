@@ -63,6 +63,7 @@ from src import log_utils as l
 from src import data_utils as d
 from src import merge_utils as mu
 from src import ccis_utils as nu
+from src import py_utils as py
 
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
@@ -437,13 +438,13 @@ if __name__ == "__main__":
     ks_count = merged_df[KSDataColumns.has_ks2_data].sum()
     att_count = merged_df[AttendanceDataColumns.has_attendance_data].sum()
     logger.info(
-        f"Final census count in merged {census_count}/{len(merged_df)} ({census_count / len(merged_df)})"
+        f"Final census count in merged {census_count}/{len(merged_df)} ({py.safe_divide(census_count, len(merged_df))})"
     )
     logger.info(
-        f"Final KS count in merged {ks_count}/{len(merged_df)} ({ks_count / len(merged_df)})"
+        f"Final KS count in merged {ks_count}/{len(merged_df)} ({py.safe_divide(ks_count, len(merged_df))})"
     )
     logger.info(
-        f"Final att count in merged {att_count}/{len(merged_df)} ({att_count / len(merged_df)})"
+        f"Final att count in merged {att_count}/{len(merged_df)} ({py.safe_divide(att_count, len(merged_df))})"
     )
     logger.info(f"Final column count {len(merged_df.columns)}")
 

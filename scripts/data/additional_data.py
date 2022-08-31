@@ -48,13 +48,13 @@ parser.add_argument(
     "--single", action="store_true", help="whether to use single upn dataset"
 )
 parser.add_argument(
-    "--census_input", required=True, help="where to find input annotated census csv"
+    "--census_input", type=lambda x: x.strip("'"),required=True, help="where to find input annotated census csv"
 )
 parser.add_argument(
-    "--att_input", required=True, help="where to find input annotated attendance csv"
+    "--att_input", type=lambda x: x.strip("'"),required=True, help="where to find input annotated attendance csv"
 )
 parser.add_argument(
-    "--output", required=True, help="where to output the produced csv file"
+    "--output", type=lambda x: x.strip("'"),required=True, help="where to output the produced csv file"
 )
 
 
@@ -170,8 +170,8 @@ if __name__ == "__main__":
         att_df = (
             d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
                 args.att_input,
-                drop_empty=True,
-                drop_single_valued=True,
+                drop_empty=False,
+                drop_single_valued=False,
                 drop_duplicates=True,
                 read_as_str=False,
                 drop_missing_upns=True,

@@ -66,27 +66,27 @@ parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument("--single", action="store_true", help="Use the single upn dataset")
 parser.add_argument(
-    "--input", required=True, help="where to find the input training dataset"
+    "--input", type=lambda x: x.strip("'"), required=True, help="where to find the input training dataset"
 )
 parser.add_argument(
     "--model_metrics",
-    required=True,
+    type=lambda x: x.strip("'"),required=True,
     help="where to find the csv containing the best model metrics",
 )
 parser.add_argument(
     "--target",
     required=True,
-    choices=list(asdict(Targets).values()),
+    type=lambda x: x.strip("'"),choices=list(asdict(Targets).values()),
     help="which target variable to add to csv",
 )
 parser.add_argument(
     "--model_output_best",
-    required=True,
+    type=lambda x: x.strip("'"),required=True,
     help="where to save the pickle of the best thresholded model",
 )
 parser.add_argument(
     "--model_output_mean",
-    required=True,
+    type=lambda x: x.strip("'"),required=True,
     help="where to save the pickle of the mean thresholded model",
 )
 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     # Load train dataset
     df = d.load_csv(
         args.input,
-        drop_empty=True,
+        drop_empty=False,
         drop_single_valued=False,  # Columns here will also be in test set, so don't drop them.
         drop_duplicates=True,
         read_as_str=False,

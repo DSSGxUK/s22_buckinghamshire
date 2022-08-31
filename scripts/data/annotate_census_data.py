@@ -22,7 +22,6 @@ csv file
    annotated census dataset saved at output filepath as a csv file.  
 
 """
-from multiprocessing.sharedctypes import Value
 import pandas as pd
 import argparse
 
@@ -64,11 +63,11 @@ def merged_census_validation(df):
             f"There was an error in parsing the data_date column. Please check the entries for any malformed dates. This may be a bug in the merge_data script."
         )
         raise e
-    fsme_values = set(df[CensusDataColumns.fsme_on_census_day].unique())
-    fsme_values_expected = {"FALSE", "TRUE"}
+    fsme_values = set(df[CensusDataColumns.fsme_on_census_day].str.lower().unique())
+    fsme_values_expected = {"false", "true"}
     assert (
         fsme_values == fsme_values_expected
-    ), f"fsme_on_census_day has extra values {fsme_values - fsme_values_expected}. Only  values {fsme_values_expected} are allowed. Please correct."
+    ), f"fsme_on_census_day has extra values {fsme_values - fsme_values_expected} when lower-cased. Only  values {fsme_values_expected} are allowed. Please correct."
 
 
 if __name__ == "__main__":
@@ -139,7 +138,8 @@ if __name__ == "__main__":
     # We must replace with strings because pandas will enforce that the column remain a string type.
     df[CensusDataColumns.fsme_on_census_day] = (
         df[CensusDataColumns.fsme_on_census_day]
-        .replace({"TRUE": "1", "FALSE": "0"})
+        .str.lower()
+        .replace({"true": "1", "false": "0"})
         .astype(pd.Int8Dtype())
     )
     logger.debug(

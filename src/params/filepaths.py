@@ -301,6 +301,12 @@ ATTENDANCE_DATA_CSV_FPS = {
     "oct21": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_oct21.csv"),
 }
 
+# from os import listdir
+# att_raw_csvs = os.listdir(ATTENDANCE_CSV_DIR)
+# for f in att_raw_csvs :
+
+# ATTENDANCE_DATA_CSV_FPS = {}
+
 ATTENDANCE_CANONICALIZED_CSV_DIR = os.path.join(
     INTERIM_DIR, "attendance_canonicalized_csv"
 )
