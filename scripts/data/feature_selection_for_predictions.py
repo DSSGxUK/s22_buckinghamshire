@@ -180,8 +180,14 @@ if __name__ == "__main__":
             "age",
         ]
     ]
+
     # add in school name to csv
     unidentified_df = pd.merge(unidentified_df, add_data, how="left", on=UPN)
+    # add student_name column
+    unidentified_df["student_name"] = unidentified_df["forename"].astype("string")+" "+unidentified_df["preferred_surname"].astype("string")
+    #change upn -> UPN column
+    unidentified_df = unidentified_df.rename(columns={UPN:"UPN"})
+
 
     csv_fp = f.tmp_path(args.output, debug=args.debug)
     unidentified_csv = f.tmp_path(args.unidentified_csv, debug=args.debug)
