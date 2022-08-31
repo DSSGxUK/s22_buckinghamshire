@@ -1,6 +1,6 @@
 # Predicting students at risk of becoming NEET (Not in Education, Employment or Training)
 
-Welcome to the code repository for the project conducted under **Data Science for Social Good- UK 2022 (DSSGx UK)**, for our partner: **Buckinghamshire Council**. The repository will focus on documenting:
+Welcome to the code repository for the project conducted under **Data Science for Social Good- UK 2022 (DSSGx UK)**, for our partner: **Buckinghamshire Council**. The aim of the project was to identify students, before Year 11, at risk of becoming NEET after they complete their GCSEs. This readme will focus on documenting:
 
 1.	Folder structure 
 2.  Assumptions
@@ -243,7 +243,7 @@ In addition, we want to allow data on *characteristics* and *ks2*. This has not 
 
 **Points to remember**:
   1. Please ensure files are in CSV format only
-  2. Currently columns are renamed to `snake_case`. You may need to add more columns to the renaming dictionary if your columns have changed or are different. 
+  2. Currently columns are renamed to `snake_case` (lowercase with spaces as _). You may need to add more columns to the renaming dictionary if your columns have changed or are different. 
      You can find the renaming dictionary in the `src` directory in the `[TYPE]_utils.py` file where `[TYPE]` refers to whatever your data type is. Note *ks2* and
      *characteristics* will not currently show up in there.
   3. We assume that the CCIS datasets have a `month/year of birth` column with numeric month and year values in the form `[MONTH]/[YEAR]`. We don't use the date of
@@ -254,8 +254,6 @@ In addition, we want to allow data on *characteristics* and *ks2*. This has not 
 # Setting up a machine for running all the workflows
 
 This part will change slightly depending on what operating system you are using.
-
-@Vanshika - please rewrite directions in backtick bash block (see below)
 
 ## Windows
 
@@ -298,21 +296,36 @@ dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc
 dvc pull -r origin
 ```
 
+## Using your own data
+
+If you are a council with your own data, these datasets will need to be saved in the `data/raw` directory as csv files in the correct formats with the correct column names. 
+
+@to be done? We have examples of what this should look like here...
+
+Within the `data/raw` directory are 4 folders that correspond to the different datasets listed above under *Assumptions*: 
+- `attendance_original_csv`
+- `ccis_original_csv`
+- `census_original_csv`
+- `ks4_original_csv`
+
+The datasets in these directories should be named `[TYPE]_original_[DATE].csv` where `[TYPE]` refers to the dataset (attendance, ccis, census, ks4) and `[DATE]` refers to the month and year of the dataset (e.g. `attendance_original_jan21.csv`). `[DATE]` should be written as the first 3 letters of the month and the last 2 digits of the year e.g. `jan21`, `sep19` 
+
 **Please follow the below steps before running the workflows**:
   
 ```bash
 cd .\scripts\
 ```
 
-@Vanshika - please write directions like below
 ## Run the whole pipeline
-To run the whole pipeline you can just run:
+
+To run the whole pipeline you can run:
 
 ```bash
 dvc repro
 ```
+(This will include a hyper parameter search which can take a few hours to run)
 
-Alternatively, you could run the individual steps:
+Alternatively, you could run the steps individually:
 
 ```bash
   # Generate datasets for modelling
@@ -327,69 +340,62 @@ Alternatively, you could run the individual steps:
   # Generate datasets for predictions and final output 
   dvc repro -s --glob prediction_* 
 ```
+
+  ## Output predictions on new data without re-running the hyper parameter search  
+  
+  Following these steps re-trains the model with new data using the previous best hyper parameters.
     
-  ## Run the prediction using a model trained on older data
-    
-  ```bash
-    # Generate datasets for modelling
-    dvc repro -s --glob generate_modeling_*          
-    
-    # Model Evaluation 
-    dvc repro -s --glob evaluate_model_*                        
-    
-    # Generate datasets for predictions and final output
-    dvc repro --glob prediction_* 
-   
-  ```
-    
-  ## Run the old model with new data
-    
-  ```bash
-    # Generate datasets for modelling
-    dvc repro -s --glob generate_modeling_*          
-    
-    # Retrain model 
-    dvc repro --glob retrain_*
-    
-    # Model Evaluation 
-    dvc repro -s --glob evaluate_model_*                        
-    
-    # Generate datasets for predictions and final output
-    dvc repro --glob prediction_* 
-   
-  ```
+```bash
+  # Generate datasets for modelling
+  dvc repro -s --glob generate_modeling_*          
+
+  # Model Evaluation 
+  dvc repro -s --glob evaluate_model_*                        
+
+  # Generate datasets for predictions and final output
+  dvc repro --glob prediction_* 
+```
 
 Below is a brief overview of what each stage within a workflow is doing:
 
 **Generate datasets for modelling**
-  - Merges each dataset (eg: Census, Attendance,etc) across all the years 
+  - Merges each dataset (eg: Census, Attendance, etc) across all the years 
   - Split categorical variables into binary columns containing 0's or 1's 
   - Drop columns which aren't required for modelling or for which we won't have data available before Year 11
   - Output two datasets ready for modelling: 
     - Only unique students (UPNs)
-    - A student having multiple observations
+    - A student having multiple observations across different years
     
 **Run cross validation and hyper parameter search**
-  - Searches for the best model parameters. Please note you can opt out of running this step if you want. 
-  
-**Retrain Model**
-  - Re-trains the model with the new incoming data and outputs model with best performance
-  
+  - Searches for the best model parameters. Please note you can opt out of running this step. 
+  - This search includes checkpoints. To rerun the hyperparameter search from a checkpoint:
+    - Change the `LOAD_CHECKPOINTS` value in `scripts/params.yaml` to `True`.
+  - When re-running the search with new data, ensure the `LOAD_CHECKPOINTS` value is set to `False` (otherwise an old checkpoint will be used for the new data).   
+    
 **Model Evaluation**
   - Evaluates RONI tool's performance
-  - Retrains and saves model with best threshold
-  - Apply the chosen model on the test data
+  - Retrains model with new incoming data and saves model with best threshold
+  - Apply the chosen model on the test data to output a final model performance score
   
 **Generate datasets for predictions and final output**
-  - Creates datasets required for final predictions
+  - Creates datasets with current Year 7-10 students and students with unknown destinations to predict on
   - Executes model on unseen data and generates final predictions in form of a CSV
   - Generates feature importance
   - Returns RONI score
   - Returns scaled probability scores for a student at risk of becoming NEET (between 1-10)
 
-@Vanshika - we need directions on how to rerun the hyperparameter search from a checkpoint. To do this, the user has to change the LOAD_CHECKPOINTS value in the params.yaml file to true. When they rerun the pipeline with new data, they should set this to false otherwise it will use an old checkpoint for new data.
-    
-# Expected data schema for Power BI dashboard:
+## Outputs from running the model
+
+These files can be found in the `results/` directory after running the pipeline.
+
+- `predictions.csv`: Dataset used for modeling with additional columns containing predictions and probabilities for current students in Year 7-10
+- `unknown_predictions.csv`: Dataset used for modeling with additional columns containing predictions and probabilities for students with unknown destinations 
+- `unidentified_students_single.csv`: List of school students that had too much missing data and could not be used in the model
+- `unidentified_unknowns_single.csv`: List of students with unknown destinations that had too much missing data and could not be used in the model
+
+## Expected data schema for Power BI dashboard:
+
+Additional datasets (`neet_annotated.csv` and `census_annotated.csv`) with data on previous years of students for the "Changes over years" Power BI dashboard page can be found in the `data/interim/` directory after running the pipeline. 
 
 The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given):
 1. Att<85% 
