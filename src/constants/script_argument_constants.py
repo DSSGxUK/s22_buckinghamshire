@@ -26,8 +26,8 @@ RENAME_DICT = {
     DatasetTypes.ks4: KS4_COLUMN_RENAME,
     DatasetTypes.ccis: CCIS_COLUMN_RENAME,
     DatasetTypes.school_info: SCHOOL_INFO_RENAME,
-    # DatasetTypes.characteristics: ...,
-    # DatasetTypes.ks2: ...,
+    DatasetTypes.characteristics: CCIS_COLUMN_RENAME,
+    DatasetTypes.ks2: KS4_COLUMN_RENAME,
 }
 
 

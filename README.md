@@ -43,6 +43,25 @@ s22_buckinghamshire
 │   │   │   ├── .gitignore
 │   │   ├── .gitignore
 |   └── .gitignore
+├── example_data		                         # Example data to check schema
+│   └───raw
+│   │   ├───secondary_schools_original.csv
+│   │   ├───attendance_original_csv
+│   │   │   ├── attendance_original_jan15.csv
+│   │   │   ├── attendance_original_jan22.csv
+│   │   │   ├── attendance_original_may15.csv
+│   │   │   ├── attendance_original_may22.csv
+│   │   │   ├── attendance_original_oct15.csv
+│   │   │   └── attendance_original_oct21.csv
+│   │   ├───ccis_original_csv
+│   │   │   ├── ccis_original_mar16.csv
+│   │   │   └── ccis_original_mar22.csv
+│   │   ├───census_original_csv
+│   │   │   ├── census_original_jan17.csv
+│   │   │   └── census_original_jan22.csv
+│   │   ├───ks4_original_csv
+│   │   │   ├── ks4_original_sep15.csv
+│   │   │   └── ks4_original_sep20.csv
 ├── logs
 │   └── .gitignore
 ├── metrics                     # contains metrics and results related values
@@ -50,12 +69,12 @@ s22_buckinghamshire
 │   ├──lgbm2_single.csv         # Gets created when you run the hyperparam search
 ├── models
 │   ├── final                           # final model for prediction
-│   │   ├── model_single.pkl            # Gets created when you 
+│   │   ├── model_single.pkl            # Gets created when you retrain the model
 │   └── interim
 ├── notebooks                           
 │   ├── convert_synthetic.ipynb                                         
 │   └── view_csv.ipynb
-├── plots                              #stores different plots and charts
+├── plots                              # stores different plots and charts
 │   ├──attendance_percent_box_plot.png
 │   ├──common_neet_traces.png
 │   ├──consequent_antecedent.png
@@ -240,13 +259,15 @@ This part will change slightly depending on what operating system you are using.
                                                                       # microsoft.com/fwlink/?LinkID=135170',
                                                                       # then we need to enable execution of signed 
                                                                       # scripts. 
-                                                                      # We can do this by running 'Set-ExecutionPolicy 
-                                                                      # RemoteSigned -Scope CurrentUser'. You may need 
+# Set-ExecutionPolicy RemoteSigned -Scope CurrentUser                 # We can do this by running the command to the
+                                                                      # left without the #. You may need
                                                                       # administrator privelages to do this.
                                                               
 > python.exe -m pip install --upgrade pip                             # Update pip if necessary
 
 > python.exe -m pip install -r .\requirements.txt                     # Install required python packages
+
+> dvc config --system core.analytics false                            # Turn off DVC anonymized analytics
 
 ```
 
@@ -278,6 +299,7 @@ This part will change slightly depending on what operating system you are using.
 
 > pip install -r .\requirements.txt                                   # Install required python packages
 
+> dvc config --system core.analytics false                            # Turn off DVC anonymized analytics
 ```
 
 # How to run different workflows
@@ -286,10 +308,11 @@ This part will change slightly depending on what operating system you are using.
 
 ### Downloading the synthetic data
 
-We've published synthetic data (data that does not come from any real person) to dagshub so 
-you can play around with the pipeline. To retrieve it, please run the following:
+We've published synthetic data to dagshub so you can play around with the pipeline. This data is randomly generated and any unique IDs are random strings.
+
+ To retrieve it, please run the following
 ```bash
-dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc
+dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc -f
 dvc pull -r origin
 ```
 
@@ -297,7 +320,7 @@ dvc pull -r origin
 
 If you are a council with your own data, these datasets will need to be saved in the `data/raw` directory as csv files in the correct formats with the correct column names. 
 
-@to be done: We have examples of what this should look like here...
+For an example of what the schema of the datasets and folder structure should look like, we've kept snippets of synthetic data for you to compare against in the `example_data/raw` folder.
 
 Within the `data/raw` directory are 4 folders that correspond to the different datasets listed above under *Assumptions*: 
 - `attendance_original_csv`
