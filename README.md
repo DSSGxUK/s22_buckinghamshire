@@ -19,8 +19,8 @@ s22_buckinghamshire
 ├── communications
 │   ├── upn-different-activity-codes.md            
 │   ├── upns_with_questions.md                                           
-├── data		                                 #stores canonicalised csv files
-│   └── interim	
+├── data		                                 
+│   └── interim	                             #stores canonicalised csv files
 │   │   ├── attendance_canonicalized_csv
 │   │   │   ├── .gitignore
 │   │   ├── ccis_canonicalized_csv
@@ -35,54 +35,12 @@ s22_buckinghamshire
 |   └── raw                                  # stores the original files
 │   │   ├── attendance_original_csv
 │   │   │   ├── .gitignore
-│   │   │   ├── attendance_original_jan15.csv.dvc
-│   │   │   ├── attendance_original_jan16.csv.dvc
-│   │   │   ├── attendance_original_jan17.csv.dvc
-│   │   │   ├── attendance_original_jan18.csv.dvc
-│   │   │   ├── attendance_original_jan19.csv.dvc
-│   │   │   ├── attendance_original_jan20.csv.dvc
-│   │   │   ├── attendance_original_jan21.csv.dvc
-│   │   │   ├── attendance_original_jan22.csv.dvc
-│   │   │   ├── attendance_original_jan23.csv.dvc
-│   │   │   ├── attendance_original_may15.csv.dvc
-│   │   │   ├── attendance_original_may16.csv.dvc
-│   │   │   ├── attendance_original_may17.csv.dvc
-│   │   │   ├── attendance_original_may18.csv.dvc
-│   │   │   ├── attendance_original_may19.csv.dvc
-│   │   │   ├── attendance_original_may21.csv.dvc
-│   │   │   ├── attendance_original_may22.csv.dvc
-│   │   │   ├── attendance_original_oct14.csv.dvc
-│   │   │   ├── attendance_original_oct15.csv.dvc
-│   │   │   ├── attendance_original_oct16.csv.dvc
-│   │   │   ├── attendance_original_oct17.csv.dvc
-│   │   │   ├── attendance_original_oct18.csv.dvc
-│   │   │   ├── attendance_original_oct19.csv.dvc
-│   │   │   ├── attendance_original_oct20.csv.dvc
-│   │   │   ├── attendance_original_oct21.csv.dvc
 │   │   ├── ccis_original_csv
 │   │   │   ├── .gitignore
-│   │   │   ├── ccis_original_mar16.csv.dvc
-│   │   │   ├── ccis_original_mar17.csv.dvc
-│   │   │   ├── ccis_original_mar18.csv.dvc
-│   │   │   ├── ccis_original_mar19.csv.dvc
-│   │   │   ├── ccis_original_mar20.csv.dvc
-│   │   │   ├── ccis_original_mar21.csv.dvc
-│   │   │   ├── ccis_original_mar22.csv.dvc
 │   │   ├── census_original_csv
 │   │   │   ├── .gitignore
-│   │   │   ├── census_original_jan17.csv.dvc
-│   │   │   ├── census_original_jan18.csv.dvc
-│   │   │   ├── census_original_jan19.csv.dvc
-│   │   │   ├── census_original_jan20.csv.dvc
-│   │   │   ├── census_original_jan21.csv.dvc
-│   │   │   ├── census_original_jan22.csv.dvc
 │   │   ├── ks4_original_csv
 │   │   │   ├── .gitignore
-│   │   │   ├── ks4_original_sep15.csv.dvc
-│   │   │   ├── ks4_original_sep17.csv.dvc
-│   │   │   ├── ks4_original_sep18.csv.dvc
-│   │   │   ├── ks4_original_sep19.csv.dvc
-│   │   │   ├── ks4_original_sep20.csv.dvc
 │   │   ├── .gitignore
 |   └── .gitignore
 ├── logs
