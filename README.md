@@ -34,18 +34,36 @@ In addition, we want to allow data on *characteristics* and *ks2*. This has not 
 This part will change slightly depending on what operating system you are using.
 
 @Vanshika - please rewrite directions in backtick bash block (see below)
+
 ## Windows
 
 1. Ensure you have an updated python installed on your machine. You can install it through the [Microsoft Store](https://www.microsoft.com/store/productId/9PJPW5LDXLZ5). As of writing this, the most up to date version was python 3.10.
 2. Ensure you have git installed. You can get an installer [here](https://git-scm.com/download/win).
-3. Open a powershell as administrator
-4. Navigate to the desired parent directory using the `cd` (change directory) command. You can run `ls` to see the contents of a directory.
-5. Run `git clone https://github.com/DSSGxUK/s22_buckinghamshire.git`. This will download the code repository to the current folder.
-6. Run `cd s22_buckinghamshire` to navigate to the repository folder.
-7. Create a python virtual environment by calling `python -m venv venv`. 
-8. Run the virtual environment by calling `.\venv\Scripts\activate`. If you get an error that says ```... s22_buckinghamshire\venv\Scripts\Activate.ps1 cannot be loaded because running scripts is disabled on this system. For more information, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170```, then we need to enable execution of signed scripts. We can do this by running `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`.
-9. Update pip if necessary `python.exe -m pip install --upgrade pip`.
-10. Install required python packages `pip install -r .\requirements.txt`.
+3. Open a powershell as administrator and run the below steps:
+>
+```bash
+> cd                                                                  # Navigate to the desired parent directory using this (change directory) command. 
+
+> ls                                                                  # You can run this command to see the contents of a directory 
+
+> git clone https://github.com/DSSGxUK/s22_buckinghamshire.git        # This will download the code repository to the current folder
+
+> cd s22_buckinghamshire                                              # This navigates to the repository folder
+
+> python -m venv venv                                                 # Creating a python virtual environment
+
+> .\venv\Scripts\activate                                             # Running the virtual environment. 
+                                                                      # If you get an error that says '... s22_buckinghamshire\venv\Scripts\Activate.ps1'
+                                                                      # cannot be loaded because running scripts is disabled on this system. For more information,
+                                                                      # see about_Execution_Policies at 'https:/go.microsoft.com/fwlink/?LinkID=135170',
+                                                                      # then we need to enable execution of signed scripts. 
+                                                                      # We can do this by running 'Set-ExecutionPolicy RemoteSigned -Scope CurrentUser'.
+                                                              
+> python.exe -m pip install --upgrade pip                             # Update pip if necessary
+
+> pip install -r .\requirements.txt                                   # Install required python packages
+
+```
 
 # How to run different workflows
 
@@ -75,35 +93,49 @@ dvc repro
 Alternatively, you could run the individual steps:
 
 ```bash
-# Generate datasets for modelling
-dvc repro -s --glob generate_modeling_*
-#Run cross validation and hyper parameter search 
-dvc repro -s --glob cv_*
-# Model Evaluation 
-dvc repro -s --glob evaluate_model_* 
-# Generate datasets for predictions and final output 
-dvc repro -s --glob prediction_* 
+  # Generate datasets for modelling
+  dvc repro -s --glob generate_modeling_*
+
+  #Run cross validation and hyper parameter search 
+  dvc repro -s --glob cv_*
+
+  # Model Evaluation 
+  dvc repro -s --glob evaluate_model_* 
+
+  # Generate datasets for predictions and final output 
+  dvc repro -s --glob prediction_* 
 ```
     
   ## Run the prediction using a model trained on older data
     
-  ### Generate datasets for modelling 
-    dvc repro -s --glob generate_modeling_* 
-  ### Model Evaluation 
-    dvc repro -s --glob evaluate_model_*
-  ### Generate datasets for predictions and final output
+  ```bash
+    # Generate datasets for modelling
+    dvc repro -s --glob generate_modeling_*          
+    
+    # Model Evaluation 
+    dvc repro -s --glob evaluate_model_*                        
+    
+    # Generate datasets for predictions and final output
     dvc repro --glob prediction_* 
+   
+  ```
     
   ## Run the old model with new data
     
-  ### Generate datasets for modelling 
-    dvc repro --glob generate_modeling_* 
-  ### Retrain model 
+  ```bash
+    # Generate datasets for modelling
+    dvc repro -s --glob generate_modeling_*          
+    
+    # Retrain model 
     dvc repro --glob retrain_*
-  ### Model Evaluation 
-    dvc repro --glob evaluate_model_*
-  ### Generate datasets for predictions and final output
-    dvc repro --glob prediction_*
+    
+    # Model Evaluation 
+    dvc repro -s --glob evaluate_model_*                        
+    
+    # Generate datasets for predictions and final output
+    dvc repro --glob prediction_* 
+   
+  ```
 
 @Vanshika - we need directions on how to rerun the hyperparameter search from a checkpoint. To do this, the user has to change the LOAD_CHECKPOINTS value in the params.yaml file to true. When they rerun the pipeline with new data, they should set this to false otherwise it will use an old checkpoint for new data.
     
