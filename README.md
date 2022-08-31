@@ -1,3 +1,5 @@
+# Predicting students at risk of becoming NEET (Not in Education, Employment or Training)
+
 Welcome to the code repository for the project conducted under **Data Science for Social Good- UK 2022 (DSSGx UK)**, for our partner: **Buckinghamshire Council**. The repository will focus on documenting:
 
 1.	Folder structure 
@@ -96,7 +98,7 @@ Alternatively, you could run the individual steps:
   # Generate datasets for modelling
   dvc repro -s --glob generate_modeling_*
 
-  #Run cross validation and hyper parameter search 
+  # Run cross validation and hyper parameter search 
   dvc repro -s --glob cv_*
 
   # Model Evaluation 
@@ -136,6 +138,34 @@ Alternatively, you could run the individual steps:
     dvc repro --glob prediction_* 
    
   ```
+
+Below is a brief overview of what each stage within a workflow is doing:
+
+**Generate datasets for modelling**
+  - Merges each dataset (eg: Census, Attendance,etc) across all the years 
+  - Split categorical variables into binary columns containing 0's or 1's 
+  - Drop columns which aren't required for modelling or for which we won't have data available before Year 11
+  - Output two datasets ready for modelling: 
+    - Only unique students (UPNs)
+    - A student having multiple observations
+    
+**Run cross validation and hyper parameter search**
+  - Searches for the best model parameters. Please note you can opt out of running this step if you want. 
+  
+**Retrain Model**
+  - Re-trains the model with the new incoming data and outputs model with best performance
+  
+**Model Evaluation**
+  - Evaluates RONI tool's performance
+  - Retrains and saves model with best threshold
+  - Apply the chosen model on the test data
+  
+**Generate datasets for predictions and final output**
+  - Creates datasets required for final predictions
+  - Executes model on unseen data and generates final predictions in form of a CSV
+  - Generates feature importance
+  - Returns RONI score
+  - Returns scaled probability scores for a student at risk of becoming NEET (between 1-10)
 
 @Vanshika - we need directions on how to rerun the hyperparameter search from a checkpoint. To do this, the user has to change the LOAD_CHECKPOINTS value in the params.yaml file to true. When they rerun the pipeline with new data, they should set this to false otherwise it will use an old checkpoint for new data.
     
