@@ -216,9 +216,9 @@ if __name__ == "__main__":
     new_lower_bound = 0
     threshold = pipeline.threshold
 
-    output_predictions["prob_scaling"] = d.empty_series(len(output_predictions), index=output_predictions.index)
+    output_predictions["neet_scanr"] = d.empty_series(len(output_predictions), index=output_predictions.index)
     # For the neets rescale their scores to fit in between new_threshold and new_upper_bound
-    output_predictions.loc[output_predictions["predictions"] == 1, "prob_scaling"] = rescale_range(
+    output_predictions.loc[output_predictions["predictions"] == 1, "neet_scanr"] = rescale_range(
         output_predictions.loc[output_predictions["predictions"] == 1, "probabilities"],
         old_low=threshold,
         old_high=upper_bound,
@@ -226,7 +226,7 @@ if __name__ == "__main__":
         new_high=new_upper_bound
     )
     # For the eets rescale their scores to fit in between new_lower_bound and new_threshold
-    output_predictions.loc[output_predictions["predictions"] == 0, "prob_scaling"] = rescale_range(
+    output_predictions.loc[output_predictions["predictions"] == 0, "neet_scanr"] = rescale_range(
         output_predictions.loc[output_predictions["predictions"] == 0, "probabilities"],
         old_low=lower_bound,
         old_high=threshold,
@@ -275,7 +275,7 @@ if __name__ == "__main__":
     final_output = mu.merge_priority_data(final_output, latest_data, how="left", on=UPN, unknown_vals=UNKNOWN_CODES, na_vals=NA_VALS)
 
     # att <85%
-    final_output["att_below_85%"] = roni_df["roni_att_below_85"]
+    final_output["att_less_than_85"] = roni_df["roni_att_below_85"]
     # level of need column
     final_output["level_of_need"] = d.empty_series(len(final_output), index=final_output.index)
     final_output.loc[final_output[d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "1")] == 1, "level_of_need"] = "intensive support"
@@ -287,6 +287,13 @@ if __name__ == "__main__":
         == 1,
         "level_of_need",
     ] = "minimum intervention"
+    # send_flag column
+    final_output["send_flag"] = d.empty_series(len(final_output), index=final_output.index)    
+    final_output.loc[(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "0")]==0)&(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "1")]==0), "send_flag"] = pd.NA
+    final_output.loc[(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "0")]==0)&(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "1")]==1), "send_flag"] = 1
+    final_output.loc[(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "0")]==1)&(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "1")]==0), "send_flag"] = 0
+    
+
 
     logger.info(f"Adding data back in from previous datasets")
     # here can load data for adding back in previous data.
@@ -304,8 +311,24 @@ if __name__ == "__main__":
         logger=logger,
     )
     pre_model_df.set_index(UPN, inplace=True, drop=True)
+    
+    # adding extra columns for power bi
+    # add student_name column
+    pre_model_df["student_name"] = pre_model_df["forename"].astype("string")+" "+pre_model_df["preferred_surname"].astype("string")
+    # school name
+    pre_model_df["school_name"] = pre_model_df["establishment_name"]
+    # sch_yr
+    pre_model_df["sch_yr"] = pre_model_df["nc_year_actual"]
+    #roni_score to neet_roni
+    pre_model_df = pre_model_df.rename(columns={"roni_score":"neet_roni"})
+    # school postcode
+    pre_model_df["school_postcode"] = pre_model_df["establishment_postcode"]
 
+    #merge additional data to final output
     final_output = mu.merge_priority_data(final_output, pre_model_df, how="left", on=UPN, unknown_vals=UNKNOWN_CODES, na_vals=NA_VALS)
+    #edit excluded_authorised column names
+    final_output = final_output.rename(columns={"excluded_authorised":"excluded_authorised_percent1"})
+    final_output = final_output.rename(columns={"excluded_authorised_exact":"excluded_authorised"})
 
     csv_fp = f.tmp_path(PREDICTIONS_CSV_FP, debug=args.debug)
     logger.info(f"Saving predictions to {csv_fp}")
