@@ -69,12 +69,12 @@ s22_buckinghamshire
 │   ├──lgbm2_single.csv         # Gets created when you run the hyperparam search
 ├── models
 │   ├── final                           # final model for prediction
-│   │   ├── model_single.pkl            # Gets created when you 
+│   │   ├── model_single.pkl            # Gets created when you retrain the model
 │   └── interim
 ├── notebooks                           
 │   ├── convert_synthetic.ipynb                                         
 │   └── view_csv.ipynb
-├── plots                              #stores different plots and charts
+├── plots                              # stores different plots and charts
 │   ├──attendance_percent_box_plot.png
 │   ├──common_neet_traces.png
 │   ├──consequent_antecedent.png
