@@ -20,7 +20,7 @@ s22_buckinghamshire
 │   ├── upn-different-activity-codes.md            
 │   ├── upns_with_questions.md                                           
 ├── data		                                 
-│   └── interim	                             #stores canonicalised csv files
+│   └── interim	                             #stores canonicalised, merged, premerge, annotated csv files
 │   │   ├── attendance_canonicalized_csv
 │   │   │   ├── .gitignore
 │   │   ├── ccis_canonicalized_csv
@@ -186,6 +186,11 @@ s22_buckinghamshire
 ```
 
 # Brief Folder Description
+
+  `data :` This folder contains two sub-folders : `interim` and `raw`. The original dataset files fo reach dataset are stored in the `raw` sub-folder. For ex. `attendance_original_csv` sub-folder in here will contain the original csv files for attendance datasets. These original files will go through the data pipeline and will generate different files which will be canonicalized(means with standardised formatting), merged, pre-merged, and annotated, which will be stored in `interim` sub-folder.
+  
+  
+  
 
 
 
