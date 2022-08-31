@@ -61,18 +61,29 @@ from dataclasses import asdict, dataclass
 from .shared_constants import *
 from .school_info_constants import *
 
-
 @dataclass
 class _CharacteristicsOriginalColumns:
     upn: str = UPN
-    ethnicity: str = "ethnicity"
+    ethnicity: str = ETHNICITY
+    address_line1: str = "address_line1"
+    address_line2: str = "address_line2"
+    address_line3: str = "address_line3"
+    address_line4: str = "address_line4"
+    family_name: str = "family_name"
+    given_name: str = "given_name"
+    middle_name: str = "middle_name"
     gender: str = "gender"
+    la_establishment_number: str = SchoolInfoColumns.la_establishment_number
     sen_support_flag: str = "sen_support_flag"
     send_flag: str = "send_flag"
-    birth_month: str = "birth_month"
     characteristic_code: str = "characteristic_code"
     level_of_need_code: str = "level_of_need_code"
-    birth_year: str = "birth_year"
+    date_of_birth: str = "date_of_birth"
+    month_year_of_birth: str = "month_year_of_birth"
+    postcode: str = "postcode"
+    town: str = "town"
+    county: str = "county"
+    
 
 
 CharacteristicsOriginalColumns = _CharacteristicsOriginalColumns()
@@ -80,9 +91,13 @@ CharacteristicsOriginalColumns = _CharacteristicsOriginalColumns()
 
 @dataclass
 class _CharacteristicsAddedColumns:
+    data_date: str = DATA_DATE
+    
     has_characteristics_data: str = "has_characteristics_data"
     age: str = AGE
     year: str = YEAR
+    birth_year: str = "birth_year"
+    birth_month: str = "birth_month"
 
 
 CharacteristicsAddedColumns = _CharacteristicsAddedColumns()
@@ -101,19 +116,12 @@ CharacteristicsDataColumns = _CharacteristicsDataColumns()
 @dataclass
 class _CCISOriginalDataColumns(_CharacteristicsOriginalColumns):
     activity_code: str = "activity_code"
-    address_line1: str = "address_line1"
-    address_line2: str = "address_line2"
-    address_line3: str = "address_line3"
-    address_line4: str = "address_line4"
-    characteristic_code: str = "characteristic_code"
     cohort_status: str = "cohort_status"
-    county: str = "county"
     currency_lapsed: str = "currency_lapsed"
     database_id: str = "database_id"
     date_ascertained: str = "date_ascertained"
     date_of_send: str = "date_of_send"
     date_verified: str = "date_verified"
-    date_of_birth: str = "date_of_birth"
     due_to_lapse_date: str = "due_to_lapse_date"
     educated_lea: str = "educated_lea"
     establishment_name: str = SchoolInfoColumns.establishment_name

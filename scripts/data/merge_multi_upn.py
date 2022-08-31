@@ -186,8 +186,7 @@ if __name__ == "__main__":
         )
     else:
         ks2_df = pd.DataFrame(
-            columns=list(asdict(KS2Columns).values())
-            + list(asdict(PupilDeprivationColumns).values())
+            columns=list(asdict(KS2Columns).values() | asdict(PupilDeprivationColumns).values())
         )
 
     neet_df = d.load_csv(
