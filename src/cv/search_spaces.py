@@ -337,7 +337,7 @@ LGBM1 = lambda: (
         "estimator__imputation": Categorical([None]),
         "estimator__scaler": Categorical([StandardScaler(), None]),
     },
-    4,
+    50,
 )
 LGBM2 = lambda: (
     {
@@ -360,7 +360,7 @@ LGBM2 = lambda: (
         "estimator__imputation": Categorical([None]),
         "estimator__scaler": Categorical([StandardScaler(), None]),
     },
-    4,
+    50,
 )
 
 LGBM3 = lambda: (
