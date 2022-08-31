@@ -1,0 +1,6 @@
+Estab,UPN,Surname,Forename,Middlenames,PreferredSurname,FormerSurname,Gender,DoB,EnrolStatus,EntryDate,NCyearActual,Ethnicity,Language,SENprovision,SENneed1,SENneed2,SENunitIndicator,ResourcedProvisionIndicator,UniqueLearnerNumber,Postcode,SAON,PAON,Street,Locality,Town,AdministrativeArea,AddressLine1,AddressLine2,AddressLine3,AddressLine4,AddressLine5,NativeID,FSME on Census Day,Age
+173169,027b533d-d084-4737-b48d-644ef54e221d,,,,,,M,,C,2018-09-05 00:00:00,11,AIND,ENG,K,,SLCN,,False,,,,,,,,,,,,,,,False,15+
+188839,d3e0c63f-afc8-4359-a246-c914887d11d7,,,,,,F,,C,2015-09-01 00:00:00,10,WBRI,ENG,N,,,,,,,,,,,,,,,,,,,False,15+
+142835,44ab0823-655a-4418-a61a-31c788017eef,,,,,,M,,C,2016-09-05 00:00:00,8,WBRI,ENG,N,SPLD,,,False,,,,,,,,,,,,,,,False,12+
+214996,a39f1abe-01aa-4a63-97b4-8f34552a3a9c,,,,,,F,,C,2018-09-25 00:00:00,7,APKN,URD,N,SPLD,,,,,,,,,,,,,,,,,,False,11+
+201135,ab98cbe8-a535-4510-9161-4442932eb810,,,,,,F,,C,2017-09-05 00:00:00,11,WBRI,URD,N,,,,,,,,,,,,,,,,,,,False,15+

@@ -43,6 +43,25 @@ s22_buckinghamshire
 │   │   │   ├── .gitignore
 │   │   ├── .gitignore
 |   └── .gitignore
+├── example_data		                         # Example data to check schema
+│   └───raw
+│   │   ├───secondary_schools_original.csv
+│   │   ├───attendance_original_csv
+│   │   │   ├── attendance_original_jan15.csv
+│   │   │   ├── attendance_original_jan22.csv
+│   │   │   ├── attendance_original_may15.csv
+│   │   │   ├── attendance_original_may22.csv
+│   │   │   ├── attendance_original_oct15.csv
+│   │   │   └── attendance_original_oct21.csv
+│   │   ├───ccis_original_csv
+│   │   │   ├── ccis_original_mar16.csv
+│   │   │   └── ccis_original_mar22.csv
+│   │   ├───census_original_csv
+│   │   │   ├── census_original_jan17.csv
+│   │   │   └── census_original_jan22.csv
+│   │   ├───ks4_original_csv
+│   │   │   ├── ks4_original_sep15.csv
+│   │   │   └── ks4_original_sep20.csv
 ├── logs
 │   └── .gitignore
 ├── metrics                     # contains metrics and results related values
@@ -301,7 +320,7 @@ dvc pull -r origin
 
 If you are a council with your own data, these datasets will need to be saved in the `data/raw` directory as csv files in the correct formats with the correct column names. 
 
-@to be done: We have examples of what this should look like here...
+For an example of what the schema of the datasets and folder structure should look like, we've kept snippets of synthetic data for you to compare against in the `example_data/raw` folder.
 
 Within the `data/raw` directory are 4 folders that correspond to the different datasets listed above under *Assumptions*: 
 - `attendance_original_csv`
