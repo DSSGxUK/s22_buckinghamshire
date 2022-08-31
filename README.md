@@ -439,16 +439,17 @@ These files can be found in the `results/` directory after running the pipeline.
 
 ## Expected data schema for Power BI dashboard:
 
-The datasets to be loaded into the power BI dahsboard after running the pipeline are found here:
+The datasets to be loaded into the Power BI dahsboard after running the pipeline are found here:
 - `results/predictions.csv` 
 - `results/unknown_predictions.csv`
 - `results/unidentified_students_single.csv`
 - `data/interim/neet_annotated.csv`
 - `data/interim/census_annotated.csv`
+- `data/interim/attendance_exact.csv`
 
 The first two contain predictions for current school students in Years 7-10 and for current unknown students, respectively.
 The third contains unidentified current school students for which predictions could not be generated due to too much missing data.
-The final two files contain neet and census data from previous years of students. These two datasets are for a separate page of the power bi dashboard that looks at certain factor trends over the years.    
+The final three files contain neet, census and attendance data from previous years of students. These three datasets are for a separate page of the power bi dashboard that looks at certain factor trends over the years.    
 
 The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given):
 1. Att<85% 
