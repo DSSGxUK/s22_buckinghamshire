@@ -166,8 +166,6 @@ if __name__ == "__main__":
         for k, v in best_model.to_dict().items()
         if k.startswith("estimator")
     }
-    params.pop("estimator")
-    params.pop("estimator__steps")
 
     # get hyperparams for each pipeline step
     oversamp_params = best_model.loc[

@@ -525,6 +525,7 @@ stages:
       - ../src/file_utils.py
       - ../src/log_utils.py
       - ../src/data_utils.py
+      - ../src/cv
     outs:
       - ${LGBM1_METRICS_SINGLE}:
           cache: false
@@ -538,6 +539,7 @@ stages:
       - ../src/file_utils.py
       - ../src/log_utils.py
       - ../src/data_utils.py
+      - ../src/cv
     outs:
       - ${LGBM2_METRICS_SINGLE}:
           cache: false
@@ -548,10 +550,12 @@ stages:
     deps:
       - ${SINGLE_TRAIN_FP}
       - ${LGBM1_METRICS_SINGLE}
+      - ${LGBM2_METRICS_SINGLE}
       - model/retrain.py
       - ../src/file_utils.py
       - ../src/log_utils.py
       - ../src/data_utils.py
+      - ../src/cv
     params:
       - TARGET
     outs:
@@ -570,6 +574,7 @@ stages:
       - ../src/file_utils.py
       - ../src/log_utils.py
       - ../src/data_utils.py
+      - ../src/cv
     params:
       - TARGET
     outs:
@@ -590,6 +595,7 @@ stages:
       - ../src/log_utils.py
       - ../src/data_utils.py
       - ../src/merge_utils.py
+      - ../src/cv
     outs:
       - ${PREDICTIONS_CSV_FP_SINGLE}
 
@@ -605,6 +611,7 @@ stages:
       - ../src/log_utils.py
       - ../src/data_utils.py
       - ../src/merge_utils.py
+      - ../src/cv
     outs:
       - ${UNKNOWN_PREDICTIONS_CSV_FP_SINGLE}
       

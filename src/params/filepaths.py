@@ -112,8 +112,8 @@ RONI_TEST_RESULTS = os.path.join(METRICS_DIR, "roni_test_results.csv")
 LGBM1_METRICS_MULTI = os.path.join(METRICS_DIR, "lgbm1_multi.csv")
 LGBM1_METRICS_SINGLE = os.path.join(METRICS_DIR, "lgbm1_single.csv")
 LGBM2_METRICS_SINGLE = os.path.join(METRICS_DIR, "lgbm2_single.csv")
-LGBM1_SINGLE_CHECKPOINT_FP = os.path.join(INTERIM_MODELS_DIR, "lgbm1_checkpoint_single.pkl")
-LGBM2_SINGLE_CHECKPOINT_FP = os.path.join(INTERIM_MODELS_DIR, "lgbm2_checkpoint_single.pkl")
+LGBM1_SINGLE_CHECKPOINT_FP = os.path.join(INTERIM_MODELS_DIR, "lgbm1_single.pkl")
+LGBM2_SINGLE_CHECKPOINT_FP = os.path.join(INTERIM_MODELS_DIR, "lgbm2_single.pkl")
 
 
 MODEL_BEST_THRESH_MULTI = os.path.join(

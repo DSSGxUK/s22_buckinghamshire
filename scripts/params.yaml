@@ -342,9 +342,9 @@ KS4_DATA_CSV_FPS:
 KS4_MERGED_FP: ../data\interim\ks4_merged.csv
 LGBM1_METRICS_MULTI: ../metrics\lgbm1_multi.csv
 LGBM1_METRICS_SINGLE: ../metrics\lgbm1_single.csv
-LGBM1_SINGLE_CHECKPOINT_FP: ../models\interim\lgbm1_checkpoint_single.pkl
+LGBM1_SINGLE_CHECKPOINT_FP: ../models\interim\lgbm1_single.pkl
 LGBM2_METRICS_SINGLE: ../metrics\lgbm2_single.csv
-LGBM2_SINGLE_CHECKPOINT_FP: ../models\interim\lgbm2_checkpoint_single.pkl
+LGBM2_SINGLE_CHECKPOINT_FP: ../models\interim\lgbm2_single.pkl
 LOAD_CHECKPOINTS: false
 LOGS_DIR: ../logs
 MERGE_ATTENDANCE_DATA_ARGS:

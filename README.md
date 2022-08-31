@@ -63,14 +63,11 @@ s22_buckinghamshire
 │   ├── final                           #final model for prediction
 │   │   ├── model_single.pkl
 │   └── interim
-│   │   ├──lgbm1_single.pkl
-│   │   ├──model_best_thresh_single.pkl
-│   │   ├──model_mean_thresh_single.pkl
 ├── notebooks                           
 │   ├── convert_synthetic.ipynb                                         
 │   └── view_csv.ipynb
 ├── plots                              #stores different plots and charts
-│   ├── attendance_percent_box_plot.png
+│   ├──attendance_percent_box_plot.png
 │   ├──common_neet_traces.png
 │   ├──consequent_antecedent.png
 │   ├──lgb1_feature_importance.png
@@ -191,7 +188,7 @@ s22_buckinghamshire
   
 `metrics` : This folder contains outputs from the hyperparameter search, roni tool performance results and our model performance results on the test dataset.
 
-`models` : This folder contains pickle files of the models. There are two sub-folders: `interim` and `final`. There are two key models in the `interim` folder (`model_best_thresh_single.pkl` and `model_mean_thresh_single.pkl`) that are used with the test dataset to decide on the final model which is then saved in the `models/final` folder.
+`models` : This folder contains pickle files of the models. There are two sub-folders: `interim` and `final`. `interim` holds the checkpoints. You can find more details about these in the [Reloading the hyperparameter search from a checkpoint](#reloading-the-hyperparameter-search-from-a-checkpoint) section. The final, retrained best model can be found in `models/final`. For 
 
 `results` : After running the pipeline, this folder will contain the final output CSV files: `predictions.csv`, `unknown_predictions.csv`, `unidentified_students_single.csv`, `unidentified_unknowns_single.csv`. These files are outlined in more detail below under *Outputs from running the pipeline*
 
@@ -278,13 +275,15 @@ Within the `data/raw` directory are 4 folders that correspond to the different d
 
 The datasets in these directories should be named `[TYPE]_original_[DATE].csv` where `[TYPE]` refers to the dataset (attendance, ccis, census, ks4) and `[DATE]` refers to the month and year of the dataset (e.g. `attendance_original_jan21.csv`). `[DATE]` should be written as the first 3 letters of the month and the last 2 digits of the year e.g. `jan21`, `sep19` 
 
+## Running the code
+
 **Please follow the below steps before running the workflows**:
   
 ```bash
 cd .\scripts\
 ```
 
-## Run the whole pipeline
+### Run the whole pipeline
 
 To run the whole pipeline you can run:
 
@@ -309,7 +308,7 @@ Alternatively, you could run the steps individually:
   dvc repro -s --glob prediction_* 
 ```
 
-  ## Output predictions on new data without re-running the hyper parameter search  
+  ### Output predictions on new data without re-running the hyper parameter search  
   
   Following these steps re-trains the model with new data using the previous best hyper parameters.
     
@@ -351,6 +350,24 @@ Below is a brief overview of what each stage within a workflow is doing:
   - Generates feature importance
   - Returns RONI score
   - Returns scaled probability scores for a student at risk of becoming NEET (between 1-10)
+
+### Reloading the hyperparameter search from a checkpoint
+
+Because the hyperparameter search takes a long time, we have built support for checkpoint progress. If for some reason the run does not complete, you can pick it up from where it left off rather than restarting it. To do this you will need to complete the following steps:
+1. Open `src/params/model_pipeline_params.py`.
+2. Find the variable `LOAD_CHECKPOINTS`. Change its value to `True`.
+3. From the `scripts` folder (you may already be there if you were running the pipeline), run `python generate_params.py`. This will register the change in parameters for the pipeline.
+4. Rerun the cross validation search with `dvc repro -s --glob cv_*`.
+
+Please make sure to reset `LOAD_CHECKPOINTS` to `False` (and rerun `python generate_params.py`) when you want to research for hyperparameter with new data. Otherwise the search will use the old checkpoint and not rerun.
+
+### Changing any other parameters
+
+If you feel comfortable with diving into the code and wish to change additional parameters, you need to do the following:
+1. Change the parameters in any of the python files in `src/params`.
+2. Rerun `python generate_params.py` from the `scripts` folder.
+
+If you do not complete step (2) the pipeline will not register your changes.
 
 ## Outputs from running the pipeline
 
