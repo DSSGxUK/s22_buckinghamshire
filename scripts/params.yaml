@@ -537,6 +537,7 @@ NUM_THRESHOLDS: null
 OPTIMIZATION_AND_CV_LGBM1_ARGS:
   checkpoint: true
   input: ../data\processed\train_singleUPN.csv
+  load_checkpoint: false
   log_results: true
   num_folds: 4
   num_thresholds: 100
@@ -547,6 +548,7 @@ OPTIMIZATION_AND_CV_LGBM1_ARGS:
 OPTIMIZATION_AND_CV_LGBM2_ARGS:
   checkpoint: true
   input: ../data\processed\train_singleUPN.csv
+  load_checkpoint: false
   log_results: true
   num_folds: 4
   num_thresholds: 100

@@ -248,6 +248,8 @@ This part will change slightly depending on what operating system you are using.
 
 > python.exe -m pip install -r .\requirements.txt                     # Install required python packages
 
+> dvc config --system core.analytics false                            # Turn off DVC anonymized analytics
+
 ```
 
 ## Mac or Linux
@@ -278,6 +280,7 @@ This part will change slightly depending on what operating system you are using.
 
 > pip install -r .\requirements.txt                                   # Install required python packages
 
+> dvc config --system core.analytics false                            # Turn off DVC anonymized analytics
 ```
 
 # How to run different workflows
@@ -286,8 +289,9 @@ This part will change slightly depending on what operating system you are using.
 
 ### Downloading the synthetic data
 
-We've published synthetic data (data that does not come from any real person) to dagshub so 
-you can play around with the pipeline. To retrieve it, please run the following:
+We've published synthetic data to dagshub so you can play around with the pipeline. This data is randomly generated and any unique IDs are random strings.
+
+ To retrieve it, please run the following
 ```bash
 dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc
 dvc pull -r origin

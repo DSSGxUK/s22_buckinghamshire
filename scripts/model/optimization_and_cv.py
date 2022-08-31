@@ -221,7 +221,8 @@ if __name__ == "__main__":
 
     checkpoint_path = f.get_checkpoint_filepath(args.space,  "single" if args.single else "multi")
     if args.load_checkpoint and os.path.exists(checkpoint_path):
-        res = skopt.load(args.load_checkpoint)
+        logger.info(f"Loading checkpoint from {checkpoint_path}")
+        res = skopt.load(checkpoint_path)
         x0 = cv.fix_checkpoint_x_iters(res.x_iters, search_space)
         y0 = res.func_vals
         n_iter = n_iter - len(x0)
