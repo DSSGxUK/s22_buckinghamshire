@@ -2,7 +2,13 @@
 This file contains the filepaths of all the raw, interim and processed datasets that are used in the data pipeline as well as filepaths of csv outputs from the model
 """
 
+from glob import glob
 import os
+
+def _read_savedate(fp):
+    basename = os.path.basename(fp)
+    filename = os.path.splitext(basename)[0]
+    return filename.split("_")[-1]
 
 DATA_DIR = "../data"
 RAW_DATA_DIR = os.path.join(DATA_DIR, "raw")
@@ -180,54 +186,13 @@ MULTI_UNIDENTIFIED_UNKS_FP = os.path.join(
 ADDITIONAL_DATA_FP = os.path.join(PROCESSED_DATA_DIR, "additional_data.csv")
 
 # School data Paths
-SCHOOL_INFO_XL_FP = os.path.join(RAW_DATA_DIR, "Bucks_Secondary_School_2022.xlsx")
-SCHOOL_INFO_CSV_FP = os.path.join(RAW_DATA_DIR, "Bucks_Secondary_School_2022.csv")
+SCHOOL_INFO_CSV_FP = os.path.join(RAW_DATA_DIR, "secondary_schools_original.csv")
 SCHOOL_INFO_CANONICALIZED_CSV_FP = os.path.join(INTERIM_DIR, "secondary_schools.csv")
 
 # School Census Paths
-SCHOOL_CENSUS_XL_DIR = os.path.join(RAW_DATA_DIR, "census_original_xl")
-SCHOOL_CENSUS_XL_FPS = {
-
-    "jan17": os.path.join(
-        SCHOOL_CENSUS_XL_DIR, "school_census_context_Jan17_Hard_Coded.xlsx"
-    ),
-    "jan18": os.path.join(
-        SCHOOL_CENSUS_XL_DIR, "school_census_context_Jan18_Hard_Coded.xlsx"
-    ),
-    "jan19": os.path.join(
-        SCHOOL_CENSUS_XL_DIR, "school_census_context_Jan19_Hard_Coded.xlsx"
-    ),
-    "jan20": os.path.join(
-        SCHOOL_CENSUS_XL_DIR, "school_census_context_Jan20_Hard_Coded.xlsx"
-    ),
-    "jan21": os.path.join(
-        SCHOOL_CENSUS_XL_DIR, "school_census_context_Jan21_Hard_Coded.xlsx"
-    ),
-    "jan22": os.path.join(
-        SCHOOL_CENSUS_XL_DIR, "school_census_context_Jan22_Hard_Coded.xlsx"
-    ),
-}
 SCHOOL_CENSUS_CSV_DIR = os.path.join(RAW_DATA_DIR, "census_original_csv")
 SCHOOL_CENSUS_CSV_FPS = {
-    "jan17": os.path.join(
-        SCHOOL_CENSUS_CSV_DIR, "school_census_context_Jan17_Hard_Coded.csv"
-    ),
-    "jan18": os.path.join(
-        SCHOOL_CENSUS_CSV_DIR, "school_census_context_Jan18_Hard_Coded.csv"
-    ),
-    "jan19": os.path.join(
-        SCHOOL_CENSUS_CSV_DIR, "school_census_context_Jan19_Hard_Coded.csv"
-    ),
-    "jan20": os.path.join(
-        SCHOOL_CENSUS_CSV_DIR, "school_census_context_Jan20_Hard_Coded.csv"
-    ),
-    "jan21": os.path.join(
-        SCHOOL_CENSUS_CSV_DIR, "school_census_context_Jan21_Hard_Coded.csv"
-    ),
-    "jan22": os.path.join(
-        SCHOOL_CENSUS_CSV_DIR, "school_census_context_Jan22_Hard_Coded.csv"
-    ),
-
+    _read_savedate(fp): fp for fp in glob(os.path.join(SCHOOL_CENSUS_CSV_DIR, "*.csv"))
 }
 
 SCHOOL_CENSUS_CANONICALIZED_CSV_DIR = os.path.join(
@@ -244,61 +209,9 @@ SCHOOL_CENSUS_ANNOTATED_CSV_FP = os.path.join(INTERIM_DIR, "census_annotated.csv
 SCHOOL_CENSUS_PREMERGE_CSV_FP = os.path.join(INTERIM_DIR, "census_premerge.csv")
 
 # Attendance filepaths
-ATTENDANCE_XL_DIR = os.path.join(RAW_DATA_DIR, "attendance_original_xl")
-ATTENDANCE_DATA_XL_FPS = {
-
-    "jan15": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_jan15.xlsx"),
-    "jan16": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_jan16.xlsx"),
-    "jan17": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_jan17.xlsx"),
-    "jan18": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_jan18.xlsx"),
-    "jan19": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_jan19.xlsx"),
-    "jan20": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_jan20.xlsx"),
-    "jan21": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_jan21.xlsx"),
-    "jan22": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_jan22.xlsx"),
-    "may15": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_may15.xlsx"),
-    "may16": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_may16.xlsx"),
-    "may17": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_may17.xlsx"),
-    "may18": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_may18.xlsx"),
-    "may19": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_may19.xlsx"),
-    "may21": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_may21.xlsx"),
-    "may22": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_may22.xlsx"),
-    "oct14": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_oct14.xlsx"),
-    "oct15": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_oct15.xlsx"),
-    "oct16": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_oct16.xlsx"),
-    "oct17": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_oct17.xlsx"),
-    "oct18": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_oct18.xlsx"),
-    "oct19": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_oct19.xlsx"),
-    "oct20": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_oct20.xlsx"),
-    "oct21": os.path.join(ATTENDANCE_XL_DIR, "attendance_original_oct21.xlsx"),
-
-}
-
 ATTENDANCE_CSV_DIR = os.path.join(RAW_DATA_DIR, "attendance_original_csv")
 ATTENDANCE_DATA_CSV_FPS = {
-
-    "jan15": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_jan15.csv"),
-    "jan16": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_jan16.csv"),
-    "jan17": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_jan17.csv"),
-    "jan18": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_jan18.csv"),
-    "jan19": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_jan19.csv"),
-    "jan20": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_jan20.csv"),
-    "jan21": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_jan21.csv"),
-    "jan22": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_jan22.csv"),
-    "may15": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_may15.csv"),
-    "may16": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_may16.csv"),
-    "may17": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_may17.csv"),
-    "may18": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_may18.csv"),
-    "may19": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_may19.csv"),
-    "may21": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_may21.csv"),
-    "may22": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_may22.csv"),
-    "oct14": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_oct14.csv"),
-    "oct15": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_oct15.csv"),
-    "oct16": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_oct16.csv"),
-    "oct17": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_oct17.csv"),
-    "oct18": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_oct18.csv"),
-    "oct19": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_oct19.csv"),
-    "oct20": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_oct20.csv"),
-    "oct21": os.path.join(ATTENDANCE_CSV_DIR, "attendance_original_oct21.csv"),
+    _read_savedate(fp): fp for fp in glob(os.path.join(ATTENDANCE_CSV_DIR, "*.csv"))
 }
 
 # from os import listdir
@@ -329,11 +242,7 @@ ATTENDANCE_NORMED_CSV_FP = os.path.join(INTERIM_DIR, f"attendance_normed.csv")
 # individual sheets and run it through our tool.
 KS4_CSV_DIR = os.path.join(RAW_DATA_DIR, "ks4_original_csv")
 KS4_DATA_CSV_FPS = {
-    "sep15": os.path.join(KS4_CSV_DIR, "KS4_2015_Hard_Coded.csv"),
-    "sep16": os.path.join(KS4_CSV_DIR, "KS4_2016_Hard_Coded.csv"),
-    "sep17": os.path.join(KS4_CSV_DIR, "KS4_2017_Hard_Coded.csv"),
-    "sep18": os.path.join(KS4_CSV_DIR, "KS4_2018_Hard_Coded.csv"),
-    "sep19": os.path.join(KS4_CSV_DIR, "KS4_2019_Hard_Coded.csv"),
+    _read_savedate(fp): fp for fp in glob(os.path.join(KS4_CSV_DIR, "*.csv"))
 }
 KS4_CANONICALIZED_CSV_DIR = os.path.join(INTERIM_DIR, "ks4_canonicalized_csv")
 KS4_CANONICALIZED_CSV_FPS = {
@@ -347,57 +256,10 @@ KS4_ANNOTATED_CSV_FP = os.path.join(INTERIM_DIR, f"ks4_annotated.csv")
 KS2_CSV_FP = os.path.join(INTERIM_DIR, f"ks2.csv")
 
 # NEET Files
-NEET_DATASET_XL_DIR = os.path.join(RAW_DATA_DIR, "ccis_original_xl")
-NEET_DATASET_XL_FPS = {
-
-    "mar16": os.path.join(
-        NEET_DATASET_XL_DIR, "NEET_MI_Feb16_with_YPID_to_Warwick.xlsx"
-    ),
-    "mar17": os.path.join(
-        NEET_DATASET_XL_DIR, "NEET_MI_Feb17_with_YPID_to_Warwick.xlsx"
-    ),
-    "mar18": os.path.join(
-        NEET_DATASET_XL_DIR, "NEET_MI_Feb18_with_YPID_to_Warwick.xlsx"
-    ),
-    "mar19": os.path.join(
-        NEET_DATASET_XL_DIR, "NEET_MI_Feb19_with_YPID_to_Warwick.xlsx"
-    ),
-    "mar20": os.path.join(
-        NEET_DATASET_XL_DIR, "NEET_MI_Feb20_with-YPID_to_Warwick.xlsx"
-    ),
-    "mar21": os.path.join(
-        NEET_DATASET_XL_DIR, "NEET_MI_Feb21_with_YPID_to_Warwick.xlsx"
-    ),
-    "mar22": os.path.join(
-        NEET_DATASET_XL_DIR, "NEET_MI_Feb22_with_YPID_to_Warwick.xlsx"
-    ),
-}
 NEET_DATASET_CSV_DIR = os.path.join(RAW_DATA_DIR, "ccis_original_csv")
 NEET_DATASET_CSV_FPS = {
-    "mar16": os.path.join(
-        NEET_DATASET_CSV_DIR, "NEET_MI_Feb16_with_YPID_to_Warwick.csv"
-    ),
-    "mar17": os.path.join(
-        NEET_DATASET_CSV_DIR, "NEET_MI_Feb17_with_YPID_to_Warwick.csv"
-    ),
-    "mar18": os.path.join(
-        NEET_DATASET_CSV_DIR, "NEET_MI_Feb18_with_YPID_to_Warwick.csv"
-    ),
-    "mar19": os.path.join(
-        NEET_DATASET_CSV_DIR, "NEET_MI_Feb19_with_YPID_to_Warwick.csv"
-    ),
-    "mar20": os.path.join(
-        NEET_DATASET_CSV_DIR, "NEET_MI_Feb20_with_YPID_to_Warwick.csv"
-    ),
-    "mar21": os.path.join(
-        NEET_DATASET_CSV_DIR, "NEET_MI_Feb21_with_YPID_to_Warwick.csv"
-    ),
-    "mar22": os.path.join(
-        NEET_DATASET_CSV_DIR, "NEET_MI_Feb22_with_YPID_to_Warwick.csv"
-    ),
-
+    _read_savedate(fp): fp for fp in glob(os.path.join(NEET_DATASET_CSV_DIR, "*.csv"))
 }
-
 NEET_CANONICALIZED_CSV_DIR = os.path.join(INTERIM_DIR, "ccis_canonicalized_csv")
 NEET_CANONICALIZED_CSV_FPS = {
 
