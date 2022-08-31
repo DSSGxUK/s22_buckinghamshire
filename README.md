@@ -20,7 +20,7 @@ s22_buckinghamshire
 │   ├── upn-different-activity-codes.md            
 │   ├── upns_with_questions.md                                           
 ├── data		                                 
-│   └── interim	                             #stores canonicalised, merged, premerge, annotated csv files
+│   └── interim	                             #stores canonicalised, annotated and merged csv files
 │   │   ├── attendance_canonicalized_csv
 │   │   │   ├── .gitignore
 │   │   ├── ccis_canonicalized_csv
@@ -185,14 +185,19 @@ s22_buckinghamshire
 
 ```
 
-# Brief Folder Description
+## Brief folder description
 
-  `data :` This folder contains two sub-folders : `interim` and `raw`. The original dataset files fo reach dataset are stored in the `raw` sub-folder. For ex. `attendance_original_csv` sub-folder in here will contain the original csv files for attendance datasets. These original files will go through the data pipeline and will generate different files which will be canonicalized(means with standardised formatting), merged, pre-merged, and annotated, which will be stored in `interim` sub-folder.
+`data` : This folder contains two sub-folders : `interim` and `raw`. After running the pipeline an additional `processed` folder will also be present. The original dataset files are stored in their dataset sub-folder within the `raw` folder e.g. `raw/attendance_original_csv` will contain the original csv files for attendance datasets. These original files will go through the data pipeline and will generate additional files which will be canonicalized (standardised formatting), annotated and merged across years, which will be stored in `interim` sub-folder. The `processed` subfolder will contain the final datasets ready to be used for modeling.
   
-  
-  
+`metrics` : This folder contains outputs from the hyperparameter search, roni tool performance results and our model performance results on the test dataset.
 
+`models` : This folder contains pickle files of the models. There are two sub-folders: `interim` and `final`. There are two key models in the `interim` folder (`model_best_thresh_single.pkl` and `model_mean_thresh_single.pkl`) that are used with the test dataset to decide on the final model which is then saved in the `models/final` folder.
 
+`results` : After running the pipeline, this folder will contain the final output CSV files: `predictions.csv`, `unknown_predictions.csv`, `unidentified_students_single.csv`, `unidentified_unknowns_single.csv`. These files are outlined in more detail below under *Outputs from running the pipeline*
+
+`scripts` : This folder contains the `dvc.yaml` file that outlines the different stages and steps of the pipeline. It also includes two main sub-folders: `data` and `model`. The `data` sub-folder contains python scripts that prepare interim and final datasets for modeling. The `model` sub-folder contains scripts that split the final dataset into train and test datasets, runs the cross-validation and hyperparameter search, re-trains the model, calculates roni scores and uses the trained model to generate predictions for current/unknown students.        
+
+`src` : This folder contains helper functions (found in the `*_utils.py` scripts) and also contains scripts that can set different parameters. There are three sub-folders: `constants`, `cv` and `params`. The `cv` sub-folder contains helper functions for the cross-validation and hyper-parameter search stage. It also contains dictionaries of the hyper-parameter search spaces in `search_spaces.py`. The `constants` folder contains scripts with parameters that are unlikely to need to change, whereas the `params` sub-folder contains scripts with parameters that may need/want to be changed. The `*_arguments.py` scripts in this sub-folder include the arguments that are sent to the `dvc.yaml` pipeline.    
 
 # Assumptions
 
@@ -347,7 +352,7 @@ Below is a brief overview of what each stage within a workflow is doing:
   - Returns RONI score
   - Returns scaled probability scores for a student at risk of becoming NEET (between 1-10)
 
-## Outputs from running the model
+## Outputs from running the pipeline
 
 These files can be found in the `results/` directory after running the pipeline.
 
