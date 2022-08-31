@@ -4,7 +4,6 @@ scipy
 openpyxl
 kaleido
 codetiming
-sdv
 pytest
 dvc==2.22.0
 inflection

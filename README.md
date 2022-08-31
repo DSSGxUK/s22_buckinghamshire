@@ -259,8 +259,8 @@ This part will change slightly depending on what operating system you are using.
                                                                       # microsoft.com/fwlink/?LinkID=135170',
                                                                       # then we need to enable execution of signed 
                                                                       # scripts. 
-                                                                      # We can do this by running 'Set-ExecutionPolicy 
-                                                                      # RemoteSigned -Scope CurrentUser'. You may need 
+# Set-ExecutionPolicy RemoteSigned -Scope CurrentUser                 # We can do this by running the command to the
+                                                                      # left without the #. You may need
                                                                       # administrator privelages to do this.
                                                               
 > python.exe -m pip install --upgrade pip                             # Update pip if necessary
@@ -312,7 +312,7 @@ We've published synthetic data to dagshub so you can play around with the pipeli
 
  To retrieve it, please run the following
 ```bash
-dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc
+dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc -f
 dvc pull -r origin
 ```
 
