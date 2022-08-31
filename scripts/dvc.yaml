@@ -63,6 +63,16 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${MERGE_KS4_DATA_ARGS.output}
+  prediction_merge_chars_data:
+    cmd: python data/merge_data.py ${MERGE_CHARACTERISTICS_DATA_ARGS}
+    deps:
+      - ${CHARACTERISTICS_CANONICALIZED_CSV_DIR}
+      - data/merge_data.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${MERGE_CHARACTERISTICS_DATA_ARGS.output}
   generate_modeling_annotate_census_data:
     cmd: python data/annotate_census_data.py ${ANNOTATE_CENSUS_ARGS}
     deps:
@@ -114,6 +124,19 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${ANNOTATE_KS4_ARGS.output}
+  prediction_annotate_characteristics_data:
+    cmd: python data/annotate_characteristics_data.py ${ANNOTATE_CHARACTERISTICS_ARGS}
+    deps:
+      - ${ANNOTATE_CHARACTERISTICS_ARGS.input}
+      - ${ANNOTATE_CHARACTERISTICS_ARGS.school_info}
+      - data/annotate_characteristics_data.py
+      - ../src/merge_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/ccis_utils.py
+    outs:
+      - ${ANNOTATE_CHARACTERISTICS_ARGS.output}
   generate_modeling_ccis_premerge:
     cmd: python data/neet_premerge.py ${CCIS_PREMERGE_ARGS}
     deps:
@@ -125,6 +148,17 @@ stages:
       - ../src/aggregation_utils.py
     outs:
       - ${CCIS_PREMERGE_ARGS.output}
+  prediction_characteristics_premerge:
+    cmd: python data/characteristics_premerge.py ${CHARACTERISTICS_PREMERGE_ARGS}
+    deps:
+      - ${CHARACTERISTICS_PREMERGE_ARGS.input}
+      - ${CHARACTERISTICS_PREMERGE_ARGS.ccis_premerge}
+      - data/characteristics_premerge.py
+      - ../src/data_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+    outs:
+      - ${CHARACTERISTICS_PREMERGE_ARGS.output}
   generate_modeling_attendance_exact:
     cmd: python data/attendance_premerge.py  ${ATTENDANCE_EXACT_ARGS}
     deps:
@@ -224,6 +258,7 @@ stages:
     cmd: python data/merge_multi_upn.py ${MERGE_MULTI_PREDICTION_ARGS}
     deps:
       - ${MERGE_MULTI_PREDICTION_ARGS.ccis}
+      - ${MERGE_MULTI_PREDICTION_ARGS.chars}
       - ${MERGE_MULTI_PREDICTION_ARGS.att}
       - ${MERGE_MULTI_PREDICTION_ARGS.ks2}
       - ${MERGE_MULTI_PREDICTION_ARGS.census}
@@ -233,6 +268,7 @@ stages:
       - ../src/log_utils.py
       - ../src/merge_utils.py
       - ../src/data_utils.py
+      - ../src/ccis_utils.py
     outs:
         - ${MERGE_MULTI_PREDICTION_ARGS.output}
   generate_modeling_multi_categorical_modeling:

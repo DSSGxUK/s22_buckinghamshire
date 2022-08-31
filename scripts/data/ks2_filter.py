@@ -67,9 +67,9 @@ if __name__ == "__main__":
     logger.info(f"Initial row count {len(df)}")
     logger.info(f"Initial column count {len(df.columns)}")
 
-    keep_cols = list(set(asdict(KS2Columns).values()) | set(
-        asdict(PupilDeprivationColumns).values()
-    ))
+    keep_cols = list(set(asdict(KS2Columns).values()) | 
+        set(asdict(PupilDeprivationColumns).values())
+    )
     logger.info(f"Only keeping KS2 columns {keep_cols}")
     df = df[keep_cols]
 

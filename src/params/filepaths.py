@@ -256,7 +256,21 @@ KS4_CANONICALIZED_CSV_FPS = {
 }
 KS4_MERGED_FP = os.path.join(INTERIM_DIR, "ks4_merged.csv")
 KS4_ANNOTATED_CSV_FP = os.path.join(INTERIM_DIR, f"ks4_annotated.csv")
-KS2_CSV_FP = os.path.join(INTERIM_DIR, f"ks2.csv")
+
+# KS2 Files
+KS2_CSV_DIR = os.path.join(RAW_DATA_DIR, "ks2_original_csv")
+KS2_CSV_FPS = {
+    _read_savedate(fp): fp for fp in glob(os.path.join(KS2_CSV_DIR, "*.csv"))
+}
+KS2_CANONICALIZED_CSV_DIR = os.path.join(INTERIM_DIR, "ks2_canonicalized_csv")
+KS2_CANONICALIZED_CSV_FPS = {
+    date: os.path.join(KS2_CANONICALIZED_CSV_DIR, f"ks2_{date}.csv")
+    for date in KS2_CSV_FPS.keys()
+}
+KS2_MERGED_FP = os.path.join(INTERIM_DIR, "ks2_merged.csv")
+KS2_ANNOTATED_CSV_FP = os.path.join(INTERIM_DIR, f"ks2_annotated.csv")
+
+KS2_CSV_FP = os.path.join(INTERIM_DIR, f"ks2.csv")  # This is the final ks2 that pulls from ks4 and ks2 data
 
 # NEET Files
 NEET_DATASET_CSV_DIR = os.path.join(RAW_DATA_DIR, "ccis_original_csv")
@@ -265,13 +279,26 @@ NEET_DATASET_CSV_FPS = {
 }
 NEET_CANONICALIZED_CSV_DIR = os.path.join(INTERIM_DIR, "ccis_canonicalized_csv")
 NEET_CANONICALIZED_CSV_FPS = {
-
     date: os.path.join(NEET_CANONICALIZED_CSV_DIR, f"neet_{date}.csv")
     for date in NEET_DATASET_CSV_FPS.keys()
-
 }
 NEET_MERGED_FP = os.path.join(INTERIM_DIR, "neet_merged.csv")
 NEET_ANNOTATED_CSV_FP = os.path.join(INTERIM_DIR, f"neet_annotated.csv")
 NEET_PREMERGE_CSV_FP = os.path.join(INTERIM_DIR, f"neet_premerge.csv")
+
+# Characteristics Files
+CHARACTERISTICS_CSV_DIR = os.path.join(RAW_DATA_DIR, "characteristics_original_csv")
+CHARACTERISTICS_CSV_FPS = {
+    _read_savedate(fp): fp for fp in glob(os.path.join(CHARACTERISTICS_CSV_DIR, "*.csv"))
+}
+CHARACTERISTICS_CANONICALIZED_CSV_DIR = os.path.join(INTERIM_DIR, "characteristics_canonicalized_csv")
+CHARACTERISTICS_CANONICALIZED_CSV_FPS = {
+    date: os.path.join(CHARACTERISTICS_CANONICALIZED_CSV_DIR, f"characteristics_{date}.csv")
+    for date in CHARACTERISTICS_CSV_FPS.keys()
+}
+CHARACTERISTICS_MERGED_FP = os.path.join(INTERIM_DIR, "characteristics_merged.csv")
+CHARACTERISTICS_ANNOTATED_CSV_FP = os.path.join(INTERIM_DIR, f"characteristics_annotated.csv")
+CHARACTERISTICS_PREMERGE_CSV_FP = os.path.join(INTERIM_DIR, f"characteristics_premerge.csv")
+
 
 DATA_CODES_FP = os.path.join(RAW_DATA_DIR, "data_codes.csv")

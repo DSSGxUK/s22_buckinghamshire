@@ -315,7 +315,7 @@ if __name__ == "__main__":
         att_df = att_df[att_df[YEAR] == latest_year]
         logger.info("Constructing UPNs to keep.")
         without_ccis_upns = pd.DataFrame(
-            list((set(census_df[UPN]) | set(att_df[UPN])) - set(neet_df[UPN])),
+            list((set(census_df[UPN]) | set(att_df[UPN]) | set(chars_df[UPN]) | set(ks2_df[UPN])) - set(neet_df[UPN])),
             columns=[UPN],
         )
         logger.info(f"Keeping {without_ccis_upns[UPN].nunique()} UPNs")

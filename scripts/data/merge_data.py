@@ -27,7 +27,17 @@ from datetime import datetime
 from dataclasses import asdict
 
 # DVC Params
-from src.constants import NA_VALS, DatasetTypes, DATA_DATE
+from src.constants import (
+    NA_VALS, 
+    DatasetTypes, 
+    DATA_DATE,
+    AttendanceOriginalDataColumns,
+    CCISOriginalDataColumns,
+    CharacteristicsOriginalColumns,
+    CensusDataOriginalColumns,
+    KS2OriginalColumns,
+    KS4_COLUMN_RENAME,
+)
 
 # Other code
 from src import file_utils as f
@@ -39,14 +49,14 @@ parser.add_argument("--debug", action="store_true", help="run transform in debug
 parser.add_argument(
     "--inputs",
     required=True,
-    nargs="+",
+    nargs="*",
     type=lambda x: x.strip("'"),
     help="where to find the input canonicalized data csvs",
 )
 parser.add_argument(
     "--data_dates",
     required=True,
-    nargs="+",
+    nargs="*",
     type=lambda x: x.strip("'"),
     help="The date of of the data submission in the form of [Month][Yr] (e.g. oct21 is for October 2021)",
 )
@@ -60,7 +70,7 @@ parser.add_argument(
     required=True,
     type=lambda x: x.strip("'"),
     choices=asdict(DatasetTypes).values(),
-    help="where to put the output merged attendance csv",
+    help="the type of dataset we are merging",
 )
 
 
@@ -76,14 +86,17 @@ def merged_data_validation(df):
         )
         raise e
 
+COLUMN_DICT = {
+    DatasetTypes.attendance: asdict(AttendanceOriginalDataColumns).values(),
+    DatasetTypes.census: asdict(CensusDataOriginalColumns).values(),
+    DatasetTypes.ccis: asdict(CCISOriginalDataColumns).values(),
+    DatasetTypes.ks4: set(KS4_COLUMN_RENAME.values()),
+    DatasetTypes.characteristics: asdict(CharacteristicsOriginalColumns).values(),
+    DatasetTypes.characteristics: asdict(KS2OriginalColumns).values(),
+}
 
 if __name__ == "__main__":
     args = parser.parse_args()
-
-    if args.dataset_type in [DatasetTypes.characteristics, DatasetTypes.ks2]:
-        raise NotImplementedError(
-            "We have not implemented canonicalization for dataset of characteristics or of ks2."
-        )
 
     if len(args.inputs) != len(args.data_dates):
         raise ValueError(
@@ -113,16 +126,21 @@ if __name__ == "__main__":
         logger=logger,
     )
 
-    logger.info("Adding column for data submissing date of dataset")
-    merged_df = pd.concat(
-        [
-            d.add_column(
-                df, DATA_DATE, datetime.strftime(date, "%Y-%m-%d"), inplace=True
-            )
-            for date, df in sorted(dfs.items(), key=lambda x: x[0])
-        ],
-        axis=0,
-    )
+    if len(dfs) == 0:
+        logger.warning(f"No csvs passed, using default empty dataframe for type {args.dataset_type}")
+        columns = list(set(COLUMN_DICT[args.dataset_type]) | {DATA_DATE,})
+        merged_df = pd.DataFrame(columns=columns)
+    else:
+        logger.info("Adding column for data submission date of dataset")
+        merged_df = pd.concat(
+            [
+                d.add_column(
+                    df, DATA_DATE, datetime.strftime(date, "%Y-%m-%d"), inplace=True
+                )
+                for date, df in sorted(dfs.items(), key=lambda x: x[0])
+            ],
+            axis=0,
+        )
 
     csv_fp = f.tmp_path(args.output, debug=args.debug)
 

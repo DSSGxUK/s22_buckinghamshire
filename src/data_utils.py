@@ -500,6 +500,14 @@ def is_categorical(name: str, prefix_sep=CATEGORICAL_SEP):
 def to_categorical(col: str, category: str, prefix_sep=CATEGORICAL_SEP):
     return col + prefix_sep + category
 
+def extract_categories(col_name, catcol_list, prefix_sep=CATEGORICAL_SEP):
+    categories = []
+    for catcol in catcol_list:
+        base_col, category = catcol.split(prefix_sep)[0]
+        if base_col == col_name:
+            categories.append(category)
+    return categories
+
 
 def parse_human_list(msg):
     #breakpoint()

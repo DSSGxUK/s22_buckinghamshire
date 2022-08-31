@@ -36,11 +36,7 @@ csv file
 
 """
 import pandas as pd
-import os
 import argparse
-from datetime import datetime
-import re
-from dateutil.relativedelta import relativedelta
 
 from src.constants import UNKNOWN_CODES, CCISDataColumns, NA_VALS
 
