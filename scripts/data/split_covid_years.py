@@ -124,8 +124,8 @@ if __name__ == "__main__":
 
     df = d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
         CATEGORICAL_FP,
-        drop_empty=True,
-        drop_single_valued=True,
+        drop_empty=False,
+        drop_single_valued=False,
         drop_duplicates=True,
         read_as_str=False,
         drop_missing_upns=True,

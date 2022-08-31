@@ -103,7 +103,7 @@ if __name__ == "__main__":
     # Load train dataset
     df = d.load_csv(
         args.input,
-        drop_empty=True,
+        drop_empty=False,
         drop_single_valued=False,  # Columns here will also be in test set, so don't drop them.
         drop_duplicates=True,
         read_as_str=False,

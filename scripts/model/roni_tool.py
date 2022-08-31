@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     df = d.load_csv(
         data_fp,
-        drop_empty=True,
+        drop_empty=False,
         drop_single_valued=False,
         drop_duplicates=True,
         read_as_str=False,
@@ -93,41 +93,42 @@ if __name__ == "__main__":
 
     roni_df = roni.calculate_roni_scores(df)
 
-    thresholds = range(1, max(roni_df["roni_score"]) + 1)
+    thresholds = np.arange(1, max(roni_df["roni_score"]) + 1)
     print(thresholds)
     fbetas = []
 
     fscores = []
+    labels = df[TARGET].values.astype(np.int8)
     for th in thresholds:
-        roni_df["y_pred_" + str(th)] = np.where((roni_df["roni_score"] >= th), 1, 0)
-        # breakpoint()
+        roni_df["y_pred_" + str(th)] = (roni_df["roni_score"] >= th).astype(pd.Int8Dtype())
+        predictions = roni_df["y_pred_" + str(th)].values.astype(np.int8)
 
         print("Threshold", th)
         print(
             "recall_score :",
-            recall_score(df[TARGET].astype("int64"), roni_df["y_pred_" + str(th)]),
+            recall_score(labels, predictions),
         )
         print(
             "precision_score",
-            precision_score(df[TARGET].astype("int64"), roni_df["y_pred_" + str(th)]),
+            precision_score(labels, predictions),
         )
         print(
             "f1_score",
-            f1_score(df[TARGET].astype("int64"), roni_df["y_pred_" + str(th)]),
+            f1_score(labels, predictions),
         )
         print(
             "fbeta_score",
             fbeta_score(
-                df[TARGET].astype("int64"), roni_df["y_pred_" + str(th)], beta=2
+                labels, predictions, beta=2
             ),
         )
 
         fscores.append(
-            f1_score(df[TARGET].astype("int64"), roni_df["y_pred_" + str(th)])
+            f1_score(labels, predictions)
         )
         fbetas.append(
             fbeta_score(
-                df[TARGET].astype("int64"), roni_df["y_pred_" + str(th)], beta=2
+                labels, predictions, beta=2
             )
         )
 
@@ -142,7 +143,7 @@ if __name__ == "__main__":
 
     df = d.load_csv(
         data_fp,
-        drop_empty=True,
+        drop_empty=False,
         drop_single_valued=False,
         drop_duplicates=True,
         read_as_str=False,
@@ -164,10 +165,12 @@ if __name__ == "__main__":
 
     roni_df = roni.calculate_roni_scores(df, threshold=best_threshold)
 
-    recall = recall_score(df[TARGET].astype("int64"), roni_df["roni_prediction"])
-    precision = precision_score(df[TARGET].astype("int64"), roni_df["roni_prediction"])
-    f1 = f1_score(df[TARGET].astype("int64"), roni_df["roni_prediction"])
-    fbeta = fbeta_score(df[TARGET].astype("int64"), roni_df["roni_prediction"], beta=2)
+    labels = df[TARGET].values.astype(np.int8)
+    test_predictions = roni_df["roni_prediction"].values.astype(np.int8)
+    recall = recall_score(labels, test_predictions)
+    precision = precision_score(labels, test_predictions)
+    f1 = f1_score(labels, test_predictions)
+    fbeta = fbeta_score(labels, test_predictions, beta=2)
 
     print("Threshold:", best_threshold)
     print("Test scores:")
@@ -181,8 +184,6 @@ if __name__ == "__main__":
         [np.transpose(scores)],
         columns=["threshold", "recall", "precision", "f1", "fbeta"],
     )
-
-    # breakpoint()
 
     if args.debug:
         RONI_RESULTS = f.tmp_path(args.output_test_metrics)

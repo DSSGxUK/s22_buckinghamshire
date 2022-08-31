@@ -38,6 +38,7 @@ from src import file_utils as f
 from src import log_utils as l
 from src import data_utils as d
 from src import roni
+from src import merge_utils as mu
 
 from src.constants import (
     CensusDataColumns,
@@ -47,41 +48,36 @@ from src.constants import (
     UPN,
     YEAR,
     NA_VALS,
+    UNKNOWN_CODES,
     Targets,
 )
 
 
-def scale_probs_sep_threshold(df, col, new_col, old_min, old_max, new_min, new_max):
+def rescale_range(data, old_low, old_high, new_low, new_high):
     """
     Function to scale the probabilities for the power bi dashboard.
     The probabilities above and below the threshold are scaled separately.
 
     Parameters
     -----------
-    df : pd.DataFrame
-        the input dataframe with `probabilities` from the model prediction.
-    col : string
-        column name in dataframe to scale (this should be the `probabilities` column)
-    new_col : string
-        new column name that will contain the scaled probabilities (usually `prob_scaling`)
-    old_min : float
-        the minimum value of the column to scale (usually either 0 or `pipeline.threshold`)
-    old_max : float
-        the maximum value of the column to scale (usually either `pipeline.threshold` or 1)
-    new_min : float
-        the minimum value of the new scaled column (usually either 0 or the threshold for the power bi dashboard (7))
-    new_max : float
-        the maximum value of the new scaled column (usually either the threshold for the power bi dashboard (7) or 10)
+    data : pd.Series
+        the data to rescale
+    old_low : float
+        the low value of the column to scale to match new_low
+    old_high : float
+        the high value of the column to scale to match new_high
+    new_low : float
+        the new low value to scale old_low to match.
+    new_high : float
+        the new high value to scale old_high to match.
 
     Returns
     -----------
-    pd.Dataframe
-        The input dataframe with an additional column that contains the scaled probabilities
+    pd.Series
+        The data after rescaling
     """
-    df[new_col] = (
-        ((new_max - (new_min)) * (df[col] - old_min) / (old_max - old_min))
-    ) + new_min
-    return df
+    slope = (new_high - new_low) / (old_high - old_low)
+    return slope * (data - old_low) + new_low
 
 
 parser = argparse.ArgumentParser(description="")
@@ -91,24 +87,29 @@ parser.add_argument(
 )
 parser.add_argument(
     "--output",
+    type=lambda x: x.strip("'"),
     required=True,
     help="where to output the csv file containing predictions and data for power bi dashboard",
 )
 parser.add_argument(
     "--input",
+    type=lambda x: x.strip("'"),
     required=True,
     help="where the input csv containing students for prediciting on is located",
 )
 parser.add_argument(
-    "--model_pkl", required=True, help="where the model pkl file is located"
+    "--model_pkl",
+    type=lambda x: x.strip("'"), required=True, help="where the model pkl file is located"
 )
 parser.add_argument(
     "--roni_threshold",
+    type=lambda x: x.strip("'"),
     required=True,
     help="where the csv with roni tool threshold is located",
 )
 parser.add_argument(
     "--additional_data",
+    type=lambda x: x.strip("'"),
     required=True,
     help="where the csv with additional data is located",
 )
@@ -116,9 +117,11 @@ parser.add_argument(
 if __name__ == "__main__":
     args = parser.parse_args()
 
+    if not args.single:
+        raise NotImplementedError("This code is not yet complete for hanlding the multi-UPN data.")
+
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
-
     logger.info(f'Processing the {"single" if args.single else "multi"} upn dataset')
 
     MODEL_FP = args.model_pkl
@@ -127,7 +130,7 @@ if __name__ == "__main__":
 
     df = d.load_csv(
         args.input,
-        drop_empty=True,
+        drop_empty=False,
         drop_single_valued=False,
         drop_duplicates=True,
         read_as_str=False,
@@ -138,10 +141,6 @@ if __name__ == "__main__":
         convert_dtypes=True,
         logger=logger,
     )
-
-    df_original = df.copy(deep=True)
-
-    X_indices = pd.Index(df[UPN].unique(), name=UPN)
 
     index_cols = [UPN] if args.single else [UPN, YEAR]
     logger.info(f"Setting index cols {index_cols}")
@@ -162,20 +161,11 @@ if __name__ == "__main__":
             "Data has missing values. We don't know how to handle missing data yet"
         )
 
-    # Get the input data
-
-    # y should be labels per student and X_indices should be an index of students
-    # y = df[args.target].astype(int).groupby(level=UPN).max()
-    # X_indices = y.index
-    # breakpoint()
-
-    # The data_df is used by the DataJoinerTransformerFunc to grab the requested indices from the data.
-    data_df = d.safe_drop_columns(
+    # The df is used by the DataJoinerTransformerFunc to grab the requested indices from the data.
+    d.safe_drop_columns(
         df, columns=asdict(Targets).values(), inplace=True
-    ).astype(float)
-    df = None  # Clean up unused dataframes
+    )
 
-    # breakpoint()
 
     # Load the model.pkl file
     with open(MODEL_FP, "rb") as model_file:
@@ -186,16 +176,12 @@ if __name__ == "__main__":
     )
 
     # Create pipeline
-    # PIPELINE_STEPS =
-    pipeline = model["estimator"]
-    # breakpoint()
-    # pipeline = Pipeline(PIPELINE_STEPS)
-    preprocessor = cv.DataJoinerTransformerFunc(data_df)
+    preprocessor = cv.DataJoinerTransformerFunc(df)
     postprocessor = (
         cv.identity_postprocessor if args.single else cv.AggregatorTransformerFunc()
     )
     pipeline = cv.PandasEstimatorWrapper(
-        pipeline,
+        model["estimator"],
         preprocessor=preprocessor,
         postprocessor=postprocessor,
         threshold=model["threshold"],
@@ -203,148 +189,124 @@ if __name__ == "__main__":
     )
     # Output probablities and predictions based on threshold
 
+    X_indices = df.index.get_level_values(UPN).unique()
     if pipeline.threshold_type == "decision_function":
         y_prob = pipeline.decision_function(X_indices)
-        predictions = [0 if i <= pipeline.threshold else 1 for i in y_prob]
+        lower_bound = y_prob.min()
+        upper_bound = y_prob.max()
     elif pipeline.threshold_type == "predict_proba":
         y_prob = pipeline.predict_proba(X_indices)
-        predictions = [0 if i <= pipeline.threshold else 1 for i in y_prob]
+        lower_bound = 0.
+        upper_bound = 1.
     else:
         raise ValueError(f"Unknown threshold type {pipeline.threshold_type}")
+    predictions = (y_prob >= pipeline.threshold).astype(pd.Int8Dtype())
 
-    # breakpoint()
 
     # Save predictions & probabilities
     PREDICTIONS_CSV_FP = args.output
-    output_predictions = df_original
-
+    output_predictions = pd.DataFrame(index=X_indices, columns=[])
     output_predictions["predictions"] = predictions
-    output_predictions["probabilities"] = y_prob
-    # print (max(output_predictions['probabilities']),min(output_predictions['probabilities']))
+    output_predictions["probabilities"] = y_prob  # "probabilities" is a bad name since this may not actually be probabilities if decision_function is used
 
     # this section adds a new column with the probabilities scaled between 0 and 10, with a threshold of 7, for the power bi dashboard
     logger.info(f"Scaling probabilities for power bi dashboard")
     new_threshold = 7  # for power bi dashboard
+    new_upper_bound = 10
+    new_lower_bound = 0
     threshold = pipeline.threshold
 
-    neet = output_predictions[output_predictions["predictions"] == 1]
-    eet = output_predictions[output_predictions["predictions"] == 0]
-    eet = scale_probs_sep_threshold(
-        eet, "probabilities", "prob_scaling", 0, threshold, 0, new_threshold
+    output_predictions["prob_scaling"] = d.empty_series(len(output_predictions), index=output_predictions.index)
+    # For the neets rescale their scores to fit in between new_threshold and new_upper_bound
+    output_predictions.loc[output_predictions["predictions"] == 1, "prob_scaling"] = rescale_range(
+        output_predictions.loc[output_predictions["predictions"] == 1, "probabilities"],
+        old_low=threshold,
+        old_high=upper_bound,
+        new_low=new_threshold,
+        new_high=new_upper_bound
     )
-    neet = scale_probs_sep_threshold(
-        neet, "probabilities", "prob_scaling", threshold, 1, new_threshold, 10
+    # For the eets rescale their scores to fit in between new_lower_bound and new_threshold
+    output_predictions.loc[output_predictions["predictions"] == 0, "prob_scaling"] = rescale_range(
+        output_predictions.loc[output_predictions["predictions"] == 0, "probabilities"],
+        old_low=lower_bound,
+        old_high=threshold,
+        new_low=new_lower_bound,
+        new_high=new_threshold
     )
-    output_predictions = pd.concat([eet, neet]).sort_index()
 
-    feature_names = data_df.columns
+    feature_names = df.columns
     # Feature importance
     logger.info(f"Calculating feature importances")
 
-    final_estimator = pipeline.estimator[-1]
-    if hasattr(final_estimator, "coef_"):
+    try:
         model_coefs = pd.Series(pipeline.estimator[-1].coef_[0], index=feature_names)
-    else:
+    except AttributeError:
         model_coefs = pd.Series(
             pipeline.estimator[-1].feature_importances_, index=feature_names
         )
-    res = model_coefs.sort_values(ascending=False, key=abs)
+    # Order the features in order of most important to least
+    feature_names = model_coefs.sort_values(ascending=False, key=abs).index
 
-    # breakpoint()
     # Shapley values - might not work with multi-upn
-    if args.single:
-        logger.info(f"Calculating shapley values")
-        explainer = shap.Explainer(pipeline.estimator[-1])
-        # explainer = shap.LinearExplainer(pipeline.estimator[-1], masker=shap.maskers.Impute(data=X), data=X)
-        X_trans = pipeline.estimator[:-1].transform(data_df)
-        shap_values = explainer.shap_values(X_trans)[1]  # [1]
-        shap_names = ["shap_" + names for names in feature_names]
-        shap_df = pd.DataFrame(shap_values, columns=shap_names)
-        final_output = pd.concat([output_predictions, shap_df], axis=1)
-        # breakpoint()
+    logger.info(f"Calculating shapley values")
+    if len(df) == 0:
+        logger.warning(f"No data in input dataframe.")    
+    explainer = shap.Explainer(pipeline.estimator[-1])
+    # explainer = shap.LinearExplainer(pipeline.estimator[-1], masker=shap.maskers.Impute(data=X), data=X)
+    shap_df = pipeline.shapley_values(X_indices, explainer=explainer)
+    shap_df = shap_df.loc[:, feature_names]  # Reorder featurs in orde of most to least important
+    shap_df.rename(columns=lambda s: "shap_" + s, inplace=True)  # Prepend with shap, so we know which ones are shapley values
+    
 
-        # calculate roni tool scores
-        logger.info(f"Calculating roni tool scores for each student")
-        # get roni tool threhsold
-        RONI_FP = args.roni_threshold
-        roni_results = pd.read_csv(RONI_FP)
-        roni_threshold = roni_results["threshold"][0]
-        # breakpoint()
-        roni_df = roni.calculate_roni_scores(final_output, threshold=roni_threshold)
-        final_output = pd.concat(
-            [final_output, roni_df], axis=1
-        )  # add roni scores to final output
+    # calculate roni tool scores
+    logger.info(f"Calculating roni tool scores for each student")
+    # get roni tool threhsold
+    RONI_FP = args.roni_threshold
+    roni_results = pd.read_csv(RONI_FP)
+    roni_threshold = roni_results["threshold"][0]
+    roni_df = roni.calculate_roni_scores(df, threshold=roni_threshold)
+    
+    final_output = pd.concat(
+        [output_predictions, shap_df, roni_df], axis=1
+    )  # put together the final output
 
-        ## add back information from dataset that was removed for modelling
+    # Merge with the latest data for the student
+    latest_data = df.groupby(level=UPN).last()
+    final_output = mu.merge_priority_data(final_output, latest_data, how="left", on=UPN, unknown_vals=UNKNOWN_CODES, na_vals=NA_VALS)
 
-        logger.info(f"Adding data back in from previous datasets")
+    # att <85%
+    final_output["att_below_85%"] = roni_df["roni_att_below_85"]
+    # level of need column
+    final_output["level_of_need"] = d.empty_series(len(final_output), index=final_output.index)
+    final_output.loc[final_output[d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "1")] == 1, "level_of_need"] = "intensive support"
+    final_output.loc[final_output[d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "2")]== 1, "level_of_need",] = "supported"
+    final_output.loc[
+        final_output[
+            d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "3")
+        ]
+        == 1,
+        "level_of_need",
+    ] = "minimum intervention"
 
-        # att <85%
-        final_output.loc[final_output["total_absences"] > 0.15, "att_below_85%"] = 1
-        final_output.loc[final_output["total_absences"] <= 0.15, "att_below_85%"] = 0
-        final_output["att_below_85%"] = final_output["att_below_85%"].astype(int)
+    logger.info(f"Adding data back in from previous datasets")
+    # here can load data for adding back in previous data.
+    pre_model_df = d.load_csv(
+        args.additional_data,
+        drop_empty=False,
+        drop_single_valued=False,
+        drop_duplicates=True,
+        read_as_str=False,
+        drop_missing_upns=True,
+        use_na=True,
+        upn_col=UPN,
+        na_vals=NA_VALS,
+        convert_dtypes=True,
+        logger=logger,
+    )
+    pre_model_df.set_index(UPN, inplace=True, drop=True)
 
-        # level of need column
-        final_output.loc[
-            final_output[
-                d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "1")
-            ]
-            == 1,
-            "level_of_need",
-        ] = "intensive support"
-        final_output.loc[
-            final_output[
-                d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "2")
-            ]
-            == 1,
-            "level_of_need",
-        ] = "supported"
-        final_output.loc[
-            final_output[
-                d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "3")
-            ]
-            == 1,
-            "level_of_need",
-        ] = "minimum intervention"
+    final_output = mu.merge_priority_data(final_output, pre_model_df, how="left", on=UPN, unknown_vals=UNKNOWN_CODES, na_vals=NA_VALS)
 
-        # here can load data for adding back in previous data.
-        pre_model_df = d.load_csv(
-            args.additional_data,
-            drop_empty=False,
-            drop_single_valued=False,
-            drop_duplicates=True,
-            read_as_str=False,
-            drop_missing_upns=True,
-            use_na=True,
-            upn_col=UPN,
-            na_vals=NA_VALS,
-            convert_dtypes=True,
-            logger=logger,
-        )
-
-        final_output = final_output.merge(
-            pre_model_df, how="left", on=UPN
-        )  # merge additional data with final output
-
-        # final_output
-
-        # breakpoint()
-
-        if args.debug:
-            pd.DataFrame(final_output).to_csv(
-                f.tmp_path(PREDICTIONS_CSV_FP, debug=args.debug), index=False
-            )
-        else:
-            logger.info(f"Saving predictions to {PREDICTIONS_CSV_FP}")
-            pd.DataFrame(final_output).to_csv(PREDICTIONS_CSV_FP, index=False)
-
-    # breakpoint()
-    else:
-        logger.info(
-            "We don't have code yet to add additional data to the multi-upn predictions dataset"
-        )
-        final_output = output_predictions
-
-    # else:
-    #    logger.error("We don't have code yet to test the multi-upn dataset")
-    #    raise NotImplementedError()
+    csv_fp = f.tmp_path(PREDICTIONS_CSV_FP, debug=args.debug)
+    logger.info(f"Saving predictions to {csv_fp}")
+    final_output.to_csv(csv_fp, index=True)  # Index is True since the index is UPN

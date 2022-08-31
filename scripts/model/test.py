@@ -28,8 +28,6 @@ csv file
 """
 
 import pandas as pd
-import os
-import sys
 import numpy as np
 import argparse
 import pickle as pkl
@@ -41,7 +39,6 @@ from src import log_utils as l
 from src import cv
 
 from sklearn.metrics import (
-    make_scorer,
     f1_score,
     fbeta_score,
     recall_score,
@@ -58,7 +55,7 @@ from src.constants import (
     CensusDataColumns,
     KSDataColumns,
     AttendanceDataColumns,
-    CCISDataColumns,
+    YEAR,
     UPN,
     NA_VALS,
     Targets,
@@ -66,7 +63,6 @@ from src.constants import (
 
 
 # Non DVC params but necessary to import
-from src.params import get_random_seed
 
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
@@ -111,7 +107,7 @@ if __name__ == "__main__":
 
     df = d.load_csv(
         test_data,
-        drop_empty=True,
+        drop_empty=False,
         drop_single_valued=False,
         drop_duplicates=True,
         read_as_str=False,

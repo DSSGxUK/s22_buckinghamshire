@@ -79,12 +79,6 @@ parser.add_argument(
     action="store_true",
     help="where to load a checkpoint pickle that we can start from",
 )
-# parser.add_argument('--pipeline_model_output', required=True,
-#                     help='where to save the pickle of the best pipeline')
-# parser.add_argument('--base_model_output', required=True,
-#                     help='where to save the pickle of the best base model (without oversampling)')
-# parser.add_argument('--model_output', required=True,
-#                     help='where to save the pickle of the best thresholded model')
 parser.add_argument(
     "--log_results",
     action="store_true",
@@ -110,7 +104,7 @@ if __name__ == "__main__":
 
     df = d.load_csv(
         args.input,
-        drop_empty=True,
+        drop_empty=False,
         drop_single_valued=False,  # Columns here will also be in test set, so don't drop them.
         drop_duplicates=True,
         read_as_str=False,
