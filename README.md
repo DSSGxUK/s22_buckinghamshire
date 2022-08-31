@@ -10,7 +10,190 @@ Welcome to the code repository for the project conducted under **Data Science fo
 
 # Folder Structure
 
-@Vanshika - this should be written out in full sentences and explained
+```bash
+
+s22_buckinghamshire
+├── .dvc
+│   ├── .gitignore                                         
+│   └── .config                              #links to the dagshub repo
+├── communications
+│   ├── upn-different-activity-codes.md            
+│   ├── upns_with_questions.md                                           
+├── data		                                 
+│   └── interim	                             #stores canonicalised, merged, premerge, annotated csv files
+│   │   ├── attendance_canonicalized_csv
+│   │   │   ├── .gitignore
+│   │   ├── ccis_canonicalized_csv
+│   │   │   ├── .gitignore
+│   │   ├── census_canonicalized_csv
+│   │   │   ├── .gitignore
+│   │   ├── ks4_canonicalized_csv
+│   │   │   ├── .gitignore
+|   |   └── .gitignore
+|   └── processed
+|   |   └── .gitignore
+|   └── raw                                  # stores the original files
+│   │   ├── attendance_original_csv
+│   │   │   ├── .gitignore
+│   │   ├── ccis_original_csv
+│   │   │   ├── .gitignore
+│   │   ├── census_original_csv
+│   │   │   ├── .gitignore
+│   │   ├── ks4_original_csv
+│   │   │   ├── .gitignore
+│   │   ├── .gitignore
+|   └── .gitignore
+├── logs
+│   └── .gitignore
+├── metrics                     #contains metrics and results related values
+│   ├── cv.csv
+│   ├──cv.yaml
+│   ├──lgbm0.csv
+│   ├──lgbm1.csv
+│   ├──lgbm1_single.csv
+│   ├──lgbm2.csv
+│   ├──lgbm3.csv
+│   ├──lgbm4.csv
+│   ├──lgbm_single.csv
+│   ├──roni_test_results.csv
+│   ├──single_test_results.csv
+│   ├──test_results.csv
+│   ├──test_results_single.csv  
+├── models
+│   ├── final                           #final model for prediction
+│   │   ├── model_single.pkl
+│   └── interim
+│   │   ├──lgbm1_single.pkl
+│   │   ├──model_best_thresh_single.pkl
+│   │   ├──model_mean_thresh_single.pkl
+├── notebooks                           
+│   ├── convert_synthetic.ipynb                                         
+│   └── view_csv.ipynb
+├── plots                              #stores different plots and charts
+│   ├── attendance_percent_box_plot.png
+│   ├──common_neet_traces.png
+│   ├──consequent_antecedent.png
+│   ├──lgb1_feature_importance.png
+│   ├──neet_cons_ante.png
+│   ├──neet_infrequent_traces.png
+│   ├──neet_process_map_97.html
+│   ├──not_known_common_traces.png
+│   ├──not_known_proess_map_98.html
+│   ├──notknown_consequent_antecedent.png
+│   ├──pipline.dot
+│   ├──pipline.dot.svg
+│   ├──pipline.md
+│   ├──pipline.png
+│   ├──process_map.html
+│   ├──roni_catch_model_miss_feature_importance.png
+│   ├──sankey.png
+│   ├──sankey_debug.png
+│   ├──sankey_eet.png
+│   ├──sankey_full.png
+│   ├──sankey_neet.png
+│   ├──sankey_unknown.png                                     
+│   └── unknown_infrequent_traces.png   
+├── results
+│   ├── .gitignore                                         
+├── scripts                       #python code files for different purposes
+│   ├── data    
+│   │   ├── additional_data.py
+│   │   ├──annotate_attendance_data.py
+│   │   ├──annotate_census_data.py
+│   │   ├──annotate_ks4_data.py
+│   │   ├──annotate_neet_data.py
+│   │   ├──attendance_premerge.py
+│   │   ├──build_ccis_ks_eda_dataset.py
+│   │   ├──canonicalize_data.py
+│   │   ├──census_premerge.py
+│   │   ├──feature_selection.py
+│   │   ├──feature_selection_for_predictions.py
+│   │   ├──ks2_filter.py
+│   │   ├──merge_data.py
+│   │   ├──merge_multi_upn.py
+│   │   ├──multi_upn_categorical.py
+│   │   ├──multiple_to_single.py
+│   │   ├──neet_premerge.py
+│   │   ├──split_covid_years.py
+│   |   └── xl_to_csv.py
+│   ├── misc  
+│   │   ├── .Rhistory
+│   │   ├── bupar-analysis.r
+│   │   ├── compute_intersections.py
+│   │   ├── plot_sankey.py
+│   ├── model
+│   │   ├── optimization_and_cv.py
+│   │   ├── predict.py
+│   │   ├── retrain.py
+│   │   ├── roni_tool.py
+│   │   ├── split_data.py
+│   │   ├── test.py
+│   ├── dvc.lock
+│   ├── dvc.yaml
+│   ├── generate_params.py
+│   ├── params.yaml
+├── src
+│   ├── constants
+│   │   ├── __init__.py
+│   │   ├── attendance_constants.py
+│   │   ├── ccis_constants.py
+│   │   ├── census_constants.py
+│   │   ├── ks_constants.py
+│   │   ├── modeling_constants.py
+│   │   ├── school_info_constants.py
+│   │   ├── script_argument_constants.py
+│   │   ├── shared_constants.py
+│   ├── cv
+│   │   ├── __init__.py
+│   │   ├── cross_validator.py
+│   │   ├── processing.py
+│   │   ├── search_spaces.py
+│   │   ├── utils.py
+│   ├── params
+│   │   ├── __init__.py
+│   │   ├── data_pipeline_arguments.py
+│   │   ├── data_pipeline_params.py
+│   │   ├── filepaths.py
+│   │   ├── model_pipeline_arguments.py
+│   │   ├── model_pipeline_params.py
+│   ├── aggregation_utils.py
+│   ├── attendance_utils.py
+│   ├── ccis_utils.py
+│   ├── data_utils.py
+│   ├── debug_utils.py
+│   ├── error_utils.py
+│   ├── file_utils.py
+│   ├── log_utils.py
+│   ├── merge_utils.py
+│   ├── py_utils.py
+│   ├── roni.py
+├── tests
+│   ├── scripts/data
+│   │   ├── test_annotate_neet_data.py
+│   │   ├── test_split_data.py
+│   ├── src
+│   │   ├── test_cv_utils.py
+│   │   ├── test_data_utils.py
+│   │   ├── test_file_utils.py
+│   └── .gitignore
+├── .dvcignore
+├── .gitignore
+├── README.md
+├── requirements.R
+├── requirements.txt
+├── setup.py
+
+```
+
+# Brief Folder Description
+
+  `data :` This folder contains two sub-folders : `interim` and `raw`. The original dataset files fo reach dataset are stored in the `raw` sub-folder. For ex. `attendance_original_csv` sub-folder in here will contain the original csv files for attendance datasets. These original files will go through the data pipeline and will generate different files which will be canonicalized(means with standardised formatting), merged, pre-merged, and annotated, which will be stored in `interim` sub-folder.
+  
+  
+  
+
+
+
 # Assumptions
 
 Assuming that the data provided by the user are of the following types:
