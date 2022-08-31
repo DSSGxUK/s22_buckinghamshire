@@ -1,6 +1,6 @@
+from datetime import datetime
 import os
 import math
-from re import X
 from joblib import Parallel, delayed
 import numpy as np
 from typing import Any, Callable, Dict, List
@@ -9,14 +9,13 @@ import pandas as pd
 from sklearn import clone
 from sklearn.model_selection import (
     BaseCrossValidator,
-    KFold,
-    StratifiedGroupKFold,
     StratifiedKFold,
 )
 from sklearn.base import BaseEstimator
 
 from .. import log_utils as l
 from .. import error_utils as eu
+from .. import file_utils as f
 
 
 class ThresholdingScorer:
@@ -384,9 +383,10 @@ class ObjectiveFunction:
         self.maximize = maximize
         self.append_to_old_results = append_to_old_results
 
-        if not self.append_to_old_results and self.results_csv_fp is not None:
-            # Clean the file contents
-            open(self.results_csv_fp, 'w').close()
+        if not self.append_to_old_results and self.results_csv_fp is not None and os.path.exists(self.results_csv_fp):
+            # Delete the old metrics file
+            timestamp = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+            os.rename(self.results_csv_fp, f.tag_file(self.results_csv_fp, backup=timestamp))
 
         # We will call the wrapper on the base_cv_object everytime we need an iterator that spits out the different training and validation sets.
         # Otherwise, the iterator would not restart.

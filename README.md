@@ -45,32 +45,18 @@ s22_buckinghamshire
 |   └── .gitignore
 ├── logs
 │   └── .gitignore
-├── metrics                     #contains metrics and results related values
-│   ├── cv.csv
-│   ├──cv.yaml
-│   ├──lgbm0.csv
-│   ├──lgbm1.csv
-│   ├──lgbm1_single.csv
-│   ├──lgbm2.csv
-│   ├──lgbm3.csv
-│   ├──lgbm4.csv
-│   ├──lgbm_single.csv
-│   ├──roni_test_results.csv
-│   ├──single_test_results.csv
-│   ├──test_results.csv
-│   ├──test_results_single.csv  
+├── metrics                     # contains metrics and results related values
+│   ├──lgbm1_single.csv         # We've kept this one preloaded
+│   ├──lgbm2_single.csv         # Gets created when you run the hyperparam search
 ├── models
-│   ├── final                           #final model for prediction
-│   │   ├── model_single.pkl
+│   ├── final                           # final model for prediction
+│   │   ├── model_single.pkl            # Gets created when you 
 │   └── interim
-│   │   ├──lgbm1_single.pkl
-│   │   ├──model_best_thresh_single.pkl
-│   │   ├──model_mean_thresh_single.pkl
 ├── notebooks                           
 │   ├── convert_synthetic.ipynb                                         
 │   └── view_csv.ipynb
 ├── plots                              #stores different plots and charts
-│   ├── attendance_percent_box_plot.png
+│   ├──attendance_percent_box_plot.png
 │   ├──common_neet_traces.png
 │   ├──consequent_antecedent.png
 │   ├──lgb1_feature_importance.png
@@ -191,13 +177,13 @@ s22_buckinghamshire
   
 `metrics` : This folder contains outputs from the hyperparameter search (`lgbm1_single.csv`), roni tool performance results (`roni_test_results.csv`) and our model performance results (`single_test_results.csv`) on the test dataset.
 
-`models` : This folder contains pickle files of the models. There are two sub-folders: `interim` and `final`. There are two key models in the `interim` folder (`model_best_thresh_single.pkl` and `model_mean_thresh_single.pkl`) that are used with the test dataset to decide on the final model which is then saved in the `models/final` folder as `model_single.pkl`.
+`models` : This folder contains pickle files of the models. There are two sub-folders: `interim` and `final`. `interim` holds the checkpoints. You can find more details about these in the [Reloading the hyperparameter search from a checkpoint](#reloading-the-hyperparameter-search-from-a-checkpoint) section. The final, retrained best model can be found in `models/final/model_single.pkl`.
 
-`results` : After running the pipeline, this folder will contain the final output CSV files: `predictions.csv`, `unknown_predictions.csv`, `unidentified_students_single.csv`, `unidentified_unknowns_single.csv`. These files are outlined in more detail below under *Outputs from running the pipeline*
+`results` : After running the pipeline, this folder will contain the final output CSV files: `predictions.csv`, `unknown_predictions.csv`, `unidentified_students_single.csv`, `unidentified_unknowns_single.csv`. These files are outlined in more detail below under [Outputs from running the pipeline](#outputs-from-running-the-pipeline)
 
 `scripts` : This folder contains the `dvc.yaml` file that outlines the different stages and steps of the pipeline. It also includes two main sub-folders: `data` and `model`. The `data` sub-folder contains python scripts that prepare the interim datasets and final datasets used for modeling. The `model` sub-folder contains scripts that split the final dataset into train and test datasets, runs the cross-validation and hyperparameter search, re-trains the model, calculates roni scores and uses the trained model to generate predictions for current/unknown students.        
 
-`src` : This folder contains helper functions (found in the `*_utils.py` scripts) and also contains scripts that can set different parameters. There are three sub-folders: `constants`, `cv` and `params`. The `cv` sub-folder contains helper functions for the cross-validation and hyper-parameter search stage. It also contains dictionaries of the hyper-parameter search spaces in `search_spaces.py`. The `constants` folder contains scripts with parameters that are unlikely to need to change, whereas the `params` sub-folder contains scripts with parameters that may need/want to be changed. The `*_arguments.py` scripts in this sub-folder include the arguments that are sent to the `dvc.yaml` pipeline.    
+`src` : This folder contains helper functions (found in the `*_utils.py` scripts) and also contains scripts that can set different parameters. There are three sub-folders: `constants`, `cv` and `params`. The `cv` sub-folder contains helper functions for the cross-validation and hyper-parameter search stage. It also contains dictionaries of the hyper-parameter search spaces in `search_spaces.py`. The `constants` folder contains parameters for the pipeline that are unlikely to need to change, whereas the `params` sub-folder contains parameters for the pipeline that may need/want to be changed. The `*_arguments.py` scripts in this sub-folder include the arguments that are sent to the `dvc.yaml` pipeline.    
 
 # Assumptions
 
@@ -227,27 +213,68 @@ This part will change slightly depending on what operating system you are using.
 
 1. Ensure you have an updated python installed on your machine. You can install it through the [Microsoft Store](https://www.microsoft.com/store/productId/9PJPW5LDXLZ5). As of writing this, the most up to date version was python 3.10.
 2. Ensure you have git installed. You can get an installer [here](https://git-scm.com/download/win).
-3. Open a powershell as administrator and run the below steps:
->
+3. Open a powershell (as administrator if possible) and run the below steps:
+
 ```bash
-> cd                                                                  # Navigate to the desired parent directory using this (change directory) command. 
+> cd [DESIRED_PARENT_DIRECTORY]                                       # Navigate to the desired parent directory using
+                                                                      # this (change directory) command. Fill in
+                                                                      # [DESIRED_PARENT_DIRECTORY] with your desired 
+                                                                      # directory.
 
-> ls                                                                  # You can run this command to see the contents of a directory 
+> ls                                                                  # You can run this command to see the contents 
+                                                                      # of a directory 
 
-> git clone https://github.com/DSSGxUK/s22_buckinghamshire.git        # This will download the code repository to the current folder
+> git clone https://github.com/DSSGxUK/s22_buckinghamshire.git        # This will download the code repository to the
+                                                                      # current folder
 
 > cd s22_buckinghamshire                                              # This navigates to the repository folder
 
 > python -m venv venv                                                 # Creating a python virtual environment
 
 > .\venv\Scripts\activate                                             # Running the virtual environment. 
-                                                                      # If you get an error that says '... s22_buckinghamshire\venv\Scripts\Activate.ps1'
-                                                                      # cannot be loaded because running scripts is disabled on this system. For more information,
-                                                                      # see about_Execution_Policies at 'https:/go.microsoft.com/fwlink/?LinkID=135170',
-                                                                      # then we need to enable execution of signed scripts. 
-                                                                      # We can do this by running 'Set-ExecutionPolicy RemoteSigned -Scope CurrentUser'.
+                                                                      # If you get an error that says '... 
+                                                                      # s22_buckinghamshire\venv\Scripts\Activate.ps1'
+                                                                      # cannot be loaded because running scripts is 
+                                                                      # disabled on this system. For more information,
+                                                                      # see about_Execution_Policies at 'https:/go.
+                                                                      # microsoft.com/fwlink/?LinkID=135170',
+                                                                      # then we need to enable execution of signed 
+                                                                      # scripts. 
+                                                                      # We can do this by running 'Set-ExecutionPolicy 
+                                                                      # RemoteSigned -Scope CurrentUser'. You may need 
+                                                                      # administrator privelages to do this.
                                                               
 > python.exe -m pip install --upgrade pip                             # Update pip if necessary
+
+> python.exe -m pip install -r .\requirements.txt                     # Install required python packages
+
+```
+
+## Mac or Linux
+
+1. Ensure you have an updated python installed on your machine. For Mac, you can find the python installer at [python.org](https://www.python.org/downloads/macos/). For Linux, you can find the installer [here](https://www.python.org/downloads/source/)
+2. Ensure you have git installed. For Mac, ou can get an installer [here](https://git-scm.com/download/mac). For Linux, you can find directions for installing [here](https://git-scm.com/download/linux)
+3. Open a terminal and run the below steps:
+
+```bash
+> cd [DESIRED_PARENT_DIRECTORY]                                       # Navigate to the desired parent directory using
+                                                                      # this (change directory) command. Fill in
+                                                                      # [DESIRED_PARENT_DIRECTORY] with your desired 
+                                                                      # directory.
+
+> ls                                                                  # You can run this command to see the contents 
+                                                                      # of a directory
+
+> git clone https://github.com/DSSGxUK/s22_buckinghamshire.git        # This will download the code repository to the
+                                                                      # current folder
+
+> cd s22_buckinghamshire                                              # This navigates to the repository folder
+
+> python -m venv venv                                                 # Creating a python virtual environment
+
+> source .\venv\Scripts\activate                                      # Running the virtual environment. 
+                                                              
+> pip install --upgrade pip                                           # Update pip if necessary
 
 > pip install -r .\requirements.txt                                   # Install required python packages
 
@@ -255,7 +282,9 @@ This part will change slightly depending on what operating system you are using.
 
 # How to run different workflows
 
-## Downloading the synthetic data
+## Connecting Data
+
+### Downloading the synthetic data
 
 We've published synthetic data (data that does not come from any real person) to dagshub so 
 you can play around with the pipeline. To retrieve it, please run the following:
@@ -264,7 +293,7 @@ dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc
 dvc pull -r origin
 ```
 
-## Using your own data
+### Using your own data
 
 If you are a council with your own data, these datasets will need to be saved in the `data/raw` directory as csv files in the correct formats with the correct column names. 
 
@@ -276,7 +305,13 @@ Within the `data/raw` directory are 4 folders that correspond to the different d
 - `census_original_csv`
 - `ks4_original_csv`
 
-The datasets in these directories should be named `[TYPE]_original_[DATE].csv` where `[TYPE]` refers to the dataset (attendance, ccis, census, ks4) and `[DATE]` refers to the month and year of the dataset (e.g. `attendance_original_jan21.csv`). `[DATE]` should be written as the first 3 letters of the month and the last 2 digits of the year e.g. `jan21`, `sep19` 
+The datasets in these directories should be named `[TYPE]_original_[DATE].csv` where `[TYPE]` refers to the dataset (attendance, ccis, census, ks4) and `[DATE]` refers to the month and year the dataset was submitted (e.g. `attendance_original_jan21.csv` corresponds to autumn 2021 attendance data, which is submitted in January). `[DATE]` should be written as the first 3 letters of the month and the last 2 digits of the year e.g. `jan21`, `sep19`.
+
+### Adding New Columns
+
+We currently do not support addition of new columns. The code should work fine if you add new columns but it will not use them in modeling.
+
+## Running the code
 
 **Please follow the below steps before running the workflows**:
   
@@ -284,7 +319,7 @@ The datasets in these directories should be named `[TYPE]_original_[DATE].csv` w
 cd .\scripts\
 ```
 
-## Run the whole pipeline
+### Run the whole pipeline
 
 To run the whole pipeline you can run:
 
@@ -303,13 +338,13 @@ Alternatively, you could run the steps individually:
   dvc repro -s --glob cv_*
 
   # Model Evaluation 
-  dvc repro -s --glob evaluate_model_* 
+  dvc repro -s --glob model_evaluation_* 
 
   # Generate datasets for predictions and final output 
   dvc repro -s --glob prediction_* 
 ```
 
-  ## Output predictions on new data without re-running the hyper parameter search  
+  ### Output predictions on new data without re-running the hyper parameter search  
   
   Following these steps re-trains the model with new data using the previous best hyper-parameters.
     
@@ -318,7 +353,7 @@ Alternatively, you could run the steps individually:
   dvc repro -s --glob generate_modeling_*          
 
   # Model Evaluation 
-  dvc repro -s --glob evaluate_model_*                        
+  dvc repro -s --glob model_evaluation_*                        
 
   # Generate datasets for predictions and final output
   dvc repro --glob prediction_* 
@@ -352,6 +387,24 @@ Below is a brief overview of what each stage within a workflow is doing:
   - Returns RONI score
   - Returns scaled probability scores for a student at risk of becoming NEET (between 1-10)
 
+### Reloading the hyperparameter search from a checkpoint
+
+Because the hyperparameter search takes a long time, we have built support for checkpoint progress. If for some reason the run does not complete, you can pick it up from where it left off rather than restarting it. To do this you will need to complete the following steps:
+1. Open `src/params/model_pipeline_params.py`.
+2. Find the variable `LOAD_CHECKPOINTS`. Change its value to `True`.
+3. From the `scripts` folder (you may already be there if you were running the pipeline), run `python generate_params.py`. This will register the change in parameters for the pipeline.
+4. Rerun the cross validation search with `dvc repro -s --glob cv_*`.
+
+Please make sure to reset `LOAD_CHECKPOINTS` to `False` (and rerun `python generate_params.py`) when you want to research for hyperparameter with new data. Otherwise the search will use the old checkpoint and not rerun.
+
+### Changing any other parameters
+
+If you feel comfortable with diving into the code and wish to change additional parameters, you need to do the following:
+1. Change the parameters in any of the python files in `src/params`.
+2. Rerun `python generate_params.py` from the `scripts` folder.
+
+If you do not complete step (2) the pipeline will not register your changes.
+
 ## Outputs from running the pipeline
 
 These files can be found in the `results/` directory after running the pipeline.
@@ -376,28 +429,28 @@ The final two files contain neet and census data from previous years of students
 
 The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given):
 1. Att<85% 
-- Att<85% = SUM(fake_test_dataset[att_less_than_85])/DISTINCTCOUNT(fake_test_dataset[upn])
+    - Att<85% = SUM(fake_test_dataset[att_less_than_85])/DISTINCTCOUNT(fake_test_dataset[upn])
 
 2. HighRisk
-- HighRisk = SUM(fake_test_dataset[predictions])/DISTINCTCOUNT(fake_test_dataset[upn])
+    - HighRisk = SUM(fake_test_dataset[predictions])/DISTINCTCOUNT(fake_test_dataset[upn])
 
 3. LevelOfNeed_2%
-- LevelOfNeed_2% = SUM(fake_test_dataset[level_of_need_code_2])/DISTINCTCOUNT(fake_test_dataset[upn])
+    - LevelOfNeed_2% = SUM(fake_test_dataset[level_of_need_code_2])/DISTINCTCOUNT(fake_test_dataset[upn])
 
 4. 	MentalHealth%
-- MentalHealth% = SUM(fake_test_dataset[characteristic_code_210])*100/DISTINCTCOUNT(fake_test_dataset[upn])
+    - MentalHealth% = SUM(fake_test_dataset[characteristic_code_210])*100/DISTINCTCOUNT(fake_test_dataset[upn])
 
 5. Pregnant/Parent%
-- Pregnant/Parent% = SUM(fake_test_dataset[Parent/Preg%])/DISTINCTCOUNT(fake_test_dataset[upn])
+    - Pregnant/Parent% = SUM(fake_test_dataset[Parent/Preg%])/DISTINCTCOUNT(fake_test_dataset[upn])
 
 6. 	SEND%
-- SEND% = SUM(fake_test_dataset[send_flag])/DISTINCTCOUNT(fake_test_dataset[upn])
+    - SEND% = SUM(fake_test_dataset[send_flag])/DISTINCTCOUNT(fake_test_dataset[upn])
 
 7. SupByYOT%
-- SupByYOT% = SUM(fake_test_dataset[characteristic_code_170])/DISTINCTCOUNT(fake_test_dataset[upn])
+    - SupByYOT% = SUM(fake_test_dataset[characteristic_code_170])/DISTINCTCOUNT(fake_test_dataset[upn])
 
 8. unidentified%
-- unidentified% = DISTINCTCOUNT(Unidentified[UPN])*100/DISTINCTCOUNT(fake_test_dataset[upn])
+    - unidentified% = DISTINCTCOUNT(Unidentified[UPN])*100/DISTINCTCOUNT(fake_test_dataset[upn])
 
 
 We also need to create few new columns for PowerBI. These are as follows along with the formula:

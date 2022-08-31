@@ -1455,7 +1455,7 @@ stages:
       0.6
     deps:
     - path: ../data\processed\multi_upn_categorical.csv
-      md5: bde11328bba8e31812c771e15a64d7f8
+      md5: f301696df84b27a7655cee8008998a4b
       size: 42008981
     - path: ../src/data_utils.py
       md5: a745bba040d9daaa57bcf918e5aa6faf
@@ -1464,8 +1464,8 @@ stages:
       md5: 7b0d0aebb666f6c9fb9afbc0080a06ad
       size: 1066
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -1478,7 +1478,7 @@ stages:
         REMOVE_MOSTLY_MISSING_MULTI_UPN_THRESHOLD: 0.6
     outs:
     - path: ../data\processed\feature_selected_multi_upn_categorical.csv
-      md5: ef99e421027769acc7ff927211f270a5
+      md5: d0fba413e33bcf6f7da5bb45769c2624
       size: 25486249
   generate_modeling_attendance_percent2:
     cmd: python data/attendance_premerge.py --attendance_type 'percent2' --input '../data\interim\attendance_annotated.csv'
@@ -1494,8 +1494,8 @@ stages:
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -1520,8 +1520,8 @@ stages:
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -1577,8 +1577,8 @@ stages:
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -1595,14 +1595,14 @@ stages:
       --train_output '../data\processed\train_multiUPN.csv'
     deps:
     - path: ../data\processed\feature_selected_multi_upn_categorical.csv
-      md5: ef99e421027769acc7ff927211f270a5
+      md5: d0fba413e33bcf6f7da5bb45769c2624
       size: 25486249
     - path: ../src/data_utils.py
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -1615,32 +1615,39 @@ stages:
         TEST_SPLIT: 0.2
     outs:
     - path: ../data\processed\train_multiUPN.csv
-      md5: 3199707f85c31b2fde1b9226d6286a6c
+      md5: 45992e7cc99eb3d4a41a9750c34c12c5
       size: 20548348
   model_evaluation_retrain_model_single:
     cmd: python model/retrain.py --input '../data\processed\train_singleUPN.csv' --model_metrics
-      '../metrics\lgbm_single.csv' --model_output_best '../models\interim\model_best_thresh_single.pkl'
-      --model_output_mean '../models\interim\model_mean_thresh_single.pkl' --single
-      --target 'neet_ever'
+      '../metrics\lgbm1_single.csv' '../metrics\lgbm2_single.csv' --model_output_best
+      '../models\interim\model_best_thresh_single.pkl' --model_output_mean '../models\interim\model_mean_thresh_single.pkl'
+      --single --target 'neet_ever'
     deps:
     - path: ../data\processed\train_singleUPN.csv
       md5: a61e410d4788f6542105e81d33be89a9
       size: 8006427
-    - path: ../metrics\lgbm_single.csv
+    - path: ../metrics\lgbm1_single.csv
       md5: 589c72d33e5a4519efbd26425392ac2f
       size: 2656
+    - path: ../metrics\lgbm2_single.csv
+      md5: 589c72d33e5a4519efbd26425392ac2f
+      size: 2656
+    - path: ../src/cv
+      md5: e7c4a033b82011b381214293f9cd513f.dir
+      size: 79354
+      nfiles: 10
     - path: ../src/data_utils.py
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
     - path: model/retrain.py
-      md5: bf76c945817a9bf9cd992aada6a0e746
-      size: 10245
+      md5: ddbdd0bbd4ef9537dcaf0b9681751cb8
+      size: 10524
     params:
       params.yaml:
         TARGET: neet_ever
@@ -1666,12 +1673,16 @@ stages:
     - path: ../models\interim\model_mean_thresh_single.pkl
       md5: 6366627dd924ffe42352e61bcf19b155
       size: 334875
+    - path: ../src/cv
+      md5: e7c4a033b82011b381214293f9cd513f.dir
+      size: 79354
+      nfiles: 10
     - path: ../src/data_utils.py
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -1703,8 +1714,8 @@ stages:
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -1811,7 +1822,7 @@ stages:
       md5: 49e6bc4efb28e4bf03f860b7262e078f
       size: 3121763
     - path: ../data\interim\ks2.csv
-      md5: 64e43af8e1d68c4fa9423ded8cd3e8fa
+      md5: 507b01d5de360a05a291734bb61662e2
       size: 2957038
     - path: ../data\interim\neet_premerge.csv
       md5: c0fac2a86bc401ab34b3d00fb27bdba9
@@ -1820,8 +1831,8 @@ stages:
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -1836,21 +1847,21 @@ stages:
       size: 17097
     outs:
     - path: ../data\interim\multi_upn_unknowns.csv
-      md5: f698425748bca11a2aaea5df177eea93
+      md5: e56f20403730a9c974d15af6cfe3cfd9
       size: 1454
   prediction_multi_categorical_unknowns:
     cmd: python data/multi_upn_categorical.py --include_test_taken_code --input '../data\interim\multi_upn_unknowns.csv'
       --output '../data\processed\unknowns_multiUPN.csv'
     deps:
     - path: ../data\interim\multi_upn_unknowns.csv
-      md5: f698425748bca11a2aaea5df177eea93
+      md5: e56f20403730a9c974d15af6cfe3cfd9
       size: 1454
     - path: ../src/data_utils.py
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -1859,14 +1870,14 @@ stages:
       size: 8561
     outs:
     - path: ../data\processed\unknowns_multiUPN.csv
-      md5: e4e5d9882ef5e3b7b361c925aef2e1a4
+      md5: 78b77ff7550c476245e86dd2ded58d5d
       size: 1276
   prediction_multi_to_single_unknowns:
     cmd: python data/multiple_to_single.py --input '../data\processed\unknowns_multiUPN.csv'
       --output '../data\processed\unknowns_singleUPN.csv'
     deps:
     - path: ../data\processed\unknowns_multiUPN.csv
-      md5: e4e5d9882ef5e3b7b361c925aef2e1a4
+      md5: 78b77ff7550c476245e86dd2ded58d5d
       size: 1276
     - path: data/multiple_to_single.py
       md5: c0283dc3e2be733ccee0f543c2ba401a
@@ -1914,10 +1925,10 @@ stages:
       md5: fcbcc2469fa5740889af1ef5a3ca02ec
       size: 2766792
     - path: ../data\processed\predict_multiUPN.csv
-      md5: d1d225dd589a643e91869b74bcfb4a96
+      md5: 64bf761622777860918b7496bcb29eeb
       size: 1372767
     - path: ../data\processed\train_multiUPN.csv
-      md5: 3199707f85c31b2fde1b9226d6286a6c
+      md5: 45992e7cc99eb3d4a41a9750c34c12c5
       size: 20548348
     - path: ../src/data_utils.py
       md5: a745bba040d9daaa57bcf918e5aa6faf
@@ -1926,8 +1937,8 @@ stages:
       md5: 7b0d0aebb666f6c9fb9afbc0080a06ad
       size: 1066
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -1939,7 +1950,7 @@ stages:
       size: 6235
     outs:
     - path: ../data\processed\fs_predict_multiUPN.csv
-      md5: 281ec4ef47d8655f07e8baea0f851442
+      md5: 3a8c1032e41afaaff03966d5f1577d52
       size: 4557
     - path: ../results\unidentified_students_multi.csv
       md5: 5ebe5d3c46dc1817b4ff99926673fd85
@@ -2004,8 +2015,8 @@ stages:
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -2021,7 +2032,7 @@ stages:
         FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS.single: true
     outs:
     - path: ../data\processed\fs_unknowns_singleUPN.csv
-      md5: 3c57d0cd5481832f9d9fcb0ae98b9fec
+      md5: 1925f98dfb3764495c159b207e7a6dad
       size: 4467
     - path: ../results\unidentified_unknowns_single.csv
       md5: e0eeaa68ead7b01816d20fdd576b62e1
@@ -2036,20 +2047,24 @@ stages:
       md5: fcbcc2469fa5740889af1ef5a3ca02ec
       size: 2766792
     - path: ../data\processed\fs_predict_singleUPN.csv
-      md5: 5c443cadddf86b3526030f5297ad6934
+      md5: 47f3ba6a7474e3b2a1b8ec18d1ebc0ab
       size: 3810176
     - path: ../metrics\roni_test_results.csv
       md5: eab317f58d971ae8a8e94c1ec769e453
       size: 121
     - path: ../models\final\model_single.pkl
-      md5: ede577cff89edf3d45bc3d4ada2cd71b
-      size: 334943
+      md5: 797a8c05829649df63344a1ee9f5e3a9
+      size: 127164
+    - path: ../src/cv
+      md5: 3225ea99aae87f781ac54a9ed3835729.dir
+      size: 79354
+      nfiles: 10
     - path: ../src/data_utils.py
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -2061,8 +2076,8 @@ stages:
       size: 11777
     outs:
     - path: ../results\predictions.csv
-      md5: cd427e82cec25241dbdfadfb1d16af2e
-      size: 19876410
+      md5: 6fe361ae9715ecdf721e14c45e940c25
+      size: 10966661
   prediction_predict_unknowns_single:
     cmd: python model/predict.py --additional_data '../data\processed\additional_data.csv'
       --input '../data\processed\fs_unknowns_singleUPN.csv' --model_pkl '../models\final\model_single.pkl'
@@ -2073,20 +2088,24 @@ stages:
       md5: fcbcc2469fa5740889af1ef5a3ca02ec
       size: 2766792
     - path: ../data\processed\fs_unknowns_singleUPN.csv
-      md5: 3c57d0cd5481832f9d9fcb0ae98b9fec
+      md5: 1925f98dfb3764495c159b207e7a6dad
       size: 4467
     - path: ../metrics\roni_test_results.csv
       md5: eab317f58d971ae8a8e94c1ec769e453
       size: 121
     - path: ../models\final\model_single.pkl
-      md5: ede577cff89edf3d45bc3d4ada2cd71b
-      size: 334943
+      md5: 797a8c05829649df63344a1ee9f5e3a9
+      size: 127164
+    - path: ../src/cv
+      md5: 3225ea99aae87f781ac54a9ed3835729.dir
+      size: 79354
+      nfiles: 10
     - path: ../src/data_utils.py
       md5: a745bba040d9daaa57bcf918e5aa6faf
       size: 17089
     - path: ../src/file_utils.py
-      md5: bf68098aeadafb0f8b2f58c840c0b066
-      size: 1492
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
     - path: ../src/log_utils.py
       md5: 946d137d657cfd4254fed6513b69359e
       size: 3546
@@ -2098,7 +2117,7 @@ stages:
       size: 11777
     outs:
     - path: ../results\unknown_predictions.csv
-      md5: d881f5e26f6e7d35c959dabfabf48d26
+      md5: 765a12e2e325e8ebe8469671d8c283d4
       size: 10441
   generate_modeling_canonicalize_data@42:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\secondary_schools_original.csv
@@ -2123,3 +2142,65 @@ stages:
     - path: ../data\interim\secondary_schools.csv
       md5: c7b4dc2a1bcb55ac32b82b882415b003
       size: 2477
+  cv_optimization_and_cv_lgbm1_single:
+    cmd: python model/optimization_and_cv.py --checkpoint --input '../data\processed\train_singleUPN.csv'
+      --log_results --num_folds 4 --num_thresholds 100 --parallel --single --space
+      'lgbm1' --target 'neet_ever'
+    deps:
+    - path: ../data\processed\train_singleUPN.csv
+      md5: a61e410d4788f6542105e81d33be89a9
+      size: 8006427
+    - path: ../src/cv
+      md5: e7c4a033b82011b381214293f9cd513f.dir
+      size: 79354
+      nfiles: 10
+    - path: ../src/data_utils.py
+      md5: a745bba040d9daaa57bcf918e5aa6faf
+      size: 17089
+    - path: ../src/file_utils.py
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: model/optimization_and_cv.py
+      md5: ad6df09b4f5d8800f5ce7ce30f85292e
+      size: 7793
+    outs:
+    - path: ../metrics\lgbm1_single.csv
+      md5: 29b197b66d568e1010f73afa3bb5b0eb
+      size: 4679
+    - path: ../models\interim\lgbm1_single.pkl
+      md5: c5993b6c3c9ebac4711527542ad85dcd
+      size: 78316
+  cv_optimization_and_cv_lgbm2_single:
+    cmd: python model/optimization_and_cv.py --checkpoint --input '../data\processed\train_singleUPN.csv'
+      --log_results --num_folds 4 --num_thresholds 100 --parallel --single --space
+      'lgbm2' --target 'neet_ever'
+    deps:
+    - path: ../data\processed\train_singleUPN.csv
+      md5: a61e410d4788f6542105e81d33be89a9
+      size: 8006427
+    - path: ../src/cv
+      md5: e7c4a033b82011b381214293f9cd513f.dir
+      size: 79354
+      nfiles: 10
+    - path: ../src/data_utils.py
+      md5: a745bba040d9daaa57bcf918e5aa6faf
+      size: 17089
+    - path: ../src/file_utils.py
+      md5: 7df638c9ae1a01a8ccaed8d207652738
+      size: 1558
+    - path: ../src/log_utils.py
+      md5: 946d137d657cfd4254fed6513b69359e
+      size: 3546
+    - path: model/optimization_and_cv.py
+      md5: ad6df09b4f5d8800f5ce7ce30f85292e
+      size: 7793
+    outs:
+    - path: ../metrics\lgbm2_single.csv
+      md5: e9887d240a3759ccf748a5837b920e54
+      size: 4495
+    - path: ../models\interim\lgbm2_single.pkl
+      md5: 4575be3f5b85e0b7811875e5bbab5822
+      size: 64216

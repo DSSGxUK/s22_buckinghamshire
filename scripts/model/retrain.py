@@ -26,6 +26,7 @@ pickle file
 
 import argparse
 from dataclasses import asdict
+import os
 import pandas as pd
 import pickle as pkl
 from imblearn.pipeline import Pipeline
@@ -145,7 +146,9 @@ if __name__ == "__main__":
     )
 
     # Load csv with best model parameters and threshold
-    all_metrics = [pd.read_csv(metrics_paths) for metrics_paths in args.model_metrics]
+    all_metrics = [pd.read_csv(metrics_path) for metrics_path in args.model_metrics if os.path.exists(metrics_path)]
+    if len(all_metrics) == 0:
+        raise ValueError(f"None of the metrics csvs {args.model_metrics} existed. Please run hyperparameter search.")
     best_metrics = max(all_metrics, key=lambda m: m["f2_binary_mean"].max())
 
     best_model = best_metrics.loc[
@@ -166,8 +169,10 @@ if __name__ == "__main__":
         for k, v in best_model.to_dict().items()
         if k.startswith("estimator")
     }
-    params.pop("estimator")
-    params.pop("estimator__steps")
+    if "estimator" in params:
+        params.pop("estimator")
+    if "estimator__steps" in params:
+        params.pop("estimator__steps")
 
     # get hyperparams for each pipeline step
     oversamp_params = best_model.loc[
