@@ -410,7 +410,7 @@ Alternatively, you could run the steps individually:
   dvc repro -s --glob model_evaluation_*                        
 
   # Generate datasets for predictions and final output
-  dvc repro --glob prediction_* 
+  dvc repro -s --glob prediction_* 
 ```
 
 Below is a brief overview of what each stage within a workflow is doing:
