@@ -272,7 +272,7 @@ This part will change slightly depending on what operating system you are using.
 ## Mac or Linux
 
 1. Ensure you have an updated python installed on your machine. For Mac, you can find the python installer at [python.org](https://www.python.org/downloads/macos/). For Linux, you can find the installer [here](https://www.python.org/downloads/source/)
-2. Ensure you have git installed. For Mac, ou can get an installer [here](https://git-scm.com/download/mac). For Linux, you can find directions for installing [here](https://git-scm.com/download/linux)
+2. Ensure you have git installed. For Mac, you can get an installer [here](https://git-scm.com/download/mac). For Linux, you can find directions for installing [here](https://git-scm.com/download/linux)
 3. Open a terminal and run the below steps:
 
 ```bash
