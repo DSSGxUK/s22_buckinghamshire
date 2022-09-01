@@ -57,11 +57,6 @@ parser.add_argument(
 if __name__ == "__main__":
     args = parser.parse_args()
 
-    if args.dataset_type in [DatasetTypes.characteristics, DatasetTypes.ks2]:
-        raise NotImplementedError(
-            "We have not implemented canonicalization for dataset of characteristics or of ks2."
-        )
-
     if len(args.inputs) != len(args.outputs):
         raise ValueError(
             f"The number of input files must match the number of output files. You had {len(args.inputs)} input files and {len(args.outputs)} output files. The inputs were {args.inputs} and the outputs were {args.outputs}."

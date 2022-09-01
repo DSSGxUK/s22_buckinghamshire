@@ -41,6 +41,7 @@ csv file
 
 import pandas as pd
 import argparse
+from dataclasses import asdict
 
 # DVC Params
 from src.constants import (
@@ -52,6 +53,8 @@ from src.constants import (
     UPN,
     NA_VALS,
     CATEGORICAL_SEP,
+    OutputDatasetTypes,
+    CharacteristicsDataColumns
 )
 
 # Other code
@@ -72,7 +75,12 @@ parser.add_argument(
     action="store_true",
     help="whether to include a code that tells us the student took the ks2 test.",
 )
-
+parser.add_argument(
+    "--output_dataset_type",
+    type=lambda x: x.strip("'"), required=True,
+    choices=asdict(OutputDatasetTypes).values(),
+    help="What kind of output merged dataset to build",
+)
 
 def demix_column(
     mixed_data, numeric_name, categorical_name, include_test_taken_code: bool
@@ -118,6 +126,8 @@ if __name__ == "__main__":
 
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
+
+    logger.info(f"Building a {args.output_dataset_type} dataset.")
 
     df = d.load_csv(  # All unnecessary columns and rows should already be dropped.
         args.input,
@@ -218,15 +228,29 @@ if __name__ == "__main__":
     )
     df = d.get_dummies_with_logging(df, columns=simple_categorical, logger=logger)
 
-    #
-
-    # CCIS
-    simple_categorical_columns = [
-        CCISDataColumns.birth_month,
-    ]
-    df = d.get_dummies_with_logging(
-        df, columns=simple_categorical_columns, logger=logger
-    )
+    
+    if args.output_dataset_type == OutputDatasetTypes.prediction:
+        # Characteristics
+        simple_categorical_columns = [
+            CharacteristicsDataColumns.birth_month,
+            CCISDataColumns.characteristic_code,
+            CCISDataColumns.level_of_need_code,
+            CCISDataColumns.send_flag,
+            CCISDataColumns.sen_support_flag,
+        ]
+        df = d.get_dummies_with_logging(
+            df, columns=simple_categorical_columns, logger=logger
+        )
+    elif args.output_dataset_type in [OutputDatasetTypes.modeling, OutputDatasetTypes.unknowns]:
+        # CCIS
+        simple_categorical_columns = [
+            CCISDataColumns.birth_month,
+        ]
+        df = d.get_dummies_with_logging(
+            df, columns=simple_categorical_columns, logger=logger
+        )
+    else:
+        raise NotImplementedError(f"Dataset type {args.output_dataset_type} is not implemented.")
 
     logger.info(f"Lowering all capital letters in column names")
     df.columns = df.columns.map(str.lower)

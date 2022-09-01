@@ -149,5 +149,5 @@ if __name__ == "__main__":
     logger.info(f"Final column count {len(df.columns)}")
 
     csv_fp = f.tmp_path(args.output, debug=args.debug)
-    logger.info(f"Saving categorical data to {csv_fp}")
+    logger.info(f"Saving ccis premerge data to {csv_fp}")
     df.to_csv(csv_fp, index=False)
