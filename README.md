@@ -342,7 +342,7 @@ rm **/*.csv.dvc && rm *.csv.dvc   # This deletes the dvc tracking files for the 
 
 For an example of what the schema of the datasets and folder structure should look like, we've kept snippets of synthetic data for you to compare against in the `example_data/raw` folder.
 
-Within the `data/raw` directory are 6 folders that correspond to the different datasets listed above under *Assumptions*: 
+Within the `data/raw` directory are 6 folders that correspond to the different datasets listed above under [Assumptions](#assumptions): 
 - `attendance_original_csv`
 - `ccis_original_csv`
 - `census_original_csv`
@@ -351,6 +351,8 @@ Within the `data/raw` directory are 6 folders that correspond to the different d
 - `ks2_original_csv`
 
 The datasets in these directories should be named `[TYPE]_original_[DATE].csv` where `[TYPE]` refers to the dataset (attendance, ccis, census, ks4, characteristics, ks2) and `[DATE]` refers to the month and year the dataset was submitted (e.g. `attendance_original_jan21.csv` corresponds to autumn 2021 attendance data, which is submitted in January). `[DATE]` should be written as the first 3 letters of the month and the last 2 digits of the year e.g. `jan21`, `sep19`.
+
+`characteristics_original_csv` and `ks2_original_csv` contain columns from the CCIS and KS4 datasets, respectively, and should be populated with data from current Year 7-10 students that we want to generate predictions for.
 
 In addition you should add a csv file called `data/raw/secondary_schools_original.csv`, so the code knows what schools the establishment numbers in the data correspond to. See the file in `example_data/raw` for how your csv should look.
 
