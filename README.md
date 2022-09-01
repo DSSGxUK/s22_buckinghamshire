@@ -216,7 +216,7 @@ In addition, we allow data on *characteristics* and *ks2*, since these can be us
 
 **Points to remember**:
   1. Please ensure files are in CSV format only
-  2. Currently columns are renamed to `snake_case` (lowercase with spaces as _). We suggest first you try to make your column names match the schemas in the `example_data/raw` folder. If you instead want to change the columns the code can process, you'll need to add entries to the renaming dictionary. You can find the renaming dictionary in the `src/constants/[TYPE]_constants.py` file where `[TYPE]` refers to whatever your data type is. The *ks2* renaming dictionary is in `src/constants/ks_constants.py` and the *characteristics* renaming dictionary is the same as the CCIS renaming dictionary in `src/constants/ccis_constants.py`. After renaming columns please run `python ./generate_params.py` from your `scripts` folder. See [Chaning Any Other Parameters](#changing-any-other-parameters) for more details on how to do this.
+  2. Currently columns are renamed to `snake_case` (lowercase with spaces as _). We suggest first you try to make your column names match the schemas in the `example_data/raw` folder. If you instead want to change the columns the code can process, you'll need to add entries to the renaming dictionary. You can find the renaming dictionary in the `src/constants/[TYPE]_constants.py` file where `[TYPE]` refers to whatever your data type is. The *ks2* renaming dictionary is in `src/constants/ks_constants.py` and the *characteristics* renaming dictionary is the same as the CCIS renaming dictionary in `src/constants/ccis_constants.py`. After renaming columns please run `python ./generate_params.py` from your `scripts` folder. See [Changing Any Other Parameters](#changing-any-other-parameters) for more details on how to do this.
   3. We assume that the CCIS datasets have a `month/year of birth` column with numeric month and year values in the form `[MONTH]/[YEAR]`. We don't use the date of
      birth column. You can safely remove it if there is concern about data sensitivity.
   4. No column names can include "__"! This is a special reserved character for our code.
@@ -374,12 +374,13 @@ cd .\scripts\
 
 ### Run the whole pipeline
 
+Running the whole pipeline includes a hyper parameter search which can take a few hours to complete. If you do not wish to run this stage, please follow the instructions under [Output predictions on new data without re-running the hyper parameter search](#output-predictions-on-new-data-without-re-running-the-hyper-parameter-search).
+
 To run the whole pipeline you can run:
 
 ```bash
 dvc repro
 ```
-(This will include a hyper parameter search which can take a few hours to run)
 
 Alternatively, you could run the steps individually:
 
@@ -424,9 +425,6 @@ Below is a brief overview of what each stage within a workflow is doing:
     
 **Run cross validation and hyper parameter search**
   - Searches for the best model parameters. Please note you can opt out of running this step. 
-  - This search includes checkpoints. To rerun the hyperparameter search from a checkpoint:
-    - Change the `LOAD_CHECKPOINTS` value in `scripts/params.yaml` to `True`.
-  - When re-running the search with new data, ensure the `LOAD_CHECKPOINTS` value is set to `False` (otherwise an old checkpoint will be used for the new data).   
     
 **Model Evaluation**
   - Evaluates RONI tool's performance
