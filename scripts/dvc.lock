@@ -1629,14 +1629,14 @@ stages:
       md5: 4e32cf64407dfc846ab14f9841806ec1
       size: 8274632
     - path: ../metrics\lgbm1_single.csv
-      md5: 50200774ec63264109ba5906e19bfdfa
-      size: 6799
+      md5: e0ee592fd9c739b6671ff2ff30d0ad6a
+      size: 4782
     - path: ../metrics\lgbm2_single.csv
-      md5: 2c7e24ad12b71083304c493b1afcbe70
-      size: 6502
+      md5: 2d81ac868fd46319948a1ff9357f0ead
+      size: 3753
     - path: ../src/cv
-      md5: 2e05faa3172f32ba8fc3e6dece77972e.dir
-      size: 79349
+      md5: 09ad9550e36c4e5039403f74005cd4a6.dir
+      size: 79354
       nfiles: 10
     - path: ../src/data_utils.py
       md5: 0539bab19c355a652d3ab89f98c7d27e
@@ -1655,11 +1655,11 @@ stages:
         TARGET: neet_ever
     outs:
     - path: ../models\interim\model_best_thresh_single.pkl
-      md5: a9933f79e200bf00477ec88b1cf3e621
-      size: 2904385
+      md5: d373e40bc5340c4632edbe4b9bb57708
+      size: 296388
     - path: ../models\interim\model_mean_thresh_single.pkl
-      md5: 7d9e3f5bde1568a2888c950890f5ca7e
-      size: 2904385
+      md5: fe157678607dbd2a40cec0112795b35d
+      size: 296388
   model_evaluation_test_model_single:
     cmd: python model/test.py --input '../data\processed\test_singleUPN.csv' --model_output
       '../models\final\model_single.pkl' --model_pkls '../models\interim\model_best_thresh_single.pkl'
@@ -1670,14 +1670,14 @@ stages:
       md5: f497acc2af9ea293f67cdbb3b5edef7d
       size: 2068865
     - path: ../models\interim\model_best_thresh_single.pkl
-      md5: a9933f79e200bf00477ec88b1cf3e621
-      size: 2904385
+      md5: d373e40bc5340c4632edbe4b9bb57708
+      size: 296388
     - path: ../models\interim\model_mean_thresh_single.pkl
-      md5: 7d9e3f5bde1568a2888c950890f5ca7e
-      size: 2904385
+      md5: fe157678607dbd2a40cec0112795b35d
+      size: 296388
     - path: ../src/cv
-      md5: 2e05faa3172f32ba8fc3e6dece77972e.dir
-      size: 79349
+      md5: 09ad9550e36c4e5039403f74005cd4a6.dir
+      size: 79354
       nfiles: 10
     - path: ../src/data_utils.py
       md5: 0539bab19c355a652d3ab89f98c7d27e
@@ -1696,11 +1696,11 @@ stages:
         TARGET: neet_ever
     outs:
     - path: ../metrics\single_test_results.csv
-      md5: 09d1e645ee8415602260dd655482c196
-      size: 244
+      md5: 3f312b057084c52bbffed40f91a8927a
+      size: 251
     - path: ../models\final\model_single.pkl
-      md5: 61564a0131c47a6065f269e5abcfd911
-      size: 2904453
+      md5: bcdab13120a8a7b2dfacac921259f85d
+      size: 296456
   model_evaluation_roni_model:
     cmd: python model/roni_tool.py --output_test_metrics '../metrics\roni_test_results.csv'
       --target 'neet_ever' --test_data '../data\processed\test_singleUPN.csv' --train_data
@@ -2061,11 +2061,11 @@ stages:
       md5: 8e6bfcf8fc862e14b8d8985ab3fe2d74
       size: 122
     - path: ../models\final\model_single.pkl
-      md5: 61564a0131c47a6065f269e5abcfd911
-      size: 2904453
+      md5: bcdab13120a8a7b2dfacac921259f85d
+      size: 296456
     - path: ../src/cv
-      md5: 2e05faa3172f32ba8fc3e6dece77972e.dir
-      size: 79349
+      md5: 09ad9550e36c4e5039403f74005cd4a6.dir
+      size: 79354
       nfiles: 10
     - path: ../src/data_utils.py
       md5: 0539bab19c355a652d3ab89f98c7d27e
@@ -2084,8 +2084,8 @@ stages:
       size: 13376
     outs:
     - path: ../results\predictions.csv
-      md5: babdbddc3746ee71fc8ca47cf367b712
-      size: 29941978
+      md5: 572a487f0c79e9c801d366b15cbd0a9e
+      size: 39837453
   prediction_predict_unknowns_single:
     cmd: python model/predict.py --additional_data '../data\processed\additional_data.csv'
       --input '../data\processed\fs_unknowns_singleUPN.csv' --model_pkl '../models\final\model_single.pkl'
@@ -2102,11 +2102,11 @@ stages:
       md5: 8e6bfcf8fc862e14b8d8985ab3fe2d74
       size: 122
     - path: ../models\final\model_single.pkl
-      md5: 61564a0131c47a6065f269e5abcfd911
-      size: 2904453
+      md5: bcdab13120a8a7b2dfacac921259f85d
+      size: 296456
     - path: ../src/cv
-      md5: 2e05faa3172f32ba8fc3e6dece77972e.dir
-      size: 79349
+      md5: 09ad9550e36c4e5039403f74005cd4a6.dir
+      size: 79354
       nfiles: 10
     - path: ../src/data_utils.py
       md5: 0539bab19c355a652d3ab89f98c7d27e
@@ -2125,7 +2125,7 @@ stages:
       size: 13376
     outs:
     - path: ../results\unknown_predictions.csv
-      md5: c7ff90ea77f0b5a6add5cffbf755a192
+      md5: 4a2d07e685862bb0877546314e2fc095
       size: 10503
   generate_modeling_canonicalize_data@42:
     cmd: python data/canonicalize_data.py --inputs ../data\raw\ks2_original_csv\ks2_original_sep20.csv
@@ -2160,8 +2160,8 @@ stages:
       md5: 4e32cf64407dfc846ab14f9841806ec1
       size: 8274632
     - path: ../src/cv
-      md5: 2e05faa3172f32ba8fc3e6dece77972e.dir
-      size: 79349
+      md5: 09ad9550e36c4e5039403f74005cd4a6.dir
+      size: 79354
       nfiles: 10
     - path: ../src/data_utils.py
       md5: 0539bab19c355a652d3ab89f98c7d27e
@@ -2177,11 +2177,11 @@ stages:
       size: 7855
     outs:
     - path: ../metrics\lgbm1_single.csv
-      md5: 50200774ec63264109ba5906e19bfdfa
-      size: 6799
+      md5: e0ee592fd9c739b6671ff2ff30d0ad6a
+      size: 4782
     - path: ../models\interim\lgbm1_single.pkl
-      md5: 0f845e756ec85e3678a5dd4fd9bfd9b6
-      size: 78789
+      md5: 9ef061318b137a4257dc1e3aa834c036
+      size: 78316
   cv_optimization_and_cv_lgbm2_single:
     cmd: python model/optimization_and_cv.py --checkpoint --input '../data\processed\train_singleUPN.csv'
       --log_results --num_folds 4 --num_thresholds 100 --parallel --single --space
@@ -2191,8 +2191,8 @@ stages:
       md5: 4e32cf64407dfc846ab14f9841806ec1
       size: 8274632
     - path: ../src/cv
-      md5: 2e05faa3172f32ba8fc3e6dece77972e.dir
-      size: 79349
+      md5: 09ad9550e36c4e5039403f74005cd4a6.dir
+      size: 79354
       nfiles: 10
     - path: ../src/data_utils.py
       md5: 0539bab19c355a652d3ab89f98c7d27e
@@ -2208,11 +2208,11 @@ stages:
       size: 7855
     outs:
     - path: ../metrics\lgbm2_single.csv
-      md5: 2c7e24ad12b71083304c493b1afcbe70
-      size: 6502
+      md5: 2d81ac868fd46319948a1ff9357f0ead
+      size: 3753
     - path: ../models\interim\lgbm2_single.pkl
-      md5: 08fec4b00af63823aa2685d2f4b046d7
-      size: 64630
+      md5: fc79aaf49ab20ce32f9f415af4ac0c4e
+      size: 64216
   prediction_merge_chars_data:
     cmd: python data/merge_data.py --data_dates 'mar22' --dataset_type 'characteristics'
       --inputs '../data\interim\characteristics_canonicalized_csv\characteristics_mar22.csv'

@@ -15,12 +15,12 @@ Welcome to the code repository for the project conducted under **Data Science fo
 s22_buckinghamshire
 ├── .dvc
 │   ├── .gitignore                                         
-│   └── .config                              #links to the dagshub repo
+│   └── .config                              # links to the dagshub repo
 ├── communications
 │   ├── upn-different-activity-codes.md            
 │   ├── upns_with_questions.md                                           
 ├── data		                                 
-│   └── interim	                             #stores canonicalised, annotated and merged csv files
+│   └── interim	                             # stores canonicalised, annotated and merged csv files
 │   │   ├── attendance_canonicalized_csv
 │   │   │   ├── .gitignore
 │   │   ├── ccis_canonicalized_csv
@@ -32,16 +32,12 @@ s22_buckinghamshire
 |   |   └── .gitignore
 |   └── processed
 |   |   └── .gitignore
-|   └── raw                                  # stores the original files
+|   └── raw                                  # stores the original files, won't appear until you pull synthetic data
 │   │   ├── attendance_original_csv
-│   │   │   ├── .gitignore
 │   │   ├── ccis_original_csv
-│   │   │   ├── .gitignore
 │   │   ├── census_original_csv
-│   │   │   ├── .gitignore
 │   │   ├── ks4_original_csv
-│   │   │   ├── .gitignore
-│   │   ├── .gitignore
+│   ├── raw.dvc
 |   └── .gitignore
 ├── example_data		                         # Example data to check schema
 │   └───raw
@@ -59,9 +55,13 @@ s22_buckinghamshire
 │   │   ├───census_original_csv
 │   │   │   ├── census_original_jan17.csv
 │   │   │   └── census_original_jan22.csv
+│   │   ├───characteristics_original_csv
+│   │   │   └── characteristics_original_mar22.csv
+│   │   ├───ks2_original_csv
+│   │   │   └── ks2_original_sep20.csv
 │   │   ├───ks4_original_csv
 │   │   │   ├── ks4_original_sep15.csv
-│   │   │   └── ks4_original_sep20.csv
+│   └── └── └── ks4_original_sep20.csv
 ├── logs
 │   └── .gitignore
 ├── metrics                     # contains metrics and results related values
@@ -136,7 +136,7 @@ s22_buckinghamshire
 │   ├── dvc.lock
 │   ├── dvc.yaml
 │   ├── generate_params.py
-│   ├── params.yaml
+│   └── params.yaml
 ├── src
 │   ├── constants
 │   │   ├── __init__.py
@@ -212,13 +212,11 @@ Assuming that the data provided by the user are of the following types:
   3. CCIS [CCIS_Schema](https://www.gov.uk/government/publications/nccis-management-information-requirement)
   4. KS4 [KS4_Schema](https://explore-education-statistics.service.gov.uk/find-statistics/key-stage-4-destination-measures/2019-20#releaseHeadlines-charts)
 
-In addition, we want to allow data on *characteristics* and *ks2*. This has not been supported yet, but would fill in features we are passing to the model for training.
+In addition, we allow data on *characteristics* and *ks2*, since these can be used as features for the model before the student enters year 11.
 
 **Points to remember**:
   1. Please ensure files are in CSV format only
-  2. Currently columns are renamed to `snake_case` (lowercase with spaces as _). You may need to add more columns to the renaming dictionary if your columns have changed or are different. 
-     You can find the renaming dictionary in the `src` directory in the `[TYPE]_utils.py` file where `[TYPE]` refers to whatever your data type is. Note *ks2* and
-     *characteristics* will not currently show up in there.
+  2. Currently columns are renamed to `snake_case` (lowercase with spaces as _). We suggest first you try to make your column names match the schemas in the `example_data/raw` folder. If you instead want to change the columns the code can process, you'll need to add entries to the renaming dictionary. You can find the renaming dictionary in the `src/constants/[TYPE]_constants.py` file where `[TYPE]` refers to whatever your data type is. The *ks2* renaming dictionary is in `src/constants/ks_constants.py` and the *characteristics* renaming dictionary is the same as the CCIS renaming dictionary in `src/constants/ccis_constants.py`. After renaming columns please run `python ./generate_params.py` from your `scripts` folder. See [Chaning Any Other Parameters](#changing-any-other-parameters) for more details on how to do this.
   3. We assume that the CCIS datasets have a `month/year of birth` column with numeric month and year values in the form `[MONTH]/[YEAR]`. We don't use the date of
      birth column. You can safely remove it if there is concern about data sensitivity.
   4. No column names can include "__"! This is a special reserved character for our code.
@@ -320,19 +318,51 @@ dvc pull -r origin
 
 If you are a council with your own data, these datasets will need to be saved in the `data/raw` directory as csv files in the correct formats with the correct column names. 
 
+Before adding your data, please run the steps above to get the synthetic data. Then run the following steps
+
+#### Windows 
+
+```bash
+cd data/raw
+dvc remove remove origin                                  # Run this without # if you downloaded the synthetic data
+Get-ChildItem * -Include *.csv -Recurse | Remove-Item     # Run this without # to remove any synthetic data have
+                                                          # Please note this deletes all csv files in `data/raw`
+Get-ChildItem * -Include *.csv.dvc -Recurse | Remove-Item # This deletes the dvc tracking files for the synthetic data
+```
+
+#### Linux or Mac
+
+```bash
+cd data/raw
+dvc remove remove origin          # Run this without # if you downloaded the synthetic data
+rm **/*.csv && rm *.csv           # Run this without # to remove any synthetic data have
+                                  # Please note this deletes all csv files in `data/raw`
+rm **/*.csv.dvc && rm *.csv.dvc   # This deletes the dvc tracking files for the synthetic data
+```
+
 For an example of what the schema of the datasets and folder structure should look like, we've kept snippets of synthetic data for you to compare against in the `example_data/raw` folder.
 
-Within the `data/raw` directory are 4 folders that correspond to the different datasets listed above under *Assumptions*: 
+Within the `data/raw` directory are 6 folders that correspond to the different datasets listed above under *Assumptions*: 
 - `attendance_original_csv`
 - `ccis_original_csv`
 - `census_original_csv`
 - `ks4_original_csv`
+- `characteristics_original_csv`
+- `ks2_original_csv`
 
-The datasets in these directories should be named `[TYPE]_original_[DATE].csv` where `[TYPE]` refers to the dataset (attendance, ccis, census, ks4) and `[DATE]` refers to the month and year the dataset was submitted (e.g. `attendance_original_jan21.csv` corresponds to autumn 2021 attendance data, which is submitted in January). `[DATE]` should be written as the first 3 letters of the month and the last 2 digits of the year e.g. `jan21`, `sep19`.
+The datasets in these directories should be named `[TYPE]_original_[DATE].csv` where `[TYPE]` refers to the dataset (attendance, ccis, census, ks4, characteristics, ks2) and `[DATE]` refers to the month and year the dataset was submitted (e.g. `attendance_original_jan21.csv` corresponds to autumn 2021 attendance data, which is submitted in January). `[DATE]` should be written as the first 3 letters of the month and the last 2 digits of the year e.g. `jan21`, `sep19`.
+
+In addition you should add a csv file called `data/raw/secondary_schools_original.csv`, so the code knows what schools the establishment numbers in the data correspond to. See the file in `example_data/raw` for how your csv should look.
+
+Once you've added your data to the `data/raw` folder, you should be good to go.
+
+### Adding data from new years
+
+You may want to incorporate more data from later years as you collect it. Simply follow the procedure outlined above, and the pipeline will pick it up.
 
 ### Adding New Columns
 
-We currently do not support addition of new columns. The code should work fine if you add new columns but it will not use them in modeling.
+We currently do not support addition of new columns for modeling. The code should work fine if you add new columns but it will not use them in modeling.
 
 ## Running the code
 
