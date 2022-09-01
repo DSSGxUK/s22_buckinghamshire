@@ -117,6 +117,7 @@ class _KS2OriginalColumns(_PupilDeprivationColumns):
     ks2_reading_ta_level: str = "ks2_reading_ta_level"
     ks2_reading_level_finely_graded: str = "ks2_reading_level_finely_graded"
     ks2_mathematics_finely_graded: str = "ks2_mathematics_finely_graded"
+    la_establishment_number: str = SchoolInfoColumns.la_establishment_number
 
 
 KS2OriginalColumns = _KS2OriginalColumns()
@@ -227,7 +228,7 @@ KS4_COLUMN_RENAME = {
     "Capped score + bonuses": "capped_score_+_bonuses",
     "Date of birth": "date_of_birth",
     "Deprivation indicator - IDACI score": PupilDeprivationColumns.deprivation_indicator_idaci_score,
-    "DfE Establishment Number": "la_establishment_number",
+    "DfE Establishment Number": KS2Columns.la_establishment_number,
     "Did the pupil join within the last 2 yrs?": "did_the_pupil_join_within_the_last_2_yrs",
     "EAL Group": "eal_group",
     "EBacc Humanities' VA score": "ebacc_humanities_va_score",

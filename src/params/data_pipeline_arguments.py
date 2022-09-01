@@ -146,6 +146,11 @@ ANNOTATE_KS4_ARGS = {
     "school_info": SCHOOL_INFO_CANONICALIZED_CSV_FP,
     "output": KS4_ANNOTATED_CSV_FP,
 }
+ANNOTATE_KS2_ARGS = {
+    "input": KS2_MERGED_FP,
+    "school_info": SCHOOL_INFO_CANONICALIZED_CSV_FP,
+    "output": KS2_ANNOTATED_CSV_FP,
+}
 ANNOTATE_CHARACTERISTICS_ARGS = {
     "input": CHARACTERISTICS_MERGED_FP,
     "school_info": SCHOOL_INFO_CANONICALIZED_CSV_FP,
@@ -155,7 +160,6 @@ ANNOTATE_CHARACTERISTICS_ARGS = {
 CCIS_PREMERGE_ARGS = {"input": NEET_ANNOTATED_CSV_FP, "output": NEET_PREMERGE_CSV_FP}
 CHARACTERISTICS_PREMERGE_ARGS = {
     "input": CHARACTERISTICS_ANNOTATED_CSV_FP,
-    "ccis_premerge" : NEET_PREMERGE_CSV_FP,
     "output": CHARACTERISTICS_PREMERGE_CSV_FP
 }
 CENSUS_PREMERGE_ARGS = {
@@ -182,7 +186,10 @@ ATTENDANCE_NORMED_ARGS = {
     "output": ATTENDANCE_NORMED_CSV_FP,
     "attendance_type": AttendanceTypes.term_normalized,
 }
-KS2_FILTER_ARGS = {"input": KS4_ANNOTATED_CSV_FP, "output": KS2_CSV_FP}
+KS2_FILTER_ARGS = {
+    "ks4_input": KS4_ANNOTATED_CSV_FP, 
+    "ks2_input": KS2_ANNOTATED_CSV_FP,
+    "output": KS2_CSV_FP}
 
 MERGE_MULTI_MODELING_ARGS = {
     "ccis": NEET_PREMERGE_CSV_FP,
@@ -215,18 +222,21 @@ MULTI_UPN_CATEGORICAL_ARGS = {
     "input": MULTI_UPN_FP,
     "output": MULTI_UPN_CATEGORICAL_FP,
     "include_test_taken_code": True,
+    "output_dataset_type": OutputDatasetTypes.modeling,
 }
 
 MULTI_UPN_CATEGORICAL_PREDICTIONS_ARGS = {
     "input": MULTI_UPN_PREDICTION_FP,
     "output": MULTI_UPN_CATEGORICAL_PREDICT_FP,
     "include_test_taken_code": True,
+    "output_dataset_type": OutputDatasetTypes.prediction,
 }
 
 MULTI_UPN_CATEGORICAL_UNKNOWNS_ARGS = {
     "input": MULTI_UPN_UNKNOWNS_FP,
     "output": MULTI_UPN_CATEGORICAL_UNKNOWNS_FP,
     "include_test_taken_code": True,
+    "output_dataset_type": OutputDatasetTypes.unknowns,
 }
 
 MULTIPLE_TO_SINGLE_ARGS = {

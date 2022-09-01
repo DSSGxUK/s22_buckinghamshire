@@ -23,22 +23,28 @@ from dataclasses import asdict
 
 # DVC Params
 from src.constants import (
-    KS2Columns,
-    PupilDeprivationColumns,
+    KS2OriginalColumns,
+    SchoolInfoColumns,
     UPN,
     NA_VALS,
+    UNKNOWN_CODES
 )
 
 # Other code
 from src import file_utils as f
 from src import log_utils as l
 from src import data_utils as d
+from src import merge_utils as mu
 
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("--debug", action="store_true", help="run transform in debug mode")
 parser.add_argument(
-    "--input", type=lambda x: x.strip("'"),
+    "--ks4_input", type=lambda x: x.strip("'"),
     required=True, help="where to find input csv file: annotated ks4 data"
+)
+parser.add_argument(
+    "--ks2_input", type=lambda x: x.strip("'"),
+    required=True, help="where to find input csv file: annotated ks2 data"
 )
 parser.add_argument(
     "--output", type=lambda x: x.strip("'"),
@@ -51,8 +57,8 @@ if __name__ == "__main__":
     # Set up logging
     logger = l.get_logger(name=f.get_canonical_filename(__file__), debug=args.debug)
 
-    df = d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
-        args.input,
+    ks4_df = d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
+        args.ks4_input,
         drop_empty=False,
         drop_single_valued=False,
         drop_duplicates=True,
@@ -64,13 +70,33 @@ if __name__ == "__main__":
         logger=logger,
     )
 
-    logger.info(f"Initial row count {len(df)}")
-    logger.info(f"Initial column count {len(df.columns)}")
+    logger.info(f"Initial KS4 row count {len(ks4_df)}")
+    logger.info(f"Initial KS4 column count {len(ks4_df.columns)}")
 
-    keep_cols = list(set(asdict(KS2Columns).values()) | 
-        set(asdict(PupilDeprivationColumns).values())
+    ks2_df = d.load_csv(  # Modeling dataset so we drop unnecessary columns and entries
+        args.ks2_input,
+        drop_empty=False,
+        drop_single_valued=False,
+        drop_duplicates=True,
+        read_as_str=True,  # This will ensure values are not cast to floats
+        use_na=True,  # and this will ensure empty values are read as nan
+        drop_missing_upns=True,
+        upn_col=UPN,
+        na_vals=NA_VALS,
+        logger=logger,
     )
-    logger.info(f"Only keeping KS2 columns {keep_cols}")
+
+    logger.info(f"Initial KS2 row count {len(ks2_df)}")
+    logger.info(f"Initial KS2 column count {len(ks2_df.columns)}")
+
+    logger.info(f"Merging KS2 and KS4 data")
+    df = mu.merge_priority_data(ks4_df, ks2_df, on=UPN, how="outer", unknown_vals=UNKNOWN_CODES, na_vals=NA_VALS)
+
+    keep_cols = list(
+        set(asdict(KS2OriginalColumns).values()) | {
+        SchoolInfoColumns.establishment_type,
+        SchoolInfoColumns.establishment_status,
+    })
     df = df[keep_cols]
 
     logger.info(f"Final row count {len(df)}")
@@ -78,5 +104,5 @@ if __name__ == "__main__":
 
     csv_fp = f.tmp_path(args.output, debug=args.debug)
 
-    logger.info(f"Saving categorical data to {csv_fp}")
+    logger.info(f"Saving ks2 filtered data to {csv_fp}")
     df.to_csv(csv_fp, index=False)

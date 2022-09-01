@@ -313,9 +313,12 @@ if __name__ == "__main__":
         logger.info(f"Latest year in dataset is {latest_year}")
         census_df = census_df[census_df[YEAR] == latest_year]
         att_df = att_df[att_df[YEAR] == latest_year]
+        chars_df = chars_df[chars_df[YEAR] == latest_year]
+
         logger.info("Constructing UPNs to keep.")
+        # Don't include ks2 students in the upn set because KS2 could be from many years back.
         without_ccis_upns = pd.DataFrame(
-            list((set(census_df[UPN]) | set(att_df[UPN]) | set(chars_df[UPN]) | set(ks2_df[UPN])) - set(neet_df[UPN])),
+            list((set(census_df[UPN]) | set(att_df[UPN]) | set(chars_df[UPN])) - set(neet_df[UPN])),
             columns=[UPN],
         )
         logger.info(f"Keeping {without_ccis_upns[UPN].nunique()} UPNs")
@@ -445,6 +448,11 @@ if __name__ == "__main__":
     logger.info(
         f"Final att count in merged {att_count}/{len(merged_df)} ({py.safe_divide(att_count, len(merged_df))})"
     )
+    if args.chars is not None:
+        chars_count = merged_df[CharacteristicsDataColumns.has_characteristics_data].sum()
+        logger.info(
+            f"Final characteristics count in merged {chars_count}/{len(merged_df)} ({py.safe_divide(chars_count, len(merged_df))})"
+        )
     logger.info(f"Final column count {len(merged_df.columns)}")
 
     csv_fp = f.tmp_path(args.output, debug=args.debug)

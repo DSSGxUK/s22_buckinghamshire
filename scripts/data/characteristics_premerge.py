@@ -55,10 +55,6 @@ parser.add_argument(
     required=True, help="where to find input annotated characteristics csv"
 )
 parser.add_argument(
-    "--ccis_premerge", type=lambda x: x.strip("'"),
-    required=True, help="where to find the ccis premerge csv"
-)
-parser.add_argument(
     "--output", type=lambda x: x.strip("'"),
     required=True, help="where to output the produced csv file"
 )
@@ -82,20 +78,6 @@ if __name__ == "__main__":
         convert_dtypes=True,
         logger=logger,
     )
-    ccis_df = d.load_csv(
-        args.ccis_premerge,
-        drop_empty=False,
-        drop_single_valued=False,
-        drop_duplicates=True,
-        read_as_str=False,
-        drop_missing_upns=True,
-        upn_col=UPN,
-        na_vals=NA_VALS,
-        use_na=True,
-        convert_dtypes=True,
-        logger=logger,
-    )
-
 
     logger.info(f"Initial row count {len(df)}")
     logger.info(f"Initial column count {len(df.columns)}")
@@ -120,22 +102,6 @@ if __name__ == "__main__":
     ]
     logger.info(f"Keeping the modeling columns {modeling_columns}")
     df = df[modeling_columns]
-
-    logger.info(f"Add in categorical columns from ccis premerge dataset")
-    to_categorical_columns = [
-        CharacteristicsDataColumns.characteristic_code,
-        CharacteristicsDataColumns.level_of_need_code,
-        CharacteristicsDataColumns.send_flag,
-        CharacteristicsDataColumns.sen_support_flag,
-    ]
-    for col in to_categorical_columns:
-        categories = d.extract_categories(col, ccis_df.columns, prefix_sep=CATEGORICAL_SEP)
-        df[col] = pd.Categorical(df[col], categories=categories).fillna(pd.NA)
-    df = d.get_dummies_with_logging(
-        df,
-        columns=to_categorical_columns,
-        logger=logger,
-    )
 
 
     logger.info(f"Final row count {len(df)}")

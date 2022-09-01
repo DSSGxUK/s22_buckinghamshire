@@ -73,6 +73,16 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${MERGE_CHARACTERISTICS_DATA_ARGS.output}
+  generate_modeling_merge_ks2_data:
+    cmd: python data/merge_data.py ${MERGE_KS2_DATA_ARGS}
+    deps:
+      - ${KS2_CANONICALIZED_CSV_DIR}
+      - data/merge_data.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${MERGE_KS2_DATA_ARGS.output}
   generate_modeling_annotate_census_data:
     cmd: python data/annotate_census_data.py ${ANNOTATE_CENSUS_ARGS}
     deps:
@@ -124,6 +134,18 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${ANNOTATE_KS4_ARGS.output}
+  generate_modeling_annotate_ks2_data:
+    cmd: python data/annotate_ks2_data.py ${ANNOTATE_KS2_ARGS}
+    deps:
+      - ${ANNOTATE_KS2_ARGS.input}
+      - ${ANNOTATE_KS2_ARGS.school_info}
+      - data/annotate_ks2_data.py
+      - ../src/merge_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${ANNOTATE_KS2_ARGS.output}
   prediction_annotate_characteristics_data:
     cmd: python data/annotate_characteristics_data.py ${ANNOTATE_CHARACTERISTICS_ARGS}
     deps:
@@ -152,7 +174,6 @@ stages:
     cmd: python data/characteristics_premerge.py ${CHARACTERISTICS_PREMERGE_ARGS}
     deps:
       - ${CHARACTERISTICS_PREMERGE_ARGS.input}
-      - ${CHARACTERISTICS_PREMERGE_ARGS.ccis_premerge}
       - data/characteristics_premerge.py
       - ../src/data_utils.py
       - ../src/file_utils.py
@@ -206,7 +227,8 @@ stages:
   generate_modeling_ks2_filter:
     cmd: python data/ks2_filter.py ${KS2_FILTER_ARGS}
     deps:
-      - ${KS2_FILTER_ARGS.input}
+      - ${KS2_FILTER_ARGS.ks4_input}
+      - ${KS2_FILTER_ARGS.ks2_input}
       - data/ks2_filter.py
       - ../src/data_utils.py
       - ../src/file_utils.py

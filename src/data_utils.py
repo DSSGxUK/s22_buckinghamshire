@@ -2,6 +2,7 @@
 This utils file contains helpers for processing the data files
 """
 
+from multiprocessing.sharedctypes import Value
 import re
 from turtle import down
 from typing import List, Dict
@@ -503,9 +504,15 @@ def to_categorical(col: str, category: str, prefix_sep=CATEGORICAL_SEP):
 def extract_categories(col_name, catcol_list, prefix_sep=CATEGORICAL_SEP):
     categories = []
     for catcol in catcol_list:
-        base_col, category = catcol.split(prefix_sep)[0]
-        if base_col == col_name:
-            categories.append(category)
+        splits = catcol.split(prefix_sep)
+        if len(splits) == 1:
+            continue
+        if len(splits) == 2:
+            base_col, category = catcol.split(prefix_sep)
+            if base_col == col_name:
+                categories.append(category)
+        else:
+            raise ValueError(f"Column {catcol} had too many occurences of categorical separator {prefix_sep}.")
     return categories
 
 

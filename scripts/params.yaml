@@ -17,6 +17,14 @@ ANNOTATE_CENSUS_ARGS:
   input: ../data\interim\census_merged.csv
   output: ../data\interim\census_annotated.csv
   school_info: ../data\interim\secondary_schools.csv
+ANNOTATE_CHARACTERISTICS_ARGS:
+  input: ../data\interim\characteristics_merged.csv
+  output: ../data\interim\characteristics_annotated.csv
+  school_info: ../data\interim\secondary_schools.csv
+ANNOTATE_KS2_ARGS:
+  input: ../data\interim\ks2_merged.csv
+  output: ../data\interim\ks2_annotated.csv
+  school_info: ../data\interim\secondary_schools.csv
 ANNOTATE_KS4_ARGS:
   input: ../data\interim\ks4_merged.csv
   output: ../data\interim\ks4_annotated.csv
@@ -32,7 +40,6 @@ ATTENDANCE_CANONICALIZED_CSV_FPS:
   jan20: ../data\interim\attendance_canonicalized_csv\attendance_jan20.csv
   jan21: ../data\interim\attendance_canonicalized_csv\attendance_jan21.csv
   jan22: ../data\interim\attendance_canonicalized_csv\attendance_jan22.csv
-  jan23: ../data\interim\attendance_canonicalized_csv\attendance_jan23.csv
   may15: ../data\interim\attendance_canonicalized_csv\attendance_may15.csv
   may16: ../data\interim\attendance_canonicalized_csv\attendance_may16.csv
   may17: ../data\interim\attendance_canonicalized_csv\attendance_may17.csv
@@ -58,7 +65,6 @@ ATTENDANCE_DATA_CSV_FPS:
   jan20: ../data\raw\attendance_original_csv\attendance_original_jan20.csv
   jan21: ../data\raw\attendance_original_csv\attendance_original_jan21.csv
   jan22: ../data\raw\attendance_original_csv\attendance_original_jan22.csv
-  jan23: ../data\raw\attendance_original_csv\attendance_original_jan23.csv
   may15: ../data\raw\attendance_original_csv\attendance_original_may15.csv
   may16: ../data\raw\attendance_original_csv\attendance_original_may16.csv
   may17: ../data\raw\attendance_original_csv\attendance_original_may17.csv
@@ -127,9 +133,6 @@ CANONICALIZE_CSV_ARGS:
 - dataset_type: attendance
   inputs: ../data\raw\attendance_original_csv\attendance_original_jan22.csv
   outputs: ../data\interim\attendance_canonicalized_csv\attendance_jan22.csv
-- dataset_type: attendance
-  inputs: ../data\raw\attendance_original_csv\attendance_original_jan23.csv
-  outputs: ../data\interim\attendance_canonicalized_csv\attendance_jan23.csv
 - dataset_type: attendance
   inputs: ../data\raw\attendance_original_csv\attendance_original_may15.csv
   outputs: ../data\interim\attendance_canonicalized_csv\attendance_may15.csv
@@ -232,12 +235,30 @@ CANONICALIZE_CSV_ARGS:
 - dataset_type: school_info
   inputs: ../data\raw\secondary_schools_original.csv
   outputs: ../data\interim\secondary_schools.csv
+- dataset_type: ks2
+  inputs: ../data\raw\ks2_original_csv\ks2_original_sep20.csv
+  outputs: ../data\interim\ks2_canonicalized_csv\ks2_sep20.csv
+- dataset_type: characteristics
+  inputs: ../data\raw\characteristics_original_csv\characteristics_original_mar22.csv
+  outputs: ../data\interim\characteristics_canonicalized_csv\characteristics_mar22.csv
 CCIS_PREMERGE_ARGS:
   input: ../data\interim\neet_annotated.csv
   output: ../data\interim\neet_premerge.csv
 CENSUS_PREMERGE_ARGS:
   input: ../data\interim\census_annotated.csv
   output: ../data\interim\census_premerge.csv
+CHARACTERISTICS_ANNOTATED_CSV_FP: ../data\interim\characteristics_annotated.csv
+CHARACTERISTICS_CANONICALIZED_CSV_DIR: ../data\interim\characteristics_canonicalized_csv
+CHARACTERISTICS_CANONICALIZED_CSV_FPS:
+  mar22: ../data\interim\characteristics_canonicalized_csv\characteristics_mar22.csv
+CHARACTERISTICS_CSV_DIR: ../data\raw\characteristics_original_csv
+CHARACTERISTICS_CSV_FPS:
+  mar22: ../data\raw\characteristics_original_csv\characteristics_original_mar22.csv
+CHARACTERISTICS_MERGED_FP: ../data\interim\characteristics_merged.csv
+CHARACTERISTICS_PREMERGE_ARGS:
+  input: ../data\interim\characteristics_annotated.csv
+  output: ../data\interim\characteristics_premerge.csv
+CHARACTERISTICS_PREMERGE_CSV_FP: ../data\interim\characteristics_premerge.csv
 CHECKPOINT_FP: ../models\interim\checkpoint.pkl
 CV_FOLDS: 4
 CV_METRICS_FP: ../metrics\cv.yaml
@@ -320,10 +341,19 @@ FeatureSelectionMethods:
 INCLUDE_TEST_TAKEN_CODE: true
 INTERIM_DIR: ../data\interim
 INTERIM_MODELS_DIR: ../models\interim
+KS2_ANNOTATED_CSV_FP: ../data\interim\ks2_annotated.csv
+KS2_CANONICALIZED_CSV_DIR: ../data\interim\ks2_canonicalized_csv
+KS2_CANONICALIZED_CSV_FPS:
+  sep20: ../data\interim\ks2_canonicalized_csv\ks2_sep20.csv
+KS2_CSV_DIR: ../data\raw\ks2_original_csv
 KS2_CSV_FP: ../data\interim\ks2.csv
+KS2_CSV_FPS:
+  sep20: ../data\raw\ks2_original_csv\ks2_original_sep20.csv
 KS2_FILTER_ARGS:
-  input: ../data\interim\ks4_annotated.csv
+  ks2_input: ../data\interim\ks2_annotated.csv
+  ks4_input: ../data\interim\ks4_annotated.csv
   output: ../data\interim\ks2.csv
+KS2_MERGED_FP: ../data\interim\ks2_merged.csv
 KS4_ANNOTATED_CSV_FP: ../data\interim\ks4_annotated.csv
 KS4_CANONICALIZED_CSV_DIR: ../data\interim\ks4_canonicalized_csv
 KS4_CANONICALIZED_CSV_FPS:
@@ -357,7 +387,6 @@ MERGE_ATTENDANCE_DATA_ARGS:
   - jan20
   - jan21
   - jan22
-  - jan23
   - may15
   - may16
   - may17
@@ -383,7 +412,6 @@ MERGE_ATTENDANCE_DATA_ARGS:
   - ../data\interim\attendance_canonicalized_csv\attendance_jan20.csv
   - ../data\interim\attendance_canonicalized_csv\attendance_jan21.csv
   - ../data\interim\attendance_canonicalized_csv\attendance_jan22.csv
-  - ../data\interim\attendance_canonicalized_csv\attendance_jan23.csv
   - ../data\interim\attendance_canonicalized_csv\attendance_may15.csv
   - ../data\interim\attendance_canonicalized_csv\attendance_may16.csv
   - ../data\interim\attendance_canonicalized_csv\attendance_may17.csv
@@ -436,6 +464,20 @@ MERGE_CENSUS_DATA_ARGS:
   - ../data\interim\census_canonicalized_csv\census_jan21.csv
   - ../data\interim\census_canonicalized_csv\census_jan22.csv
   output: ../data\interim\census_merged.csv
+MERGE_CHARACTERISTICS_DATA_ARGS:
+  data_dates:
+  - mar22
+  dataset_type: characteristics
+  inputs:
+  - ../data\interim\characteristics_canonicalized_csv\characteristics_mar22.csv
+  output: ../data\interim\characteristics_merged.csv
+MERGE_KS2_DATA_ARGS:
+  data_dates:
+  - sep20
+  dataset_type: ks2
+  inputs:
+  - ../data\interim\ks2_canonicalized_csv\ks2_sep20.csv
+  output: ../data\interim\ks2_merged.csv
 MERGE_KS4_DATA_ARGS:
   data_dates:
   - sep15
@@ -463,6 +505,7 @@ MERGE_MULTI_PREDICTION_ARGS:
   att: ../data\interim\attendance_percent1.csv
   ccis: ../data\interim\neet_premerge.csv
   census: ../data\interim\census_premerge.csv
+  chars: ../data\interim\characteristics_premerge.csv
   ks2: ../data\interim\ks2.csv
   output: ../data\interim\multi_upn_prediction.csv
   output_dataset_type: prediction
@@ -497,16 +540,19 @@ MULTI_UPN_CATEGORICAL_ARGS:
   include_test_taken_code: true
   input: ../data\interim\multi_upn.csv
   output: ../data\processed\multi_upn_categorical.csv
+  output_dataset_type: modeling
 MULTI_UPN_CATEGORICAL_FP: ../data\processed\multi_upn_categorical.csv
 MULTI_UPN_CATEGORICAL_PREDICTIONS_ARGS:
   include_test_taken_code: true
   input: ../data\interim\multi_upn_prediction.csv
   output: ../data\processed\predict_multiUPN.csv
+  output_dataset_type: prediction
 MULTI_UPN_CATEGORICAL_PREDICT_FP: ../data\processed\predict_multiUPN.csv
 MULTI_UPN_CATEGORICAL_UNKNOWNS_ARGS:
   include_test_taken_code: true
   input: ../data\interim\multi_upn_unknowns.csv
   output: ../data\processed\unknowns_multiUPN.csv
+  output_dataset_type: unknowns
 MULTI_UPN_CATEGORICAL_UNKNOWNS_FP: ../data\processed\unknowns_multiUPN.csv
 MULTI_UPN_FP: ../data\interim\multi_upn.csv
 MULTI_UPN_PREDICTION_FP: ../data\interim\multi_upn_prediction.csv

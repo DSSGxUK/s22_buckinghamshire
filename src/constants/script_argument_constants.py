@@ -177,6 +177,7 @@ MULTI_UPN_CATEGORICAL_TO_SINGLE_AGGS = {
     CensusDataColumns.has_census_data: Aggregations.max,
     KS2Columns.has_ks2_data: Aggregations.max,
     AttendanceDataColumns.has_attendance_data: Aggregations.max,
+    CharacteristicsDataColumns.has_characteristics_data: Aggregations.max
 }
 
 YEAR_OF_COVID_SPLIT = 2018
