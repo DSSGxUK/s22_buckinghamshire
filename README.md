@@ -533,6 +533,3 @@ We also need to create few new columns for PowerBI. These are as follows along w
     - Formula: Gender = IF(unknowns_prediction[gender_m]==1, "M","F")
 
 NOTE: replace fake_test_dataset with the actual file name which contains the predictions
-
-@Vanshika this should not be in the final product
-
