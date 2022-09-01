@@ -26,7 +26,8 @@ def merge_priority_data(
         orig_col = remove_suffix(col, drop_key)
         # orig_col = col.removesuffix(drop_key)
         # First fill na values with the other column
-        df[orig_col] = df[orig_col].fillna(df[col])
+        new_col_values = df[col].astype(df[orig_col].dtype.name)
+        df[orig_col] = df[orig_col].fillna(new_col_values)
         # If there are additional unknown vals try to fill it with known vals from the other df
         replacement_dict = {
             val: pd.NA for val in (list(na_vals) + list(unknown_vals[orig_col]))
@@ -37,7 +38,7 @@ def merge_priority_data(
         df[orig_col] = (
             df[orig_col]
             .replace(replacement_dict)
-            .fillna(df[col].replace(replacement_dict))
+            .fillna(new_col_values.replace(replacement_dict))
             .fillna(df[orig_col])
         )
     df = df.drop(to_drop_cols, axis=1)

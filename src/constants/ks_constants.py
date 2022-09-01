@@ -71,7 +71,24 @@ TEST_TAKEN_CODE = "test_taken"
 
 # KS4 Data
 @dataclass
-class _KS2Columns:
+class _PupilDeprivationColumns:
+    """
+    These are columns used to identify deprivation and disadvantaged
+    statusus for students from the key stage 4 dataset. This class
+    also helps specify what key stage 2 data we would like from the
+    partner before the student starts year 11.
+    """
+
+    upn: str = UPN
+    sen: str = "sen"
+    deprivation_indicator_idaci_score: str = "deprivation_indicator_idaci_score"
+    is_the_pupil_disadvantaged: str = "is_the_pupil_disadvantaged"
+    is_the_pupil_looked_after: str = "is_the_pupil_looked_after"
+
+
+PupilDeprivationColumns = _PupilDeprivationColumns()
+@dataclass
+class _KS2OriginalColumns(_PupilDeprivationColumns):
     """
     These are columns used to identify key stage 2 data from
     the key stage 4 dataset. This class also helps specify what
@@ -100,29 +117,23 @@ class _KS2Columns:
     ks2_reading_ta_level: str = "ks2_reading_ta_level"
     ks2_reading_level_finely_graded: str = "ks2_reading_level_finely_graded"
     ks2_mathematics_finely_graded: str = "ks2_mathematics_finely_graded"
+    la_establishment_number: str = SchoolInfoColumns.la_establishment_number
 
 
-KS2Columns = _KS2Columns()
+KS2OriginalColumns = _KS2OriginalColumns()
 
 
 @dataclass
-class _PupilDeprivationColumns:
-    """
-    These are columns used to identify deprivation and disadvantaged
-    statusus for students from the key stage 4 dataset. This class
-    also helps specify what key stage 2 data we would like from the
-    partner before the student starts year 11.
-    """
+class _KS2AddedColumns:
+    has_ks2_data: str = "has_ks2_data"
 
-    upn: str = UPN
-    sen: str = "sen"
-    deprivation_indicator_idaci_score: str = "deprivation_indicator_idaci_score"
-    is_the_pupil_disadvantaged: str = "is_the_pupil_disadvantaged"
-    is_the_pupil_looked_after: str = "is_the_pupil_looked_after"
+KS2AddedColumns = _KS2AddedColumns()
 
+@dataclass 
+class _KS2Columns(_KS2OriginalColumns, _KS2AddedColumns):
+    pass
 
-PupilDeprivationColumns = _PupilDeprivationColumns()
-
+KS2Columns = _KS2Columns()
 
 @dataclass
 class _KS4Columns:
@@ -217,7 +228,7 @@ KS4_COLUMN_RENAME = {
     "Capped score + bonuses": "capped_score_+_bonuses",
     "Date of birth": "date_of_birth",
     "Deprivation indicator - IDACI score": PupilDeprivationColumns.deprivation_indicator_idaci_score,
-    "DfE Establishment Number": "la_establishment_number",
+    "DfE Establishment Number": KS2Columns.la_establishment_number,
     "Did the pupil join within the last 2 yrs?": "did_the_pupil_join_within_the_last_2_yrs",
     "EAL Group": "eal_group",
     "EBacc Humanities' VA score": "ebacc_humanities_va_score",

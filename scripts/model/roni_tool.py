@@ -86,10 +86,7 @@ if __name__ == "__main__":
     df = df.copy()
 
     if df.isna().any().any():
-        logger.error(
-            "Data has missing values. We don't know how to handle missing data yet"
-        )
-        raise NotImplementedError()
+        raise NotImplementedError("Data has missing values. We don't know how to handle missing data yet")
 
     roni_df = roni.calculate_roni_scores(df)
 
@@ -158,10 +155,7 @@ if __name__ == "__main__":
     df = df.copy()
 
     if df.isna().any().any():
-        logger.error(
-            "Data has missing values. We don't know how to handle missing data yet"
-        )
-        raise NotImplementedError()
+        raise NotImplementedError("Data has missing values. We don't know how to handle missing data yet")
 
     roni_df = roni.calculate_roni_scores(df, threshold=best_threshold)
 

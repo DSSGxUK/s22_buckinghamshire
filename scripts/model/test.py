@@ -248,8 +248,3 @@ if __name__ == "__main__":
     pd.DataFrame({k: [v] for k, v in final_model_test_results.items()}).to_csv(
         TEST_RESULTS_CSV_FP, index=False
     )
-
-    # breakpoint()
-#    else:
-#        logger.error("We don't have code yet to test the multi-upn dataset")
-#        raise NotImplementedError()
