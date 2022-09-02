@@ -291,7 +291,7 @@ This part will change slightly depending on what operating system you are using.
 
 > python -m venv venv                                                 # Creating a python virtual environment
 
-> source .\venv\Scripts\activate                                      # Running the virtual environment. 
+> source ./venv/bin/activate                                      # Running the virtual environment. 
                                                               
 > pip install --upgrade pip                                           # Update pip if necessary
 
