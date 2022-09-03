@@ -3,7 +3,7 @@ None,"[('oversampling', RandomOverSampler(random_state=97430, sampling_strategy=
                max_depth=4, min_child_samples=156, n_estimators=191,
                num_leaves=11, objective='binary'))]",False,"RandomOverSampler(random_state=97430, sampling_strategy=0.1, shrinkage=0.01)",None,None,"LGBMClassifier(is_unbalance=False, learning_rate=0.04165090435134412,
                max_depth=4, min_child_samples=156, n_estimators=191,
-               num_leaves=11, objective='binary')",97430,0.1,0.01,gbdt,None,1.0,split,0.04165090435134412,4,156,0.001,0.0,191,-1,11,binary,None,0.0,0.0,warn,1.0,200000,0,False,"Pipeline(steps=[('oversampling',
+               num_leaves=11, objective='binary')",97430,0.1,0.01,gbdt,None,1.0,split,0.04165090435134412,4,156,0.001,0.0,191,-1,11,binary,80192,0.0,0.0,warn,1.0,200000,0,False,"Pipeline(steps=[('oversampling',
                  RandomOverSampler(random_state=97430, sampling_strategy=0.1,
                                    shrinkage=0.01)),
                 ('imputation', None), ('scaler', None),
