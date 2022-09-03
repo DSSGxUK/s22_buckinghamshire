@@ -481,55 +481,59 @@ The first two contain predictions for current school students in Years 7-10 and 
 `unidentified_students_single.csv` contains unidentified current school students for which predictions could not be generated due to too much missing data.
 The final three files found in the `data/interim` folder contain neet, census and attendance data from previous years of students. These three datasets are for a separate page of the power bi dashboard that looks at certain factor trends over the years.    
 
-The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given):
-1. Att<85% 
-    - Att<85% = SUM(fake_test_dataset[att_less_than_85])/DISTINCTCOUNT(fake_test_dataset[upn])
+The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given) in case it is gone:
+- Att<85% 
+    `Att<85% = SUM(predictions[att_less_than_85])/DISTINCTCOUNT(predictions[upn])`
 
-2. HighRisk
-    - HighRisk = SUM(fake_test_dataset[predictions])/DISTINCTCOUNT(fake_test_dataset[upn])
+- HighRisk
+    `HighRisk = SUM(predictions[predictions])/DISTINCTCOUNT(predictions[upn])`
 
-3. LevelOfNeed_2%
-    - LevelOfNeed_2% = SUM(fake_test_dataset[level_of_need_code_2])/DISTINCTCOUNT(fake_test_dataset[upn])
+- LevelOfNeed_2%
+    `LevelOfNeed_2% = SUM(predictions[level_of_need_code__2])/DISTINCTCOUNT(predictions[upn])`
 
-4. 	MentalHealth%
-    - MentalHealth% = SUM(fake_test_dataset[characteristic_code_210])*100/DISTINCTCOUNT(fake_test_dataset[upn])
+- MentalHealth%
+    `MentalHealth% = SUM(predictions[characteristic_code__210])*100/DISTINCTCOUNT(predictions[upn])`
 
-5. Pregnant/Parent%
-    - Pregnant/Parent% = SUM(fake_test_dataset[Parent/Preg%])/DISTINCTCOUNT(fake_test_dataset[upn])
+- Pregnant/Parent%
+    `Pregnant/Parent% = SUM(predictions[Parent/Preg%])/DISTINCTCOUNT(predictions[upn])`
 
-6. 	SEND%
-    - SEND% = SUM(fake_test_dataset[send_flag])/DISTINCTCOUNT(fake_test_dataset[upn])
+- SEND%
+    `SEND% = SUM(predictions[send_flag])/DISTINCTCOUNT(predictions[upn])`
 
-7. SupByYOT%
-    - SupByYOT% = SUM(fake_test_dataset[characteristic_code_170])/DISTINCTCOUNT(fake_test_dataset[upn])
-
-8. unidentified%
-    - unidentified% = DISTINCTCOUNT(Unidentified[UPN])*100/DISTINCTCOUNT(fake_test_dataset[upn])
+- SupByYOT%
+    `SupByYOT% = SUM(predictions[characteristic_code__170])/DISTINCTCOUNT(predictions[upn])`
+    
+- unidentified%
+    `unidentified% = DISTINCTCOUNT(unidentified_students_single[UPN])/DISTINCTCOUNT(predictions[upn])`
+    
+- Exclusions%
+    `Exclusions% = AVERAGE(predictions[excluded_authorised_percent1])*100`
 
 
 We also need to create few new columns for PowerBI. These are as follows along with the formula:
-1.	Column Name: MentalHealthFlag
-    - File: desens_sdv__neet_annotated
-    - Formula: MentalHealthFlag = if(desens_sdv_neet_annotated[characteristic_code]="210",1,0)
+1.	Column Name: `mental_health_flag`
+    - File: `neet_annotated`
+    - Formula: `mental_health_flag = IF(neet_annotated[characteristic_code]==210, 1,0)`
 
-2.	Column Name: Age
-    - File: fake_test_dataset
-    - Formula: “The Council will have to map and fill the ages”
+2.	Column Name: `Attendance%`
+    - File: `predictions`
+    - Formula: `Attendance% = (1-predictions[total_absences])*100`
 
-3.	Column Name: Attendance%
-    - File: fake_test_dataset
-    - Formula: Attendance% = (1-fake_test_dataset[total_absences])*100
+3.	Column Name: `Gender`
+    - File: `predictions`
+    - Formula: `Gender = SWITCH(TRUE(), 'predictions'[gender__f]==1, "F", 'predictions'[gender__m]==1, "M", 'predictions'[gender__u]==1, "U", 'predictions'[gender__W]==1, "W")`
 
-4.	Column Name: Gender
-    - File: fake_test_dataset
-    - Formula: Gender = IF(fake_test_dataset[gender_f]==1, "F","M")
+4.	Column Name: `Parent/Preg%`
+    - File: `predictions`
+    - Formula: `Parent/Preg% = IF(OR(predictions[characteristic_code__120]==1, predictions[characteristic_code__180]==1), 1, 0)`
 
-5.	Column Name: Parent/Preg%
-    - File: fake_test_dataset
-    - Formula: Parent/Preg% = IF(OR(fake_test_dataset[characteristic_code_120]==1, fake_test_dataset[characteristic_code_180]==1), 1, 0)
+5.	Column Name: `Gender`
+    - File: `unknown_predictions`
+    - Formula: `Gender = SWITCH(TRUE(), 'unknown_predictions'[gender__f]==1, "F", 'unknown_predictions'[gender__m]==1, "M", 'unknown_predictions'[gender__u]==1, "U", 'unknown_predictions'[gender__W]==1, "W")`
+    
+    
+ `Relationships`
+ - For the map visualisations, you'll need to create two relationships. For this you'll have to upload the file 'PCD_OA_LSOA_MSOA_LAD_NOV19_UK_LU.csv'.
+ - First relationship, you will need to create relationship between column `pcds` of file `PCD_OA_LSOA_MSOA_LAD_NOV19_UK_LU.csv` with the column `postcode` of file `predictions`.
+ - Another relationship you will need to create is between column `pcds` of file `PCD_OA_LSOA_MSOA_LAD_NOV19_UK_LU.csv` with the column `postcode` of file `unknown_predictions`.
 
-6.	Column Name: Gender
-    - File: unknowns_prediction
-    - Formula: Gender = IF(unknowns_prediction[gender_m]==1, "M","F")
-
-NOTE: replace fake_test_dataset with the actual file name which contains the predictions
