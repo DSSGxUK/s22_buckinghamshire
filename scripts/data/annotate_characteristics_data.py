@@ -128,12 +128,19 @@ if __name__ == "__main__":
     logger.info(
         "Adding year column for joining datasets that corresponds to the end of school year."
     )
-    df[CharacteristicsDataColumns.year] = d.compute_school_end_year(
+    if len(df) > 0:
+        df[CharacteristicsDataColumns.year] = d.compute_school_end_year(
         df[CharacteristicsDataColumns.data_date]
-    )
-
-    logger.info("Compute age of students at the end of prior august")
-    df[CharacteristicsDataColumns.age] = nu.compute_age(df)
+        )
+        
+        logger.info("Compute age of students at the end of prior august")
+    
+        df[CharacteristicsDataColumns.age] = nu.compute_age(df)
+    
+    else :
+        df[CharacteristicsDataColumns.year]  = d.empty_series(0)
+        logger.info("Compute age of students at the end of prior august")
+        df[CharacteristicsDataColumns.age] = d.empty_series(0)
 
     y_n_columns = [
         CharacteristicsDataColumns.send_flag,  # Y/N
