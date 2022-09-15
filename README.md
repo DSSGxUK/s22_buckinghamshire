@@ -4,8 +4,8 @@ Welcome to the code repository for the project conducted under **Data Science fo
 
 Other key resources to consult include:
 
-  - Methodology documentation - available here
-  - Project poster - available here
+  - Methodology documentation - available [here](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/NEET_Prediction_Methodology_FINAL.pdf)
+  - Project poster - available [here](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/DSSG%20Poster%20Buckinghamshire.pdf)
   - Presentation video (to be added)
 
 ## Project Overview
@@ -48,11 +48,13 @@ School Information Dataset - Provides details on school areas, postcodes, and sc
 
 ### Methods
 
-Two pipelines were developed for the project, to prepare the data, and to manage the modelling process. A Python package called [Data Version Control(https://dvc.org/doc/api-reference) was used to develop the modelling pipeline, which provides a simple mechanism to reproduce the project outputs using different datasets.
+Two pipelines were developed for the project, to prepare the data, and to manage the modelling process. A Python package called [Data Version Control](https://dvc.org/doc/api-reference) was used to develop the modelling pipeline, which provides a simple mechanism to reproduce the project outputs using different datasets.
 
 The diagram below provides a simple overview of the end-to-end pipeline:
 
-For a detailed description please refer to the methodology documentation.
+![alt text](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/bucks_method.jpg)
+
+For a detailed description please refer to the [project poster](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/DSSG%20Poster%20Buckinghamshire.pdf) and [methodology documentation](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/NEET_Prediction_Methodology_FINAL.pdf).
 
 ### Solution & Value Add
 
@@ -70,11 +72,15 @@ A PowerBI dashboard that:
 
 The final predictive model was developed a Gradient Boosted Trees algorithm from the LightGBM package in Python and achieved an accuracy of 92.8% and an F2-score of 47.8%.
 
-At a UK level, the model has the potential to identify 22% (4,193) more students per year who become NEET as compared to the already existing Risk of NEET Indicator (RONI) tool, which is used by some local authorities in the UK. It also flags 51% fewer students who never became NEET as compared to RONI, and therefore has the potential to save significant operational costs and resources for councils across the country.
+At a UK level, the model has the potential to identify 22% (4,193) more students per year who become NEET as compared to the already existing Risk of NEET Indicator (RONI) tool, which is used by some local authorities in the UK. When tested on the same dataset, the RONI tool achieved an accuracy of 85.5%. 
+
+It also flags 51% fewer students who never became NEET as compared to RONI, and therefore has the potential to save significant operational costs and resources for councils across the country.
 
 #### Dashboard
 
-The primary output of the project was a PowerBI dashboard which shows the council the predictions, as well as various other insights such as the key risk factors contributing to the predictions, and trends over time at the local level, school-level and pupil-level. Below is a screenshot of one view from the dashboard (please note all the data in this screenshot is synthetic).
+The primary output of the project was a PowerBI dashboard which shows the council the predictions, as well as various other insights such as the key risk factors contributing to the predictions, and trends over time at the local level, school-level and pupil-level. Below is a screenshot of one view from the dashboard (please note all the data in this screenshot is synthetic):
+
+![alt text](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/PowerBI_screenshot.jpg)
 
 #### Further work
 
