@@ -1,14 +1,103 @@
 # Predicting students at risk of becoming NEET (Not in Education, Employment or Training)
 
-Welcome to the code repository for the project conducted under **Data Science for Social Good- UK 2022 (DSSGx UK)**, for our partner: **Buckinghamshire Council**. The aim of the project was to identify students, before Year 11, at risk of becoming NEET after they complete their GCSEs. This readme will focus on documenting:
+Welcome to the code repository for the project conducted under **Data Science for Social Good- UK 2022 (DSSGx UK)**, for our partner: **Buckinghamshire Council**. This readme provides an overview of the project, the contributors, the folder structure of the repository, and guidance on how other councils can replicate the project using their own datasets. 
 
-1.	Folder structure 
-2.  Assumptions
-3.	Setting up a machine for running all the workflows
-4.	How to run different workflows
-5.	Expected data schema for Power BI dashboard
+Other key resources to consult include:
 
-# Folder Structure
+  - Methodology documentation - available [here](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/NEET_Prediction_Methodology_FINAL.pdf)
+  - Project poster - available [here](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/DSSG%20Poster%20Buckinghamshire.pdf)
+  - Presentation video (to be added)
+
+## Project Overview
+
+This project was a collaboration between [Buckinghamshire Council](https://www.buckinghamshire.gov.uk/), [the EY Foundation](https://eyfoundation.com/uk/en/home.html)  and [Data Science for Social Good UK](https://warwick.ac.uk/research/data-science/warwick-data/dssgx/). 
+
+The goal of the project was to build a model for predicting which pupils in Buckinghamshire are at high risk of becoming NEET (Not in Education, Employment or Training) in the future, using a range of different datasets such as the School Census and National Client Caseload Information System (NCCIS) database. 
+
+The final predictive model was developed a Gradient Boosted Trees algorithm from the LightGBM package in Python and **achieved an accuracy of 92.8% and an F2-score of 47.8%**.
+
+### Presentation video
+
+To Be Added
+
+### Partners
+
+[Buckinghamshire Council](https://www.buckinghamshire.gov.uk/) is a unitary local authority in South-East England responsible for providing all local government services in the region and serving a population of approximately 550k people. One of the council’s statutory duties is to support young people to participate in education, employment, or training. The council provides various services to young people and works closely with local schools to support students who are most in need of support.
+
+[The EY Foundation](https://eyfoundation.com/uk/en/home.html) tackles the barriers to employment faced by young people from low-income backgrounds. Through their programmes, they help young people unlock their potential and succeed in the workplace.
+
+### Challenge
+
+Between 2018 and 2020, Buckinghamshire county had a NEET rate of above 2% and Unknown destination rate of above 5% for young people aged 17 to 18. 
+
+Studies have shown that time spent NEET can have a detrimental effect on physical and mental health, increasing the likelihood of unemployment, low wages, or low quality of work later on in life. Buckinghamshire Council wanted to identify students’ risk of becoming NEET in years 12 or 13 (ages 17-18), by the end of  years 10 or 11 (ages 14-16) so that they could target the right pupils with early intervention programmes. It is hoped that doing so will improve the life chances of those young people who receive intervention that they otherwise may not have done.
+
+### Data
+
+The following datasets were provided by Buckinghamshire council and used by the team to carry out the modelling and analysis. Most of the datasets follow schemas set by central government, and where available links have been provided which describe the metadata and data fields in detail.
+
+**NCCIS Dataset** - This dataset holds information required by Local Authorities to support young people to engage in education and training. Some of the important variables captured in the dataset are student’s characteristic codes (e.g. if they are a carer, pregnant etc), activity codes, Special Educational Needs, and their level of need. The final outcome variable of whether a student is NEET or UNKNOWN is extracted from this dataset - [NCCIS_Schema](https://www.gov.uk/government/publications/nccis-management-information-requirement).
+
+**School Census Dataset** - Provides demographic information about students, for example: Gender, Ethnicity, Age and Language, as well as other features such as whether the student receives Free School Meals (FSM) or has Special Educational Needs (SEN) - [School Census_Schema](https://www.gov.uk/guidance/complete-the-school-census/data-items-2022-to-2023).
+
+**KS4 Dataset** - Provides information related to student’s grades, eligibility for Free School Meals and Income deprivation index - [KS4_Schema](https://explore-education-statistics.service.gov.uk/find-statistics/key-stage-4-destination-measures/2019-20#releaseHeadlines-charts).
+
+**Attendance Dataset** - Provides data on the attendance of students along with features like termly sessions, absences, and reasons for absences (exclusions, late entry, etc) – [Attendance_Schema](https://www.gov.uk/guidance/complete-the-school-census/data-items-2022-to-2023).
+
+School Information Dataset - Provides details on school areas, postcodes, and school names.
+
+### Methods
+
+Two pipelines were developed for the project, to prepare the data, and to manage the modelling process. A Python package called [Data Version Control](https://dvc.org/doc/api-reference) was used to develop the modelling pipeline, which provides a simple mechanism to reproduce the project outputs using different datasets.
+
+The diagram below provides a simple overview of the end-to-end pipeline:
+
+![alt text](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/bucks_method.jpg)
+
+For a detailed description please refer to the [project poster](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/DSSG%20Poster%20Buckinghamshire.pdf) and [methodology documentation](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/NEET_Prediction_Methodology_FINAL.pdf).
+
+### Solution & Value Add
+
+The project team built several artefacts to support the council in this objective.
+
+A predictive model that:
+  - Predicts the risk of becoming NEET for 26,592 students currently in school years 7 to 10
+  - Identifies students’ key risk factors contributing to their probability of becoming NEET
+  - Identifies if students with an Unknown status are likely to become NEET
+
+A PowerBI dashboard that:
+  - Allows Buckinghamshire Council to view the insights generated by the model for each student
+  - Provides insights about schools and school areas with a higher rate of NEET
+  - Allows the council to view insights about a larger cohort of 61,761 unique students from the NCCIS dataset (2017-2022), in school years 6 to 13.
+
+The final predictive model was developed a Gradient Boosted Trees algorithm from the LightGBM package in Python and achieved an accuracy of 92.8% and an F2-score of 47.8%.
+
+At a UK level, the model has the potential to identify 22% (4,193) more students per year who become NEET as compared to the already existing Risk of NEET Indicator (RONI) tool, which is used by some local authorities in the UK. When tested on the same dataset, the RONI tool achieved an accuracy of 85.5%. 
+
+It also flags 51% fewer students who never became NEET as compared to RONI, and therefore has the potential to save significant operational costs and resources for councils across the country.
+
+#### Dashboard
+
+The primary output of the project was a PowerBI dashboard which shows the council the predictions, as well as various other insights such as the key risk factors contributing to the predictions, and trends over time at the local level, school-level and pupil-level. Below is a screenshot of one view from the dashboard (please note all the data in this screenshot is synthetic):
+
+![alt text](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/PowerBI_screenshot.jpg)
+
+#### Further work
+
+While the model does outperform existing tools such as RONI, it is anticipated that it could be further improved by including datasets and features that are known to be predictive of poor outcomes for young people. Specifically, councils are encouraged to integrate data from sources such as Early Help & Social Care, Revenues & Benefits, and from wider public services such as the NHS and the police to further improve performance.
+
+## Contributors
+
+  - Abhijeet Mulgund – [GitHub](https://github.com/abhmul), [LinkedIn](https://www.linkedin.com/in/abhijeetmulgund/) 
+  - Rachel Humphries – [GitHub](https://github.com/bs10reh), [LinkedIn](https://www.linkedin.com/in/rehumphries/)
+  - Vanshika Namdev – [GitHub](https://github.com/vanshu25), [LinkedIn](https://www.linkedin.com/in/vanshikanamdev/)
+  - Pranjusmrita Kalita – [GitHub](https://github.com/Pranjusmrita), [LinkedIn](https://www.linkedin.com/in/pranjusmrita-kalita/)
+
+In collaboration with:
+  - Project Manager: Satyam Bhagwanani – [GitHub](https://github.com/sat899), [LinkedIn](https://www.linkedin.com/in/satyam-bhagwanani-934a243a/)
+  - Technical Mentor: Mihir Mehta – [GitHub](https://github.com/mihirpsu), [LinkedIn](https://www.linkedin.com/in/mihir79/)
+
+## Folder Structure
 
 ```bash
 
@@ -190,7 +279,7 @@ s22_buckinghamshire
 
 ```
 
-## Brief folder description
+### Brief folder description
 
 `data` : This folder contains two sub-folders : `interim` and `raw`. After running the pipeline an additional `processed` folder will also be present. The original dataset files are stored in their dataset sub-folder within the `raw` folder e.g. `raw/attendance_original_csv` will contain the original csv files for attendance datasets. These original files will go through the data pipeline and will generate additional files which will be canonicalized (standardised formatting), annotated and merged across years, which will be stored in `interim` sub-folder. The `processed` subfolder will contain the final datasets ready to be used for modeling.
   
@@ -204,7 +293,9 @@ s22_buckinghamshire
 
 `src` : This folder contains helper functions (found in the `*_utils.py` scripts) and also contains scripts that can set different parameters. There are three sub-folders: `constants`, `cv` and `params`. The `cv` sub-folder contains helper functions for the cross-validation and hyper-parameter search stage. It also contains dictionaries of the hyper-parameter search spaces in `search_spaces.py`. The `constants` folder contains parameters for the pipeline that are unlikely to need to change, whereas the `params` sub-folder contains parameters for the pipeline that may need/want to be changed. The `*_arguments.py` scripts in this sub-folder include the arguments that are sent to the `dvc.yaml` pipeline.    
 
-# Assumptions
+## How to Replicate the Project
+
+### Data Assumptions
 
 Assuming that the data provided by the user are of the following types:
   1. Attendance [Attendance_Schema](https://www.gov.uk/guidance/complete-the-school-census/data-items-2022-to-2023)
@@ -222,11 +313,11 @@ In addition, we allow data on *characteristics* and *ks2*, since these can be us
   4. No column names can include "__"! This is a special reserved character for our code.
 
 
-# Setting up a machine for running all the workflows
+### Setting up a machine for running all the workflows
 
 This part will change slightly depending on what operating system you are using.
 
-## Windows
+#### Windows
 
 1. Ensure you have an updated python installed on your machine. You can install it through the [Microsoft Store](https://www.microsoft.com/store/productId/9PJPW5LDXLZ5). As of writing this, the most up to date version was python 3.10.
 2. Ensure you have git installed. You can get an installer [here](https://git-scm.com/download/win).
@@ -269,7 +360,7 @@ This part will change slightly depending on what operating system you are using.
 
 ```
 
-## Mac or Linux
+#### Mac or Linux
 
 1. Ensure you have an updated python installed on your machine. For Mac, you can find the python installer at [python.org](https://www.python.org/downloads/macos/). For Linux, you can find the installer [here](https://www.python.org/downloads/source/)
 2. Ensure you have git installed. For Mac, you can get an installer [here](https://git-scm.com/download/mac). For Linux, you can find directions for installing [here](https://git-scm.com/download/linux)
@@ -291,7 +382,7 @@ This part will change slightly depending on what operating system you are using.
 
 > python -m venv venv                                                 # Creating a python virtual environment
 
-> source .\venv\Scripts\activate                                      # Running the virtual environment. 
+> source ./venv/bin/activate                                      # Running the virtual environment. 
                                                               
 > pip install --upgrade pip                                           # Update pip if necessary
 
@@ -300,11 +391,9 @@ This part will change slightly depending on what operating system you are using.
 > dvc config --system core.analytics false                            # Turn off DVC anonymized analytics
 ```
 
-# How to run different workflows
+### Connecting Data
 
-## Connecting Data
-
-### Downloading the synthetic data
+#### Downloading the synthetic data
 
 We've published synthetic data to dagshub so you can play around with the pipeline. This data is randomly generated and any unique IDs are random strings.
 
@@ -314,13 +403,13 @@ dvc remote add origin https://dagshub.com/abhmul/s22_buckinghamshire.dvc -f
 dvc pull -r origin
 ```
 
-### Using your own data
+#### Using your own data
 
 If you are a council with your own data, these datasets will need to be saved in the `data/raw` directory as csv files in the correct formats with the correct column names. 
 
 Before adding your data, please run the steps above to get the synthetic data. Then run the following steps
 
-#### Windows 
+##### Windows 
 
 ```bash
 cd data/raw
@@ -330,7 +419,7 @@ Get-ChildItem * -Include *.csv -Recurse | Remove-Item     # Run this without # t
 Get-ChildItem * -Include *.csv.dvc -Recurse | Remove-Item # This deletes the dvc tracking files for the synthetic data
 ```
 
-#### Linux or Mac
+##### Linux or Mac
 
 ```bash
 cd data/raw
@@ -352,21 +441,21 @@ Within the `data/raw` directory are 6 folders that correspond to the different d
 
 The datasets in these directories should be named `[TYPE]_original_[DATE].csv` where `[TYPE]` refers to the dataset (attendance, ccis, census, ks4, characteristics, ks2) and `[DATE]` refers to the month and year the dataset was submitted (e.g. `attendance_original_jan21.csv` corresponds to autumn 2021 attendance data, which is submitted in January). `[DATE]` should be written as the first 3 letters of the month and the last 2 digits of the year e.g. `jan21`, `sep19`.
 
-`characteristics_original_csv` and `ks2_original_csv` contain columns from the CCIS and KS4 datasets, respectively, and should be populated with data from current Year 7-10 students that we want to generate predictions for.
+CSV files in `characteristics_original_csv` and `ks2_original_csv` contain columns from the CCIS and KS4 datasets, respectively, and should be populated with data from current Year 7-10 students that we want to generate predictions for. These are separate datasets as current Year 7-10 students are not present in the CCIS and KS4 datasets until Year 11 onwards, but there are important features within these datasests that will improve the model performance.
 
 In addition you should add a csv file called `data/raw/secondary_schools_original.csv`, so the code knows what schools the establishment numbers in the data correspond to. See the file in `example_data/raw` for how your csv should look.
 
 Once you've added your data to the `data/raw` folder, you should be good to go.
 
-### Adding data from new years
+#### Adding data from new years
 
 You may want to incorporate more data from later years as you collect it. Simply follow the procedure outlined above, and the pipeline will pick it up.
 
-### Adding New Columns
+#### Adding New Columns
 
 We currently do not support addition of new columns for modeling. The code should work fine if you add new columns but it will not use them in modeling.
 
-## Running the code
+### Running the code
 
 **Please follow the below steps before running the workflows**:
   
@@ -374,7 +463,7 @@ We currently do not support addition of new columns for modeling. The code shoul
 cd .\scripts\
 ```
 
-### Run the whole pipeline
+#### Run the whole pipeline
 
 Running the whole pipeline includes a hyper parameter search which can take a few hours to complete. If you do not wish to run this stage, please follow the instructions under [Output predictions on new data without re-running the hyper parameter search](#output-predictions-on-new-data-without-re-running-the-hyper-parameter-search).
 
@@ -400,7 +489,7 @@ Alternatively, you could run the steps individually:
   dvc repro -s --glob prediction_* 
 ```
 
-  ### Output predictions on new data without re-running the hyper parameter search  
+  #### Output predictions on new data without re-running the hyper parameter search  
   
   Following these steps re-trains the model with new data using the previous best hyper-parameters.
     
@@ -412,7 +501,7 @@ Alternatively, you could run the steps individually:
   dvc repro -s --glob model_evaluation_*                        
 
   # Generate datasets for predictions and final output
-  dvc repro --glob prediction_* 
+  dvc repro -s --glob prediction_* 
 ```
 
 Below is a brief overview of what each stage within a workflow is doing:
@@ -440,7 +529,7 @@ Below is a brief overview of what each stage within a workflow is doing:
   - Returns RONI score
   - Returns scaled probability scores for a student at risk of becoming NEET (between 1-10)
 
-### Reloading the hyperparameter search from a checkpoint
+#### Reloading the hyperparameter search from a checkpoint
 
 Because the hyperparameter search takes a long time, we have built support for checkpoint progress. If for some reason the run does not complete, you can pick it up from where it left off rather than restarting it. To do this you will need to complete the following steps:
 1. Open `src/params/model_pipeline_params.py`.
@@ -450,7 +539,7 @@ Because the hyperparameter search takes a long time, we have built support for c
 
 Please make sure to reset `LOAD_CHECKPOINTS` to `False` (and rerun `python generate_params.py`) when you want to research for hyperparameter with new data. Otherwise the search will use the old checkpoint and not rerun.
 
-### Changing any other parameters
+#### Changing any other parameters
 
 If you feel comfortable with diving into the code and wish to change additional parameters, you need to do the following:
 1. Change the parameters in any of the python files in `src/params`.
@@ -458,7 +547,7 @@ If you feel comfortable with diving into the code and wish to change additional 
 
 If you do not complete step (2) the pipeline will not register your changes.
 
-## Outputs from running the pipeline
+#### Outputs from running the pipeline
 
 These files can be found in the `results/` directory after running the pipeline.
 
@@ -467,7 +556,7 @@ These files can be found in the `results/` directory after running the pipeline.
 - `unidentified_students_single.csv`: List of school students that had too much missing data and could not be used in the model
 - `unidentified_unknowns_single.csv`: List of students with unknown destinations that had too much missing data and could not be used in the model
 
-## Expected data schema for Power BI dashboard:
+#### Expected data schema for Power BI dashboard:
 
 The datasets to be loaded into the Power BI dahsboard after running the pipeline are found here:
 - `results/predictions.csv` 
@@ -481,55 +570,58 @@ The first two contain predictions for current school students in Years 7-10 and 
 `unidentified_students_single.csv` contains unidentified current school students for which predictions could not be generated due to too much missing data.
 The final three files found in the `data/interim` folder contain neet, census and attendance data from previous years of students. These three datasets are for a separate page of the power bi dashboard that looks at certain factor trends over the years.    
 
-The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given):
-1. Att<85% 
-    - Att<85% = SUM(fake_test_dataset[att_less_than_85])/DISTINCTCOUNT(fake_test_dataset[upn])
+The Measures table(named as Measures_table) contains some measured valued we need to display on powerBI visualisations. We can easily create new measure in PowerBI. You will need to implement these measures (name and formula are given) in case it is gone:
+- Att<85% 
+    `Att<85% = SUM(predictions[att_less_than_85])/DISTINCTCOUNT(predictions[upn])`
 
-2. HighRisk
-    - HighRisk = SUM(fake_test_dataset[predictions])/DISTINCTCOUNT(fake_test_dataset[upn])
+- HighRisk
+    `HighRisk = SUM(predictions[predictions])/DISTINCTCOUNT(predictions[upn])`
 
-3. LevelOfNeed_2%
-    - LevelOfNeed_2% = SUM(fake_test_dataset[level_of_need_code_2])/DISTINCTCOUNT(fake_test_dataset[upn])
+- LevelOfNeed_2%
+    `LevelOfNeed_2% = SUM(predictions[level_of_need_code__2])/DISTINCTCOUNT(predictions[upn])`
 
-4. 	MentalHealth%
-    - MentalHealth% = SUM(fake_test_dataset[characteristic_code_210])*100/DISTINCTCOUNT(fake_test_dataset[upn])
+- MentalHealth%
+    `MentalHealth% = SUM(predictions[characteristic_code__210])*100/DISTINCTCOUNT(predictions[upn])`
 
-5. Pregnant/Parent%
-    - Pregnant/Parent% = SUM(fake_test_dataset[Parent/Preg%])/DISTINCTCOUNT(fake_test_dataset[upn])
+- Pregnant/Parent%
+    `Pregnant/Parent% = SUM(predictions[Parent/Preg%])/DISTINCTCOUNT(predictions[upn])`
 
-6. 	SEND%
-    - SEND% = SUM(fake_test_dataset[send_flag])/DISTINCTCOUNT(fake_test_dataset[upn])
+- SEND%
+    `SEND% = SUM(predictions[send_flag])/DISTINCTCOUNT(predictions[upn])`
 
-7. SupByYOT%
-    - SupByYOT% = SUM(fake_test_dataset[characteristic_code_170])/DISTINCTCOUNT(fake_test_dataset[upn])
-
-8. unidentified%
-    - unidentified% = DISTINCTCOUNT(Unidentified[UPN])*100/DISTINCTCOUNT(fake_test_dataset[upn])
+- SupByYOT%
+    `SupByYOT% = SUM(predictions[characteristic_code__170])/DISTINCTCOUNT(predictions[upn])`
+    
+- unidentified%
+    `unidentified% = DISTINCTCOUNT(unidentified_students_single[UPN])/DISTINCTCOUNT(predictions[upn])`
+    
+- Exclusions%
+    `Exclusions% = AVERAGE(predictions[excluded_authorised_percent1])*100`
 
 
 We also need to create few new columns for PowerBI. These are as follows along with the formula:
-1.	Column Name: MentalHealthFlag
-    - File: desens_sdv__neet_annotated
-    - Formula: MentalHealthFlag = if(desens_sdv_neet_annotated[characteristic_code]="210",1,0)
+1.	Column Name: `mental_health_flag`
+    - File: `neet_annotated`
+    - Formula: `mental_health_flag = IF(neet_annotated[characteristic_code]==210, 1,0)`
 
-2.	Column Name: Age
-    - File: fake_test_dataset
-    - Formula: “The Council will have to map and fill the ages”
+2.	Column Name: `Attendance%`
+    - File: `predictions`
+    - Formula: `Attendance% = (1-predictions[total_absences])*100`
 
-3.	Column Name: Attendance%
-    - File: fake_test_dataset
-    - Formula: Attendance% = (1-fake_test_dataset[total_absences])*100
+3.	Column Name: `Gender`
+    - File: `predictions`
+    - Formula: `Gender = SWITCH(TRUE(), 'predictions'[gender__f]==1, "F", 'predictions'[gender__m]==1, "M", 'predictions'[gender__u]==1, "U", 'predictions'[gender__W]==1, "W")`
 
-4.	Column Name: Gender
-    - File: fake_test_dataset
-    - Formula: Gender = IF(fake_test_dataset[gender_f]==1, "F","M")
+4.	Column Name: `Parent/Preg%`
+    - File: `predictions`
+    - Formula: `Parent/Preg% = IF(OR(predictions[characteristic_code__120]==1, predictions[characteristic_code__180]==1), 1, 0)`
 
-5.	Column Name: Parent/Preg%
-    - File: fake_test_dataset
-    - Formula: Parent/Preg% = IF(OR(fake_test_dataset[characteristic_code_120]==1, fake_test_dataset[characteristic_code_180]==1), 1, 0)
-
-6.	Column Name: Gender
-    - File: unknowns_prediction
-    - Formula: Gender = IF(unknowns_prediction[gender_m]==1, "M","F")
-
-NOTE: replace fake_test_dataset with the actual file name which contains the predictions
+5.	Column Name: `Gender`
+    - File: `unknown_predictions`
+    - Formula: `Gender = SWITCH(TRUE(), 'unknown_predictions'[gender__f]==1, "F", 'unknown_predictions'[gender__m]==1, "M", 'unknown_predictions'[gender__u]==1, "U", 'unknown_predictions'[gender__W]==1, "W")`
+    
+    
+ `Relationships`
+ - For the map visualisations, you'll need to create two relationships. For this you'll have to upload the file 'PCD_OA_LSOA_MSOA_LAD_NOV19_UK_LU.csv'.
+ - First relationship, you will need to create relationship between column `pcds` of file `PCD_OA_LSOA_MSOA_LAD_NOV19_UK_LU.csv` with the column `postcode` of file `predictions`.
+ - Another relationship you will need to create is between column `pcds` of file `PCD_OA_LSOA_MSOA_LAD_NOV19_UK_LU.csv` with the column `postcode` of file `unknown_predictions`.
