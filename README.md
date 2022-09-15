@@ -4,15 +4,17 @@ Welcome to the code repository for the project conducted under **Data Science fo
 
 Other key resources to consult include:
 
-•	Methodology documentation - here
-•	Project poster - here
-•	Presentation video (to be added)
+  - Methodology documentation - available here
+  - Project poster - available here
+  - Presentation video (to be added)
 
 ## Project Overview
 
-This project was a collaboration between [Buckinghamshire Council](https://www.buckinghamshire.gov.uk/), [the EY Foundation](https://eyfoundation.com/uk/en/home.html)  and [Data Science for Social Good UK](https://warwick.ac.uk/research/data-science/warwick-data/dssgx/). The goal of the project was to build a model for predicting which pupils in Buckinghamshire are at high risk of becoming NEET (Not in Education, Employment or Training) in the future, using a range of different datasets such as the School Census and National Client Caseload Information System (NCCIS) database. 
+This project was a collaboration between [Buckinghamshire Council](https://www.buckinghamshire.gov.uk/), [the EY Foundation](https://eyfoundation.com/uk/en/home.html)  and [Data Science for Social Good UK](https://warwick.ac.uk/research/data-science/warwick-data/dssgx/). 
 
-The final predictive model was developed a Gradient Boosted Trees algorithm and achieved an accuracy of 92.8% and an F2-score of 47.8%.
+The goal of the project was to build a model for predicting which pupils in Buckinghamshire are at high risk of becoming NEET (Not in Education, Employment or Training) in the future, using a range of different datasets such as the School Census and National Client Caseload Information System (NCCIS) database. 
+
+The final predictive model was developed a Gradient Boosted Trees algorithm from the LightGBM package in Python and **achieved an accuracy of 92.8% and an F2-score of 47.8%**.
 
 ### Presentation video
 
@@ -26,23 +28,29 @@ To Be Added
 
 ### Challenge
 
-Between 2018 and 2020, Buckinghamshire county had a NEET rate of above 2% and Unknown destination rate of above 5% for young people aged 17 to 18. Studies have shown that time spent NEET can have a detrimental effect on physical and mental health, increasing the likelihood of unemployment, low wages, or low quality of work later on in life. Buckinghamshire Council wanted to identify students’ risk of becoming NEET in years 12 or 13 (ages 17-18), by the end of  years 10 or 11 (ages 14-16) so that they could target the right pupils with early intervention programmes. It is hoped that doing so will improve the life chances of those young people who receive intervention that they otherwise may not have done.
+Between 2018 and 2020, Buckinghamshire county had a NEET rate of above 2% and Unknown destination rate of above 5% for young people aged 17 to 18. 
+
+Studies have shown that time spent NEET can have a detrimental effect on physical and mental health, increasing the likelihood of unemployment, low wages, or low quality of work later on in life. Buckinghamshire Council wanted to identify students’ risk of becoming NEET in years 12 or 13 (ages 17-18), by the end of  years 10 or 11 (ages 14-16) so that they could target the right pupils with early intervention programmes. It is hoped that doing so will improve the life chances of those young people who receive intervention that they otherwise may not have done.
 
 ### Data
 
-Five core datasets were used to develop the model:
+The following datasets were provided by Buckinghamshire council and used by the team to carry out the modelling and analysis. Most of the datasets follow schemas set by central government, and where available links have been provided which describe the metadata and data fields in detail.
 
-1. [NCCIS](https://www.gov.uk/government/publications/nccis-management-information-requirement) – The dataset holds information required by Local Authorities to support young people to engage in education and training. Some of the important variables captured in the dataset are student’s characteristic codes, activity codes, special educational needs, level of need support, etc. The final outcome variable of whether a student is NEET or UNKNOWN is extracted from this dataset.
+**NCCIS Dataset** - This dataset holds information required by Local Authorities to support young people to engage in education and training. Some of the important variables captured in the dataset are student’s characteristic codes (e.g. if they are a carer, pregnant etc), activity codes, Special Educational Needs, and their level of need. The final outcome variable of whether a student is NEET or UNKNOWN is extracted from this dataset - [NCCIS_Schema](https://www.gov.uk/government/publications/nccis-management-information-requirement).
 
-2.	[School Census](https://www.gov.uk/guidance/complete-the-school-census/data-items-2022-to-2023) – The dataset provides demographic information about the students for example: Gender, Ethnicity, Age, Language, etc.
+**School Census Dataset** - Provides demographic information about students, for example: Gender, Ethnicity, Age and Language, as well as other features such as whether the student receives Free School Meals (FSM) or has Special Educational Needs (SEN) - [School Census_Schema](https://www.gov.uk/guidance/complete-the-school-census/data-items-2022-to-2023).
 
-3.	[Key-Stage 4 Attainment](https://explore-education-statistics.service.gov.uk/find-statistics/key-stage-4-destination-measures/2019-20#releaseHeadlines-charts) – Provides information related to student’s grades, eligibility for Free School Meals and Income deprivation index.
+**KS4 Dataset** - Provides information related to student’s grades, eligibility for Free School Meals and Income deprivation index - [KS4_Schema](https://explore-education-statistics.service.gov.uk/find-statistics/key-stage-4-destination-measures/2019-20#releaseHeadlines-charts).
 
-4.	[Attendance Data](https://www.gov.uk/guidance/complete-the-school-census/data-items-2022-to-2023) – Stores records of students’ termly sessions, absences, and reasons for absences.
+**Attendance Dataset** - Provides data on the attendance of students along with features like termly sessions, absences, and reasons for absences (exclusions, late entry, etc) – [Attendance_Schema](https://www.gov.uk/guidance/complete-the-school-census/data-items-2022-to-2023).
 
-5.	School Information – Provides details on school areas, postcodes, and school names.
+School Information Dataset - Provides details on school areas, postcodes, and school names.
 
 ### Methods
+
+Two pipelines were developed for the project, to prepare the data, and to manage the modelling process. A Python package called [Data Version Control(https://dvc.org/doc/api-reference) was used to develop the modelling pipeline, which provides a simple mechanism to reproduce the project outputs using different datasets.
+
+The diagram below provides a simple overview of the end-to-end pipeline:
 
 For a detailed description please refer to the methodology documentation.
 
@@ -51,14 +59,16 @@ For a detailed description please refer to the methodology documentation.
 The project team built several artefacts to support the council in this objective.
 
 A predictive model that:
-•	Predicts the risk of becoming NEET for 26,592 students currently in school years 7 to 10
-•	Identifies students’ key risk factors contributing to their probability of becoming NEET
-•	Identifies if students with an Unknown status are likely to become NEET
+  - Predicts the risk of becoming NEET for 26,592 students currently in school years 7 to 10
+  - Identifies students’ key risk factors contributing to their probability of becoming NEET
+  - Identifies if students with an Unknown status are likely to become NEET
 
 A PowerBI dashboard that:
-•	Allows Buckinghamshire Council to view the insights generated by the model for each student
-•	Provides insights about schools and school areas with a higher rate of NEET
-•	Allows the council to view insights about a larger cohort of 61,761 unique students from the NCCIS dataset (2017-2022), in school years 6 to 13.
+  - Allows Buckinghamshire Council to view the insights generated by the model for each student
+  - Provides insights about schools and school areas with a higher rate of NEET
+  - Allows the council to view insights about a larger cohort of 61,761 unique students from the NCCIS dataset (2017-2022), in school years 6 to 13.
+
+The final predictive model was developed a Gradient Boosted Trees algorithm from the LightGBM package in Python and achieved an accuracy of 92.8% and an F2-score of 47.8%.
 
 At a UK level, the model has the potential to identify 22% (4,193) more students per year who become NEET as compared to the already existing Risk of NEET Indicator (RONI) tool, which is used by some local authorities in the UK. It also flags 51% fewer students who never became NEET as compared to RONI, and therefore has the potential to save significant operational costs and resources for councils across the country.
 
@@ -72,14 +82,14 @@ While the model does outperform existing tools such as RONI, it is anticipated t
 
 ## Contributors
 
-•	Abhijeet Mulgund – [GitHub](https://github.com/abhmul), [LinkedIn](https://www.linkedin.com/in/abhijeetmulgund/) 
-•	Rachel Humphries – [GitHub](https://github.com/bs10reh), [LinkedIn](https://www.linkedin.com/in/rehumphries/)
-•	Vanshika Namdev – [GitHub](https://github.com/vanshu25), [LinkedIn](https://www.linkedin.com/in/vanshikanamdev/)
-•	Pranjusmrita Kalita – [GitHub](https://github.com/Pranjusmrita), [LinkedIn](https://www.linkedin.com/in/pranjusmrita-kalita/)
+  - Abhijeet Mulgund – [GitHub](https://github.com/abhmul), [LinkedIn](https://www.linkedin.com/in/abhijeetmulgund/) 
+  - Rachel Humphries – [GitHub](https://github.com/bs10reh), [LinkedIn](https://www.linkedin.com/in/rehumphries/)
+  - Vanshika Namdev – [GitHub](https://github.com/vanshu25), [LinkedIn](https://www.linkedin.com/in/vanshikanamdev/)
+  - Pranjusmrita Kalita – [GitHub](https://github.com/Pranjusmrita), [LinkedIn](https://www.linkedin.com/in/pranjusmrita-kalita/)
 
-In collaboration with: 
-•	Project Manager: Satyam Bhagwanani – [GitHub](https://github.com/sat899), [LinkedIn](https://www.linkedin.com/in/satyam-bhagwanani-934a243a/)
-•	Technical Mentor: Mihir Mehta – [GitHub](https://github.com/mihirpsu), [LinkedIn](https://www.linkedin.com/in/mihir79/)
+In collaboration with:
+  - Project Manager: Satyam Bhagwanani – [GitHub](https://github.com/sat899), [LinkedIn](https://www.linkedin.com/in/satyam-bhagwanani-934a243a/)
+  - Technical Mentor: Mihir Mehta – [GitHub](https://github.com/mihirpsu), [LinkedIn](https://www.linkedin.com/in/mihir79/)
 
 ## Folder Structure
 
