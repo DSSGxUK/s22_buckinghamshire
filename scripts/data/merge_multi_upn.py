@@ -90,6 +90,7 @@ parser.add_argument(
     choices=asdict(OutputDatasetTypes).values(),
     help="What kind of output merged dataset to build",
 )
+parser.add_argument("--only_att_census_merge", action="store_true", help="whether to only use attendance and census features")
 # Optional in case we don't have it
 parser.add_argument(
     "--chars", type=lambda x: x.strip("'"), required=False, help="where to find the input characteristics data"
@@ -269,6 +270,10 @@ if __name__ == "__main__":
         logger.info(
             f"Output dataset type is {OutputDatasetTypes.modeling} so only keeping students data after compulsory school and either a neet activity or no unknown activity"
         )
+        if args.only_att_census_merge : #only keep essential columns in ks2 and ccis data
+            neet_df = neet_df[[UPN,CCISDataColumns.neet_ever,CCISDataColumns.unknown_ever,CCISDataColumns.compulsory_school_always,CCISDataColumns.unknown_currently,CCISDataColumns.birth_month,CCISDataColumns.birth_year]]
+            ks2_df = ks2_df[[UPN]]
+            
         neet_df = neet_df[~neet_df[CCISDataColumns.compulsory_school_always]]
         if args.target == Targets.neet_ever:
             neet_df = neet_df[
@@ -360,7 +365,7 @@ if __name__ == "__main__":
     merged_df = mu.merge_priority_dfs(
         dfs=merge_list, on=UPN, how="outer", unknown_vals=UNKNOWN_CODES, na_vals=NA_VALS
     )
-
+    #breakpoint()
     # If there is an NA value this means that row wasn't in the respective dataset, so fillna with 0.
     for col in [
         CensusDataColumns.has_census_data,
@@ -413,6 +418,9 @@ if __name__ == "__main__":
 
     logger.info(f"Dropping birth year column")
     merged_df.drop(CharacteristicsDataColumns.birth_year, axis=1, inplace=True)
+    if args.only_att_census_merge:
+        logger.info(f"Dropping birth month column")
+        merged_df.drop(CharacteristicsDataColumns.birth_month, axis=1, inplace=True)       
 
     logger.info("Dropping unnecessary columns")
     if args.output_dataset_type == OutputDatasetTypes.modeling:
@@ -454,7 +462,9 @@ if __name__ == "__main__":
             f"Final characteristics count in merged {chars_count}/{len(merged_df)} ({py.safe_divide(chars_count, len(merged_df))})"
         )
     logger.info(f"Final column count {len(merged_df.columns)}")
-
+    
+    #breakpoint()
+    
     csv_fp = f.tmp_path(args.output, debug=args.debug)
 
     logger.info(f"Saving multi upn merged data to {csv_fp}")

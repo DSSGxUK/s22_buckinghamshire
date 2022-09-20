@@ -81,6 +81,8 @@ parser.add_argument(
     choices=asdict(OutputDatasetTypes).values(),
     help="What kind of output merged dataset to build",
 )
+parser.add_argument("--only_att_census_merge", action="store_true", help="whether the dataset only contains attendance and census features")
+
 
 def demix_column(
     mixed_data, numeric_name, categorical_name, include_test_taken_code: bool
@@ -189,44 +191,45 @@ if __name__ == "__main__":
     df = pd.concat([df, dummy_sen_need], axis=1)
 
     # KS2
-    mix_columns = [
-        KSDataColumns.ks2_english,
-        KSDataColumns.ks2_mathematics,
-        KSDataColumns.ks2_english_ta,
-        KSDataColumns.ks2_english_ta_level,
-        KSDataColumns.ks2_english_level_finely_graded,
-        KSDataColumns.ks2_mathematics_ta,
-        KSDataColumns.ks2_mathematics_ta_level,
-        KSDataColumns.ks2_mathematics_level_finely_graded,
-        KSDataColumns.ks2_reading_ta_level,
-        KSDataColumns.ks2_reading_level_finely_graded,
-        KSDataColumns.ks2_mathematics_finely_graded,
-    ]
-    code_columns = [n + "_codes" for n in mix_columns]
-    logger.info(
-        f"Demixing KS2 columns {mix_columns} with both numeric and categorical data"
-    )
-    logger.info(
-        f'We are {"" if args.include_test_taken_code else "not "} including a code for whether the test was taken in the categorical codes columns'
-    )
-
-    for col_name, code_col_name in zip(mix_columns, code_columns):
-        demixed_df = demix_column(
-            df[col_name],
-            numeric_name=col_name,
-            categorical_name=code_col_name,
-            include_test_taken_code=args.include_test_taken_code,
+    if not args.only_att_census_merge :
+        mix_columns = [
+            KSDataColumns.ks2_english,
+            KSDataColumns.ks2_mathematics,
+            KSDataColumns.ks2_english_ta,
+            KSDataColumns.ks2_english_ta_level,
+            KSDataColumns.ks2_english_level_finely_graded,
+            KSDataColumns.ks2_mathematics_ta,
+            KSDataColumns.ks2_mathematics_ta_level,
+            KSDataColumns.ks2_mathematics_level_finely_graded,
+            KSDataColumns.ks2_reading_ta_level,
+            KSDataColumns.ks2_reading_level_finely_graded,
+            KSDataColumns.ks2_mathematics_finely_graded,
+        ]
+        code_columns = [n + "_codes" for n in mix_columns]
+        logger.info(
+            f"Demixing KS2 columns {mix_columns} with both numeric and categorical data"
         )
-        df.drop(col_name, axis=1, inplace=True)
-        df = pd.concat([df, demixed_df], axis=1)
+        logger.info(
+            f'We are {"" if args.include_test_taken_code else "not "} including a code for whether the test was taken in the categorical codes columns'
+        )
 
-    simple_categorical = [
-        KSDataColumns.sen,
-    ] + code_columns
-    logger.info(
-        f"Creating simple categorical columns (using pd.get_dummies) for KS2 columns {simple_categorical}"
-    )
-    df = d.get_dummies_with_logging(df, columns=simple_categorical, logger=logger)
+        for col_name, code_col_name in zip(mix_columns, code_columns):
+            demixed_df = demix_column(
+                df[col_name],
+                numeric_name=col_name,
+                categorical_name=code_col_name,
+                include_test_taken_code=args.include_test_taken_code,
+            )
+            df.drop(col_name, axis=1, inplace=True)
+            df = pd.concat([df, demixed_df], axis=1)
+
+        simple_categorical = [
+            KSDataColumns.sen,
+        ] + code_columns
+        logger.info(
+            f"Creating simple categorical columns (using pd.get_dummies) for KS2 columns {simple_categorical}"
+        )
+        df = d.get_dummies_with_logging(df, columns=simple_categorical, logger=logger)
 
     
     if args.output_dataset_type == OutputDatasetTypes.prediction:
@@ -242,13 +245,14 @@ if __name__ == "__main__":
             df, columns=simple_categorical_columns, logger=logger
         )
     elif args.output_dataset_type in [OutputDatasetTypes.modeling, OutputDatasetTypes.unknowns]:
+        if not args.only_att_census_merge:
         # CCIS
-        simple_categorical_columns = [
-            CCISDataColumns.birth_month,
-        ]
-        df = d.get_dummies_with_logging(
-            df, columns=simple_categorical_columns, logger=logger
-        )
+            simple_categorical_columns = [
+                CCISDataColumns.birth_month,
+            ]
+            df = d.get_dummies_with_logging(
+                df, columns=simple_categorical_columns, logger=logger
+            )
     else:
         raise NotImplementedError(f"Dataset type {args.output_dataset_type} is not implemented.")
 

@@ -46,47 +46,70 @@ def calculate_roni_scores(df, threshold=None):
     roni_df["roni_att_below_90"] = ((df["total_absences"] > 0.1) & (df["total_absences"] <= 0.15)).astype(pd.Int8Dtype()) * 1
     roni_df["roni_att_below_85"] = ((df["total_absences"] > 0.15) & (df["total_absences"] <= 1.0)).astype(pd.Int8Dtype()) * 2
     roni_df["roni_eal"] = ((df[d.to_categorical("language", "eng")] == 0) & (df[d.to_categorical("language", "enb")] == 0)).astype(pd.Int8Dtype()) * 1
-    roni_df["roni_ehcp"] = (
-        (df[d.to_categorical("sen_provision", "e")] == 1)
-        | (df[d.to_categorical("sen_provision", "s")] == 1)
-        | (df[d.to_categorical("send_flag", "1")] == 1)
-        | (df[d.to_categorical("sen", "s")] == 1)
-        | (df[d.to_categorical("sen", "e")] == 1)
-    ).astype(pd.Int8Dtype()) * 2
-    roni_df["roni_sen"] = (
-        (df[d.to_categorical("sen_provision", "k")] == 1)
-        | (df[d.to_categorical("sen", "a")] == 1)
-        | (df[d.to_categorical("sen", "k")] == 1)
-        | (df[d.to_categorical("sen", "p")] == 1)
-        | (df[d.to_categorical("sen_support_flag", "1")] == 1)
-    ).astype(pd.Int8Dtype()) * 1
+    
+    #roni_df["roni_ehcp"] = ((df["sen_provision__e"] == 1) | (df[d.to_categorical("sen_provision", "s")] == 1)).astype(pd.Int8Dtype()) * 2
+    ehcp_cols = [d.to_categorical("sen_provision", "e"),d.to_categorical("sen_provision", "s"), d.to_categorical("send_flag", "1"),d.to_categorical("sen", "s"),d.to_categorical("sen", "e")]
+    if any([item in df.columns for item in ehcp_cols]) : #check for at least one column 
+        cols = []
+        for ecol in ehcp_cols :
+            if ecol in df.columns :
+                cols.append(ecol)
+        new_df = df[cols]
+        new_df["roni_ehcp"] = d.empty_series(len(new_df), index=new_df.index)
+        new_df["roni_ehcp"] = new_df.roni_ehcp.mask((new_df.iloc[:,:-1]==1).any(axis=1),1)
+        new_df["roni_ehcp"] =  new_df["roni_ehcp"].fillna(0) 
+        roni_df = roni_df.join(new_df["roni_ehcp"])
+        roni_df["roni_ehcp"] = roni_df["roni_ehcp"].astype(pd.Int8Dtype()) * 2
+
+    #breakpoint()
+
+    sen_cols = [d.to_categorical("sen_provision", "k"),d.to_categorical("sen", "a"),d.to_categorical("sen", "k"), d.to_categorical("sen_support_flag", "1"),d.to_categorical("sen", "p")]
+    if any([item in df.columns for item in sen_cols]) : #check for at least one column 
+        cols = []
+        for ecol in sen_cols :
+            if ecol in df.columns :
+                cols.append(ecol)
+        new_df = df[cols]
+        new_df["roni_sen"] = d.empty_series(len(new_df), index=new_df.index)
+        new_df["roni_sen"] = new_df.roni_sen.mask((new_df.iloc[:,:-1]==1).any(axis=1),1)
+        new_df["roni_sen"] =  new_df["roni_sen"].fillna(0) 
+        roni_df = roni_df.join(new_df["roni_sen"])
+        roni_df["roni_sen"] = roni_df["roni_sen"].astype(pd.Int8Dtype()) * 1
+
+    #breakpoint()
+    
     roni_df["roni_excluded_1"] = ((df["excluded_authorised"] <= 0.5) & (df["excluded_authorised"] > 0.0)).astype(pd.Int8Dtype()) * 1
     roni_df["roni_excluded_2"] = (df["excluded_authorised"] > 0.5).astype(pd.Int8Dtype()) * 2
     
     roni_df["roni_alt_provision"] = d.empty_series(len(roni_df), index=roni_df.index)
-    if d.to_categorical("characteristic_code", "200") in roni_df.columns:
-        roni_df["roni_alt_provision"] = (roni_df[d.to_categorical("characteristic_code", "200")] == 1).astype(pd.Int8Dtype()) * 1
+    if d.to_categorical("characteristic_code", "200") in df.columns:
+        roni_df["roni_alt_provision"] = (df[d.to_categorical("characteristic_code", "200")] == 1).astype(pd.Int8Dtype()) * 1
 
     roni_df["roni_lac"] = d.empty_series(len(roni_df), index=roni_df.index)
-    if d.to_categorical("characteristic_code", "110") in roni_df.columns :
+    if d.to_categorical("characteristic_code", "110") in df.columns :
         roni_df["roni_lac"] = (df[d.to_categorical("characteristic_code", "110")] == 1).astype(pd.Int8Dtype()) * 2
     
-    is_parent = d.empty_series(len(roni_df), index=roni_df.index)
-    if d.to_categorical("characteristic_code", "180") in roni_df.columns :
-        is_parent = (roni_df[d.to_categorical("characteristic_code", "180")] == 1) | is_parent
-    if d.to_categorical("characteristic_code", "120") in roni_df.columns :
-        is_parent = (roni_df[d.to_categorical("characteristic_code", "120")] == 1) | is_parent
-    if d.to_categorical("characteristic_code", "190") in roni_df.columns : 
-        is_parent = (roni_df[d.to_categorical("characteristic_code", "190")] == 1) | is_parent
-    roni_df["roni_pregnant_or_parent"] = is_parent.astype(pd.Int8Dtype()) * 2
+    parent_cols = [d.to_categorical("characteristic_code", "180"),d.to_categorical("characteristic_code", "120"),d.to_categorical("characteristic_code", "190")]
+    if any([item in df.columns for item in parent_cols]) : #check for at least one column 
+        #breakpoint()
+        cols = []
+        for ecol in parent_cols :
+            if ecol in df.columns :
+                cols.append(ecol)
+        new_df = df[cols]
+        new_df["roni_pregnant_or_parent"] = d.empty_series(len(new_df), index=new_df.index)
+        new_df["roni_pregnant_or_parent"] = new_df.roni_pregnant_or_parent.mask((new_df.iloc[:,:-1]==1).any(axis=1),1)
+        new_df["roni_pregnant_or_parent"] =  new_df["roni_pregnant_or_parent"].fillna(0) 
+        roni_df = roni_df.join(new_df["roni_pregnant_or_parent"])
+        roni_df["roni_pregnant_or_parent"] = roni_df["roni_pregnant_or_parent"].astype(pd.Int8Dtype()) * 2
 
     roni_df["roni_fsme"] = (df[d.to_categorical("fsme_on_census_day", "1")] == 1).astype(pd.Int8Dtype()) * 2
 
     roni_df["roni_carer"] = d.empty_series(len(roni_df), index=roni_df.index)
-    if d.to_categorical("characteristic_code", "140") in roni_df.columns :
+    if d.to_categorical("characteristic_code", "140") in df.columns :
         roni_df["roni_carer"] = (df[d.to_categorical("characteristic_code", "140")] == 1).astype(pd.Int8Dtype()) * 2
     roni_df["roni_yot"] = d.empty_series(len(roni_df), index=roni_df.index) 
-    if d.to_categorical("characteristic_code", "170") in roni_df.columns :
+    if d.to_categorical("characteristic_code", "170") in df.columns :
         roni_df["roni_yot"] = (df[d.to_categorical("characteristic_code", "170")] == 1).astype(pd.Int8Dtype()) * 2
 
     roni_df["roni_score"] = roni_df.sum(axis=1)

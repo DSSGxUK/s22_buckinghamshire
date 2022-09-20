@@ -14,7 +14,6 @@ from ..params import (
     get_random_seed,  # I don't like having a dependency on params. Params should really only be used by DVC
 )
 
-
 def search_space_as_list(search_space: Dict[str, Union[Dimension, Tuple, List]]):
     # check_dimension will do any conversion necessary if the value is not
     # already an skopt dimension.
@@ -328,6 +327,7 @@ LGBM1 = lambda: (
             [False, True]
         ),  # I think this takes into account unbalanced data?
         "estimator__model__objective": Categorical(["binary"]),
+        "estimator__model__random_state": Categorical([get_random_seed()]),
         "estimator__oversampling": Categorical([RandomOverSampler()]),
         "estimator__oversampling__sampling_strategy": Real(
             0.1, 1.0, "uniform"
@@ -337,7 +337,7 @@ LGBM1 = lambda: (
         "estimator__imputation": Categorical([None]),
         "estimator__scaler": Categorical([StandardScaler(), None]),
     },
-    50,
+    80,
 )
 LGBM2 = lambda: (
     {
@@ -356,6 +356,7 @@ LGBM2 = lambda: (
             [False, True]
         ),  # I think this takes into account unbalanced data?
         "estimator__model__objective": Categorical(["binary"]),
+        "estimator__model__random_state": Categorical([get_random_seed()]),
         "estimator__oversampling": Categorical([None]),
         "estimator__imputation": Categorical([None]),
         "estimator__scaler": Categorical([StandardScaler(), None]),
@@ -434,4 +435,6 @@ SEARCH_SPACES = {
     "lgbm2": LGBM2,
     "lgbm3": LGBM3,
     "lgbm4": LGBM4,
+    "lgbm1_basic": LGBM1,
+    "lgbm2_basic": LGBM2
 }

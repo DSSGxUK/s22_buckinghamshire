@@ -128,33 +128,36 @@ if __name__ == "__main__":
     logger.info(
         "Adding year column for joining datasets that corresponds to the end of school year."
     )
-    if len(df) > 0:
+
+    if len(df) > 0 :
         df[CharacteristicsDataColumns.year] = d.compute_school_end_year(
         df[CharacteristicsDataColumns.data_date]
-        )
-        
-        logger.info("Compute age of students at the end of prior august")
-    
-        df[CharacteristicsDataColumns.age] = nu.compute_age(df)
-    
+    )
     else :
-        df[CharacteristicsDataColumns.year]  = d.empty_series(0)
-        logger.info("Compute age of students at the end of prior august")
-        df[CharacteristicsDataColumns.age] = d.empty_series(0)
+        df[CharacteristicsDataColumns.year] = d.empty_series(0)
+    #breakpoint()        
 
+    logger.info("Compute age of students at the end of prior august")
+    if len(df) > 0 :
+        df[CharacteristicsDataColumns.age] = nu.compute_age(df)
+    else :
+        df[CharacteristicsDataColumns.age] = d.empty_series(0)
+        
     y_n_columns = [
-        CharacteristicsDataColumns.send_flag,  # Y/N
-        CharacteristicsDataColumns.sen_support_flag,
+    CharacteristicsDataColumns.send_flag,  # Y/N
+    CharacteristicsDataColumns.sen_support_flag,
     ]
     logger.info(f"Converting Y/N to 1/0 in columns {y_n_columns}")
     for col in y_n_columns:
         # We must replace with strings because pandas will enforce that the column remain a string type.
         df[col] = df[col].replace({"Y": "1", "N": "0"}).astype(pd.Int8Dtype())
 
+    #breakpoint()    
     # Some data validation
     logger.info("Validating annotated data")
     annotated_characteristics_data_validation(df)
-
+    
+    #breakpoint()
     csv_fp = f.tmp_path(args.output, debug=args.debug)
 
     logger.info(f"Saving annotated data to {csv_fp}")

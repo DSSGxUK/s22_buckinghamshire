@@ -200,6 +200,18 @@ MERGE_MULTI_MODELING_ARGS = {
     "output": MULTI_UPN_FP,
     "output_dataset_type": OutputDatasetTypes.modeling,
 }
+
+MERGE_MULTI_MODELING_BASIC_ARGS = {
+    "ccis": NEET_PREMERGE_CSV_FP,
+    "census": SCHOOL_CENSUS_PREMERGE_CSV_FP,
+    "att": ATTENDANCE_PERCENT1_CSV_FP,
+    "ks2": KS2_CSV_FP,
+    "target": Targets.neet_ever,
+    "output": MULTI_UPN_BASIC_FP,
+    "output_dataset_type": OutputDatasetTypes.modeling,
+    "only_att_census_merge": True
+}
+
 MERGE_MULTI_UNKNOWN_ARGS = {
     "ccis": NEET_PREMERGE_CSV_FP,
     "census": SCHOOL_CENSUS_PREMERGE_CSV_FP,
@@ -225,6 +237,14 @@ MULTI_UPN_CATEGORICAL_ARGS = {
     "output_dataset_type": OutputDatasetTypes.modeling,
 }
 
+MULTI_UPN_CATEGORICAL_BASIC_ARGS = {
+    "input": MULTI_UPN_BASIC_FP,
+    "output": MULTI_UPN_CATEGORICAL_BASIC_FP,
+    "include_test_taken_code": False,
+    "output_dataset_type": OutputDatasetTypes.modeling,
+    "only_att_census_merge" : True
+}
+
 MULTI_UPN_CATEGORICAL_PREDICTIONS_ARGS = {
     "input": MULTI_UPN_PREDICTION_FP,
     "output": MULTI_UPN_CATEGORICAL_PREDICT_FP,
@@ -244,11 +264,21 @@ MULTIPLE_TO_SINGLE_ARGS = {
     "output": SINGLE_UPN_CATEGORICAL_FP,
 }
 
-MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS = {
-    "input": MULTI_UPN_CATEGORICAL_PREDICT_FP,
-    "output": SINGLE_UPN_CATEGORICAL_PREDICT_FP,
+MULTIPLE_TO_SINGLE_BASIC_ARGS = {
+    "input": MULTI_UPN_CATEGORICAL_BASIC_FP,
+    "output": SINGLE_UPN_CATEGORICAL_BASIC_FP,
 }
 
+#MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS = {
+#    "input": MULTI_UPN_CATEGORICAL_PREDICT_FP,
+#    "output": SINGLE_UPN_CATEGORICAL_PREDICT_FP,
+#}
+MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS = {
+    "input": MULTI_UPN_CATEGORICAL_PREDICT_FP,
+    "output_chars": SINGLE_UPN_CATEGORICAL_PREDICT_FP,
+    "output_no_chars": SINGLE_UPN_CATEGORICAL_PREDICT_BASIC_FP,
+
+}
 MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS = {
     "input": MULTI_UPN_CATEGORICAL_UNKNOWNS_FP,
     "output": SINGLE_UPN_CATEGORICAL_UNKNOWNS_FP,
@@ -262,7 +292,14 @@ FEATURE_SELECTION_SINGLE_UPN_PARAMS = {
     "feature_selection_method": FEATURE_SELECTION_METHOD,
     "remove_mostly_missing_threshold": REMOVE_MOSTLY_MISSING_SINGLE_UPN_THRESHOLD,
 }
-
+FEATURE_SELECTION_SINGLE_UPN_BASIC_PARAMS = {
+    "input": SINGLE_UPN_CATEGORICAL_BASIC_FP,
+    "output": FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_BASIC_FP,
+    "single": True,
+    "forward_fill_fsme_column": False,
+    "feature_selection_method": FEATURE_SELECTION_METHOD,
+    "remove_mostly_missing_threshold": REMOVE_MOSTLY_MISSING_SINGLE_UPN_THRESHOLD,
+}
 FEATURE_SELECTION_MULTI_UPN_ARGS = {
     "input": MULTI_UPN_CATEGORICAL_FP,
     "output": FEATURE_SELECTED_MULTI_UPN_CATEGORICAL_FP,
@@ -271,7 +308,6 @@ FEATURE_SELECTION_MULTI_UPN_ARGS = {
     "feature_selection_method": FEATURE_SELECTION_METHOD,
     "remove_mostly_missing_threshold": REMOVE_MOSTLY_MISSING_MULTI_UPN_THRESHOLD,
 }
-
 ADDITIONAL_DATA_ARGS = {
     "single": True,
     "census_input": SCHOOL_CENSUS_ANNOTATED_CSV_FP,
@@ -285,9 +321,18 @@ FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS = {
     "single": True,
     "fill_fsme": False,
     "train_data": SINGLE_TRAIN_FP,
-    "unidentified_csv": SINGLE_UNIDENTIFIED_PRED_FP,
+    "unidentified_csv": SINGLE_UNIDENTIFIED_PRED_ORIG_FP,
     "student_names": ADDITIONAL_DATA_FP,
 }
+FEATURE_SELECTION_SINGLE_UPN_PREDICT_BASIC_PARAMS = {
+    "input": SINGLE_UPN_CATEGORICAL_PREDICT_BASIC_FP,
+    "output": FS_SINGLE_UPN_CATEGORICAL_PREDICT_BASIC_FP,
+    "single": True,
+    "fill_fsme": False,
+    "train_data": SINGLE_TRAIN_BASIC_FP,
+    "unidentified_csv": SINGLE_UNIDENTIFIED_PRED_BASIC_FP,
+    "student_names": ADDITIONAL_DATA_FP,
+} 
 
 FEATURE_SELECTION_MULTI_UPN_PREDICT_PARAMS = {
     "input": MULTI_UPN_CATEGORICAL_PREDICT_FP,
@@ -317,6 +362,15 @@ SPLIT_DATA_SINGLE_ARGS = {
     "single": True,
     "target": TARGET,
 }
+
+SPLIT_DATA_SINGLE_BASIC_ARGS = {
+    "input": FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_BASIC_FP,
+    "split": TEST_SPLIT,
+    "train_output": SINGLE_TRAIN_BASIC_FP,
+    "test_output": SINGLE_TEST_BASIC_FP,
+    "single": True,
+    "target": TARGET,
+} 
 
 SPLIT_DATA_MULTI_ARGS = {
     "input": FEATURE_SELECTED_MULTI_UPN_CATEGORICAL_FP,

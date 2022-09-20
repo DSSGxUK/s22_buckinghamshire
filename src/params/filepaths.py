@@ -23,25 +23,37 @@ LOGS_DIR = "../logs"
 TMP_DIR = "../tmp"
 PARAMS_DIR = "../src/params"
 RESULTS_DIR = "../results"
+INTERIM_RESULTS_DIR = os.path.join(RESULTS_DIR, "interim")
 
 DVC_YAML = "./dvc.yaml"
 PARAMS_YAML = "./params.yaml"
 
 MULTI_UPN_FP = os.path.join(INTERIM_DIR, f"multi_upn.csv")
+MULTI_UPN_BASIC_FP = os.path.join(INTERIM_DIR, f"multi_upn_basic.csv")
 MULTI_UPN_UNKNOWNS_FP = os.path.join(INTERIM_DIR, f"multi_upn_unknowns.csv")
 MULTI_UPN_PREDICTION_FP = os.path.join(INTERIM_DIR, f"multi_upn_prediction.csv")
 
 MULTI_UPN_CATEGORICAL_FP = os.path.join(
     PROCESSED_DATA_DIR, f"multi_upn_categorical.csv"
 )
+MULTI_UPN_CATEGORICAL_BASIC_FP = os.path.join(
+    PROCESSED_DATA_DIR, f"multi_upn_basic_categorical.csv"
+)
+
 SINGLE_UPN_CATEGORICAL_FP = os.path.join(
     PROCESSED_DATA_DIR, f"single_upn_categorical.csv"
+)
+SINGLE_UPN_CATEGORICAL_BASIC_FP = os.path.join(
+    PROCESSED_DATA_DIR, f"single_upn_basic_categorical.csv"
 )
 FEATURE_SELECTED_MULTI_UPN_CATEGORICAL_FP = os.path.join(
     PROCESSED_DATA_DIR, f"feature_selected_multi_upn_categorical.csv"
 )
 FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_FP = os.path.join(
     PROCESSED_DATA_DIR, f"feature_selected_single_upn_categorical.csv"
+)
+FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_BASIC_FP = os.path.join(
+    PROCESSED_DATA_DIR, f"feature_selected_single_upn_basic_categorical.csv"
 )
 UNKNOWNS_CSV_FP_SINGLE = os.path.join(METRICS_DIR, "unknown_features.csv")
 
@@ -83,6 +95,8 @@ FS_POST_COVID_SINGLE_UPN_CATEGORICAL_FP = os.path.join(
 # Train Test Datasets for SingleUPN
 SINGLE_TRAIN_FP = os.path.join(PROCESSED_DATA_DIR, f"train_singleUPN.csv")
 SINGLE_TEST_FP = os.path.join(PROCESSED_DATA_DIR, f"test_singleUPN.csv")
+SINGLE_TRAIN_BASIC_FP = os.path.join(PROCESSED_DATA_DIR, f"train_singleUPN_basic.csv")
+SINGLE_TEST_BASIC_FP = os.path.join(PROCESSED_DATA_DIR, f"test_singleUPN_basic.csv")
 
 # Train Test Datasets for MultiUPN
 MULTI_TRAIN_FP = os.path.join(PROCESSED_DATA_DIR, f"train_multiUPN.csv")
@@ -108,13 +122,15 @@ CV_RESULTS_CSV_FP = os.path.join(METRICS_DIR, "cv.csv")
 TEST_RESULTS_CSV_FP = os.path.join(METRICS_DIR, "test_results.csv")
 
 RONI_TEST_RESULTS = os.path.join(METRICS_DIR, "roni_test_results.csv")
+RONI_TEST_RESULTS_BASIC = os.path.join(METRICS_DIR, "roni_test_results_basic.csv") 
 
 LGBM1_METRICS_MULTI = os.path.join(METRICS_DIR, "lgbm1_multi.csv")
 LGBM1_METRICS_SINGLE = os.path.join(METRICS_DIR, "lgbm1_single.csv")
 LGBM2_METRICS_SINGLE = os.path.join(METRICS_DIR, "lgbm2_single.csv")
 LGBM1_SINGLE_CHECKPOINT_FP = os.path.join(INTERIM_MODELS_DIR, "lgbm1_single.pkl")
 LGBM2_SINGLE_CHECKPOINT_FP = os.path.join(INTERIM_MODELS_DIR, "lgbm2_single.pkl")
-
+LGBM1_METRICS_SINGLE_BASIC = os.path.join(METRICS_DIR, "lgbm1_basic_single.csv")
+LGBM1_SINGLE_CHECKPOINT_BASIC_FP = os.path.join(INTERIM_MODELS_DIR, "lgbm1_single_basic.pkl")
 
 MODEL_BEST_THRESH_MULTI = os.path.join(
     INTERIM_MODELS_DIR, "model_best_thresh_multi.pkl"
@@ -131,13 +147,23 @@ MODEL_BEST_THRESH_SINGLE = os.path.join(
 MODEL_MEAN_THRESH_SINGLE = os.path.join(
     INTERIM_MODELS_DIR, "model_mean_thresh_single.pkl"
 )
+MODEL_BEST_THRESH_SINGLE_BASIC = os.path.join(
+    INTERIM_MODELS_DIR, "model_best_thresh_single_basic.pkl"
+)
+MODEL_MEAN_THRESH_SINGLE_BASIC = os.path.join(
+    INTERIM_MODELS_DIR, "model_mean_thresh_single_basic.pkl"
+)
 FINAL_MODEL_SINGLE_FP = os.path.join(FINAL_MODELS_DIR, "model_single.pkl")
+FINAL_MODEL_SINGLE_BASIC_FP = os.path.join(FINAL_MODELS_DIR, "model_single_basic.pkl")
+
 TEST_RESULTS_SINGLE_CSV_FP = os.path.join(METRICS_DIR, "single_test_results.csv")
-
+TEST_RESULTS_SINGLE_BASIC_CSV_FP = os.path.join(METRICS_DIR, "single_test_results_basic.csv")
 # Prediction & unknown datasets
-
 SINGLE_UPN_CATEGORICAL_PREDICT_FP = os.path.join(
     PROCESSED_DATA_DIR, "predict_singleUPN.csv"
+)
+SINGLE_UPN_CATEGORICAL_PREDICT_BASIC_FP = os.path.join(
+    PROCESSED_DATA_DIR, "predict_singleUPN_basic.csv"
 )
 SINGLE_UPN_CATEGORICAL_UNKNOWNS_FP = os.path.join(
     PROCESSED_DATA_DIR, "unknowns_singleUPN.csv"
@@ -145,10 +171,12 @@ SINGLE_UPN_CATEGORICAL_UNKNOWNS_FP = os.path.join(
 FS_SINGLE_UPN_CATEGORICAL_PREDICT_FP = os.path.join(
     PROCESSED_DATA_DIR, "fs_predict_singleUPN.csv"
 )
+FS_SINGLE_UPN_CATEGORICAL_PREDICT_BASIC_FP = os.path.join(
+    PROCESSED_DATA_DIR, "fs_predict_singleUPN_basic.csv"
+)
 FS_SINGLE_UPN_CATEGORICAL_UNKNOWNS_FP = os.path.join(
     PROCESSED_DATA_DIR, "fs_unknowns_singleUPN.csv"
 )
-
 MULTI_UPN_CATEGORICAL_PREDICT_FP = os.path.join(
     PROCESSED_DATA_DIR, "predict_multiUPN.csv"
 )
@@ -169,10 +197,17 @@ PREDICTIONS_CSV_FP_MULTI = os.path.join(RESULTS_DIR, "predictions_multi.csv")
 UNKNOWN_PREDICTIONS_CSV_FP_MULTI = os.path.join(
     RESULTS_DIR, "unknown_predictions_multi.csv"
 )
-
+PREDICTIONS_CSV_FP_SINGLE_BASIC = os.path.join(INTERIM_RESULTS_DIR, "predictions_basic.csv")
+PREDICTIONS_CSV_FP_SINGLE_ORIG = os.path.join(INTERIM_RESULTS_DIR, "predictions_orig.csv") 
 # Unidentified students datasets
 SINGLE_UNIDENTIFIED_PRED_FP = os.path.join(
     RESULTS_DIR, "unidentified_students_single.csv"
+)
+SINGLE_UNIDENTIFIED_PRED_BASIC_FP = os.path.join(
+    INTERIM_RESULTS_DIR, "unidentified_students_single_basic.csv"
+)
+SINGLE_UNIDENTIFIED_PRED_ORIG_FP = os.path.join(
+    INTERIM_RESULTS_DIR, "unidentified_students_single_orig.csv"
 )
 MULTI_UNIDENTIFIED_PRED_FP = os.path.join(
     RESULTS_DIR, "unidentified_students_multi.csv"

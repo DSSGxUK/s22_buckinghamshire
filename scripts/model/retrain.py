@@ -1,5 +1,5 @@
 """
-Re-train best model from cross validation on full training dataset
+Re-train best model(s) from cross validation on full training dataset
 
 Parameters
 -----------
@@ -29,6 +29,7 @@ from dataclasses import asdict
 import os
 import pandas as pd
 import pickle as pkl
+import numpy as np
 from imblearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
@@ -83,6 +84,7 @@ parser.add_argument(
     type=lambda x: x.strip("'"), required=True,
     help="where to save the pickle of the mean thresholded model",
 )
+parser.add_argument("--num_of_models",type=int, required=False, help = "how many of the top models to retrain and test")
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -144,162 +146,194 @@ if __name__ == "__main__":
     logger.info(
         f"Loading model metrics from {args.model_metrics} to select best model from cv"
     )
-
+    
+    if args.num_of_models :
+        num_of_models = args.num_of_models
+    else :
+        num_of_models = 1
+        
     # Load csv with best model parameters and threshold
     all_metrics = [pd.read_csv(metrics_path) for metrics_path in args.model_metrics if os.path.exists(metrics_path)]
     if len(all_metrics) == 0:
         raise ValueError(f"None of the metrics csvs {args.model_metrics} existed. Please run hyperparameter search.")
-    best_metrics = max(all_metrics, key=lambda m: m["f2_binary_mean"].max())
+    #best_metrics = max(all_metrics, key=lambda m: m["f2_binary_mean"].max())
 
-    best_model = best_metrics.loc[
-        best_metrics["f2_binary_mean"].idxmax()
-    ]  # get best model parameters
-    best_threshold = best_model["f2_binary__threshold_best"]  # best threshold
-    mean_threshold = best_model["f2_binary__threshold_mean"]  # mean threshold
+    #best_model = best_metrics.loc[
+    #    best_metrics["f2_binary_mean"].idxmax()]  # get best model parameters
+    top_models = (pd.concat(all_metrics)).sort_values(by="f2_binary_mean",ascending=False).reset_index(drop=True)[:num_of_models]
+    #top_models = [m.sort_values(by="f2_binary_mean",ascending=False)[:5] for m in all_metrics] #get top n models
+    #top_models = pd.concat(top_models).reset_index(drop=True)
+
+    #best_threshold = best_model["f2_binary__threshold_best"]
+    #best_threshold = best_model["f2_binary__threshold_mean"]
     # best_model = best_model.iloc[:(best_model.index.get_loc('postprocessor__aggregation_index'))+1]
 
-    # get model names
-    model_est = best_model.estimator__model.split("(")[0]
-    model_oversamp = best_model.estimator__oversampling.split("(")[0]
-    model_scaler = best_model.estimator__scaler.split("(")[0]
-    model_imputation = best_model.estimator__imputation.split("(")[0]
+    # loop through all the top models
+    
+    for idx,best_model in top_models.iterrows() :
+        best_threshold = best_model["f2_binary__threshold_best"]
+        mean_threshold = best_model["f2_binary__threshold_mean"]
+        
+        model_est = best_model.estimator__model.split("(")[0]
+        model_oversamp = best_model.estimator__oversampling.split("(")[0]
+        model_scaler = best_model.estimator__scaler.split("(")[0]
+        model_imputation = best_model.estimator__imputation.split("(")[0]
 
-    params = {
-        k: v if v != "None" else None
-        for k, v in best_model.to_dict().items()
-        if k.startswith("estimator")
-    }
-    if "estimator" in params:
-        params.pop("estimator")
-    if "estimator__steps" in params:
-        params.pop("estimator__steps")
+        params = {
+            k: v if v != "None" else None
+            for k, v in best_model.to_dict().items()
+            if k.startswith("estimator")
+        }
+        if "estimator" in params:
+            params.pop("estimator")
+        if "estimator__steps" in params:
+            params.pop("estimator__steps")
 
-    # get hyperparams for each pipeline step
-    oversamp_params = best_model.loc[
-        best_model.index.str.startswith("estimator__oversampling__")
-    ]
-    estimator_params = best_model.loc[
-        best_model.index.str.startswith("estimator__model__")
-    ]
-    imputation_params = best_model.loc[
-        best_model.index.str.startswith("estimator__imputation__")
-    ]
-    scaler_params = best_model.loc[
-        best_model.index.str.startswith("estimator__scaler__")
-    ]
-    # breakpoint()
-    oversamp_params.index = oversamp_params.index.str.replace(
-        "estimator__oversampling__", ""
-    )
-    estimator_params.index = estimator_params.index.str.replace(
-        "estimator__model__", ""
-    )
-    imputation_params.index = imputation_params.index.str.replace(
-        "estimator__imputation__", ""
-    )
-    scaler_params.index = scaler_params.index.str.replace("estimator__scaler__", "")
+        # get hyperparams for each pipeline step
+        oversamp_params = best_model.loc[
+            best_model.index.str.startswith("estimator__oversampling__")
+        ]
+        estimator_params = best_model.loc[
+            best_model.index.str.startswith("estimator__model__")
+        ]
+        imputation_params = best_model.loc[
+            best_model.index.str.startswith("estimator__imputation__")
+        ]
+        scaler_params = best_model.loc[
+            best_model.index.str.startswith("estimator__scaler__")
+        ]
+        # breakpoint()
+        oversamp_params.index = oversamp_params.index.str.replace(
+            "estimator__oversampling__", ""
+        )
+        estimator_params.index = estimator_params.index.str.replace(
+            "estimator__model__", ""
+        )
+        imputation_params.index = imputation_params.index.str.replace(
+            "estimator__imputation__", ""
+        )
+        scaler_params.index = scaler_params.index.str.replace("estimator__scaler__", "")
 
-    constructor = {
-        "RandomOverSampler": lambda: RandomOverSampler(),
-        "SMOTE": lambda: SMOTE(),
-        "LGBMClassifier": lambda: LGBMClassifier(),
-        "None": lambda: None,
-        "KNeighborsClassifier": lambda: KNeighborsClassifier(),
-        "LinearSVC": lambda: LinearSVC(),
-        "SVC": lambda: SVC(),
-        "LogisticRegression": lambda: LogisticRegression(),
-        "StandardScaler": lambda: StandardScaler(),
-    }
+        constructor = {
+            "RandomOverSampler": lambda: RandomOverSampler(),
+            "SMOTE": lambda: SMOTE(),
+            "LGBMClassifier": lambda: LGBMClassifier(),
+            "None": lambda: None,
+            "KNeighborsClassifier": lambda: KNeighborsClassifier(),
+            "LinearSVC": lambda: LinearSVC(),
+            "SVC": lambda: SVC(),
+            "LogisticRegression": lambda: LogisticRegression(),
+            "StandardScaler": lambda: StandardScaler(),
+        }
 
-    params["estimator__oversampling"] = constructor[model_oversamp]()
-    params["estimator__model"] = constructor[model_est]()
-    params["estimator__scaler"] = constructor[model_scaler]()
-    params["estimator__imputation"] = constructor[model_imputation]()
+        params["estimator__oversampling"] = constructor[model_oversamp]()
+        params["estimator__model"] = constructor[model_est]()
+        params["estimator__scaler"] = constructor[model_scaler]()
+        params["estimator__imputation"] = constructor[model_imputation]()
 
-    from pprint import pprint
+        from pprint import pprint
 
-    pprint(params)
-    # breakpoint()
+        pprint(params)
+        # breakpoint()
 
-    logger.info(f"Creating pipeline from best model in {args.model_metrics}")
+        logger.info(f"Creating pipeline from best model in {args.model_metrics}")
 
-    # get threshold_type
-    if model_est == "LGBMClassifier":
-        threshold_type = "predict_proba"
-    else:
-        threshold_type = "decision_function"
-    # else :
-    #    raise ValueError(f'Unknown threshold type for {estimator}')
+        # get threshold_type
+        if model_est == "LGBMClassifier":
+            threshold_type = "predict_proba"
+        else:
+            threshold_type = "decision_function"
+        # else :
+        #    raise ValueError(f'Unknown threshold type for {estimator}')
 
-    # Create pipeline
-    PIPELINE_STEPS = [
-        (PipelineSteps.oversampling, None),
-        (PipelineSteps.imputation, None),
-        (PipelineSteps.scaler, None),
-        (PipelineSteps.model, None),
-    ]
+        # Create pipeline
+        PIPELINE_STEPS = [
+            (PipelineSteps.oversampling, None),
+            (PipelineSteps.imputation, None),
+            (PipelineSteps.scaler, None),
+            (PipelineSteps.model, None),
+        ]
 
-    pipeline = Pipeline(PIPELINE_STEPS)
-    preprocessor = cv.DataJoinerTransformerFunc(data_df)
-    postprocessor = (
-        cv.identity_postprocessor if args.single else cv.AggregatorTransformerFunc()
-    )
-    pipeline_best_thresh = cv.PandasEstimatorWrapper(
-        pipeline,
-        preprocessor=preprocessor,
-        postprocessor=postprocessor,
-        threshold=best_threshold,
-        threshold_type=threshold_type,
-    )
-    pipeline_mean_thresh = cv.PandasEstimatorWrapper(
-        pipeline,
-        preprocessor=preprocessor,
-        postprocessor=postprocessor,
-        threshold=mean_threshold,
-        threshold_type=threshold_type,
-    )
+        pipeline = Pipeline(PIPELINE_STEPS)
+        preprocessor = cv.DataJoinerTransformerFunc(data_df)
+        postprocessor = (
+            cv.identity_postprocessor if args.single else cv.AggregatorTransformerFunc()
+        )
+        pipeline_best_thresh = cv.PandasEstimatorWrapper(
+            pipeline,
+            preprocessor=preprocessor,
+            postprocessor=postprocessor,
+            threshold=best_threshold,
+            threshold_type=threshold_type,
+        )
+        pipeline_mean_thresh = cv.PandasEstimatorWrapper(
+            pipeline,
+            preprocessor=preprocessor,
+            postprocessor=postprocessor,
+            threshold=mean_threshold,
+            threshold_type=threshold_type,
+        )
 
-    # breakpoint()
+        #breakpoint()
+        if params["estimator__oversampling"] :
+            params["estimator__oversampling__random_state"] = int(params["estimator__oversampling__random_state"])
+        else :   
+            for k in list(params.keys()):
+                if k.startswith('estimator__oversampling__'):
+                    del params[k]
+            #breakpoint()
+        
+        #if not np.isnan(params["estimator__oversampling__random_state"]):
+        #breakpoint()
+        #breakpoint()
+        pipeline_best_thresh.set_params(**params)
+        pipeline_mean_thresh.set_params(**params)
 
-    pipeline_best_thresh.set_params(**params)
-    pipeline_mean_thresh.set_params(**params)
+        # breakpoint()
 
-    # breakpoint()
+        logger.info(f"Training model on whole training dataset {args.input}")
 
-    logger.info(f"Training model on whole training dataset {args.input}")
+        # Train model with mean and best threshold
+        # breakpoint()
+        pipeline_best_thresh.fit(X_indices, y)
+        pipeline_mean_thresh.fit(X_indices, y)
 
-    # Train model with mean and best threshold
-    # breakpoint()
-    pipeline_best_thresh.fit(X_indices, y)
-    pipeline_mean_thresh.fit(X_indices, y)
+        model_best_thresh = {
+            "estimator": pipeline_best_thresh.estimator,
+            "threshold": pipeline_best_thresh.threshold,
+            "threshold_type": pipeline_best_thresh.threshold_type,
+        }
+        model_mean_thresh = {
+            "estimator": pipeline_mean_thresh.estimator,
+            "threshold": pipeline_mean_thresh.threshold,
+            "threshold_type": pipeline_mean_thresh.threshold_type,
+        }
 
-    model_best_thresh = {
-        "estimator": pipeline_best_thresh.estimator,
-        "threshold": pipeline_best_thresh.threshold,
-        "threshold_type": threshold_type,
-    }
-    model_mean_thresh = {
-        "estimator": pipeline_mean_thresh.estimator,
-        "threshold": pipeline_mean_thresh.threshold,
-        "threshold_type": pipeline_mean_thresh.threshold_type,
-    }
+        #breakpoint()
 
-    # breakpoint()
-    # Save model - need to save the model without the whole pipeline?
-    BEST_MODEL_FP = args.model_output_best
-    MEAN_MODEL_FP = args.model_output_mean
+        BEST_MODEL_FP = args.model_output_best 
+        MEAN_MODEL_FP = args.model_output_mean
 
-    BEST_MODEL_FP = f.tmp_path(args.model_output_best, debug=args.debug)
-    MEAN_MODEL_FP = f.tmp_path(args.model_output_mean, debug=args.debug)
+        if num_of_models > 1 :
+            substr = ".pkl"
+            str_idx = BEST_MODEL_FP.index(substr)
+            BEST_MODEL_FP = BEST_MODEL_FP[:str_idx] + "_"+str(idx) + BEST_MODEL_FP[str_idx:]
+            str_idx = MEAN_MODEL_FP.index(substr)
+            MEAN_MODEL_FP = MEAN_MODEL_FP[:str_idx] + "_"+str(idx) + MEAN_MODEL_FP[str_idx:]
 
-    logger.info(f"Saving best thresholded model to pickle file {BEST_MODEL_FP}")
-    logger.info(f"Saving mean thresholded model to pickle file {MEAN_MODEL_FP}")
+        BEST_MODEL_FP = f.tmp_path(BEST_MODEL_FP, debug=args.debug)
+        MEAN_MODEL_FP = f.tmp_path(MEAN_MODEL_FP, debug=args.debug)
 
-    pkl.dump(model_best_thresh, open(BEST_MODEL_FP, "wb"))
-    pkl.dump(model_mean_thresh, open(MEAN_MODEL_FP, "wb"))
+        logger.info(f"Saving best thresholded model to pickle file {BEST_MODEL_FP}")
+        logger.info(f"Saving mean thresholded model to pickle file {MEAN_MODEL_FP}")
+        
+        #breakpoint()
 
-    # testing how to load the model
-    # with open(BEST_MODEL_FP, 'rb') as model_file:
-    #    model = pkl.load(model_file)
+        pkl.dump(model_best_thresh, open(BEST_MODEL_FP, "wb"))
+        pkl.dump(model_mean_thresh, open(MEAN_MODEL_FP, "wb"))
 
-    # breakpoint()
+        # testing how to load the model
+        # with open(BEST_MODEL_FP, 'rb') as model_file:
+        #    model = pkl.load(model_file)
+
+        # breakpoint()

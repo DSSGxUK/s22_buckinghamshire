@@ -30,7 +30,7 @@ import pandas as pd
 import argparse
 
 
-from src.constants import UPN, NA_VALS, CensusDataColumns, non_prediction_columns
+from src.constants import UPN, NA_VALS, CensusDataColumns, CharacteristicsDataColumns, non_prediction_columns
 
 # Other code
 from src import file_utils as f
@@ -54,6 +54,10 @@ parser.add_argument(
     required=True, help="where to save the feature selected dataset"
 )
 parser.add_argument(
+    "--output_basic", type=lambda x: x.strip("'"),
+    required=False, help="where to save the feature selected dataset with only census and att data"
+)
+parser.add_argument(
     "--student_names",
     type=lambda x: x.strip("'"),
     required=True,
@@ -68,6 +72,10 @@ parser.add_argument(
 parser.add_argument(
     "--train_data", type=lambda x: x.strip("'"),
     required=True, help="where to locate the training dataset"
+)
+parser.add_argument(
+    "--train_data_basic", type=lambda x: x.strip("'"),
+    required=False, help="where to locate the training dataset with only attendance and census data"
 )
 parser.add_argument(
     "--fill_fsme", action="store_true", help="whether to forward fill fsme"
@@ -94,7 +102,20 @@ if __name__ == "__main__":
         convert_dtypes=True,
         logger=logger,
     )
-
+    if args.train_data_basic:
+        train_df_basic = d.load_csv(  # Preserve the training data as is
+            args.train_data_basic,
+            drop_empty=False,
+            drop_single_valued=False,
+            drop_duplicates=False,
+            read_as_str=False,
+            drop_missing_upns=False,
+            use_na=True,
+            upn_col=UPN,
+            na_vals=NA_VALS,
+            convert_dtypes=True,
+            logger=logger,
+        )
     df = d.load_csv(  # Assume we've dropped unnecessary columns and entries
         args.input,
         drop_empty=False,
@@ -134,37 +155,62 @@ if __name__ == "__main__":
         df, columns=[CensusDataColumns.fsme_on_census_day], logger=logger
     )
     
-
+    if args.output_basic :
+        df_chars = df[df[CharacteristicsDataColumns.has_characteristics_data]== 1]  
+        df_no_chars = df[df[CharacteristicsDataColumns.has_characteristics_data]== 0]  
+    else:
+        df_chars = df
+    
+    #breakpoint()
+    
     logger.info(
         f'Selecting columns from the {"single" if args.single else "multi"} upn predictions dataset'
     )
 
-    features_for_model = set(train_df.columns) - set(non_prediction_columns)
+    def feature_selection(train_df,df):
+        features_for_model = set(train_df.columns) - set(non_prediction_columns)
 
-    logger.info("Filter out any columns not in the train data")
-    num_orig_rows = len(df)
-    df = df.loc[:, df.columns.isin(features_for_model)]
-    logger.info(
-        "Add any columns that are in the train data but not in the prediction data"
-    )
-    for col in features_for_model:
-        if col not in df.columns:
-            if not d.is_categorical(col):
-                logger.warning(
-                    f"{col} is not in prediction dataset, but is not categorical. Filling in 0 to suppress error"
-                )
-            df[col] = 0
+        logger.info("Filter out any columns not in the train data")
+        num_orig_rows = len(df)
+        df = df.loc[:, df.columns.isin(features_for_model)]
+        logger.info(
+            "Add any columns that are in the train data but not in the prediction data"
+        )
+        for col in features_for_model:
+            if col not in df.columns:
+                if not d.is_categorical(col):
+                    logger.warning(
+                        f"{col} is not in prediction dataset, but is not categorical. Filling in 0 to suppress error"
+                    )
+                df[col] = 0
 
-    assert set(df.columns) == features_for_model
+        assert set(df.columns) == features_for_model
 
-    nas = df[df.isna().any(axis=1)]
-    logger.info(f"Selected rows {len(nas)} that have a missing value")
+        nas = df[df.isna().any(axis=1)]
+        logger.info(f"Selected rows {len(nas)} that have a missing value")
 
-    df.dropna(inplace=True)  # drop na rows
-    logger.info(
-        f"Dropped {num_orig_rows - len(df)} rows ({py.safe_divide(num_orig_rows - len(df), num_orig_rows)  * 100}%) because they contained a missing value"
-    )
-
+        df.dropna(inplace=True)  # drop na rows
+        logger.info(
+            f"Dropped {num_orig_rows - len(df)} rows ({py.safe_divide(num_orig_rows - len(df), num_orig_rows)  * 100}%) because they contained a missing value"
+        )
+        return df, nas
+    
+    
+    if args.train_data_basic :
+        df_chars, na_chars = feature_selection(train_df,df_chars)
+        df_no_chars, na_no_chars = feature_selection(train_df_basic,df_no_chars)
+        #breakpoint()
+        if not na_chars.empty or na_no_chars.empty:
+            nas = pd.concat(na_chars,na_no_chars)
+        elif na_chars.empty:
+            nas = na_no_chars
+        elif na_no_chars.empty:
+            nas = na_chars
+    else :
+        df_chars, nas = feature_selection(train_df,df_chars)
+    
+    df_chars, nas = feature_selection(train_df,df_chars)
+        
     unidentified_df = pd.DataFrame()
     unidentified_df["upn"] = nas["upn"].unique()
 
@@ -187,13 +233,18 @@ if __name__ == "__main__":
     unidentified_df["student_name"] = unidentified_df["forename"].astype("string")+" "+unidentified_df["preferred_surname"].astype("string")
     #change upn -> UPN column
     unidentified_df = unidentified_df.rename(columns={UPN:"UPN"})
-
-
+    
+    #breakpoint()
+    
     csv_fp = f.tmp_path(args.output, debug=args.debug)
+    if args.output_basic:
+        csv_fp_basic = f.tmp_path(args.output_basic, debug=args.debug)
     unidentified_csv = f.tmp_path(args.unidentified_csv, debug=args.debug)
 
     logger.info(f"Saving feature selected data to {csv_fp}")
-    df.to_csv(csv_fp, index=False)
+    df_chars.to_csv(csv_fp, index=False)
+    if args.output_basic :
+        df_no_chars.to_csv(csv_fp_basic, index=False)
 
     logger.info(f"Saving unidentified students data to {unidentified_csv}")
     unidentified_df.to_csv(unidentified_csv, index=False)
