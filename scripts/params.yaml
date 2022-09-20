@@ -275,6 +275,7 @@ DatasetTypes:
   ks4: ks4
   school_info: school_info
 FEATURE_SELECTED_MULTI_UPN_CATEGORICAL_FP: ../data\processed\feature_selected_multi_upn_categorical.csv
+FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_BASIC_FP: ../data\processed\feature_selected_single_upn_basic_categorical.csv
 FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_FP: ../data\processed\feature_selected_single_upn_categorical.csv
 FEATURE_SELECTION_METHOD: remove_mostly_missing
 FEATURE_SELECTION_MULTI_UPN_ARGS:
@@ -300,6 +301,13 @@ FEATURE_SELECTION_MULTI_UPN_UNKNOWNS_PARAMS:
   student_names: ../data\processed\additional_data.csv
   train_data: ../data\processed\train_multiUPN.csv
   unidentified_csv: ../results\unidentified_unknowns_multi.csv
+FEATURE_SELECTION_SINGLE_UPN_BASIC_PARAMS:
+  feature_selection_method: remove_mostly_missing
+  forward_fill_fsme_column: false
+  input: ../data\processed\single_upn_basic_categorical.csv
+  output: ../data\processed\feature_selected_single_upn_basic_categorical.csv
+  remove_mostly_missing_threshold: 0.7
+  single: true
 FEATURE_SELECTION_SINGLE_UPN_PARAMS:
   feature_selection_method: remove_mostly_missing
   forward_fill_fsme_column: false
@@ -307,6 +315,14 @@ FEATURE_SELECTION_SINGLE_UPN_PARAMS:
   output: ../data\processed\feature_selected_single_upn_categorical.csv
   remove_mostly_missing_threshold: 0.7
   single: true
+FEATURE_SELECTION_SINGLE_UPN_PREDICT_BASIC_PARAMS:
+  fill_fsme: false
+  input: ../data\processed\predict_singleUPN_basic.csv
+  output: ../data\processed\fs_predict_singleUPN_basic.csv
+  single: true
+  student_names: ../data\processed\additional_data.csv
+  train_data: ../data\processed\train_singleUPN_basic.csv
+  unidentified_csv: ../results\interim\unidentified_students_single_basic.csv
 FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS:
   fill_fsme: false
   input: ../data\processed\predict_singleUPN.csv
@@ -314,7 +330,7 @@ FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS:
   single: true
   student_names: ../data\processed\additional_data.csv
   train_data: ../data\processed\train_singleUPN.csv
-  unidentified_csv: ../results\unidentified_students_single.csv
+  unidentified_csv: ../results\interim\unidentified_students_single_orig.csv
 FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS:
   fill_fsme: false
   input: ../data\processed\unknowns_singleUPN.csv
@@ -325,6 +341,7 @@ FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS:
   unidentified_csv: ../results\unidentified_unknowns_single.csv
 FINAL_MODELS_DIR: ../models\final
 FINAL_MODEL_MULTI_FP: ../models\final\model_multi.pkl
+FINAL_MODEL_SINGLE_BASIC_FP: ../models\final\model_single_basic.pkl
 FINAL_MODEL_SINGLE_FP: ../models\final\model_single.pkl
 FORWARD_FILL_FSME_COLUMN: true
 FS_MULTI_UPN_CATEGORICAL_PREDICT_FP: ../data\processed\fs_predict_multiUPN.csv
@@ -333,6 +350,7 @@ FS_POST_COVID_MULTI_UPN_CATEGORICAL_FP: ../data\processed\fs_post_covid_multi_up
 FS_POST_COVID_SINGLE_UPN_CATEGORICAL_FP: ../data\processed\fs_post_covid_single_upn_categorical.csv
 FS_PRE_COVID_MULTI_UPN_CATEGORICAL_FP: ../data\processed\fs_pre_covid_multi_upn_categorical.csv
 FS_PRE_COVID_SINGLE_UPN_CATEGORICAL_FP: ../data\processed\fs_pre_covid_single_upn_categorical.csv
+FS_SINGLE_UPN_CATEGORICAL_PREDICT_BASIC_FP: ../data\processed\fs_predict_singleUPN_basic.csv
 FS_SINGLE_UPN_CATEGORICAL_PREDICT_FP: ../data\processed\fs_predict_singleUPN.csv
 FS_SINGLE_UPN_CATEGORICAL_UNKNOWNS_FP: ../data\processed\fs_unknowns_singleUPN.csv
 FeatureSelectionMethods:
@@ -341,6 +359,7 @@ FeatureSelectionMethods:
 INCLUDE_TEST_TAKEN_CODE: true
 INTERIM_DIR: ../data\interim
 INTERIM_MODELS_DIR: ../models\interim
+INTERIM_RESULTS_DIR: ../results\interim
 KS2_ANNOTATED_CSV_FP: ../data\interim\ks2_annotated.csv
 KS2_CANONICALIZED_CSV_DIR: ../data\interim\ks2_canonicalized_csv
 KS2_CANONICALIZED_CSV_FPS:
@@ -372,6 +391,8 @@ KS4_DATA_CSV_FPS:
 KS4_MERGED_FP: ../data\interim\ks4_merged.csv
 LGBM1_METRICS_MULTI: ../metrics\lgbm1_multi.csv
 LGBM1_METRICS_SINGLE: ../metrics\lgbm1_single.csv
+LGBM1_METRICS_SINGLE_BASIC: ../metrics\lgbm1_basic_single.csv
+LGBM1_SINGLE_CHECKPOINT_BASIC_FP: ../models\interim\lgbm1_single_basic.pkl
 LGBM1_SINGLE_CHECKPOINT_FP: ../models\interim\lgbm1_single.pkl
 LGBM2_METRICS_SINGLE: ../metrics\lgbm2_single.csv
 LGBM2_SINGLE_CHECKPOINT_FP: ../models\interim\lgbm2_single.pkl
@@ -501,6 +522,15 @@ MERGE_MULTI_MODELING_ARGS:
   output: ../data\interim\multi_upn.csv
   output_dataset_type: modeling
   target: neet_ever
+MERGE_MULTI_MODELING_BASIC_ARGS:
+  att: ../data\interim\attendance_percent1.csv
+  ccis: ../data\interim\neet_premerge.csv
+  census: ../data\interim\census_premerge.csv
+  ks2: ../data\interim\ks2.csv
+  only_att_census_merge: true
+  output: ../data\interim\multi_upn_basic.csv
+  output_dataset_type: modeling
+  target: neet_ever
 MERGE_MULTI_PREDICTION_ARGS:
   att: ../data\interim\attendance_percent1.csv
   ccis: ../data\interim\neet_premerge.csv
@@ -520,15 +550,21 @@ METRICS_DIR: ../metrics
 MODELS_DIR: ../models
 MODEL_BEST_THRESH_MULTI: ../models\interim\model_best_thresh_multi.pkl
 MODEL_BEST_THRESH_SINGLE: ../models\interim\model_best_thresh_single.pkl
+MODEL_BEST_THRESH_SINGLE_BASIC: ../models\interim\model_best_thresh_single_basic.pkl
 MODEL_FP: ../models\final\model.pkl
 MODEL_MEAN_THRESH_SINGLE: ../models\interim\model_mean_thresh_single.pkl
+MODEL_MEAN_THRESH_SINGLE_BASIC: ../models\interim\model_mean_thresh_single_basic.pkl
 MODEL_MEAN_THRESH_SMULTI: ../models\interim\model_mean_thresh_multi.pkl
 MULTIPLE_TO_SINGLE_ARGS:
   input: ../data\processed\multi_upn_categorical.csv
   output: ../data\processed\single_upn_categorical.csv
+MULTIPLE_TO_SINGLE_BASIC_ARGS:
+  input: ../data\processed\multi_upn_basic_categorical.csv
+  output: ../data\processed\single_upn_basic_categorical.csv
 MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS:
   input: ../data\processed\predict_multiUPN.csv
-  output: ../data\processed\predict_singleUPN.csv
+  output_chars: ../data\processed\predict_singleUPN.csv
+  output_no_chars: ../data\processed\predict_singleUPN_basic.csv
 MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS:
   input: ../data\processed\unknowns_multiUPN.csv
   output: ../data\processed\unknowns_singleUPN.csv
@@ -536,11 +572,19 @@ MULTI_TEST_FP: ../data\processed\test_multiUPN.csv
 MULTI_TRAIN_FP: ../data\processed\train_multiUPN.csv
 MULTI_UNIDENTIFIED_PRED_FP: ../results\unidentified_students_multi.csv
 MULTI_UNIDENTIFIED_UNKS_FP: ../results\unidentified_unknowns_multi.csv
+MULTI_UPN_BASIC_FP: ../data\interim\multi_upn_basic.csv
 MULTI_UPN_CATEGORICAL_ARGS:
   include_test_taken_code: true
   input: ../data\interim\multi_upn.csv
   output: ../data\processed\multi_upn_categorical.csv
   output_dataset_type: modeling
+MULTI_UPN_CATEGORICAL_BASIC_ARGS:
+  include_test_taken_code: false
+  input: ../data\interim\multi_upn_basic.csv
+  only_att_census_merge: true
+  output: ../data\processed\multi_upn_basic_categorical.csv
+  output_dataset_type: modeling
+MULTI_UPN_CATEGORICAL_BASIC_FP: ../data\processed\multi_upn_basic_categorical.csv
 MULTI_UPN_CATEGORICAL_FP: ../data\processed\multi_upn_categorical.csv
 MULTI_UPN_CATEGORICAL_PREDICTIONS_ARGS:
   include_test_taken_code: true
@@ -591,6 +635,17 @@ OPTIMIZATION_AND_CV_LGBM1_ARGS:
   single: true
   space: lgbm1
   target: neet_ever
+OPTIMIZATION_AND_CV_LGBM1_BASIC_ARGS:
+  checkpoint: true
+  input: ../data\processed\train_singleUPN_basic.csv
+  load_checkpoint: false
+  log_results: true
+  num_folds: 4
+  num_thresholds: 100
+  parallel: true
+  single: true
+  space: lgbm1_basic
+  target: neet_ever
 OPTIMIZATION_AND_CV_LGBM2_ARGS:
   checkpoint: true
   input: ../data\processed\train_singleUPN.csv
@@ -614,11 +669,24 @@ POST_COVID_MULTI_UPN_CATEGORICAL_FP: ../data\processed\post_covid_multi_upn_cate
 POST_COVID_SINGLE_UPN_CATEGORICAL_FP: ../data\processed\post_covid_single_upn_categorical.csv
 PREDICTIONS_CSV_FP_MULTI: ../results\predictions_multi.csv
 PREDICTIONS_CSV_FP_SINGLE: ../results\predictions.csv
+PREDICTIONS_CSV_FP_SINGLE_BASIC: ../results\interim\predictions_basic.csv
+PREDICTIONS_CSV_FP_SINGLE_ORIG: ../results\interim\predictions_orig.csv
+PREDICT_MERGE_OUTPUTS_PARAMS:
+  input: ../results\interim\predictions_orig.csv
+  input_basic: ../results\interim\predictions_basic.csv
+  output: ../results\predictions.csv
+PREDICT_SINGLE_BASIC_PARAMS:
+  additional_data: ../data\processed\additional_data.csv
+  input: ../data\processed\fs_predict_singleUPN_basic.csv
+  model_pkl: ../models\final\model_single_basic.pkl
+  output: ../results\interim\predictions_basic.csv
+  roni_threshold: ../metrics\roni_test_results_basic.csv
+  single: true
 PREDICT_SINGLE_PARAMS:
   additional_data: ../data\processed\additional_data.csv
   input: ../data\processed\fs_predict_singleUPN.csv
   model_pkl: ../models\final\model_single.pkl
-  output: ../results\predictions.csv
+  output: ../results\interim\predictions_orig.csv
   roni_threshold: ../metrics\roni_test_results.csv
   single: true
 PRE_AGE15: true
@@ -633,6 +701,14 @@ REMOVE_MOSTLY_MISSING_PRE_COVID_MULTI_UPN_THRESHOLD: 0.8
 REMOVE_MOSTLY_MISSING_PRE_COVID_SINGLE_UPN_THRESHOLD: 0.8
 REMOVE_MOSTLY_MISSING_SINGLE_UPN_THRESHOLD: 0.7
 RESULTS_DIR: ../results
+RETRAIN_SINGLE_BASIC_PARAMS:
+  input: ../data\processed\train_singleUPN_basic.csv
+  model_metrics:
+  - ../metrics\lgbm1_basic_single.csv
+  model_output_best: ../models\interim\model_best_thresh_single_basic.pkl
+  model_output_mean: ../models\interim\model_mean_thresh_single_basic.pkl
+  single: true
+  target: neet_ever
 RETRAIN_SINGLE_PARAMS:
   input: ../data\processed\train_singleUPN.csv
   model_metrics:
@@ -642,6 +718,11 @@ RETRAIN_SINGLE_PARAMS:
   model_output_mean: ../models\interim\model_mean_thresh_single.pkl
   single: true
   target: neet_ever
+RONI_BASIC_PARAMS:
+  output_test_metrics: ../metrics\roni_test_results_basic.csv
+  target: neet_ever
+  test_data: ../data\processed\test_singleUPN_basic.csv
+  train_data: ../data\processed\train_singleUPN_basic.csv
 RONI_PARAMS:
   output_test_metrics: ../metrics\roni_test_results.csv
   target: neet_ever
@@ -650,6 +731,7 @@ RONI_PARAMS:
 RONI_RESULTS_FP: ../metrics\roni_test_results.csv
 RONI_SCORES_FP: ../metrics\roni_scores.csv
 RONI_TEST_RESULTS: ../metrics\roni_test_results.csv
+RONI_TEST_RESULTS_BASIC: ../metrics\roni_test_results_basic.csv
 RUN_PARALLEL: false
 SCHOOL_CENSUS_ANNOTATED_CSV_FP: ../data\interim\census_annotated.csv
 SCHOOL_CENSUS_CANONICALIZED_CSV_DIR: ../data\interim\census_canonicalized_csv
@@ -673,11 +755,17 @@ SCHOOL_CENSUS_PREMERGE_CSV_FP: ../data\interim\census_premerge.csv
 SCHOOL_INFO_CANONICALIZED_CSV_FP: ../data\interim\secondary_schools.csv
 SCHOOL_INFO_CSV_FP: ../data\raw\secondary_schools_original.csv
 SEED: 2022
+SINGLE_TEST_BASIC_FP: ../data\processed\test_singleUPN_basic.csv
 SINGLE_TEST_FP: ../data\processed\test_singleUPN.csv
+SINGLE_TRAIN_BASIC_FP: ../data\processed\train_singleUPN_basic.csv
 SINGLE_TRAIN_FP: ../data\processed\train_singleUPN.csv
+SINGLE_UNIDENTIFIED_PRED_BASIC_FP: ../results\interim\unidentified_students_single_basic.csv
 SINGLE_UNIDENTIFIED_PRED_FP: ../results\unidentified_students_single.csv
+SINGLE_UNIDENTIFIED_PRED_ORIG_FP: ../results\interim\unidentified_students_single_orig.csv
 SINGLE_UNIDENTIFIED_UNKS_FP: ../results\unidentified_unknowns_single.csv
+SINGLE_UPN_CATEGORICAL_BASIC_FP: ../data\processed\single_upn_basic_categorical.csv
 SINGLE_UPN_CATEGORICAL_FP: ../data\processed\single_upn_categorical.csv
+SINGLE_UPN_CATEGORICAL_PREDICT_BASIC_FP: ../data\processed\predict_singleUPN_basic.csv
 SINGLE_UPN_CATEGORICAL_PREDICT_FP: ../data\processed\predict_singleUPN.csv
 SINGLE_UPN_CATEGORICAL_UNKNOWNS_FP: ../data\processed\unknowns_singleUPN.csv
 SPLIT_DATA_MULTI_ARGS:
@@ -694,10 +782,27 @@ SPLIT_DATA_SINGLE_ARGS:
   target: neet_ever
   test_output: ../data\processed\test_singleUPN.csv
   train_output: ../data\processed\train_singleUPN.csv
+SPLIT_DATA_SINGLE_BASIC_ARGS:
+  input: ../data\processed\feature_selected_single_upn_basic_categorical.csv
+  single: true
+  split: 0.2
+  target: neet_ever
+  test_output: ../data\processed\test_singleUPN_basic.csv
+  train_output: ../data\processed\train_singleUPN_basic.csv
 TARGET: neet_ever
 TEST_RESULTS_CSV_FP: ../metrics\test_results.csv
 TEST_RESULTS_MULTI_CSV_FP: ../metrics\multi_test_results.csv
+TEST_RESULTS_SINGLE_BASIC_CSV_FP: ../metrics\single_test_results_basic.csv
 TEST_RESULTS_SINGLE_CSV_FP: ../metrics\single_test_results.csv
+TEST_SINGLE_BASIC_PARAMS:
+  input: ../data\processed\test_singleUPN_basic.csv
+  model_output: ../models\final\model_single_basic.pkl
+  model_pkls:
+  - ../models\interim\model_best_thresh_single_basic.pkl
+  - ../models\interim\model_mean_thresh_single_basic.pkl
+  output: ../metrics\single_test_results_basic.csv
+  single: true
+  target: neet_ever
 TEST_SINGLE_PARAMS:
   input: ../data\processed\test_singleUPN.csv
   model_output: ../models\final\model_single.pkl
@@ -714,6 +819,10 @@ Targets:
   neet_ever: neet_ever
   neet_unknown_ever: neet_unknown_ever
   unknown_ever: unknown_ever
+UNIDENTIFIED_MERGE_OUTPUTS_PARAMS:
+  input: ../results\interim\unidentified_students_single_orig.csv
+  input_basic: ../results\interim\unidentified_students_single_basic.csv
+  output: ../results\unidentified_students_single.csv
 UNKNOWNS_CSV_FP_SINGLE: ../metrics\unknown_features.csv
 UNKNOWNS_SINGLE_PARAMS:
   additional_data: ../data\processed\additional_data.csv

@@ -39,9 +39,11 @@ parser.add_argument(
     "--input", type=lambda x: x.strip("'"), required=True, help="where to find multi upn categorical dataset"
 )
 parser.add_argument(
-    "--output", type=lambda x: x.strip("'"), required=True, help="where to put single upn categorical dataset"
+    "--output_chars", type=lambda x: x.strip("'"), required=True, help="where to put single upn categorical with characteristics dataset"
 )
-
+parser.add_argument(
+    "--output_no_chars", type=lambda x: x.strip("'"), required=True, help="where to put single upn categorical without characteristics dataset"
+)
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -69,8 +71,16 @@ if __name__ == "__main__":
     df = au.gby_agg_with_logging(
         df, groupby_column=UPN, agg_dict=agg_dict, logger=logger
     )
+    
+    df_chars = df[df.has_characteristics_data == 1]
+    df_no_chars = df[df.has_characteristics_data == 0]
 
-    csv_fp = f.tmp_path(args.output, debug=args.debug)
+    csv_fp_chars = f.tmp_path(args.output_chars, debug=args.debug)
+    csv_fp_no_chars = f.tmp_path(args.output_no_chars, debug=args.debug)
 
-    logger.info(f"Saving aggregated(Single UPN) data to {csv_fp}")
-    df.to_csv(csv_fp, index=False)
+    logger.info(f"Saving aggregated(Single UPN) data to {csv_fp_chars}")
+    df_chars.to_csv(csv_fp_chars, index=False)
+
+    logger.info(f"Saving aggregated(Single UPN) data to {csv_fp_no_chars}")
+    df_no_chars.to_csv(csv_fp_no_chars, index=False)
+

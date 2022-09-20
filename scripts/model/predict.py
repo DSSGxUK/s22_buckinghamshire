@@ -246,7 +246,8 @@ if __name__ == "__main__":
         )
     # Order the features in order of most important to least
     feature_names = model_coefs.sort_values(ascending=False, key=abs).index
-
+    #breakpoint()
+    
     # Shapley values - might not work with multi-upn
     logger.info(f"Calculating shapley values")
     if len(df) == 0:
@@ -257,7 +258,7 @@ if __name__ == "__main__":
     shap_df = shap_df.loc[:, feature_names]  # Reorder featurs in orde of most to least important
     shap_df.rename(columns=lambda s: "shap_" + s, inplace=True)  # Prepend with shap, so we know which ones are shapley values
     
-
+    
     # calculate roni tool scores
     logger.info(f"Calculating roni tool scores for each student")
     # get roni tool threhsold
@@ -277,24 +278,21 @@ if __name__ == "__main__":
     # att <85%
     final_output["att_less_than_85"] = roni_df["roni_att_below_85"]
     # level of need column
-    final_output["level_of_need"] = d.empty_series(len(final_output), index=final_output.index)
-    final_output.loc[final_output[d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "1")] == 1, "level_of_need"] = "intensive support"
-    final_output.loc[final_output[d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "2")]== 1, "level_of_need",] = "supported"
-    final_output.loc[
-        final_output[
-            d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "3")
-        ]
-        == 1,
-        "level_of_need",
-    ] = "minimum intervention"
+    final_output["level_of_need"] = d.empty_series(len(final_output), index=final_output.index)    
+    if d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "1") in final_output.columns :
+        final_output.loc[final_output[d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "1")] == 1, "level_of_need"] = "intensive support"
+    if d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "2") in final_output.columns :        
+        final_output.loc[final_output[d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "2")]== 1, "level_of_need"] = "supported"
+    if d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "3") in final_output.columns :        
+        final_output.loc[final_output[d.to_categorical(CharacteristicsDataColumns.level_of_need_code, "3")]== 1, "level_of_need"] = "minimum intervention"
+        
     # send_flag column
-    final_output["send_flag"] = d.empty_series(len(final_output), index=final_output.index)    
-    final_output.loc[(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "0")]==0)&(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "1")]==0), "send_flag"] = pd.NA
-    final_output.loc[(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "0")]==0)&(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "1")]==1), "send_flag"] = 1
-    final_output.loc[(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "0")]==1)&(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "1")]==0), "send_flag"] = 0
+    final_output["send_flag"] = d.empty_series(len(final_output), index=final_output.index)   
+    if (d.to_categorical(CharacteristicsDataColumns.send_flag, "0")) and (d.to_categorical(CharacteristicsDataColumns.send_flag, "1")) in final_output.columns :        
+        final_output.loc[(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "0")]==0)&(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "1")]==0), "send_flag"] = pd.NA
+        final_output.loc[(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "0")]==0)&(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "1")]==1), "send_flag"] = 1
+        final_output.loc[(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "0")]==1)&(final_output[d.to_categorical(CharacteristicsDataColumns.send_flag, "1")]==0), "send_flag"] = 0
     
-
-
     logger.info(f"Adding data back in from previous datasets")
     # here can load data for adding back in previous data.
     pre_model_df = d.load_csv(
@@ -319,8 +317,6 @@ if __name__ == "__main__":
     pre_model_df["school_name"] = pre_model_df["establishment_name"]
     # sch_yr
     pre_model_df["sch_yr"] = pre_model_df["nc_year_actual"]
-    #roni_score to neet_roni
-    pre_model_df = pre_model_df.rename(columns={"roni_score":"neet_roni"})
     # school postcode
     pre_model_df["school_postcode"] = pre_model_df["establishment_postcode"]
 

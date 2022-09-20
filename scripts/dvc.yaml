@@ -261,6 +261,22 @@ stages:
       - ../src/data_utils.py
     outs:
       - ${MERGE_MULTI_MODELING_ARGS.output}
+  generate_modeling_merge_multi_modeling_basic:
+    cmd: python data/merge_multi_upn.py ${MERGE_MULTI_MODELING_BASIC_ARGS}
+    # --output ${MERGE_MULTI_MODELING_ARGS.output} --att ${MERGE_MULTI_MODELING_ARGS.att} --ccis ${MERGE_MULTI_MODELING_ARGS.ccis} --census ${MERGE_MULTI_MODELING_ARGS.census} --ks2 ${MERGE_MULTI_MODELING_ARGS.ks2} modeling --target ${MERGE_MULTI_MODELING_ARGS.target}
+    deps:
+      - ${MERGE_MULTI_MODELING_BASIC_ARGS.ccis}
+      - ${MERGE_MULTI_MODELING_BASIC_ARGS.att}
+      - ${MERGE_MULTI_MODELING_BASIC_ARGS.ks2}
+      - ${MERGE_MULTI_MODELING_BASIC_ARGS.census}
+      - data/merge_multi_upn.py
+      - ../src/py_utils.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/merge_utils.py
+      - ../src/data_utils.py
+    outs:
+      - ${MERGE_MULTI_MODELING_BASIC_ARGS.output}
   prediction_merge_multi_unknowns:
     cmd: python data/merge_multi_upn.py ${MERGE_MULTI_UNKNOWN_ARGS}
     deps:
@@ -303,6 +319,16 @@ stages:
       - ../src/log_utils.py
     outs:
       - ${MULTI_UPN_CATEGORICAL_ARGS.output}
+  generate_modeling_multi_categorical_basic_modeling:
+    cmd: python data/multi_upn_categorical.py ${MULTI_UPN_CATEGORICAL_BASIC_ARGS}
+    deps:
+      - data/multi_upn_categorical.py
+      - ${MULTI_UPN_CATEGORICAL_BASIC_ARGS.input}
+      - ../src/file_utils.py
+      - ../src/data_utils.py
+      - ../src/log_utils.py
+    outs:
+      - ${MULTI_UPN_CATEGORICAL_BASIC_ARGS.output}
   prediction_multi_categorical_predictions:
     cmd: python data/multi_upn_categorical.py ${MULTI_UPN_CATEGORICAL_PREDICTIONS_ARGS}
     deps:
@@ -330,6 +356,13 @@ stages:
       - ${MULTIPLE_TO_SINGLE_ARGS.input}
     outs:
       - ${MULTIPLE_TO_SINGLE_ARGS.output}
+  generate_modeling_multi_to_single_basic:
+    cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_BASIC_ARGS}
+    deps:
+      - data/multiple_to_single.py
+      - ${MULTIPLE_TO_SINGLE_BASIC_ARGS.input}
+    outs:
+      - ${MULTIPLE_TO_SINGLE_BASIC_ARGS.output}
   prediction_multi_to_single_unknowns:
     cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS}
     deps:
@@ -337,13 +370,22 @@ stages:
       - ${MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS.input}
     outs:
       - ${MULTIPLE_TO_SINGLE_UNKNOWNS_ARGS.output}
+#  prediction_multi_to_single_predictions:
+#    cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS}
+#    deps:
+#      - data/multiple_to_single.py
+#      - ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS.input}
+#    outs:
+#      - ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS.output}
   prediction_multi_to_single_predictions:
-    cmd: python data/multiple_to_single.py ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS}
+    cmd: python data/multiple_to_single_predict.py ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS}
     deps:
-      - data/multiple_to_single.py
+      - data/multiple_to_single_predict.py
       - ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS.input}
     outs:
-      - ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS.output}
+      - ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS.output_chars}
+      - ${MULTIPLE_TO_SINGLE_PREDICTIONS_ARGS.output_no_chars}
+
   generate_modeling_feature_selection_single:
     cmd: python data/feature_selection.py ${FEATURE_SELECTION_SINGLE_UPN_PARAMS}
     deps:
@@ -354,6 +396,16 @@ stages:
       - REMOVE_MOSTLY_MISSING_SINGLE_UPN_THRESHOLD
     outs:
       - ${FEATURE_SELECTION_SINGLE_UPN_PARAMS.output}
+  generate_modeling_feature_selection_single_basic:
+    cmd: python data/feature_selection.py ${FEATURE_SELECTION_SINGLE_UPN_BASIC_PARAMS}
+    deps:
+      - data/feature_selection.py
+      - ${FEATURE_SELECTION_SINGLE_UPN_BASIC_PARAMS.input}
+    params:
+      - FEATURE_SELECTION_METHOD
+      - REMOVE_MOSTLY_MISSING_SINGLE_UPN_THRESHOLD
+    outs:
+      - ${FEATURE_SELECTION_SINGLE_UPN_BASIC_PARAMS.output}
   prediction_additional_data:
     cmd: python data/additional_data.py ${ADDITIONAL_DATA_ARGS}
     deps:
@@ -383,6 +435,24 @@ stages:
     outs:
       - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.output}
       - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_PARAMS.unidentified_csv}
+  prediction_feature_selection_predict_single_basic:
+    cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_BASIC_PARAMS}
+    deps:
+      - data/feature_selection_for_predictions.py
+      - ../src/py_utils.py
+      - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_BASIC_PARAMS.input}
+      - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_BASIC_PARAMS.train_data}
+      - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_BASIC_PARAMS.student_names}
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    params:
+      - FEATURE_SELECTION_SINGLE_UPN_PREDICT_BASIC_PARAMS.single
+      - FEATURE_SELECTION_SINGLE_UPN_PREDICT_BASIC_PARAMS.fill_fsme
+    outs:
+      - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_BASIC_PARAMS.output}
+      - ${FEATURE_SELECTION_SINGLE_UPN_PREDICT_BASIC_PARAMS.unidentified_csv}
+
   prediction_feature_selection_unknowns_single:
     cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_SINGLE_UPN_UNKNOWNS_PARAMS}
     deps:
@@ -528,7 +598,20 @@ stages:
     outs:
       - ${SINGLE_TRAIN_FP}
       - ${SINGLE_TEST_FP}
-      
+  generate_modeling_split_data_single_basic:
+    cmd: python model/split_data.py ${SPLIT_DATA_SINGLE_BASIC_ARGS}
+    deps:
+      - ${FEATURE_SELECTED_SINGLE_UPN_CATEGORICAL_BASIC_FP}
+      - model/split_data.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+    params:
+      - TEST_SPLIT
+      - TARGET
+    outs:
+      - ${SINGLE_TRAIN_BASIC_FP}
+      - ${SINGLE_TEST_BASIC_FP}      
   generate_modeling_split_data_multiple:
     cmd: python model/split_data.py ${SPLIT_DATA_MULTI_ARGS}
     deps:
@@ -559,7 +642,21 @@ stages:
     outs:
       - ${RONI_TEST_RESULTS}:
           cache: false
-
+  model_evaluation_roni_model_basic:
+    cmd: python model/roni_tool.py ${RONI_BASIC_PARAMS}
+    deps:
+      - ${SINGLE_TRAIN_BASIC_FP}
+      - ${SINGLE_TEST_BASIC_FP}
+      - model/roni_tool.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/roni.py
+    params:
+      - TARGET
+    outs:
+      - ${RONI_TEST_RESULTS_BASIC}:
+          cache: false
   prediction_feature_selection_predict_multi :
     cmd: python data/feature_selection_for_predictions.py ${FEATURE_SELECTION_MULTI_UPN_PREDICT_PARAMS}
     deps:
@@ -607,6 +704,22 @@ stages:
       - ${LGBM2_SINGLE_CHECKPOINT_FP}:
           cache: false
           persist: true
+  cv_optimization_and_cv_lgbm1_single_basic:
+    cmd: python model/optimization_and_cv.py ${OPTIMIZATION_AND_CV_LGBM1_BASIC_ARGS}
+    deps:
+      - model/optimization_and_cv.py
+      - ${OPTIMIZATION_AND_CV_LGBM1_BASIC_ARGS.input}
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/cv
+    outs:
+      - ${LGBM1_METRICS_SINGLE_BASIC}:
+          cache: false
+          persist: true
+      - ${LGBM1_SINGLE_CHECKPOINT_BASIC_FP}:
+          cache: false
+          persist: true
   model_evaluation_retrain_model_single:
     cmd: python model/retrain.py ${RETRAIN_SINGLE_PARAMS}
     deps:
@@ -625,7 +738,23 @@ stages:
           cache: false
       - ${MODEL_MEAN_THRESH_SINGLE}:
           cache: false
-
+  model_evaluation_retrain_model_single__basic:
+    cmd: python model/retrain.py ${RETRAIN_SINGLE_BASIC_PARAMS}
+    deps:
+      - ${SINGLE_TRAIN_BASIC_FP}
+      - ${LGBM1_METRICS_SINGLE_BASIC}
+      - model/retrain.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/cv
+    params:
+      - TARGET
+    outs:
+      - ${MODEL_BEST_THRESH_SINGLE_BASIC}:
+          cache: false
+      - ${MODEL_MEAN_THRESH_SINGLE_BASIC}:
+          cache: false
   model_evaluation_test_model_single:
     cmd: python model/test.py ${TEST_SINGLE_PARAMS}
     deps:
@@ -644,7 +773,24 @@ stages:
           cache: false
       - ${FINAL_MODEL_SINGLE_FP}:
           cache: false
-
+  model_evaluation_test_model_single_basic:
+    cmd: python model/test.py ${TEST_SINGLE_BASIC_PARAMS}
+    deps:
+      - ${SINGLE_TEST_BASIC_FP}
+      - ${MODEL_BEST_THRESH_SINGLE_BASIC}
+      - ${MODEL_MEAN_THRESH_SINGLE_BASIC}
+      - model/test.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/cv
+    params:
+      - TARGET
+    outs:
+      - ${TEST_RESULTS_SINGLE_BASIC_CSV_FP}:
+          cache: false
+      - ${FINAL_MODEL_SINGLE_BASIC_FP}:
+          cache: false
   prediction_predict_single:
     cmd: python model/predict.py ${PREDICT_SINGLE_PARAMS}
     deps:
@@ -659,8 +805,22 @@ stages:
       - ../src/merge_utils.py
       - ../src/cv
     outs:
-      - ${PREDICTIONS_CSV_FP_SINGLE}
-
+      - ${PREDICTIONS_CSV_FP_SINGLE_ORIG}
+  prediction_predict_single_basic:
+    cmd: python model/predict.py ${PREDICT_SINGLE_BASIC_PARAMS}
+    deps:
+      - ${FS_SINGLE_UPN_CATEGORICAL_PREDICT_BASIC_FP}
+      - ${FINAL_MODEL_SINGLE_BASIC_FP}
+      - ${RONI_TEST_RESULTS_BASIC}
+      - ${ADDITIONAL_DATA_FP} 
+      - model/predict.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/merge_utils.py
+      - ../src/cv
+    outs:
+      - ${PREDICTIONS_CSV_FP_SINGLE_BASIC}
   prediction_predict_unknowns_single:
     cmd: python model/predict.py ${UNKNOWNS_SINGLE_PARAMS}
     deps:
@@ -676,4 +836,27 @@ stages:
       - ../src/cv
     outs:
       - ${UNKNOWN_PREDICTIONS_CSV_FP_SINGLE}
-      
+  prediction_merge_outputs_predict:
+    cmd: python model/merge_outputs.py ${PREDICT_MERGE_OUTPUTS_PARAMS}
+    deps:
+      - ${PREDICT_MERGE_OUTPUTS_PARAMS.input}
+      - ${PREDICT_MERGE_OUTPUTS_PARAMS.input_basic}
+      - model/merge_outputs.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/merge_utils.py
+    outs:
+      - ${PREDICT_MERGE_OUTPUTS_PARAMS.output}
+  prediction_merge_outputs_unidentified:
+    cmd: python model/merge_outputs.py ${UNIDENTIFIED_MERGE_OUTPUTS_PARAMS}
+    deps:
+      - ${UNIDENTIFIED_MERGE_OUTPUTS_PARAMS.input}
+      - ${UNIDENTIFIED_MERGE_OUTPUTS_PARAMS.input_basic}
+      - model/merge_outputs.py
+      - ../src/file_utils.py
+      - ../src/log_utils.py
+      - ../src/data_utils.py
+      - ../src/merge_utils.py
+    outs:
+      - ${UNIDENTIFIED_MERGE_OUTPUTS_PARAMS.output}

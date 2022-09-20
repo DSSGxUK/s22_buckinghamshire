@@ -1,7 +1,7 @@
 """
 Predicts on the test dataset and returns metrics of final model
 Can recieve multiple models from model_pkls - Determines the final model and final test results from the model that recieves the best test score
-
+freight 
 Parameters
 -----------
 --debug : bool     
@@ -46,6 +46,7 @@ from sklearn.metrics import (
     roc_auc_score,
     matthews_corrcoef,
     accuracy_score,
+    confusion_matrix
 )
 
 # should remove this.
@@ -203,8 +204,9 @@ if __name__ == "__main__":
         mcc = matthews_corrcoef(y, predictions)
         accuracy = accuracy_score(y, predictions)
         roc_auc = roc_auc_score(y, y_prob, average="macro")  # send y_prob
-
-        # breakpoint()
+        conf_matrix = confusion_matrix(y, predictions)
+        
+        #breakpoint()
 
         test_results = {
             "threshold_type": pipeline.threshold_type,
@@ -219,7 +221,7 @@ if __name__ == "__main__":
         }
 
         # Save test results
-        logger.info(f"Fbeta2 score for final model on test dataset: {fbeta}")
+        logger.info(f"Fbeta2 score for model on test dataset: {fbeta}")
 
         fbetas.append(fbeta)
         model_test_results.append(test_results)
@@ -231,8 +233,11 @@ if __name__ == "__main__":
         models_dict.append(model_dict)
         # breakpoint()
     # breakpoint()
-
+    
+    logger.info(f"Saving final model with fbeta score: {max(fbetas)}")
+    
     final_model = models_dict[np.argmax(fbetas)]
+    logger.info(f"Saving final model {final_model}")
     final_model_test_results = model_test_results[np.argmax(fbetas)]
 
     # breakpoint()
@@ -240,7 +245,6 @@ if __name__ == "__main__":
     FINAL_MODEL_FP = f.tmp_path(args.model_output,debug=args.debug)
     TEST_RESULTS_CSV_FP = f.tmp_path(TEST_RESULTS_CSV_FP,debug=args.debug)
         
-
     logger.info(f"Saving final model to pickle file {FINAL_MODEL_FP}")
     pkl.dump(final_model, open(FINAL_MODEL_FP, "wb"))
 

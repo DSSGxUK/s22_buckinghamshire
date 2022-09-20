@@ -209,6 +209,7 @@ if __name__ == "__main__":
     csv_fp = args.output
     if args.debug:
         csv_fp = f.tmp_path(csv_fp)
-
+    #breakpoint()
+    
     logger.info(f"Saving categorical data to {csv_fp}")
     df.to_csv(csv_fp, index=False)

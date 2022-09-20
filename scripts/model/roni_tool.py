@@ -30,7 +30,7 @@ import pandas as pd
 import numpy as np
 from dataclasses import asdict
 
-from sklearn.metrics import f1_score, fbeta_score, recall_score, precision_score
+from sklearn.metrics import f1_score, fbeta_score, recall_score, precision_score, accuracy_score
 
 # DVC filepaths
 from src.constants import UPN, NA_VALS, Targets
@@ -163,9 +163,11 @@ if __name__ == "__main__":
     test_predictions = roni_df["roni_prediction"].values.astype(np.int8)
     recall = recall_score(labels, test_predictions)
     precision = precision_score(labels, test_predictions)
+    accuracy = accuracy_score(labels, test_predictions)
     f1 = f1_score(labels, test_predictions)
     fbeta = fbeta_score(labels, test_predictions, beta=2)
 
+    
     print("Threshold:", best_threshold)
     print("Test scores:")
     print("recall_score :", recall)
@@ -173,10 +175,10 @@ if __name__ == "__main__":
     print("f1_score", f1)
     print("fbeta_score", fbeta)
 
-    scores = [best_threshold, recall, precision, f1, fbeta]
+    scores = [best_threshold, recall, precision, f1, fbeta, accuracy]
     scores_df = pd.DataFrame(
         [np.transpose(scores)],
-        columns=["threshold", "recall", "precision", "f1", "fbeta"],
+        columns=["threshold", "recall", "precision", "f1", "fbeta", "accuracy"],
     )
 
     if args.debug:

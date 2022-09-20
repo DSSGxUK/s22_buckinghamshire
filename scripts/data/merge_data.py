@@ -97,7 +97,7 @@ COLUMN_DICT = {
 
 if __name__ == "__main__":
     args = parser.parse_args()
-
+    #breakpoint()
     if len(args.inputs) != len(args.data_dates):
         raise ValueError(
             f"The number of input files must match the number of output files. You had {len(args.inputs)} input files and {len(args.source_annotations)} output files. The inputs were {args.inputs} and the outputs were {args.source_annotations}."
