@@ -104,10 +104,7 @@ In collaboration with:
 s22_buckinghamshire
 ├── .dvc
 │   ├── .gitignore                                         
-│   └── .config                              # links to the dagshub repo
-├── communications
-│   ├── upn-different-activity-codes.md            
-│   ├── upns_with_questions.md                                           
+│   └── .config                              # links to the dagshub repo                                        
 ├── data		                                 
 │   └── interim	                             # stores canonicalised, annotated and merged csv files
 │   │   ├── attendance_canonicalized_csv
@@ -153,17 +150,19 @@ s22_buckinghamshire
 │   └── └── └── ks4_original_sep20.csv
 ├── logs
 │   └── .gitignore
-├── metrics                     # contains metrics and results related values
-│   ├──lgbm1_single.csv         # We've kept this one preloaded
-│   ├──lgbm2_single.csv         # Gets created when you run the hyperparam search
+├── metrics                             # contains metrics and results related values
+│   ├──lgbm1_single.csv                 # We've kept this one preloaded
+│   ├──lgbm2_single.csv                 # Gets created when you run the hyperparam search
+|   ├──lgbm1_basic_single.csv           # Metrics for model trained only with attendance and census data
 ├── models
-│   ├── final                           # final model for prediction
-│   │   ├── model_single.pkl            # Gets created when you retrain the model
+│   ├── final                           # final models for prediction
+│   │   ├── model_single.pkl            # Gets created when you retrain the model (model trained with all features)
+│   │   ├── model_single_basic.pkl      # Gets created when you retrain the model (model trained with only attendance and census features)
 │   └── interim
 ├── notebooks                           
 │   ├── convert_synthetic.ipynb                                         
 │   └── view_csv.ipynb
-├── plots                              # stores different plots and charts
+├── plots                               # stores different plots and charts
 │   ├──attendance_percent_box_plot.png
 │   ├──common_neet_traces.png
 │   ├──consequent_antecedent.png
@@ -187,9 +186,11 @@ s22_buckinghamshire
 │   ├──sankey_neet.png
 │   ├──sankey_unknown.png                                     
 │   └── unknown_infrequent_traces.png   
-├── results
-│   ├── .gitignore                                         
-├── scripts                       #python code files for different purposes
+├── results                       # where the model prediction output files will be saved
+│   ├── .gitignore
+│   ├── interim
+│   │   ├── .gitignore   
+├── scripts                       # python code files for different purposes
 │   ├── data    
 │   │   ├── additional_data.py
 │   │   ├──annotate_attendance_data.py
@@ -207,6 +208,7 @@ s22_buckinghamshire
 │   │   ├──merge_multi_upn.py
 │   │   ├──multi_upn_categorical.py
 │   │   ├──multiple_to_single.py
+│   │   ├──multiple_to_single_predict.py
 │   │   ├──neet_premerge.py
 │   │   ├──split_covid_years.py
 │   |   └── xl_to_csv.py
@@ -216,6 +218,7 @@ s22_buckinghamshire
 │   │   ├── compute_intersections.py
 │   │   ├── plot_sankey.py
 │   ├── model
+│   │   ├── merge_outputs.py
 │   │   ├── optimization_and_cv.py
 │   │   ├── predict.py
 │   │   ├── retrain.py
@@ -283,9 +286,9 @@ s22_buckinghamshire
 
 `data` : This folder contains two sub-folders : `interim` and `raw`. After running the pipeline an additional `processed` folder will also be present. The original dataset files are stored in their dataset sub-folder within the `raw` folder e.g. `raw/attendance_original_csv` will contain the original csv files for attendance datasets. These original files will go through the data pipeline and will generate additional files which will be canonicalized (standardised formatting), annotated and merged across years, which will be stored in `interim` sub-folder. The `processed` subfolder will contain the final datasets ready to be used for modeling.
   
-`metrics` : This folder contains outputs from the hyperparameter search (`lgbm1_single.csv`), roni tool performance results (`roni_test_results.csv`) and our model performance results (`single_test_results.csv`) on the test dataset.
+`metrics` : This folder contains outputs from the hyperparameter search (`lgbm1_single.csv`, `lgbm2_single.csv`, `lgbm1_basic_single.csv`) and will also contain roni tool performance results (`roni_test_results.csv` , `roni_test_results_basic.csv`) and model performance results (`single_test_results.csv`, `single_test_results_basic.csv`) on the test dataset.
 
-`models` : This folder contains pickle files of the models. There are two sub-folders: `interim` and `final`. `interim` holds the checkpoints. You can find more details about these in the [Reloading the hyperparameter search from a checkpoint](#reloading-the-hyperparameter-search-from-a-checkpoint) section. The final, retrained best model can be found in `models/final/model_single.pkl`.
+`models` : This folder contains pickle files of the models. There are two sub-folders: `interim` and `final`. `interim` holds the checkpoints. You can find more details about these in the [Reloading the hyperparameter search from a checkpoint](#reloading-the-hyperparameter-search-from-a-checkpoint) section. The final, retrained best models will be found `models/final/model_single.pkl` and `models/final/model_single_basic.pkl`. `model_single.pkl` is the model trained with features from all datasets and `model_single_basic.pkl` is the model trained with only attendance and census dataset features. 
 
 `results` : After running the pipeline, this folder will contain the final output CSV files: `predictions.csv`, `unknown_predictions.csv`, `unidentified_students_single.csv`, `unidentified_unknowns_single.csv`. These files are outlined in more detail below under [Outputs from running the pipeline](#outputs-from-running-the-pipeline)
 
@@ -441,7 +444,7 @@ Within the `data/raw` directory are 6 folders that correspond to the different d
 
 The datasets in these directories should be named `[TYPE]_original_[DATE].csv` where `[TYPE]` refers to the dataset (attendance, ccis, census, ks4, characteristics, ks2) and `[DATE]` refers to the month and year the dataset was submitted (e.g. `attendance_original_jan21.csv` corresponds to autumn 2021 attendance data, which is submitted in January). `[DATE]` should be written as the first 3 letters of the month and the last 2 digits of the year e.g. `jan21`, `sep19`.
 
-CSV files in `characteristics_original_csv` and `ks2_original_csv` contain columns from the CCIS and KS4 datasets, respectively, and should be populated with data from current Year 7-10 students that we want to generate predictions for. These are separate datasets as current Year 7-10 students are not present in the CCIS and KS4 datasets until Year 11 onwards, but there are important features within these datasests that will improve the model performance.
+CSV files in `characteristics_original_csv` and `ks2_original_csv` contain columns from the CCIS and KS4 datasets, respectively, and should be populated with data from current Year 7-10 students that we want to generate predictions for. These are separate datasets as current Year 7-10 students are not present in the CCIS and KS4 datasets until Year 11 onwards. Currently, predictions are generated for students without this additional data using the model trained only with attendance and census data (`model_single_basic.pkl`). However, the model trained with features from all the datasets (`model_single.pkl`) performs better on the test dataset and therefore including these additional characterisitcs and ks2 datasets for current students will improve the accuracy of the predictions.
 
 In addition you should add a csv file called `data/raw/secondary_schools_original.csv`, so the code knows what schools the establishment numbers in the data correspond to. See the file in `example_data/raw` for how your csv should look.
 
