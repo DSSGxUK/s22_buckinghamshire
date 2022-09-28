@@ -19,7 +19,7 @@ The final predictive model was developed a Gradient Boosted Trees algorithm from
 ### Presentation video
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=Oi6h_F2I_UQ" target="_blank"><img src="./img/youtubeVid.jpg" /></a>
+  <a href="https://www.youtube.com/watch?v=Oi6h_F2I_UQ" target="_blank"><img src="https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/video2.JPG" /></a>
 </p>
 
 ### Partners
