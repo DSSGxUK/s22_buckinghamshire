@@ -6,8 +6,8 @@ Other key resources to consult include:
 
   - Methodology documentation - available [here](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/NEET_Prediction_Methodology_FINAL.pdf)
   - Project poster - available [here](https://github.com/DSSGxUK/s22_buckinghamshire/blob/main/docs_and_images/DSSG%20Poster%20Buckinghamshire.pdf)
-  - Presentation video (to be added)
-
+  - Presentation video - available [here](https://www.youtube.com/watch?v=Oi6h_F2I_UQ)
+  
 ## Project Overview
 
 This project was a collaboration between [Buckinghamshire Council](https://www.buckinghamshire.gov.uk/), [the EY Foundation](https://eyfoundation.com/uk/en/home.html)  and [Data Science for Social Good UK](https://warwick.ac.uk/research/data-science/warwick-data/dssgx/). 
